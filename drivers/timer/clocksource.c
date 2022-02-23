@@ -60,6 +60,7 @@ void os_clocksource_update(void)
     
     level = os_irq_lock();
 
+    for (cs = os_list_entry((&gs_clocksource_list)->next, os_clocksource_t, list); &cs->list != (&gs_clocksource_list); cs = os_list_entry(cs->list.next, os_clocksource_t, list))
     os_list_for_each_entry(cs, &gs_clocksource_list, os_clocksource_t, list)
     {
         os_clocksource_update_cs(cs);

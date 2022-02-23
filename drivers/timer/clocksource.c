@@ -30,8 +30,9 @@
 #include <string.h>
 #include <timer/clocksource.h>
 
-static os_clocksource_t *gs_best_cs = OS_NULL;
+static os_clocksource_t *gs_best_cs = OS_NULL;  // 当前选中的时钟源
 
+// static os_list_node_t gs_clocksource_list = {&(gs_clocksource_list), &(gs_clocksource_list)}
 static os_list_node_t gs_clocksource_list = OS_LIST_INIT(gs_clocksource_list);
 
 os_clocksource_t *os_clocksource_best(void)
@@ -44,7 +45,7 @@ static void os_clocksource_update_cs(os_clocksource_t *cs)
     os_uint64_t nsec;
     os_uint64_t count;
 
-    count = cs->read(cs);
+    count = cs->read(cs);       // 读取当前时钟的tick值
 
     nsec = ((count - cs->last_update_count) & cs->mask) * cs->mult >> cs->shift;
 

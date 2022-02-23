@@ -50,10 +50,10 @@ struct os_clocksource {
     os_uint32_t mult_t;     /* count = time(ns) * mult_t >> shift_t */
     os_uint32_t shift_t;
 
-    os_uint64_t last_update_count;
+    os_uint64_t last_update_count;          // 上一次计数值
     os_uint64_t last_update_nsec;
 
-    os_uint64_t (*read)(void *clock);
+    os_uint64_t (*read)(void *clock);   // 读取时钟的tick值
 
     os_list_node_t list;
 };

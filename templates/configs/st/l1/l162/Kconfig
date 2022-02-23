@@ -1,0 +1,16 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32L162RC
+    help
+        Select the device in STM32L162xx
+
+    config TEMP_STM32L162RC
+        bool "STM32L162RC"
+
+    config TEMP_STM32L162RE
+        bool "STM32L162RE"
+
+    config TEMP_STM32L162VC
+        bool "STM32L162VC"
+
+endchoice

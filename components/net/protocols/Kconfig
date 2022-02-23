@@ -1,0 +1,4 @@
+menu "Protocols"
+    source "$OS_ROOT/components/net/protocols/*/Kconfig"
+endmenu
+

@@ -1,0 +1,4 @@
+menu "CoAP"
+    source "$OS_ROOT/components/net/protocols/coap/*/Kconfig"
+endmenu
+

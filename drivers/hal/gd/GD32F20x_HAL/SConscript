@@ -1,0 +1,58 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = []
+
+src += ['GD32F20x_standard_peripheral/Source/gd32f20x_rcu.c']
+src += ['GD32F20x_standard_peripheral/Source/gd32f20x_misc.c']
+src += ['GD32F20x_standard_peripheral/Source/gd32f20x_gpio.c']
+if IsDefined(['OS_USING_PIN']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_exti.c']
+
+if IsDefined(['OS_USING_WDG']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_fwdgt.c']
+    
+if IsDefined(['OS_USING_SERIAL']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_usart.c']
+
+if IsDefined(['OS_USING_ADC']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_adc.c']
+
+if IsDefined(['OS_USING_DAC']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_dac.c']
+    
+if IsDefined(['OS_USING_I2C']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_i2c.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_spi.c']
+    
+if IsDefined(['OS_USING_FAL']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_fmc.c']
+
+if IsDefined(['BSP_USING_RTC']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_rtc.c']
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_pmu.c']
+    
+if IsDefined(['BSP_USING_TIMER']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_timer.c']	
+    
+if IsDefined(['BSP_USING_ETH']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_enet.c']
+    
+if IsDefined(['OS_USING_DMA']):
+    src += ['GD32F20x_standard_peripheral/Source/gd32f20x_dma.c']
+    
+path = [pwd + '/GD32F20x_standard_peripheral/Include',
+    pwd + '/CMSIS/GD/gd32f20x/Include',
+    pwd + '/CMSIS']
+
+CPPDEFINES = ['USE_STDPERIPH_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_GD32F20X'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

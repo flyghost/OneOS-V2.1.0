@@ -1,0 +1,19 @@
+import os
+from build_tools import *
+
+pwd  = PresentDir()
+objs = []
+src  = []
+src  = ['driver.c']
+
+if IsDefined('OS_USING_DEVICE'):
+    src += ['device.c']
+
+list = os.listdir(pwd)
+objs += AddCodeGroup('drivers', src, depend = [''], CPPPATH = [pwd])
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+
+Return('objs')

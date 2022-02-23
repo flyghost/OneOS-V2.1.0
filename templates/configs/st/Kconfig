@@ -1,0 +1,98 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_STM32F1
+    help
+        Select the device in STM32
+
+    config SERIES_STM32L0
+        bool "STM32L0"
+
+    config SERIES_STM32F0
+        bool "STM32F0"
+        
+    config SERIES_STM32F1
+        bool "STM32F1"
+
+     config SERIES_STM32F3
+        bool "STM32F3"
+
+    config SERIES_STM32F4
+        bool "STM32F4"
+        
+    config SERIES_STM32F7
+        bool "STM32F7"
+    
+    config SERIES_STM32G0
+        bool "STM32G0"
+        
+    config SERIES_STM32G4
+        bool "STM32G4"
+        
+    config SERIES_STM32L1
+        bool "STM32L1"
+        
+    config SERIES_STM32L4
+        bool "STM32L4"
+    
+    config SERIES_STM32L5
+        bool "STM32L5"
+    
+    config SERIES_STM32H7
+        bool "STM32H7"
+
+    config SERIES_STM32MP1
+        bool "STM32MP1"
+        
+endchoice
+
+if SERIES_STM32L0
+    source "$OS_ROOT/templates/configs/st/l0/Kconfig"
+endif
+
+if SERIES_STM32F0
+    source "$OS_ROOT/templates/configs/st/f0/Kconfig"
+endif
+
+if SERIES_STM32F1
+    source "$OS_ROOT/templates/configs/st/f1/Kconfig"
+endif
+
+if SERIES_STM32F3
+    source "$OS_ROOT/templates/configs/st/f3/Kconfig"
+endif
+
+if SERIES_STM32F4
+    source "$OS_ROOT/templates/configs/st/f4/Kconfig"
+endif
+
+if SERIES_STM32F7
+    source "$OS_ROOT/templates/configs/st/f7/Kconfig"
+endif
+
+if SERIES_STM32G0
+    source "$OS_ROOT/templates/configs/st/g0/Kconfig"
+endif
+
+if SERIES_STM32G4
+    source "$OS_ROOT/templates/configs/st/g4/Kconfig"
+endif
+
+if SERIES_STM32L1
+    source "$OS_ROOT/templates/configs/st/l1/Kconfig"
+endif
+
+if SERIES_STM32L4
+    source "$OS_ROOT/templates/configs/st/l4/Kconfig"
+endif
+
+if SERIES_STM32L5
+    source "$OS_ROOT/templates/configs/st/l5/Kconfig"
+endif
+
+if SERIES_STM32H7
+    source "$OS_ROOT/templates/configs/st/h7/Kconfig"
+endif      
+
+if SERIES_STM32MP1
+    source "$OS_ROOT/templates/configs/st/mp1/Kconfig"
+endif      

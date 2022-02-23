@@ -1,0 +1,51 @@
+menu "OneTLS"
+
+    config SECURITY_USING_ONETLS
+        bool "Enable onetls"
+        default n
+        help 
+            OneTLS is a lightweight SSL/TLS library, supporting the newest TLS 1.3 industry standards
+
+        if SECURITY_USING_ONETLS
+            menu "Select Cipher"
+                config ONETLS_CIPHER_AES_128_GCM_SHA256
+                bool "AES_128_GCM_SHA256"
+                default y
+                config ONETLS_CIPHER_CHACHA20_POLY1305_SHA256
+                bool "CHACHA20_POLY1305_SHA256"
+                config ONETLS_CIPHER_AES_128_CCM_SHA256
+                bool "AES_128_CCM_SHA256"
+                config ONETLS_CIPHER_AES_128_CCM_8_SHA256
+                bool "AES_128_CCM_8_SHA256"
+            endmenu
+
+            menu "Select Elliptic Curve Groups"
+                config ONETLS_ECP_DP_CURVE25519_ENABLED
+                bool "curve25519"
+                default y
+                config ONETLS_ECP_DP_SECP256R1_ENABLED
+                bool "secp256r1"
+                config ONETLS_ECP_DP_SECP384R1_ENABLED
+                bool "secp384r1"
+                config ONETLS_ECP_DP_SECP521R1_ENABLED
+                bool "secp521r1"
+            endmenu
+
+            config ONETLS_DEBUG
+                bool "Enable onetls debug"
+                default n
+            config ONETLS_MAX_RECORD_PACKET_LEN
+                int "The max record packet length"
+                range 512 16384
+                default 1024
+            config ONETLS_SUPPORT_RESUMPTION
+                bool "Support resumption"
+                default y                
+            config ONETLS_SUPPORT_0RTT
+                bool "Support 0-RTT"
+                default y 
+            config ONETLS_TESTS
+                bool "Enable tls tests demo"
+                default n
+        endif
+endmenu 

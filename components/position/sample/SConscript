@@ -1,0 +1,14 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+path = []
+src = []
+
+if IsDefined(['ONEPOS_CMD']):
+    path += [pwd]
+    src += Glob('*.c')
+
+group = AddCodeGroup('onepos', src, depend = ['ONEPOS_CMD'], CPPPATH = path)
+
+Return('group')

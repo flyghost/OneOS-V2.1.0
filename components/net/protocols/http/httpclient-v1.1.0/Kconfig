@@ -1,0 +1,43 @@
+menu "httpclient-v1.1.0"
+
+config NET_USING_HTTPCLIENT
+	bool "Enable Httpclient"
+	select NET_USING_BSD
+	default n
+    
+    if NET_USING_HTTPCLIENT
+		
+		config CONFIG_HTTP_SECURE
+            bool "Enable Httpclient TLS encrypt"
+			select SECURITY_USING_MBEDTLS
+            default n
+
+		config HTTPCLIENT_USING_SAMPLE
+            bool "Enable HTTPCLIENT sample"
+            default n
+
+		config HTTPCLIENT_USING_GETFILE
+		    bool "Enable HTTPClient GetFile"
+			select OS_USING_VFS
+			select OS_USING_VFS_FATFS
+            default n
+
+			if HTTPCLIENT_USING_GETFILE
+				config HTTP_REQUEST_BLOCK_SIZE
+				int "request block size"
+				default 1024
+				help 
+					You'd better set the OS_SERIAL_RX_BUFSZ with the same size when you use the molink.
+			endif
+
+		config CONFIG_HTTP_DOWNLOAD
+            bool "Enable HTTPCLIENT DOWNLOAD"
+            select OS_USING_VFS
+            default n 
+
+		config CONFIG_HTTP_RECV_TIMEOUT_MS
+			int "HTTP SET RECV TIMEOUT MS"
+			default 5000
+    endif
+
+endmenu

@@ -1,0 +1,7 @@
+from build_tools import *
+
+pwd     = PresentDir()
+src	= Glob('*.c')
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_SN'], CPPPATH = [pwd])
+
+Return('group')

@@ -1,0 +1,139 @@
+
+menuconfig SECURITY_USING_MBEDTLS
+    bool "Mbed TLS: a portable, easy to use, readable and flexible SSL/TLS library"
+    default n
+    select NET_USING_BSD
+    select MBEDTLS_TIMING_ALT
+
+if SECURITY_USING_MBEDTLS
+    config MBEDTLS_AES_ROM_TABLES
+        bool "MBEDTLS_AES_ROM_TABLES: use precomputed AES tables stored in ROM"
+        default y
+
+    config MBEDTLS_ECP_WINDOW_SIZE
+        int "MBEDTLS_ECP_WINDOW_SIZE: maximum window size used"
+        range 2 6
+        default 2
+
+    config MBEDTLS_ECP_MAX_BITS
+        int "MBEDTLS_ECP_MAX_BITS: maximum bit size of groups"
+        default 521
+
+    config MBEDTLS_MPI_WINDOW_SIZE
+        int "MBEDTLS_MPI_WINDOW_SIZE: maximum windows size used"
+        range 2 6
+        default 2
+
+    config MBEDTLS_MPI_MAX_SIZE
+        int "MBEDTLS_MPI_MAX_SIZE: maximum number of bytes for usable MPIs"
+        default 384
+
+    config MBEDTLS_SSL_MAX_CONTENT_LEN
+        int "MBEDTLS_SSL_MAX_CONTENT_LEN: maximum bytes of incoming and outgoing plaintext fragments"
+        default 4096
+
+    config MBEDTLS_TIMING_ALT
+        bool "MBEDTLS_TIMING_ALT: use platform timing function"
+        default y
+
+    config MBEDTLS_HAVE_TIME
+        bool "MBEDTLS_HAVE_TIME: comment if your system does not support time functions"
+        default n
+
+    if MBEDTLS_HAVE_TIME
+        config MBEDTLS_HAVE_TIME_DATE
+            bool "MBEDTLS_HAVE_TIME_DATE: used to verify the validity period of X.509 certificates"
+            default n
+
+        if MBEDTLS_HAVE_TIME_DATE
+            config MBEDTLS_PLATFORM_GMTIME_R_ALT
+                bool
+                default y
+        endif
+    endif
+
+    config MBEDTLS_THREADING_ALT
+        bool "MBEDTLS_THREADING_ALT: use alternate threading implementation"
+        default n
+
+    if MBEDTLS_THREADING_ALT
+        config MBEDTLS_THREADING_C
+            bool
+            default y
+    endif
+
+    config MBEDTLS_DEBUG_C
+        bool "MBEDTLS_DEBUG_C: enable the debug functions"
+        default n
+        help
+            uncheck it to optimize ROM occupation
+
+    if MBEDTLS_DEBUG_C
+        config MBDTLS_DEBUG_LOG_LEVEL
+        int "set mbedlts demo (tls_client) log level(0-4)"
+        default 0
+    endif
+
+    config MBEDTLS_ERROR_C
+        bool "MBEDTLS_ERROR_C: enable error code to error string conversion"
+        default n
+        help
+            uncheck it to optimize ROM occupation
+
+    config MBEDTLS_SSL_SRV_C
+        bool "MBEDTLS_SSL_SRV_C: enable the SSL/TLS server code"
+        default n
+        help
+            uncheck it to optimize ROM occupation if not use it as a tls server
+    
+    config MBEDTLS_ECP_NIST_OPTIM
+        bool "MBEDTLS_ECP_NIST_OPTIM: enable NIST curves optimisation"
+        default n
+        help
+            uncheck it to optimize ROM occupation
+    
+    config MBEDTLS_SSL_PROTO_DTLS
+        bool "MBEDTLS_SSL_PROTO_DTLS: enable support for DTLS"
+        default n
+        help
+            uncheck it to optimize ROM occupation if not use dtls
+
+        if MBEDTLS_SSL_PROTO_DTLS
+            config MBEDTLS_SSL_DTLS_ANTI_REPLAY
+                bool "MBEDTLS_SSL_DTLS_ANTI_REPLAY: enable support for the anti-replay mechanism in DTLS"
+                default y
+                help
+                    Enable support for the anti-replay mechanism in DTLS, disabling this is often a security risk!
+            
+            config MBEDTLS_SSL_DTLS_HELLO_VERIFY
+                bool "MBEDTLS_SSL_DTLS_HELLO_VERIFY: enable support for HelloVerifyRequest on DTLS servers"
+                default y
+
+            config MBEDTLS_SSL_DTLS_CLIENT_PORT_REUSE
+                bool "MBEDTLS_SSL_DTLS_CLIENT_PORT_REUSE: enable server-side support for clients that reconnect from the same port"
+                default y
+            
+            config MBEDTLS_SSL_DTLS_BADMAC_LIMIT
+                bool "MBEDTLS_SSL_DTLS_BADMAC_LIMIT: enable support for a limit of records with bad MAC"
+                default y
+            
+            config MBEDTLS_SSL_COOKIE_C
+                bool "MBEDTLS_SSL_COOKIE_C: enable basic implementation of DTLS cookies for hello verification"
+                default y
+        endif
+
+    config SECURITY_USING_TLS_CLIENT_DEMO
+        bool "Enable a TLS client DEMO"
+        default n
+
+    choice
+        prompt "Mbed TLS version"
+        help
+            Select the mbedtls version
+
+        config SECURITY_USING_MBEDTLS_V2168
+            bool "v2.16.8"
+
+    endchoice
+
+endif

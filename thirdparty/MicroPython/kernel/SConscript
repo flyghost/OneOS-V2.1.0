@@ -1,0 +1,26 @@
+from build_tools import *
+import osconfig
+
+# get current directory
+cwd     = PresentDir()
+# The set of source files associated with this SConscript file.
+src     = Glob('py/*.c')
+src    += Glob('lib/mp-readline/*.c')
+src    += Glob('lib/utils/*.c')
+src    += Glob('lib/netutils/*.c')
+src    += Glob('lib/timeutils/*.c')
+if osconfig.COMPILER == 'armcc':
+    src    += Glob('lib/utils/gchelper_oneOS.s')
+
+
+
+path    = [cwd + '/']
+
+LOCAL_CCFLAGS = ''
+
+if osconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --c99 --gnu'
+
+group = AddCodeGroup('micropython', src, depend = ['PKG_USING_MICROPYTHON'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+Return('group')

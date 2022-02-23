@@ -1,0 +1,39 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32F101
+    help
+        Select the device in GD32F10x
+
+
+    config MODEL_GD32F101
+        bool "GD32F101"
+
+    config MODEL_GD32F103
+        bool "GD32F103"
+
+    config MODEL_GD32F105
+        bool "GD32F105"
+
+    config MODEL_GD32F107
+        bool "GD32F107"
+
+
+endchoice
+
+
+if MODEL_GD32F101
+    source "$OS_ROOT/templates/configs/gd/f10x/f101/Kconfig"
+endif
+
+if MODEL_GD32F103
+    source "$OS_ROOT/templates/configs/gd/f10x/f103/Kconfig"
+endif
+
+if MODEL_GD32F105
+    source "$OS_ROOT/templates/configs/gd/f10x/f105/Kconfig"
+endif
+
+if MODEL_GD32F107
+    source "$OS_ROOT/templates/configs/gd/f10x/f107/Kconfig"
+endif
+

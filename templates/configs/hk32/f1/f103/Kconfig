@@ -1,0 +1,58 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_hk32f103-hk-mini
+    help
+        Select the device in HK32F103xx
+
+    config TEMP_HK32F103RBT6
+        bool "HK32F103RBT6"
+
+    config TEMP_HK32F103R8T6
+        bool "HK32F103R8T6"
+
+    config TEMP_HK32F103CBT6
+        bool "HK32F103CBT6"
+
+    config TEMP_HK32F103C8T6
+        bool "HK32F103C8T6"
+
+    config TEMP_HK32F103VBT6A
+        bool "HK32F103VBT6A"
+
+    config TEMP_HK32F103V8T6A
+        bool "HK32F103V8T6A"
+
+    config TEMP_HK32F103RBT6A
+        bool "HK32F103RBT6A"
+
+    config TEMP_HK32F103R8T6A
+        bool "HK32F103R8T6A"
+
+    config TEMP_HK32F103CBT6A
+        bool "HK32F103CBT6A"
+
+    config TEMP_HK32F103C8T6A
+        bool "HK32F103C8T6A"
+
+    config TEMP_HK32F103VET6
+        bool "HK32F103VET6"
+
+    config TEMP_HK32F103VDT6
+        bool "HK32F103VDT6"
+
+    config TEMP_HK32F103VCT6
+        bool "HK32F103VCT6"
+
+    config TEMP_HK32F103RET6
+        bool "HK32F103RET6"
+
+    config TEMP_HK32F103RDT6
+        bool "HK32F103RDT6"
+
+    config TEMP_HK32F103RCT6
+        bool "HK32F103RCT6"
+		
+    config TEMP_hk32f103-hk-mini
+        bool "hk32f103-hk-mini"
+        
+endchoice

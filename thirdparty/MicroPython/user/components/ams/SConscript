@@ -1,0 +1,31 @@
+from build_tools import *
+import osconfig
+
+# get current directory
+cwd     = PresentDir()
+# The set of source files associated with this SConscript file.
+
+
+
+
+src = []
+libs = []
+libpath = []
+
+path    = [cwd + '/']
+
+LOCAL_CCFLAGS = ''
+
+
+if osconfig.CROSS_TOOL == 'gcc':
+	libs += Split("""lib_ams.a""")
+	libpath = [cwd + '/gcc/bin']
+elif osconfig.CROSS_TOOL == 'keil':
+	LOCAL_CCFLAGS += ' --c99 --gnu'
+	libs += Split("""lib_ams""")
+	libpath = [cwd + '/keil/bin']
+		
+    
+group = AddCodeGroup('mpy_ams', src, depend = ['PKG_USING_MICROPYTHON', 'MICROPY_USING_AMS'], CPPPATH = path, LIBS = libs, LIBPATH = libpath, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+Return('group')

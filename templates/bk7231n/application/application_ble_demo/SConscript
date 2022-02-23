@@ -1,0 +1,13 @@
+from build_tools import *
+Import('OS_ROOT')
+Import('osconfig')
+
+pwd = PresentDir()
+path = [pwd]
+
+src = Glob('*.c')
+group = []
+
+if IsDefined(['OS_USING_BLE']):
+    group = AddCodeGroup('application', src, depend=[''], CPPPATH=path)
+Return('group')

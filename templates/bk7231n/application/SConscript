@@ -1,0 +1,19 @@
+from build_tools import *
+Import('OS_ROOT')
+Import('osconfig')
+
+pwd = PresentDir()
+path = [pwd]
+
+src = Glob('*.c')
+
+group = AddCodeGroup('application', src, depend=[''], CPPPATH=path)
+
+list = os.listdir(pwd)
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        group = group + SConscript(os.path.join(d, 'SConscript'))
+
+
+Return('group')

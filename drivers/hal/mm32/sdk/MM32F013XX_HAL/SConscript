@@ -1,0 +1,44 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = Split('''
+MM32F013x/Source/system_MM32F013x.c
+MM32F013x/HAL_lib/src/HAL_dma.c
+MM32F013x/HAL_lib/src/HAL_exti.c
+MM32F013x/HAL_lib/src/HAL_misc.c
+MM32F013x/HAL_lib/src/HAL_pwr.c
+MM32F013x/HAL_lib/src/HAL_rcc.c
+''')
+
+if IsDefined(['BSP_USING_GPIO']):
+    src += ['MM32F013x/HAL_lib/src/HAL_gpio.c']
+    
+if IsDefined(['BSP_USING_UART']):
+    src += ['MM32F013x/HAL_lib/src/HAL_uart.c']
+    
+if IsDefined(['BSP_USING_ONCHIP_RTC']):
+    src += ['MM32F013x/HAL_lib/src/HAL_rtc.c']
+
+if IsDefined(['BSP_USING_ONCHIP_FLASH']):
+    src += ['MM32F013x/HAL_lib/src/HAL_flash.c']
+    
+path = [pwd,
+        pwd + '/MM32F013x/HAL_lib/inc',
+        pwd + '/MM32F013x/Include',
+        ]
+
+if osconfig.CROSS_TOOL == 'keil':
+    path += [pwd + '/CMSIS/KEIL_CORE']
+elif osconfig.CROSS_TOOL == 'iar':
+    path += [pwd + '/CMSIS/IAR_CORE']
+elif osconfig.CROSS_TOOL == 'gcc':
+    path += [pwd + '/CMSIS/KEIL_CORE']
+
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_MM32F013XX'], CPPPATH = path)
+
+Return('group')

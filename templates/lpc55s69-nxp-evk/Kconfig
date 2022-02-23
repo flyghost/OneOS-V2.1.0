@@ -1,0 +1,12 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=nxp
+    
+config BOARD_LPC55S69_EVK
+    bool
+    select SOC_LPC55S69
+    default y
+    
+source "$OS_ROOT/Kconfig"

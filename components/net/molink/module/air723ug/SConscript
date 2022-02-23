@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_AIR723UG']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/air723ug.c')
+
+if IsDefined(['AIR723UG_USING_GENERAL_OPS']):
+    src += Glob('source/air723ug_general.c')
+
+if IsDefined(['AIR723UG_USING_NETSERV_OPS']):
+    src += Glob('source/air723ug_netserv.c')
+
+if IsDefined(['AIR723UG_USING_PING_OPS']):
+    src += Glob('source/air723ug_ping.c')
+
+if IsDefined(['AIR723UG_USING_IFCONFIG_OPS']):
+    src += Glob('source/air723ug_ifconfig.c')
+
+if IsDefined(['AIR723UG_USING_NETCONN_OPS']):
+    src += Glob('source/air723ug_netconn.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

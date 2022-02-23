@@ -1,0 +1,6 @@
+menu "lls"
+		config MYNEWT_VAL_BLE_SVC_LLS_SYSINIT_STAGE
+		    int "Sysinit stage for the link loss BLE service."
+		    default 303
+endmenu
+

@@ -1,0 +1,336 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../../"
+
+
+# add basic sourse files of baiduiot 
+test_src  = Glob(root_path + 'c-utility/src/*.c')
+test_path = [
+	pwd + root_path + 'c-utility/inc',
+	pwd + root_path + 'c-utility/src'
+]
+# add adapter sourse file of baiduiot
+test_src  += Glob(root_path + 'c-utility/adapters/*.c')
+test_src  += Glob(root_path + 'c-utility/pal/dns_async.c')
+test_src  += Glob(root_path + 'c-utility/pal/socket_async.c')
+test_src  += Glob(root_path + 'c-utility/pal/tlsio_options.c')
+test_src  += Glob(root_path + 'c-utility/pal/oneos/lock.c')
+test_src  += Glob(root_path + 'c-utility/pal/oneos/threadapi.c')
+test_src  += Glob(root_path + 'c-utility/pal/oneos/tickcounter.c')
+test_path += [
+	pwd + root_path + 'c-utility/pal/inc',
+	pwd + root_path + 'c-utility/pal/generic'
+]
+test_src  += Glob(root_path + 'c-utility/testtools/ctest/tests/ctest_ut/*.c')
+test_src  += Glob(root_path + 'c-utility/tests/real_test_files/*.c')
+test_src  += Glob(root_path + 'c-utility/testtools/ctest/src/*.c')
+test_src  += Glob(root_path + 'c-utility/tests/ut_main/*.c')
+test_src  += Glob(root_path + 'c-utility/testtools/umock-c/src/*.c')
+#test_src  += Glob(root_path + 'c-utility/testtools/umock-c/tests/umock_c_negt_ut/*.c')
+#c-utility/testtools/umock-c/tests/umock_c_negt_ut/umock_c_negative_tests_ut.c
+test_path += [
+	pwd + root_path + 'c-utility/testtools/ctest/inc',
+	pwd + root_path + 'c-utility/tests/real_test_files',
+	pwd + root_path + 'serializer/tests/methodreturn_ut',
+	pwd + root_path + 'c-utility/testtools/testrunner/inc',
+	pwd + root_path + 'c-utility/testtools/umock-c/deps/ctest/inc',
+	pwd + root_path + 'c-utility/testtools/ctest/inc',
+	pwd + root_path + 'c-utility/testtools/umock-c/inc'
+]
+
+if IsDefined(['AGENTTIME_UT']):
+	test_src += Glob(root_path + "c-utility/tests/agenttime_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	test_path += [pwd + root_path + 'c-utility/tests/agenttime_ut']
+
+if IsDefined(['BASE64_UT']):
+	test_src += Glob(root_path + "c-utility/tests/base64_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['BUFFER_UT']):
+	test_src += Glob(root_path + "c-utility/tests/buffer_ut/*.c")
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../src/map.c')
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['CONSTBUFFER_UT']):
+	test_src += Glob(root_path + "c-utility/tests/constbuffer_ut/*.c")
+	DeleteSrcFile(test_src, './../src/buffer.c')
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../src/map.c')
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')	
+	test_path += [pwd + '/'+root_path + 'c-utility/tests/gballoc']
+
+if IsDefined(['CONSTMAP_UT']):
+	test_src += Glob(root_path + "c-utility/tests/constmap_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')	
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../src/map.c')
+
+if IsDefined(['CRTABSTTRACTIONS_UT']):
+	test_src += Glob(root_path + "c-utility/tests/crtabstractions_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['DNS_ASYNC_UT']):
+	test_src += Glob(root_path + "c-utility/tests/dns_async_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	test_path += [pwd + '/'+root_path + 'c-utility/tests/dns_async_ut/win32_fake_linux']
+
+if IsDefined(['DOUBLYLINKEDLIST_UT']):
+	test_src += Glob(root_path + "c-utility/tests/doublylinkedlist_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+
+if IsDefined(['GBALLOC_UT']):
+	test_src += Glob(root_path + "c-utility/tests/gballoc_ut/*.c")
+	DeleteSrcFile(test_src, root_path + 'c-utility/pal/oneos/lock.c')
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../pal/oneos/lock.c')
+
+if IsDefined(['GBALLOC_WITHOUT_INIT_UT']):
+	test_src += Glob(root_path + "c-utility/tests/gballoc_without_init_ut/*.c")
+	DeleteSrcFile(test_src, root_path + 'c-utility/pal/oneos/lock.c')
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../pal/oneos/lock.c')
+	test_path += [pwd + '/'+root_path + 'c-utility/tests/gballoc']
+
+if IsDefined(['HMACSHA256_UT']):
+	test_src += Glob(root_path + "c-utility/tests/hmacsha256_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['HTTP_PROXY_IO_UT']):
+	test_src += Glob(root_path + "c-utility/tests/http_proxy_io_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../src/buffer.c')
+	DeleteSrcFile(test_src, './../src/base64.c')
+	DeleteSrcFile(test_src, './../src/xio.c')
+	DeleteSrcFile(test_src, './../src/optionhandler.c')
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../adapters/socketio_berkeley.c')
+	DeleteSrcFile(test_src, './../adapters/agenttime.c')	
+
+if IsDefined(['LOCK_UT']):
+	test_src += Glob(root_path + "c-utility/tests/lock_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+
+if IsDefined(['MAP_UT']):
+	test_src += Glob(root_path + "c-utility/tests/map_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['OPTIONHANDLER_UT']):
+	test_src += Glob(root_path + "c-utility/tests/optionhandler_ut/*.c")
+	test_path += [pwd + '/'+root_path + 'c-utility/tests/vector']
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './real_test_files/real_vector.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../src/vector.c')
+
+if IsDefined(['REFCOUNT_UT']):
+	test_src += Glob(root_path + "c-utility/tests/refcount_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['SASTOKEN_UT']):
+	test_src += Glob(root_path + "c-utility/tests/sastoken_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../src/buffer.c')	
+	DeleteSrcFile(test_src, './../src/base64.c')
+	DeleteSrcFile(test_src, './../src/urlencode.c')
+	DeleteSrcFile(test_src, './../src/hmacsha256.c')
+	DeleteSrcFile(test_src, './../adapters/agenttime.c')
+
+if IsDefined(['SOCKETIO_BERKELEY_UT']):
+	test_src += Glob(root_path + "c-utility/tests/socketio_berkeley_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../src/optionhandler.c')
+	DeleteSrcFile(test_src, './../src/singlylinkedlist.c')
+
+if IsDefined(['STRING_TOKENIZER_UT']):
+	test_src += Glob(root_path + "c-utility/tests/string_tokenizer_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['STRINGS_UT']):
+	test_src += Glob(root_path + "c-utility/tests/strings_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['TICKCOUNTER_UT']):
+	test_src += Glob(root_path + "c-utility/tests/tickcounter_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['TLSIO_OPTIONS_UT']):
+	test_src += Glob(root_path + "c-utility/tests/tlsio_options_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['URLENCODE_UT']):
+	test_src += Glob(root_path + "c-utility/tests/urlencode_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['UTF8_CHECKER_UT']):
+	test_src += Glob(root_path + "c-utility/tests/utf8_checker_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+
+if IsDefined(['UWS_CLIENT_UT']):
+	test_src += Glob(root_path + "c-utility/tests/uws_client_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../src/buffer.c')
+	DeleteSrcFile(test_src, './../src/optionhandler.c')
+	DeleteSrcFile(test_src, './../src/xio.c')	
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')	
+	DeleteSrcFile(test_src, './../src/singlylinkedlist.c')
+	DeleteSrcFile(test_src, './../src/uws_frame_encoder.c')
+	DeleteSrcFile(test_src, './../src/gb_rand.c')
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/base64.c')
+	DeleteSrcFile(test_src, './../src/utf8_checker.c')
+	DeleteSrcFile(test_src, './../adapters/agenttime.c')
+	DeleteSrcFile(test_src, './../adapters/socketio_berkeley.c')
+	DeleteSrcFile(test_src, './../adapters/platform_os.c')
+
+if IsDefined(['UWS_FRAME_ENCODER_UT']):
+	test_src += Glob(root_path + "c-utility/tests/uws_frame_encoder_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../src/buffer.c')	
+	DeleteSrcFile(test_src, './../src/gb_rand.c')
+
+if IsDefined(['VECTOR_UT']):
+	test_src += Glob(root_path + "c-utility/tests/vector_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['WSIO_UT']):
+	test_src += Glob(root_path + "c-utility/tests/wsio_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/optionhandler.c')
+	DeleteSrcFile(test_src, './../src/xio.c')
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../src/singlylinkedlist.c')
+	DeleteSrcFile(test_src, './../src/uws_client.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+
+if IsDefined(['XIO_UT']):
+	test_src += Glob(root_path + "c-utility/tests/xio_ut/*.c")
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../src/optionhandler.c')
+
+if IsDefined(['UMQTT_CLIENT_UT']):
+	test_src += Glob(root_path + "umqtt/tests/mqtt_client_ut/*.c")
+	test_src += Glob(root_path + 'umqtt/src/mqtt_client.c')
+	test_path += [pwd + '/'+root_path + 'umqtt/inc']
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../pal/oneos/tickcounter.c')
+	DeleteSrcFile(test_src, './../pal/oneos/threadapi.c')
+	DeleteSrcFile(test_src, './../adapters/agenttime.c')
+	DeleteSrcFile(test_src, './../src/buffer.c')	
+	DeleteSrcFile(test_src, './../src/strings.c')
+	DeleteSrcFile(test_src, './../src/optionhandler.c')
+	DeleteSrcFile(test_src, './../src/xio.c')
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../adapters/platform_os.c')
+
+if IsDefined(['UMQTT_CODE_UT']):
+	test_src += Glob(root_path + "umqtt/tests/mqtt_codec_ut/*.c")
+	test_src += Glob(root_path + 'umqtt/src/mqtt_codec.c')
+	test_path += [pwd + '/'+ root_path + 'umqtt/inc']
+	DeleteSrcFile(test_src, './real_test_files/real_crt_abstractions.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './../src/buffer.c')	
+	DeleteSrcFile(test_src, './../src/strings.c')
+
+if IsDefined(['UMQTT_MESSAGE_UT']):
+	test_src += Glob(root_path + "umqtt/tests/mqtt_message_ut/*.c")
+	test_src += Glob(root_path + 'umqtt/src/mqtt_message.c')
+	test_path += [pwd + '/'+root_path + 'umqtt/inc']
+	DeleteSrcFile(test_src, './../src/crt_abstractions.c')
+	DeleteSrcFile(test_src, './../src/gballoc.c')
+	DeleteSrcFile(test_src, './real_test_files/real_map.c')
+	DeleteSrcFile(test_src, './real_test_files/real_strings.c')
+
+group = AddCodeGroup('cloud/baidu/test', test_src, depend = ['BAIDU_UNITTEST'], CPPPATH = test_path)
+Return('group')

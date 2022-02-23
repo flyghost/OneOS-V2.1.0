@@ -1,0 +1,16 @@
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+src = []
+path = []
+
+path += [pwd + '/inc']
+
+src += Glob('src/telnetd.c')
+src += Glob('src/utility.c')
+src += Glob('src/state.c')
+
+group = AddCodeGroup('telnetd', src=src, depend=['TELNET_SERVER'], CPPPATH=path)
+
+Return('group')

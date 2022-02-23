@@ -1,0 +1,36 @@
+import os
+import sys
+import importlib
+import importlib.util    
+
+inq_table = {}
+inq_table['SERIES_HC32F4A'] = 'f4a'
+inq_table['SERIES_HC32F07'] = 'f07'
+inq_table['SERIES_HC32F17'] = 'f17'
+inq_table['SERIES_HC32F19'] = 'f19'
+inq_table['SERIES_HC32F46'] = 'f46'
+inq_table['SERIES_HC32L07'] = 'l07'
+inq_table['SERIES_HC32L17'] = 'l17'
+inq_table['SERIES_HC32L19'] = 'l19'
+    
+def soc_type_inq(g):
+    for inq in inq_table:
+        if inq not in g:
+            continue
+            
+        print(inq)
+            
+        realdir = os.path.dirname(os.path.realpath(__file__))
+    
+        sub_path = os.path.join(realdir, inq_table[inq])
+        sub_script = os.path.join(sub_path, "SConscript")
+
+        loader = importlib.machinery.SourceFileLoader('SConscript', sub_script)
+        spec   = importlib.util.spec_from_loader(loader.name, loader)
+        mod    = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+        target_path = mod.soc_type_inq(g)
+        
+        return target_path
+    
+    return None

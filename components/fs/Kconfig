@@ -1,0 +1,149 @@
+menu "FileSystem"
+
+config OS_USING_VFS
+    bool "Enable virtual file system"
+    select OS_USING_MUTEX
+    default y
+    help
+        The virtual file system support posix file API for user.
+
+if OS_USING_VFS
+    config VFS_MOUNTPOINT_MAX
+        int "The max number of mounted file system"
+        default 4
+
+    config VFS_FILESYSTEM_TYPES_MAX
+        int "The max number of file system type"
+        default 4
+
+    config VFS_FD_MAX
+        int "The max number of opened files"
+        default 16
+	
+	config OS_USING_VFS_DEVFS
+        bool "Enable DevFS file system"
+        default n
+        help
+            DevFs is for device to use file operations.
+
+    config OS_USING_VFS_CUTEFS
+        bool "Enable CuteFs file system"
+        select OS_USING_RAMDISK
+        default n
+        help
+            cutefs is a cute filesystem, now only support run on ramdisk.
+
+    config OS_USING_VFS_JFFS2
+        bool "Enable JFFS2"
+        select OS_USING_FAL
+        default n
+        help
+            JFFS2 is journalling flash file system version2.
+			
+    config OS_USING_VFS_YAFFS
+        bool "Enable Yaffs2 file system"
+		select OS_USING_NAND
+        default n
+		help
+            Yaffs2 is yet another flash file system version2.
+            
+    config OS_USING_VFS_FATFS
+        bool "Enable FatFs"
+        select OS_USING_BLOCK
+        default n
+        
+        help
+            FatFs is a generic FAT/exFAT file system module for small embedded systems.
+
+    if OS_USING_VFS_FATFS
+        menu "Elm-ChaN's FatFs, generic FAT filesystem module"
+        config OS_VFS_FAT_CODE_PAGE
+            int "OEM code page"
+            default 437
+
+        choice
+            prompt "Support long file name"
+            default OS_VFS_FAT_USE_LFN_3
+
+            config OS_VFS_FAT_USE_LFN_0
+                bool "0: LFN disable"
+
+            config OS_VFS_FAT_USE_LFN_1
+                bool "1: LFN with static LFN working buffer"
+
+            config OS_VFS_FAT_USE_LFN_2
+                bool "2: LFN with dynamic LFN working buffer on the stack"
+
+            config OS_VFS_FAT_USE_LFN_3
+                bool "3: LFN with dynamic LFN working buffer on the heap"
+        endchoice
+
+        config OS_VFS_FAT_USE_LFN
+            int
+            default 0 if OS_VFS_FAT_USE_LFN_0
+            default 1 if OS_VFS_FAT_USE_LFN_1
+            default 2 if OS_VFS_FAT_USE_LFN_2
+            default 3 if OS_VFS_FAT_USE_LFN_3
+
+        config OS_VFS_FAT_MAX_LFN
+            int "Maximal size of file name length"
+            range 12 255
+            default 255
+
+        config OS_VFS_FAT_DRIVES
+            int "Number of volumes (logical drives) to be used."
+            default 2
+
+        config OS_VFS_FAT_MAX_SECTOR_SIZE
+            int "Maximum sector size to be handled."
+            default 4096
+            help
+                if you use some spi nor flash for fatfs, please set this the erase sector size, for example 4096.
+
+        config OS_VFS_FAT_REENTRANT
+            bool "Enable the reentrancy (thread safe) of the FatFs module"
+            default y
+        endmenu
+    endif
+    config OS_USING_VFS_NFS
+        bool "Enable NFS v3 client file system"
+        select NET_USING_BSD
+        default n
+
+    if OS_USING_VFS_NFS
+        config OS_NFS_HOST_EXPORT
+            string "NFSv3 host export"
+            default "192.168.1.3:/"
+    endif
+
+    config OS_USING_VFS_LFS
+        bool "Enable little filesystem"
+        select OS_USING_MUTEX
+        default n
+        help
+            A little Power-loss resilience filesystem designed for microcontrollers.
+
+    if OS_USING_VFS_LFS
+        menu "Little filesystem module"
+        config LFS_NAME_MAX
+            int "Maximum directory/file name size in bytes."
+            range 1 255
+            default 255
+
+        config LFS_FILE_MAX
+            int "Maximum size of a file in bytes."
+            range 1 2147483647
+            default 2147483647
+
+        config LFS_LOOKAHEAD_SIZE
+            int "Size of the lookahead buffer in bytes.Must be a multiple of 8."
+            default 8
+
+        config LFS_THREADSAFE
+            bool "Enable thread safe of the little filesystem."
+            default y
+        endmenu
+    endif
+endif
+
+endmenu

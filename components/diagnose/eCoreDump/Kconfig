@@ -1,0 +1,26 @@
+# menu "eCoreDump"
+
+	config USING_ECORE_DUMP
+		bool "Using eCoreDump"
+		default n
+		select OS_USING_FAL
+
+	if USING_ECORE_DUMP
+
+		choice
+			prompt "Select the arch"
+			default ECOREDUMP_ARCH_ARMV7M
+			help
+				Select the arch
+
+			config ECOREDUMP_ARCH_ARMV7M
+				bool "armv7m"
+		endchoice
+
+		config USING_ECORE_DUMP_EXAMPLE
+			bool "Using example"
+			default y
+
+	endif
+
+# endmenu

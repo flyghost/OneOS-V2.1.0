@@ -1,0 +1,17 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = []
+
+if IsDefined(['OS_USING_USBH_CDC']):
+    src += ['drv_usb_cdc_class.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/drivers_4xx', src, depend = ['SERIES_GD32F4XX'], CPPPATH = path)
+
+Return('group')

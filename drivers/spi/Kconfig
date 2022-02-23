@@ -1,0 +1,162 @@
+menu "SPI"
+    config OS_USING_SPI
+        bool "Using SPI Bus/Device device drivers"
+        default n
+
+    config OS_USING_QSPI
+        depends on OS_USING_SPI
+        bool "Enable QSPI mode"
+        default n
+
+    config OS_USING_SPI_MSD
+        depends on OS_USING_SPI
+        bool "SPI MSD"
+        default n
+        select OS_USING_MTD
+
+    config OS_USING_SFUD
+        depends on OS_USING_SPI
+        select OS_USING_FAL
+        bool "Using serial flash universal driver"
+        default n
+
+    if OS_USING_SFUD
+
+        config OS_SFUD_USING_SFDP
+            bool "Using auto probe flash JEDEC SFDP parameter"
+            default y
+
+        config OS_SFUD_USING_FLASH_INFO_TABLE
+            bool "Using defined supported flash chip information table"
+            default y
+
+        config OS_DEBUG_SFUD
+            bool "Show more SFUD debug information"
+            default n
+
+        menuconfig OS_SFUD_USING_SPI
+            bool "Using SPI mode support"
+            default n
+
+            if OS_SFUD_USING_SPI
+                config OS_SPI_FLASH_BUS_NAME
+                    string "spi flash bus name"
+                    default "spi2"
+
+                config OS_SPI_FLASH_CS_PIN
+                    int "spi flash cs pin"
+                    default 28
+            endif
+
+        menuconfig OS_SFUD_USING_QSPI
+            bool "Using QSPI mode support"
+            default n
+
+            if OS_SFUD_USING_QSPI
+                config OS_QSPI_FLASH_BUS_NAME
+                    string "qspi flash bus name"
+                    default "qspi"
+
+            endif
+
+        menuconfig OS_EXTERN_FLASH_PORT_CFG
+            bool "Extern flash sfud port cfg"
+            default y
+
+            if OS_EXTERN_FLASH_PORT_CFG
+                config OS_EXTERN_FLASH_DEV_NAME
+                    string "Extern flash dev name"
+                    default "AT45DB041E"
+
+                config OS_EXTERN_FLASH_BUS_NAME
+                    string "Extern flash bus name"
+                    default "sfud_bus"
+
+                config OS_EXTERN_FLASH_NAME
+                    string "Extern flash name"
+                    default "nor_flash"
+
+                config OS_EXTERN_FLASH_SIZE
+                    int "Extern flash size"
+                    default 16777216
+                    
+                config OS_EXTERN_FLASH_BLOCK_SIZE
+                    int "Extern flash block size"
+                    default 4096
+
+                config OS_EXTERN_FLASH_PAGE_SIZE
+                    int "Extern flash page size"
+                    default 4096
+            endif
+    endif
+
+    config BSP_USING_W25QXX
+        bool "Using W25QXX NorFlash"
+        depends on OS_USING_SPI
+        select OS_USING_SFUD
+        default n
+
+    menuconfig BSP_USING_NM25Q
+        bool "Using NM25Q NorFlash"
+        depends on OS_USING_SPI
+        default n
+        
+        if BSP_USING_NM25Q
+            config BSP_NM25Q_SPI_BUS
+                string "spi bus name"
+                default "spi2"
+            config BSP_NM25Q_SPI_CS
+                int "spi cs pin"
+                default 28
+        endif
+
+    menuconfig BSP_USING_ENC28J60
+        bool "Using enc28j60 spi net module"
+        default n
+        select NET_USING_LWIP
+
+        if BSP_USING_ENC28J60
+            config BSP_ENC28J60_SPI_BUS
+                string "enc28j60 spi bus name"
+                default "spi2"
+
+            config BSP_ENC28J60_SPI_CS
+                int "enc28j60 spi cs pin"
+                default 53
+
+            config BSP_ENC28J60_SPI_DEV
+                string "enc28j60 spi device name"
+                default "spi21"
+
+            config BSP_ENC28J60_IRQ
+                int "enc28j60 spi irq pin"
+                default 51
+
+            config BSP_ENC28J60_RST
+                int "enc28j60 spi rst pin"
+                default 52
+        endif
+
+    menuconfig BSP_USING_SDCARD
+        bool "Enable SDCARD (SPI)"
+        select OS_USING_SPI_MSD
+        default n
+
+        if BSP_USING_SDCARD
+            config BSP_SDCARD_SPI_DEV
+                string "sdcard spi device name"
+                default "spi2"
+
+            config BSP_SDCARD_SPI_CS_PIN
+                int "sdcard SPI_CS pin"
+                default 28
+        endif
+
+    config BSP_USING_NRF24L01
+        bool "Enable NRF24L01"
+        select BSP_USING_SPI
+        select BSP_USING_SPI2
+        select PKG_USING_NRF24L01
+        default n
+
+endmenu

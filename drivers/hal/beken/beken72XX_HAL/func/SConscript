@@ -1,0 +1,14 @@
+from build_tools import *
+Import('OS_ROOT')
+
+
+cwd  = PresentDir()
+list = os.listdir(cwd)
+objs = []
+
+for d in list:
+    path = os.path.join(cwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+
+Return('objs')

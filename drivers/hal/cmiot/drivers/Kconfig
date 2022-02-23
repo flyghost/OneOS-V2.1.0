@@ -1,0 +1,129 @@
+    config BSP_USING_GPIO
+        bool "Enable GPIO"
+        select OS_USING_PIN
+        default y
+
+    menuconfig BSP_USING_UART
+        bool "Enable UART"
+        default y
+        select OS_USING_SERIAL
+        if BSP_USING_UART
+            config BSP_USING_LPUART0
+                bool "Enable LPUART0"
+                default n
+
+            config LPUART0_USING_DMA
+            depends on BSP_USING_LPUART0
+                bool "Lpuart0 using dma"
+                default n
+
+            config BSP_USING_UART1
+                bool "Enable UART1"
+                default y
+
+            config UART1_USING_DMA
+            depends on BSP_USING_UART1
+                bool "Uart1 using dma"
+                default n
+
+            config BSP_USING_UART2
+                bool "Enable UART2"
+                default n
+
+            config UART2_USING_DMA
+            depends on BSP_USING_UART2
+                bool "Uart2 using dma"
+                default n
+
+            config BSP_USING_UART3
+                bool "Enable UART3"
+                default n
+
+            config UART3_USING_DMA
+            depends on BSP_USING_UART3
+                bool "Uart3 using dma"
+                default n
+
+            config BSP_USING_UART4
+                bool "Enable UART4"
+                default n
+
+            config UART4_USING_DMA
+            depends on BSP_USING_UART4
+                bool "Uart4 using dma"
+                default n
+
+            config BSP_USING_UART5
+                bool "Enable UART5"
+                default n
+
+            config UART5_USING_DMA
+            depends on BSP_USING_UART5
+                bool "Uart5 using dma"
+                default n
+
+        endif
+    menu "Select I2C port"
+        depends on OS_USING_I2C
+        config BSP_USING_I2C1
+            bool "Enable I2C1"
+            default y
+
+        config BSP_USING_I2C2
+            bool "Enable I2C2"
+            default n
+    endmenu
+    menu "Select SPI port"
+        depends on OS_USING_SPI
+        config BSP_USING_SPI1
+            bool "Enable SPI1"
+            default y
+
+        config BSP_USING_SPI2
+            bool "Enable SPI2"
+            default n
+    endmenu
+
+    menu "Select WDG port"
+        depends on OS_USING_WDG
+        config BSP_USING_IWDG
+            bool "Enable IWDG"
+            default n
+
+        config BSP_USING_WWDG
+            bool "Enable WWDG"
+            default y
+    endmenu
+
+    menu "Select PWM port"
+        depends on OS_USING_PWM
+        config BSP_USING_PWM1
+            bool "Enable PWM1"
+            default n
+
+        config BSP_USING_PWM2
+            bool "Enable PWM2"
+            default n
+
+        config BSP_USING_PWM3
+            bool "Enable PWM3"
+            default y
+
+        config BSP_USING_PWM4
+            bool "Enable PWM4"
+            default n
+    endmenu
+
+        config BSP_USING_ON_CHIP_FLASH
+            bool "Enable on-chip FLASH"
+            select OS_USING_FAL
+            default y
+
+        config BSP_USING_LCD
+            bool "Enable LCD"
+            default n
+
+        config BSP_USING_RNG
+            bool "Enable RNG"
+            default n
+	

@@ -1,0 +1,22 @@
+# for huawei cloud component
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+objs = []
+pwd = PresentDir()
+
+if IsDefined(['USING_HUAWEI_CLOUD_CONNECT', 'HUAWEI_CLOUD_PORTOCOL_LwM2M']):
+	objs += SConscript(('src/connectivity/lwm2m/SConscript'))
+	objs += SConscript(('adapter/SConscript'))
+	objs += SConscript(('src/security/mbedtls/SConscript'))
+	objs += SConscript(('demos/agenttiny_lwm2m/SConscript'))
+
+if IsDefined(['USING_HUAWEI_CLOUD_CONNECT', 'HUAWEI_CLOUD_PORTOCOL_MQTT']):
+	objs += SConscript(('src/security/mbedtls/SConscript'))
+	objs += SConscript(('src/lib/SConscript'))
+	objs += SConscript(('src/connectivity/mqtt/SConscript'))
+	objs += SConscript(('adapter/SConscript'))
+	objs += SConscript(('demos/agenttiny_mqtt/SConscript'))
+
+Return('objs')

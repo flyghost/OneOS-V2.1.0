@@ -1,0 +1,29 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+src = Split("""
+src/hc32f46x_clk.c
+src/hc32f46x_gpio.c
+src/hc32f46x_utility.c
+src/hc32f46x_interrupts.c
+src/hc32f46x_exint_nmi_swi.c
+""")
+
+if IsDefined(['BSP_USING_UART']):
+    src += ['src/hc32f46x_usart.c']
+    src += ['src/hc32f46x_pwc.c']
+
+if IsDefined(['BSP_USING_ON_CHIP_FLASH']):
+    src += ['src/hc32f46x_efm.c']
+
+path = [pwd + '/inc']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_HC32F46'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

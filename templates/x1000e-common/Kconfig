@@ -1,0 +1,12 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=ingenic
+
+config BOARD_HALLEY2_BASEBOARD
+    bool
+    select SOC_INGENIC_X1000E
+    default y
+    
+source "$OS_ROOT/Kconfig"

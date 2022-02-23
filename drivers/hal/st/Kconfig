@@ -1,0 +1,7 @@
+config MANUFACTOR_STM32
+    bool
+    default n
+
+source "$OS_ROOT/drivers/hal/st/*/Kconfig"
+
+comment "Configure base hal in STM32CubeMX"

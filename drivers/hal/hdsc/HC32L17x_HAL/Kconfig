@@ -1,0 +1,10 @@
+config SERIES_HC32L17
+    bool
+    select ARCH_ARM_CORTEX_M0_PLUS
+    default n
+	
+config SOC_HC32L17X
+    bool
+    select MANUFACTOR_HC32
+    select SERIES_HC32L17
+    default n

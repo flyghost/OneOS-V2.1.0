@@ -1,0 +1,44 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd     = PresentDir()
+
+src     = []
+CPPPATH = []
+
+
+
+if IsDefined(['NET_USING_PAHO_MQTT']):
+
+#mqtt protocols start#
+    src += Glob('MQTTPacket/src/*.c')
+    CPPPATH += [pwd + '/MQTTPacket/src']
+#mqtt protocols end#
+
+    if IsDefined(['MQTT_USING_CLIENT']):
+    #mqtt client start#
+        src += Glob('MQTTClient-OneOS/src/MQTTClient.c')
+        src += Glob('MQTTClient-OneOS/src/MQTTOneOS.c')
+        CPPPATH += [pwd + '/MQTTClient-OneOS/src']
+
+        #tls net start#
+        if IsDefined(['MQTT_USING_TLS']):
+            if IsDefined(['MQTT_USING_TLS_MBEDTLS']):
+                src += Glob('MQTTClient-OneOS/src/mq_tls_mbedtls.c')
+            elif IsDefined(['MQTT_USING_TLS_ONETLS']):
+                src += Glob('MQTTClient-OneOS/src/mq_tls_onetls.c')
+        #tls net end#
+
+        # sample start #
+        if IsDefined(['MQTT_USING_SAMPLE']):
+            src += Glob('MQTTClient-OneOS/samples/*.c')
+            CPPPATH += [pwd + '/MQTTClient-OneOS/samples']
+        # sample end #
+
+    #mqtt client end#
+
+group = AddCodeGroup('pahomqtt', src, depend = ['NET_USING_PAHO_MQTT'], CPPPATH = CPPPATH)
+
+Return('group')

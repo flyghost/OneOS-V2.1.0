@@ -1,0 +1,52 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32G474CB
+    help
+        Select the device in STM32G474xx
+
+    config TEMP_STM32G474CB
+        bool "STM32G474CB"
+    
+    config TEMP_STM32G474CC
+        bool "STM32G474CC"
+
+    config TEMP_STM32G474CE
+        bool "STM32G474CE"
+
+    config TEMP_STM32G474MB
+        bool "STM32G474MB"
+
+    config TEMP_STM32G474MC
+        bool "STM32G474MC"
+
+    config TEMP_STM32G474ME
+        bool "STM32G474ME"
+        
+    config TEMP_STM32G474QB
+        bool "STM32G474QB"
+
+    config TEMP_STM32G474QC
+        bool "STM32G474QC"
+
+    config TEMP_STM32G474QE
+        bool "STM32G474QE"
+
+    config TEMP_STM32G474RB
+        bool "STM32G474RB"
+
+    config TEMP_STM32G474RC
+        bool "STM32G474RC"
+
+    config TEMP_STM32G474RE
+        bool "STM32G474RE"
+
+    config TEMP_STM32G474VB
+        bool "STM32G474VB"
+
+    config TEMP_STM32G474VC
+        bool "STM32G474VC"
+
+    config TEMP_STM32G474VE
+        bool "STM32G474VE"
+
+endchoice

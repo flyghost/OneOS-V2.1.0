@@ -1,0 +1,57 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32F091
+    help
+        Select the device in STM32F0xx
+
+    config MODEL_STM32F030
+        bool "STM32F030"
+
+    config MODEL_STM32F070
+        bool "STM32F070"
+
+    config MODEL_STM32F071
+        bool "STM32F071"
+
+    config MODEL_STM32F072
+        bool "STM32F072"
+
+    config MODEL_STM32F078
+        bool "STM32F078"
+
+    config MODEL_STM32F091
+        bool "STM32F091"
+
+    config MODEL_STM32F098
+        bool "STM32F098"
+
+endchoice
+
+if MODEL_STM32F030
+    source "$OS_ROOT/templates/configs/st/f0/f030/Kconfig"
+endif
+
+if MODEL_STM32F070
+    source "$OS_ROOT/templates/configs/st/f0/f070/Kconfig"
+endif
+
+if MODEL_STM32F071
+    source "$OS_ROOT/templates/configs/st/f0/f071/Kconfig"
+endif
+
+if MODEL_STM32F072
+    source "$OS_ROOT/templates/configs/st/f0/f072/Kconfig"
+endif
+
+if MODEL_STM32F078
+    source "$OS_ROOT/templates/configs/st/f0/f078/Kconfig"
+endif
+
+if MODEL_STM32F091
+    source "$OS_ROOT/templates/configs/st/f0/f091/Kconfig"
+endif
+
+if MODEL_STM32F098
+    source "$OS_ROOT/templates/configs/st/f0/f098/Kconfig"
+endif
+

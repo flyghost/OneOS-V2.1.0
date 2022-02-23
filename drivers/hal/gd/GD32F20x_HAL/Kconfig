@@ -1,0 +1,9 @@
+config SERIES_GD32F20X
+    bool
+    select ARCH_ARM_CORTEX_M3
+    default n
+
+config SOC_GD32F20X_CL
+    bool
+    select SERIES_GD32F20X
+    default n

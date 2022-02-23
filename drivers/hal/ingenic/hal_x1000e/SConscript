@@ -1,0 +1,21 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = []
+src += ['ingenic_clock.c']
+src += ['ingenic_ost.c']
+src += ['ingenic_gpio.c']
+
+if IsDefined(['BSP_USING_USART']):
+    src += ['ingenic_usart.c']
+	
+path = [pwd]
+
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SOC_INGENIC_X1000E'], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,23 @@
+menu "onepos protocol"
+
+config ONEPOS_USING_PROT
+	select USING_CMS_CONNECT
+    bool "enable onepos communication protocol"
+    default n
+
+if ONEPOS_USING_PROT
+	config ONEPOS_PROTO_DEBUG
+		bool "enable onepos protocol debug"
+		default n
+		
+	config ONEPOS_COMM_REC_BUFF_LEN
+		int "receive buff size of OnePos communication(bytes)"
+		default 2048
+	
+	config ONEPOS_COMM_SEND_BUFF_LEN
+		int "send buff size of OnePos communication(bytes)"
+		default 2048
+	
+endif
+
+endmenu 

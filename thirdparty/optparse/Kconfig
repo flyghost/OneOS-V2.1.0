@@ -1,0 +1,13 @@
+menu "Optparse"
+
+    config TP_USING_OPTPARSE
+        bool "Optparse: portable, reentrant, embeddable, getopt-like option parser"
+        default false
+
+    if TP_USING_OPTPARSE
+        config OPTPARSE_TEST_DEMO
+        bool "Enable Optparse test demo"
+        default false
+    endif
+
+endmenu

@@ -1,0 +1,9 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_nrf52840-pca10056
+    help
+        Select the device in nRF52840
+
+    config TEMP_nrf52840-pca10056
+        bool "nrf52840-pca10056"
+endchoice

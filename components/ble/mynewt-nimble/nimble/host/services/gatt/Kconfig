@@ -1,0 +1,6 @@
+menu "gatt"
+		config MYNEWT_VAL_BLE_SVC_GATT_SYSINIT_STAGE
+		    int "Sysinit stage for the GATT BLE service"
+		    default 302
+endmenu
+

@@ -1,0 +1,27 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_RG500Q']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/rg500q.c')
+
+if IsDefined(['RG500Q_USING_GENERAL_OPS']):
+    src += Glob('source/rg500q_general.c')
+    
+if IsDefined(['RG500Q_USING_NETSERV_OPS']):
+    src += Glob('source/rg500q_netserv.c')
+
+if IsDefined(['RG500Q_USING_PPP_OPS']):
+    src += Glob('source/rg500q_ppp.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

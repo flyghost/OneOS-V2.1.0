@@ -1,0 +1,77 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32F302
+    help
+        Select the device in STM32F3xx
+
+    config MODEL_STM32F301
+        bool "STM32F301"
+
+    config MODEL_STM32F302
+        bool "STM32F302"
+
+    config MODEL_STM32F303
+        bool "STM32F303"
+
+    config MODEL_STM32F318
+        bool "STM32F318"
+        
+    config MODEL_STM32F328
+        bool "STM32F328"
+
+    config MODEL_STM32F334
+        bool "STM32F334"
+        
+    config MODEL_STM32F358
+        bool "STM32F358"
+        
+    config MODEL_STM32F373
+        bool "STM32F373"
+        
+    config MODEL_STM32F378
+        bool "STM32F378"
+
+    config MODEL_STM32F398
+        bool "STM32F398"
+
+endchoice
+
+if MODEL_STM32F301
+    source "$OS_ROOT/templates/configs/st/f3/f301/Kconfig"
+endif
+
+if MODEL_STM32F302
+    source "$OS_ROOT/templates/configs/st/f3/f302/Kconfig"
+endif
+
+if MODEL_STM32F303
+    source "$OS_ROOT/templates/configs/st/f3/f303/Kconfig"
+endif
+
+if MODEL_STM32F318
+    source "$OS_ROOT/templates/configs/st/f3/f318/Kconfig"
+endif
+
+if MODEL_STM32F328
+    source "$OS_ROOT/templates/configs/st/f3/f328/Kconfig"
+endif
+
+if MODEL_STM32F334
+    source "$OS_ROOT/templates/configs/st/f3/f334/Kconfig"
+endif
+
+if MODEL_STM32F358
+    source "$OS_ROOT/templates/configs/st/f3/f358/Kconfig"
+endif
+
+if MODEL_STM32F373
+    source "$OS_ROOT/templates/configs/st/f3/f373/Kconfig"
+endif
+
+if MODEL_STM32F378
+    source "$OS_ROOT/templates/configs/st/f3/f378/Kconfig"
+endif
+
+if MODEL_STM32F398
+    source "$OS_ROOT/templates/configs/st/f3/f398/Kconfig"
+endif

@@ -1,0 +1,18 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32H755ZI
+    help
+        Select the device in STM32H755xx
+
+    config TEMP_STM32H755ZI
+        bool "STM32H755ZI"
+    
+    config TEMP_STM32H755II
+        bool "STM32H755II"
+   
+    config TEMP_STM32H755BI
+        bool "STM32H755BI"
+        
+    config TEMP_STM32H755XI
+        bool "STM32H755XI"     
+endchoice

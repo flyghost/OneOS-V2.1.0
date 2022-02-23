@@ -1,0 +1,6 @@
+menu "OTA"
+
+source "$OS_ROOT/components/ota/*/Kconfig"
+
+endmenu
+

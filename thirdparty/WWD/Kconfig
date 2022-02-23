@@ -1,0 +1,67 @@
+menu "WWD Wi-Fi framework"
+
+    config OS_USING_WWD
+        bool
+        default n
+    
+    menuconfig BSP_USING_AP6181
+            bool "ap6181"
+            select OS_USING_WLAN
+            select OS_USING_WWD
+            select OS_USING_SDIO
+            default n
+            
+            if BSP_USING_AP6181
+                config BSP_AP6181_REG_ON_PIN
+                    int "ap6181 reg on pin"
+                    default 49
+                    
+                config BSP_AP6181_IRQ_PIN
+                    int "ap6181 irq pin"
+                    default 37
+                    
+                choice
+                    prompt "ap6181 network protocol"
+                    default BSP_USING_AP6181_LWIP
+                    depends on BSP_USING_AP6181
+                    
+                        config BSP_USING_AP6181_LWIP
+                            bool "ap6181 in lwip"
+                            select OS_WLAN_LWIP
+                endchoice
+                
+                choice
+                    prompt "ap6181 mode"
+                    default BSP_USING_AP6181_STA
+                    depends on BSP_USING_AP6181
+                    
+                        config BSP_USING_AP6181_STA
+                            bool "ap6181 in sta mode"
+                            
+                        config BSP_USING_AP6181_AP
+                            bool "ap6181 in ap mode"
+                                if BSP_USING_AP6181_AP
+                                
+                                    config BSP_USING_AP6181_AP_SSID
+                                    string "ssid for ap mode"
+                                    default "ap6181"
+                                    
+                                    config BSP_USING_AP6181_AP_CHANNEL
+                                    int "cahnnel for ap mode"
+                                    default 1
+                                    
+                                    config BSP_USING_AP6181_AP_SECURITY
+                                    int "security for ap mode.  [0]:open [1]:WPA2_AES_PSK"
+                                    default 0       
+                                        if BSP_USING_AP6181_AP_SECURITY != 0
+                                            config BSP_USING_AP6181_AP_PASSWORD
+                                            string "password for ap mode"
+                                            default "123456789"
+                                        endif
+
+                                endif
+      
+                endchoice
+                
+            endif
+endmenu

@@ -1,0 +1,25 @@
+menu "CANOpen"
+    config OS_USING_CANFESTIVAL
+    select OS_USING_CAN
+    select OS_USING_DLOG
+    bool "Enable CanOpen Stack(CanFestival)"
+    default n
+    if OS_USING_CANFESTIVAL
+        config CANFESTIVAL_DEVICE_NAME
+        string "the can device name"
+        default "can1"
+        config CANFESTIVAL_DEVICE_BAUD
+        string "the can baud(bps)"
+        default "1000000"
+        config CANFESTIVAL_MAX_NODE_NUM
+        int "the max node num"
+        default 10
+        config CANFESTIVAL_SEND_DUMP_ENABLE
+        bool "enable send data print"
+        default n
+        config CANFESTIVAL_RECV_DUMP_ENABLE
+        bool "enable recv data print"
+        default n
+        source "$OS_ROOT/components/industrial/canopen/*/Kconfig"
+    endif
+endmenu

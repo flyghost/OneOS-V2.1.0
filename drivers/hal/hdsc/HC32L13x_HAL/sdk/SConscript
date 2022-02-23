@@ -1,0 +1,25 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+src = Split("""
+src/hc_sysctrl.c
+src/hc_ddl.c
+""")
+
+if IsDefined(['BSP_USING_UART']):
+    src += ['src/hc_lpuart.c']
+
+if IsDefined(['BSP_USING_ON_CHIP_FLASH']):
+    src += ['src/hc_flash.c']
+
+path = [pwd + '/inc']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal', src, depend = ['SERIES_HC32L13'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

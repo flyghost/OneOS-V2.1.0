@@ -1,0 +1,10 @@
+.config.old
+.sconsign.dblite
+__pycache__
+build
+*.o
+*.pyc
+*.log
+*cconfig.h
+oneos.bin
+oneos.map

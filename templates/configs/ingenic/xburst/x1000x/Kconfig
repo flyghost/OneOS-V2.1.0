@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_x1000e
+    help
+        Select the device in X1000X
+
+    config TEMP_x1000e
+        bool "x1000e"
+
+    config TEMP_x1000-halley2-baseboard
+        bool "x1000-halley2-baseboard"
+        
+endchoice

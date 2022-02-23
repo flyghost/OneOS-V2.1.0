@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HK32L084CBT6
+    help
+        Select the device in HK32L084
+
+    config TEMP_HK32L084CBT6
+        bool "HK32L084CBT6"
+
+    config TEMP_HK32L084RBT6
+        bool "HK32L084RBT6"
+        
+endchoice

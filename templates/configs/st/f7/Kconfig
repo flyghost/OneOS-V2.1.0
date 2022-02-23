@@ -1,0 +1,76 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32F767
+    help
+        Select the device in STM32F7xx
+
+    config MODEL_STM32F72X
+        bool "STM32F72X"
+        
+    config MODEL_STM32F73X
+        bool "STM32F73X"
+        
+    config MODEL_STM32F74X
+        bool "STM32F74X"
+
+    config MODEL_STM32F75X
+        bool "STM32F75X"
+    
+    config MODEL_STM32F765
+        bool "STM32F765"
+
+    config MODEL_STM32F767
+        bool "STM32F767"
+
+    config MODEL_STM32F769
+        bool "STM32F769"
+        
+    config MODEL_STM32F777
+        bool "STM32F777"
+        
+    config MODEL_STM32F778
+        bool "STM32F778"
+        
+    config MODEL_STM32F779
+        bool "STM32F779"
+endchoice
+
+if MODEL_STM32F72X
+    source "$OS_ROOT/templates/configs/st/f7/f72x/Kconfig"
+endif
+
+if MODEL_STM32F73X
+    source "$OS_ROOT/templates/configs/st/f7/f73x/Kconfig"
+endif
+
+if MODEL_STM32F74X
+    source "$OS_ROOT/templates/configs/st/f7/f74x/Kconfig"
+endif
+
+if MODEL_STM32F75X
+    source "$OS_ROOT/templates/configs/st/f7/f75x/Kconfig"
+endif
+
+if MODEL_STM32F765
+    source "$OS_ROOT/templates/configs/st/f7/f765/Kconfig"
+endif
+
+if MODEL_STM32F767
+    source "$OS_ROOT/templates/configs/st/f7/f767/Kconfig"
+endif
+
+if MODEL_STM32F769
+    source "$OS_ROOT/templates/configs/st/f7/f769/Kconfig"
+endif
+
+if MODEL_STM32F777
+    source "$OS_ROOT/templates/configs/st/f7/f777/Kconfig"
+endif
+
+if MODEL_STM32F778
+    source "$OS_ROOT/templates/configs/st/f7/f778/Kconfig"
+endif
+
+if MODEL_STM32F779
+    source "$OS_ROOT/templates/configs/st/f7/f779/Kconfig"
+endif

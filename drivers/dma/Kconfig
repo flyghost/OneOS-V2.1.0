@@ -1,0 +1,34 @@
+menu "DMA"
+
+    config OS_USING_DMA
+        bool "Enable DMA"
+        default n
+        
+    if OS_USING_DMA
+    
+        config OS_USING_DMA_RAM
+            bool "Enable DMA RAM"
+            default y
+        
+        config OS_USING_SOFT_DMA
+            bool "Enable soft DMA"
+            default n
+            
+            if OS_USING_SOFT_DMA
+                config OS_SOFT_DMA_SUPPORT_NORMAL_MODE
+                    bool "Soft DMA support normal mode"
+                    default y
+            
+                config OS_SOFT_DMA_SUPPORT_CIRCLE_MODE
+                    bool "Soft DMA support circle mode"
+                    default y
+            
+                config OS_SOFT_DMA_SUPPORT_SIMUL_TIMEOUT
+                    bool "Soft DMA support simul timeout"
+                    default n
+
+            endif
+        
+    endif
+        
+endmenu

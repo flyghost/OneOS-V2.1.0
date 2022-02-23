@@ -1,0 +1,19 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HK32F030RBT6
+    help
+        Select the device in HK32F030
+
+    config TEMP_HK32F030RBT6
+        bool "HK32F030RBT6"
+        
+    config TEMP_HK32F030CBT6
+        bool "HK32F030CBT6"
+        
+    config TEMP_HK32F030KBT6
+        bool "HK32F030KBT6"
+        
+    config TEMP_HK32F030FBP6
+        bool "HK32F030FBP6"
+        
+endchoice

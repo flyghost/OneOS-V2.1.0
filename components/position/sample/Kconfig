@@ -1,0 +1,5 @@
+	config ONEPOS_CMD
+	bool "onepos support command(onepos using sample)"
+	default n
+	
+

@@ -1,0 +1,18 @@
+
+if USING_HUAWEI_CLOUD_CONNECT && HUAWEI_CLOUD_PORTOCOL_MQTT
+    config HUAWEI_CLOUD_MQTT_DEMO
+        bool "Enable MQTT demo program"
+        default n
+endif
+
+if HUAWEI_CLOUD_MQTT_DEMO
+    config HUAWEI_IOT_MQTT_SERVER_ADDRESS
+        string "MQTT Server Address"
+        default "121.36.42.100"
+    config HUAWEI_IOT_MQTT_PRODUCT_ID
+        string "Config Product ID"
+        default "123456"
+    config HUAWEI_IOT_MQTT_DEVICE_ID
+        string "Config Device ID Code"
+        default "dev_0"
+endif

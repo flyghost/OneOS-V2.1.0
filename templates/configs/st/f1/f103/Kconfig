@@ -1,0 +1,79 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F103RC
+    help
+        Select the device in STM32F103xx
+
+    config TEMP_STM32F103C8
+        bool "STM32F103C8"
+        
+    config TEMP_STM32F103CB
+        bool "STM32F103CB"
+        
+    config TEMP_STM32F103R8
+        bool "STM32F103R8"
+        
+    config TEMP_STM32F103RB
+        bool "STM32F103RB"
+        
+    config TEMP_STM32F103RC
+        bool "STM32F103RC"
+        
+    config TEMP_STM32F103RD
+        bool "STM32F103RD"
+        
+    config TEMP_STM32F103RE
+        bool "STM32F103RE"
+        
+    config TEMP_STM32F103RF
+        bool "STM32F103RF"
+    
+    config TEMP_STM32F103RG
+        bool "STM32F103RG"
+    
+    config TEMP_STM32F103T8
+        bool "STM32F103T8"
+
+    config TEMP_STM32F103V8
+        bool "STM32F103V8"
+        
+    config TEMP_STM32F103VB
+        bool "STM32F103VB"  
+        
+    config TEMP_STM32F103VC
+        bool "STM32F103VC"
+    
+    config TEMP_STM32F103VD
+        bool "STM32F103VD"
+    
+    config TEMP_STM32F103VE
+        bool "STM32F103VE"  
+    
+    config TEMP_STM32F103VF
+        bool "STM32F103VF"
+
+    config TEMP_STM32F103VG
+        bool "STM32F103VG"  
+    
+    config TEMP_STM32F103ZC
+        bool "STM32F103ZC"
+        
+    config TEMP_STM32F103ZD
+        bool "STM32F103ZD"  
+    
+    config TEMP_STM32F103ZE
+        bool "STM32F103ZE"
+        
+     config TEMP_STM32F103ZF
+        bool "STM32F103ZF"  
+    
+    config TEMP_STM32F103ZG
+        bool "STM32F103ZG"
+        
+    config TEMP_stm32f103-m5310-nbiot
+        bool "stm32f103-m5310-nbiot"
+    
+    config TEMP_stm32f103zet6-atk-elite
+        bool "stm32f103zet6-atk-elite"
+        
+endchoice

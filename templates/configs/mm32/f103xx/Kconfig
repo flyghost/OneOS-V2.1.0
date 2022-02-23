@@ -1,0 +1,28 @@
+choice
+    prompt "|----MODEL"
+        default TEMP_MM32F103C8T6
+    help
+        Select the device in MM32F103XX
+
+    config TEMP_MM32F103C8T6
+        bool "MM32F103C8T6"
+
+    config TEMP_MM32F103CBT6
+        bool "MM32F103CBT6"
+
+    config TEMP_MM32F103K8T6
+        bool "MM32F103K8T6"
+
+    config TEMP_MM32F103KBT6
+        bool "MM32F103KBT6"
+
+    config TEMP_MM32F103KBU6
+        bool "MM32F103KBU6"
+
+    config TEMP_MM32F103R8T6
+        bool "MM32F103R8T6"
+
+    config TEMP_MM32F103RBT6
+        bool "MM32F103RBT6"
+
+endchoice

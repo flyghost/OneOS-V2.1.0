@@ -1,0 +1,12 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+path =  [pwd]
+src = ['system_hc32f4a0.c']
+
+group = AddCodeGroup('bsp', src, depend = ['SERIES_HC32F4A'], CPPPATH = path)
+
+Return('group')

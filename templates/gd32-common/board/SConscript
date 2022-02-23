@@ -1,0 +1,38 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+LIBS    = []
+LIBPATH = []
+
+# add general drivers
+src = Split('''
+board.c
+gd32f4xx/GD32F4xx_it.c
+gd32f4xx/system_GD32F4xx.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/ports']
+path += [pwd + '/peripheral']
+path += [pwd + '/../../../drivers/hal/gd/GD32F30x_HAL/CMSIS']
+path += [pwd + '/../../../drivers/hal/gd/GD32F30x_HAL/CMSIS/GD/GD32F30x/Include']
+path += [pwd + '/../../../drivers/hal/gd/GD32F30x_HAL/GD32F30x_standard_peripheral/Include']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_gd32f30x_cl_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_gd32f30x_cl_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_gd32f30x_cl_iar.s']
+
+CPPDEFINES = ['GD32F30X_HD']
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+if IsDefined(['PKG_USING_EASYFLASH']):
+    group = AddCodeGroup('easyflash', [pwd + '/ports/ef_port.c'], depend = ['PKG_USING_EASYFLASH'], CPPPATH = path)
+
+
+Return('group')

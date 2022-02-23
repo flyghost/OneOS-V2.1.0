@@ -1,0 +1,15 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32E103
+    help
+        Select the device in GD32F30x
+
+    config MODEL_GD32E103
+        bool "GD32E103"
+
+endchoice
+
+if MODEL_GD32E103
+    source "$OS_ROOT/templates/configs/gd/e10x/e103/Kconfig"
+endif
+

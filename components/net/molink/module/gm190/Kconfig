@@ -1,0 +1,52 @@
+
+menu "GM190 Config" 
+
+    config GM190_AUTO_CREATE
+        bool "Enable GM190 Module Object Auto Create"
+        default n
+
+    if GM190_AUTO_CREATE
+
+        config GM190_DEVICE_NAME
+            string "GM190 Interface Device Name"
+            default "uart2"
+
+        config GM190_DEVICE_RATE
+            int "GM190 Interface Device Rate"
+            default 115200
+
+        config GM190_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config GM190_USING_GENERAL_OPS
+        bool "Enable GM190 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+		
+    config GM190_USING_NETSERV_OPS
+        bool "Enable GM190 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config GM190_USING_IFCONFIG_OPS
+        bool "Enable GM190 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select GM190_USING_GENERAL_OPS
+        select GM190_USING_NETSERV_OPS
+        default y
+		
+    config GM190_USING_NETCONN_OPS
+        bool "Enable GM190 Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config GM190_USING_SOCKETS_OPS
+        bool "Enable GM190 Module BSD Socket Operates"
+        select GM190_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

@@ -1,0 +1,4 @@
+menu "Components"
+    source "$OS_ROOT/components/*/Kconfig"
+endmenu
+

@@ -1,0 +1,72 @@
+menu "Nrf52"
+
+        # config MYNEWT_VAL_BLE_PHY_SYSVIEW
+        #    int "Enable SystemView tracing module for radio driver."
+        #    default 0
+        config BLE_PHY_SYSVIEW
+            bool "Enable SystemView tracing module for radio driver."
+            default n
+        config MYNEWT_VAL_BLE_PHY_SYSVIEW
+            int 
+            default 0 if !BLE_PHY_SYSVIEW
+            default 1 if BLE_PHY_SYSVIEW
+
+		config MYNEWT_VAL_BLE_PHY_CODED_RX_IFS_EXTRA_MARGIN
+		    int "This defines additional margin for T_IFS tolerance while in RX on coded phy to allow maintaining connections with some controllers that exceed proper T_IFS (150 usecs) by more than allowed 2 usecs"
+		    default 0
+
+		    help 
+				This defines additional margin for T_IFS tolerance while in RX on coded phy to allow maintaining connections with some controllers that exceed proper T_IFS (150 usecs) by more than allowed 2 usecs. This value shall be only used for debugging purposes. It is strongly recommended to keep this settings at default value to ensure compliance with specification.
+
+		config MYNEWT_VAL_BLE_PHY_DBG_TIME_TXRXEN_READY_PIN
+		    int "When set to proper GPIO pin number, this pin will be set to high state when radio is enabled using PPI channels 20 or 21 and back to low state on radio EVENTS_READY"
+		    default -1
+
+		    help 
+				When set to proper GPIO pin number, this pin will be set to high state when radio is enabled using PPI channels 20 or 21 and back to low state on radio EVENTS_READY. This can be used to measure radio ram-up time.
+
+		config MYNEWT_VAL_BLE_PHY_DBG_TIME_ADDRESS_END_PIN
+		    int "When set to proper GPIO pin number, this pin will be set to high state on radio EVENTS_ADDRESS and back to low state on radio EVENTS_END"
+		    default -1
+
+		    help 
+				When set to proper GPIO pin number, this pin will be set to high state on radio EVENTS_ADDRESS and back to low state on radio EVENTS_END. This can be used to measure radio pipeline delays.
+
+		config MYNEWT_VAL_BLE_PHY_DBG_TIME_WFR_PIN
+		    int "When set to proper GPIO pin number, this pin will be set to high state on radio EVENTS_RXREADY and back to low state when wfr timer expires"
+		    default -1
+
+		    help 
+				When set to proper GPIO pin number, this pin will be set to high state on radio EVENTS_RXREADY and back to low state when wfr timer expires. This can be used to check if wfr is calculated properly.
+
+
+        # config MYNEWT_VAL_BLE_PHY_NRF52840_ERRATA_164
+        #    int Enable workaround for anomaly 164 found in nRF52840. '[164] RADIO: Low selectivity in long range mode' This shall be only enabled for: - nRF52840 Engineering A
+        #    default 0
+        config BLE_PHY_NRF52840_ERRATA_164
+            bool "Enable workaround for anomaly 164 found in nRF52840"
+            default n
+            help
+                Enable workaround for anomaly 164 found in nRF52840. '[164] RADIO: Low selectivity in long range mode' This shall be only enabled for: - nRF52840 Engineering A
+        config MYNEWT_VAL_BLE_PHY_NRF52840_ERRATA_164
+            int 
+            default 0 if !BLE_PHY_NRF52840_ERRATA_164
+            default 1 if BLE_PHY_NRF52840_ERRATA_164
+
+
+        # config MYNEWT_VAL_BLE_PHY_NRF52840_ERRATA_191
+        #    int Enable workaround for anomaly 191 found in nRF52840. '[191] RADIO: High packet error rate in BLE Long Range mode' This shall be only enabled for: - nRF52840 Engineering B - nRF52840 Engineering C - nRF52840 Rev 1 (final silicon)
+        #    default 1
+        config BLE_PHY_NRF52840_ERRATA_191
+            bool "Enable workaround for anomaly 191 found in nRF52840"
+            default y
+            help
+                Enable workaround for anomaly 191 found in nRF52840. '[191] RADIO: High packet error rate in BLE Long Range mode' This shall be only enabled for: - nRF52840 Engineering B - nRF52840 Engineering C - nRF52840 Rev 1 (final silicon)
+        config MYNEWT_VAL_BLE_PHY_NRF52840_ERRATA_191
+            int 
+            default 0 if !BLE_PHY_NRF52840_ERRATA_191
+            default 1 if BLE_PHY_NRF52840_ERRATA_191
+
+
+
+endmenu

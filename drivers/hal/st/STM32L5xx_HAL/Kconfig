@@ -1,0 +1,24 @@
+config SERIES_STM32L5
+    bool
+    default n
+
+config SOC_STM32L562E_DK
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32L5
+    select ARCH_ARM_CORTEX_M33
+    default n
+
+config SOC_STM32L562E_DK_TZ
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32L5
+    select ARCH_ARM_CORTEX_M33_TZ
+    default n
+
+config SOC_STM32L562xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32L5
+    select ARCH_ARM_CORTEX_M33
+    default n

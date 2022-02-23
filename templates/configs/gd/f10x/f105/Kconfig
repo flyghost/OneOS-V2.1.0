@@ -1,0 +1,67 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F105VC
+    help
+        Select the device in GD32F105xx
+
+
+    config TEMP_GD32F105R8
+        bool "GD32F105R8"
+
+    config TEMP_GD32F105RB
+        bool "GD32F105RB"
+
+    config TEMP_GD32F105RC
+        bool "GD32F105RC"
+
+    config TEMP_GD32F105RD
+        bool "GD32F105RD"
+
+    config TEMP_GD32F105RE
+        bool "GD32F105RE"
+
+    config TEMP_GD32F105RF
+        bool "GD32F105RF"
+
+    config TEMP_GD32F105RG
+        bool "GD32F105RG"
+
+    config TEMP_GD32F105V8
+        bool "GD32F105V8"
+
+    config TEMP_GD32F105VB
+        bool "GD32F105VB"
+
+    config TEMP_GD32F105VC
+        bool "GD32F105VC"
+
+    config TEMP_GD32F105VD
+        bool "GD32F105VD"
+
+    config TEMP_GD32F105VE
+        bool "GD32F105VE"
+
+    config TEMP_GD32F105VF
+        bool "GD32F105VF"
+
+    config TEMP_GD32F105VG
+        bool "GD32F105VG"
+
+    config TEMP_GD32F105ZC
+        bool "GD32F105ZC"
+
+    config TEMP_GD32F105ZD
+        bool "GD32F105ZD"
+
+    config TEMP_GD32F105ZE
+        bool "GD32F105ZE"
+
+    config TEMP_GD32F105ZF
+        bool "GD32F105ZF"
+
+    config TEMP_GD32F105ZG
+        bool "GD32F105ZG"
+
+
+endchoice
+

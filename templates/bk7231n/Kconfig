@@ -1,0 +1,12 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=beken
+
+config BOARD_BK7231N
+    bool
+    select SOC_ARM9_BK7231N
+    default y  
+    
+source "$OS_ROOT/Kconfig"

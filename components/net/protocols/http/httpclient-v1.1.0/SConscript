@@ -1,0 +1,37 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+CPPPATH=[]
+CPPDEFINES=[]
+
+src = Split('''
+src/http_application_api.c
+src/http_client.c
+src/http_form_data.c
+oneos/http_oneos_wrapper.c
+''')
+
+CPPPATH += [pwd + '/include']
+
+LOCAL_CCFLAGS = ''
+
+if osconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --gnu'
+
+group = AddCodeGroup('httpclient', src, depend = ['NET_USING_HTTPCLIENT'], CPPPATH = CPPPATH, LOCAL_CCFLAGS = LOCAL_CCFLAGS, CPPDEFINES = CPPDEFINES)
+
+http_sample_src = Split('''
+oneos/sample/http_sample_test.c
+''')
+
+group = group + AddCodeGroup('httpclient-sample', http_sample_src, depend = ['HTTPCLIENT_USING_SAMPLE','NET_USING_HTTPCLIENT'], CPPPATH = CPPPATH)
+
+getfile_src = Split('''
+oneos/sample/http_client_get_file.c
+''')
+group = group + AddCodeGroup('httpclient-getfile', getfile_src, depend = ['HTTPCLIENT_USING_GETFILE', 'NET_USING_HTTPCLIENT'], CPPPATH = CPPPATH)
+
+
+Return('group')

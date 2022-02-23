@@ -1,0 +1,58 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = Split('''
+HK32F39A_lib/src/hk32f39a_adc.c
+HK32F39A_lib/src/hk32f39a_bkp.c
+HK32F39A_lib/src/hk32f39a_cache.c
+HK32F39A_lib/src/hk32f39a_can.c
+HK32F39A_lib/src/hk32f39a_coalu.c
+HK32F39A_lib/src/hk32f39a_comp.c
+HK32F39A_lib/src/hk32f39a_cortex.c
+HK32F39A_lib/src/hk32f39a_crc.c
+HK32F39A_lib/src/hk32f39a_dac.c
+HK32F39A_lib/src/hk32f39a_dbgmcu.c
+HK32F39A_lib/src/hk32f39a_dcmi.c
+HK32F39A_lib/src/hk32f39a_dcmi_ex.c
+HK32F39A_lib/src/hk32f39a_exti.c
+HK32F39A_lib/src/hk32f39a_flash.c
+HK32F39A_lib/src/hk32f39a_fsmc.c
+HK32F39A_lib/src/hk32f39a_gpio.c
+HK32F39A_lib/src/hk32f39a_hal_cryp.c
+HK32F39A_lib/src/hk32f39a_hal_cryp_ex.c
+HK32F39A_lib/src/hk32f39a_hal_dma.c
+HK32F39A_lib/src/hk32f39a_hal_hash.c
+HK32F39A_lib/src/hk32f39a_hal_nand.c
+HK32F39A_lib/src/hk32f39a_hal_nor.c
+HK32F39A_lib/src/hk32f39a_hal_qspi.c
+HK32F39A_lib/src/hk32f39a_hal_rng.c
+HK32F39A_lib/src/hk32f39a_hal_sram.c
+HK32F39A_lib/src/hk32f39a_i2c.c
+HK32F39A_lib/src/hk32f39a_iwdg.c
+HK32F39A_lib/src/hk32f39a_pwr.c
+HK32F39A_lib/src/hk32f39a_rcc.c
+HK32F39A_lib/src/hk32f39a_rtc.c
+HK32F39A_lib/src/hk32f39a_sai.c
+HK32F39A_lib/src/hk32f39a_sai_ex.c
+HK32F39A_lib/src/hk32f39a_sdio.c
+HK32F39A_lib/src/hk32f39a_spi.c
+HK32F39A_lib/src/hk32f39a_tft.c
+HK32F39A_lib/src/hk32f39a_tim.c
+HK32F39A_lib/src/hk32f39a_usart.c
+HK32F39A_lib/src/hk32f39a_wwdg.c
+''')
+
+path = [pwd + '/HK32F39A_lib/inc',
+    pwd + '/CMSIS/HK32F39A/Include',
+    pwd + '/CMSIS/CM3/Core']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_HK32F3'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')
+

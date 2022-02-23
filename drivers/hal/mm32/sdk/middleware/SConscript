@@ -1,0 +1,18 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+path =  [pwd]
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['OS_USING_SDIO_SD']):
+    src += ['sdmmc/sd/sdio_sdcard.c']
+    
+path += [pwd + '/sdmmc/sd']
+
+group = AddCodeGroup('hal/lowlevel', src, depend = ['MANUFACTOR_MM32'], CPPPATH = path)
+
+Return('group')

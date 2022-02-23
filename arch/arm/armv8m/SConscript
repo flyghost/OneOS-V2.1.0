@@ -1,0 +1,23 @@
+import os
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+src  = []
+group = []
+path = [pwd + '/include']
+
+if IsDefined(['ARCH_ARM_CORTEX_M33']) == False and IsDefined(['ARCH_ARM_CORTEX_M33_TZ']) == False:
+    Return('group')
+
+src += Glob('*.c')
+
+group = AddCodeGroup('arch', src, depend = [''], CPPPATH = path)
+
+list = os.listdir(pwd)
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        group = group + SConscript(os.path.join(d, 'SConscript'))
+
+Return('group')

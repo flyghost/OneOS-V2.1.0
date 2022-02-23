@@ -1,0 +1,97 @@
+menu "Touch"
+    config OS_USING_TOUCH
+    bool "Using Touch device drivers"
+    default n
+
+    if OS_USING_TOUCH
+        config OS_TOUCH_X_REVERSE
+            bool "x coordinate reverse"
+            default n
+
+        config OS_TOUCH_Y_REVERSE
+            bool "y coordinate reverse"
+            default n
+
+        config OS_TOUCH_XY_SWAP
+            bool "xy coordinate swap"
+            default n
+
+        if 0
+            menuconfig OS_USING_GT9147
+                bool "Enable gt9147"
+                select OS_USING_I2C
+                select BSP_USING_I2C
+                default n
+
+                if OS_USING_GT9147
+                    config OS_GT9147_I2C_BUS_NAME
+                        string "gt9147 i2c bus name"
+                        default "i2c1"
+
+                    config OS_GT9147_I2C_ADDR_HIGH
+                        hex "gt9147 i2c addr high(7bit)"
+                        default 0x5d
+
+                    config OS_GT9147_I2C_ADDR_LOW
+                        hex "gt9147 i2c addr low"
+                        default 0x14
+
+                    config OS_GT9147_RST_PIN
+                        int "gt9147 rst pin"
+                        default 61
+
+                    config OS_GT9147_IRQ_PIN
+                        int "gt9147 irq pin"
+                        default 63
+                endif
+        endif
+
+        menuconfig OS_USING_FT6X06
+            bool "Enable ft6x06"
+            select OS_USING_I2C
+            select BSP_USING_I2C
+            default n
+
+            if OS_USING_FT6X06
+                config OS_FT6X060_I2C_BUS_NAME
+                    string "ft6x06 i2c bus name"
+                    default "i2c2"
+
+                config OS_FT6X06_I2C_ADDR
+                    hex "ft6x06 i2c addr(7bit)"
+                    default 0x2a
+            endif
+
+        menuconfig OS_USING_STMPE811
+            bool "Enable stmpe811"
+            select OS_USING_I2C
+            select BSP_USING_I2C
+            default n
+
+            if OS_USING_STMPE811
+                config OS_STMPE811_I2C_BUS_NAME
+                    string "stmpe811 i2c bus name"
+                    default "i2c3"
+
+                config OS_STMPE811_I2C_ADDR
+                    hex "stmpe811 i2c addr(7bit)"
+                    default 0x41
+            endif
+			
+        menuconfig OS_USING_FT5406
+            bool "Enable ft5406"
+            select OS_USING_I2C
+            select BSP_USING_I2C
+            default n
+
+            if OS_USING_FT5406
+                config OS_FT5406_I2C_BUS_NAME
+                    string "ft5406 i2c bus name"
+                    default "soft_i2c1"
+
+                config OS_FT5406_I2C_ADDR
+                    hex "ft5406 i2c addr(7bit)"
+                    default 0x38
+            endif
+    endif
+endmenu

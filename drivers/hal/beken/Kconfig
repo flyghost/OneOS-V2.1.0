@@ -1,0 +1,8 @@
+config SOC_FAMILY_BK72XX
+    bool
+    default n
+
+source "$OS_ROOT/drivers/hal/beken/beken72XX_HAL/Kconfig"
+source "$OS_ROOT/drivers/hal/beken/drivers/Kconfig"
+
+#comment "Configure base hal in beken"

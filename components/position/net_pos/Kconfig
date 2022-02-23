@@ -1,0 +1,14 @@
+menu "network positon"
+	
+	config ONEPOS_USING_NET_POS
+	select ONEPOS_USING_PROT
+	select PKG_USING_CJSON
+	bool "enable network positon"
+	default n
+	
+	if ONEPOS_USING_NET_POS
+		source "$OS_ROOT/components/position/net_pos/*/Kconfig"
+	endif
+	
+endmenu
+

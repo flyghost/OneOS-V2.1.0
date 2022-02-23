@@ -1,0 +1,68 @@
+menu "ESP32 Config"
+
+    config ESP32_AUTO_CREATE
+        bool "Enable ESP32 Module Object Auto Create"
+        default n
+
+    if ESP32_AUTO_CREATE
+
+        config ESP32_DEVICE_NAME
+            string "ESP32 Interface Device Name"
+            default "uart2"
+
+        config ESP32_DEVICE_RATE
+            int "ESP32 Interface Device Rate"
+            default 115200
+
+        config ESP32_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 2048
+
+        config ESP32_AUTO_CONNECT_AP
+            bool "Enable ESP32 Module Auto Connect"
+            select ESP32_USING_WIFI_OPS
+            default y
+    endif
+
+    config ESP32_CONNECT_SSID
+        string "ESP32 Connect AP SSID"
+        default "ssid"
+
+    config ESP32_CONNECT_PASSWORD
+        string "ESP32 Connect AP Password"
+        default "password"
+
+    config ESP32_USING_GENERAL_OPS
+        bool "Enable ESP32 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config ESP32_USING_WIFI_OPS
+        bool "Enable ESP32 Module WiFi Operates"
+        select MOLINK_USING_WIFI_OPS
+        default y
+
+    config ESP32_USING_PING_OPS
+        bool "Enable ESP32 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config ESP32_USING_IFCONFIG_OPS
+        bool "Enable ESP32 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select ESP32_USING_WIFI_OPS
+        default y
+
+    config ESP32_USING_NETCONN_OPS
+        bool "Enable ESP32 Module Network TCP/IP Operates"
+        select OS_USING_EVENT
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config ESP32_USING_SOCKETS_OPS
+        bool "Enable ESP32 Module BSD Socket Operates"
+        select ESP32_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

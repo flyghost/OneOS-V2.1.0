@@ -1,0 +1,6 @@
+config SOC_ARM9_BK7231N
+    bool
+    select ARCH_ARM_ARM968
+	select SOC_FAMILY_BK72XX
+    default n
+

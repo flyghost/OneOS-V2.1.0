@@ -1,0 +1,12 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=gd32v
+
+config BOARD_LONGAN_NANO
+    bool
+    select SOC_GD32VF103CBT6
+    default y
+    
+source "$OS_ROOT/Kconfig"

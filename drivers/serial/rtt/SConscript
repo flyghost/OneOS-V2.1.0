@@ -1,0 +1,7 @@
+from build_tools import *
+
+pwd     = PresentDir()
+src	= Glob('*.c')
+group = AddCodeGroup('rtt', src, depend = ['OS_USING_RTT'], CPPPATH = [pwd])
+
+Return('group')

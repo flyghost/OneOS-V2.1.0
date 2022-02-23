@@ -1,0 +1,10 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32L151RC
+    help
+        Select the device in STM32L151xx
+
+    config TEMP_STM32L151RC
+        bool "STM32L151RC"
+
+endchoice

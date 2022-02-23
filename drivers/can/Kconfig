@@ -1,0 +1,5 @@
+menu "CAN"
+    config OS_USING_CAN
+        bool "Using CAN drivers"
+        default n
+endmenu

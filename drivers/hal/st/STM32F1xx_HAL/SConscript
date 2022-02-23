@@ -1,0 +1,98 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+src = Split("""
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_crc.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cec.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c
+STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c
+""")
+
+if IsDefined(['OS_USING_PIN']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c']
+    
+if IsDefined(['HAL_UART_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_usart.c']
+
+if IsDefined(['HAL_I2C_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c']
+    
+if IsDefined(['HAL_SPI_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_spi.c']
+
+if IsDefined(['HAL_HCD_MODULE_ENABLED']) or IsDefined(['HAL_PCD_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pcd_ex.c'] 
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_usb.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_hcd.c']
+
+if IsDefined(['HAL_CAN_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_can.c']
+
+if IsDefined(['HAL_TIM_MODULE_ENABLED']) or IsDefined(['OS_USING_PWM']) or IsDefined(['OS_USING_PULSE_ENCODER']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c']
+
+if IsDefined(['HAL_ETH_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_eth.c']
+
+if IsDefined(['HAL_ADC_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.c']
+    
+if IsDefined(['HAL_DAC_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dac.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dac_ex.c']
+
+if IsDefined(['HAL_RTC_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.c']
+
+if IsDefined(['HAL_IWDG_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_iwdg.c']
+
+if IsDefined(['HAL_WWDG_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_wwdg.c']
+
+if IsDefined(['HAL_SD_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_sdmmc.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_sd.c']
+
+if IsDefined(['HAL_SAI_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2s.c']
+
+if IsDefined(['HAL_NOR_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_nor.c']
+
+if IsDefined(['HAL_NAND_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_nand.c']
+
+if IsDefined(['HAL_SRAM_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_fsmc.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_sram.c']
+
+if IsDefined(['HAL_FLASH_MODULE_ENABLED']):
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c']
+    src += ['STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c']
+
+path = [pwd + '/CMSIS/Device/ST/STM32F1xx/Include',
+    pwd + '/STM32F1xx_HAL_Driver/Inc',
+    pwd + '/CMSIS/Include']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_STM32F1'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

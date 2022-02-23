@@ -1,0 +1,26 @@
+config ARCH_ARM_ASM_GNUC
+    bool
+    default n
+    
+config SERIES_NXP
+    bool
+    default n
+    
+config SERIES_NXP_LPC5500
+    bool
+    select SERIES_NXP
+    select ARCH_ARM_CORTEX_M33
+    select ARCH_ARM_ASM_GNUC
+    default n
+
+config SERIES_NXP_IMXRT10XX
+    bool
+    select SERIES_NXP
+    default n
+
+config SERIES_NXP_KK
+    bool
+    select SERIES_NXP
+    default n
+
+source "$OS_ROOT/drivers/hal/nxp/*/Kconfig"

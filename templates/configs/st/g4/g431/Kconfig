@@ -1,0 +1,31 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32G431CB
+    help
+        Select the device in STM32G431xx
+
+    config TEMP_STM32G431C8
+        bool "STM32G431C8"
+
+    config TEMP_STM32G431CB
+        bool "STM32G431CB"
+    
+    config TEMP_STM32G431M8
+        bool "STM32G431M8"
+
+    config TEMP_STM32G431MB
+        bool "STM32G431MB"
+
+    config TEMP_STM32G431R8
+        bool "STM32G431R8"
+
+    config TEMP_STM32G431RB
+        bool "STM32G431RB"
+
+    config TEMP_STM32G431V8
+        bool "STM32G431V8"
+
+    config TEMP_STM32G431VB
+        bool "STM32G431VB"
+
+endchoice

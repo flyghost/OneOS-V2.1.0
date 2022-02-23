@@ -1,0 +1,153 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['OS_USING_PIN', 'HAL_GPIO_MODULE_ENABLED']):
+    src += ['drv_gpio.c']
+
+if IsDefined(['PKG_USING_EASYFLASH']):
+    src += ['drv_easyflash.c']
+
+if IsDefined(['OS_USING_SERIAL', 'HAL_UART_MODULE_ENABLED']):
+    src += ['drv_usart.c']
+
+if IsDefined(['OS_USING_SERIAL', 'HAL_OPENAMP_MODULE_ENABLED']):
+    src += ['drv_vuart.c']
+    
+if IsDefined(['OS_USING_TIMER_DRIVER', 'HAL_TIM_MODULE_ENABLED']):
+    src += ['drv_hwtimer.c']
+    
+if IsDefined(['OS_USING_PWM']):
+    src += ['drv_pwm.c']
+
+if IsDefined(['OS_USING_PULSE_ENCODER']):
+    src += ['drv_pulse_encoder.c']
+
+if IsDefined(['OS_USING_SPI', 'HAL_SPI_MODULE_ENABLED']):
+    src += ['drv_spi.c']
+    
+if IsDefined(['OS_USING_I2C', 'HAL_I2C_MODULE_ENABLED']):
+    src += ['drv_i2c.c']
+
+if IsDefined(['OS_USING_QSPI', 'HAL_QSPI_MODULE_ENABLED']):
+    src += ['drv_qspi.c']
+
+if IsDefined(['NET_USING_LWIP', 'HAL_ETH_MODULE_ENABLED']):
+    if IsDefined(['SERIES_STM32H7']):
+        src += ['drv_eth_h7.c']
+    else:
+        src += ['drv_eth.c']
+
+if IsDefined(['OS_USING_ADC', 'HAL_ADC_MODULE_ENABLED']):
+    src += Glob('drv_adc.c')
+    
+if IsDefined(['OS_USING_DAC', 'HAL_DAC_MODULE_ENABLED']):
+    src += Glob('drv_dac.c')
+
+if IsDefined(['OS_USING_CAN', 'HAL_CAN_MODULE_ENABLED']):
+    src += ['drv_can.c']
+
+if IsDefined(['OS_USING_CLOCKEVENT', 'HAL_LPTIM_MODULE_ENABLED']):
+    src += ['drv_lptim.c']
+    
+if IsDefined(['OS_USING_TICKLESS_LPMGR']):
+    src += ['drv_lpmgr.c']
+    
+if IsDefined(['OS_USING_SIMPLE_LPM']):
+    src += ['drv_lpm.c']
+    
+if IsDefined(['HAL_SDRAM_MODULE_ENABLED']):
+    src += ['drv_sdram.c']
+
+if IsDefined(['OS_USING_RTC', 'HAL_RTC_MODULE_ENABLED']):
+    src += ['drv_rtc.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32F0']):
+    src += ['flash/drv_flash_f0.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32F1']):
+    src += ['flash/drv_flash_f1.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32F2']):
+    src += ['flash/drv_flash_f2.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32F3']):
+    src += ['flash/drv_flash_f3.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32F4']):
+    src += ['flash/drv_flash_f4.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32F7']):
+    src += ['flash/drv_flash_f7.c']
+    
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32H7']):
+    src += ['flash/drv_flash_h7.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32L0']):
+    src += ['flash/drv_flash_l0.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32L1']):
+    src += ['flash/drv_flash_l1.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32L4']):
+    src += ['flash/drv_flash_l4.c']
+
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32G0']):
+    src += ['flash/drv_flash_g0.c']
+    
+if IsDefined(['OS_USING_FAL', 'HAL_FLASH_MODULE_ENABLED', 'SERIES_STM32L5']):
+    src += ['flash/drv_flash_l5.c']
+    
+if IsDefined(['OS_HWCRYPTO_USING_RNG', 'HAL_RNG_MODULE_ENABLED']):
+    src += ['drv_crypto_rng.c']
+
+if IsDefined(['OS_HWCRYPTO_USING_CRC', 'HAL_CRC_MODULE_ENABLED']):
+    src += ['drv_crypto_crc.c']
+    
+if IsDefined(['OS_USING_WDG', 'HAL_IWDG_MODULE_ENABLED']):
+    src += ['drv_iwdg.c']
+
+if IsDefined(['OS_USING_WDG', 'HAL_WWDG_MODULE_ENABLED']):
+    src += ['drv_wwdg.c']
+    
+if IsDefined(['OS_USING_SDIO', 'HAL_SD_MODULE_ENABLED']) or IsDefined(['OS_USING_SDIO', 'HAL_MMC_MODULE_ENABLED']):
+    src += ['drv_sdio.c']
+
+if IsDefined(['OS_USING_USB_DEVICE', 'HAL_PCD_MODULE_ENABLED']):
+    src += ['drv_usbd.c']
+    
+if IsDefined(['OS_USING_USB_HOST', 'HAL_HCD_MODULE_ENABLED']):
+    src += ['drv_usbh.c']
+
+if IsDefined(['HAL_SRAM_MODULE_ENABLED']):
+    src += ['drv_sram.c']
+
+if IsDefined(['OS_USING_DSI', 'HAL_DSI_MODULE_ENABLED']):
+    src += ['drv_dsi.c']
+    
+if IsDefined(['OS_USING_GRAPHIC', 'HAL_LTDC_MODULE_ENABLED']):
+    src += ['drv_lcd.c']
+
+if IsDefined(['OS_USING_SAI', 'HAL_SAI_MODULE_ENABLED']):
+    src += ['drv_sai.c']
+
+if IsDefined(['OS_USING_NAND', 'HAL_NAND_MODULE_ENABLED']):
+    src += ['drv_nand.c']
+
+if IsDefined(['OS_USING_I2S', 'HAL_I2S_MODULE_ENABLED']):
+    src += ['drv_i2s.c']
+
+src += ['drv_common.c']
+
+path =  [pwd]
+path += [pwd + '/config']
+    
+group = AddCodeGroup('hal/drivers', src, depend = ['MANUFACTOR_STM32'], CPPPATH = path)
+
+Return('group')

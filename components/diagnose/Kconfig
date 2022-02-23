@@ -1,0 +1,26 @@
+menu "Diagnose"
+	config STACK_TRACE_EN
+		bool "Stack back trace enable"
+		default n
+
+	if STACK_TRACE_EN
+		config EXC_DUMP_STACK
+			bool "back trace dump stack"
+			default n
+		config TASK_STACK_OVERFLOW_STACK_SIZE
+			int "The stack overflow back trace size"
+			default 256	
+			
+		config CALL_BACK_TRACE_MAX_DEPTH
+			int "The stack back trace max depth"
+			default 10				
+	endif
+
+    config OS_USING_WIRESHARK_DUMP
+        bool "Enable wireshark dump"
+        default n
+
+	menu "eCoreDump"
+	source "$OS_ROOT/components/diagnose/eCoreDump/Kconfig"
+	endmenu
+endmenu

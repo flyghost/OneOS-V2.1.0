@@ -1,0 +1,58 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32f746-st-nucleo
+    help
+        Select the device in STM32F74x
+
+    config TEMP_stm32f746-st-nucleo
+        bool "stm32f746-st-nucleo"
+    
+    config TEMP_STM32F745IE
+        bool "STM32F745IE"
+
+    config TEMP_STM32F745IG
+        bool "STM32F745IG"
+
+    config TEMP_STM32F745VE
+        bool "STM32F745VE"
+
+    config TEMP_STM32F745VG
+        bool "STM32F745VG"
+
+    config TEMP_STM32F745ZE
+        bool "STM32F745ZE"
+
+    config TEMP_STM32F745ZG
+        bool "STM32F745ZG"
+
+    config TEMP_STM32F746BE
+        bool "STM32F746BE"
+
+    config TEMP_STM32F746BG
+        bool "STM32F746BG"
+
+    config TEMP_STM32F746IE
+        bool "STM32F746IE"
+
+    config TEMP_STM32F746IG
+        bool "STM32F746IG"
+
+    config TEMP_STM32F746NE
+        bool "STM32F746NE"
+
+    config TEMP_STM32F746NG
+        bool "STM32F746NG"
+
+    config TEMP_STM32F746VE
+        bool "STM32F746VE"
+
+    config TEMP_STM32F746VG
+        bool "STM32F746VG"
+
+    config TEMP_STM32F746ZE
+        bool "STM32F746ZE"
+
+    config TEMP_STM32F746ZG
+        bool "STM32F746ZG"
+    
+endchoice

@@ -1,0 +1,53 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+CubeMX_Config/Src/bsp.c
+CubeMX_Config/Src/stm32l4xx_it_bsp.c
+CubeMX_Config/Src/stm32l4xx_hal_msp.c
+CubeMX_Config/Src/system_stm32l4xx.c
+''')
+
+if IsDefined(['BSP_USING_QSPI_FLASH']):
+    src += Glob('ports/drv_qspi_flash.c')
+	
+if IsDefined(['PKG_USING_FAL']):
+    src += Glob('ports/fal/fal_flash_sfud_port.c')
+
+if IsDefined(['PKG_USING_FAL']):
+    src += Glob('ports/fal/fal_flash_stm32f0_port.c')
+
+if IsDefined('BSP_USING_SPI_LCD'):
+    src = src + ['ports/drv_lcd.c']
+
+if IsDefined(['BSP_USING_SDCARD']):
+    src += Glob('ports/sdcard_port.c')
+
+if IsDefined(['BSP_USING_ICM20608']) or IsDefined(['BSP_USING_AHT10']):
+    src += Glob('ports/sensor/sensor_port.c')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/CubeMX_Config/Inc']
+path += [pwd + '/ports']
+path += [pwd + '/ports/fal']
+
+if IsDefined(['BSP_USING_AUDIO']):
+    path += [pwd + '/ports/audio']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_stm32l4r5xx_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_stm32l4r5xx_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_stm32l4r5xx_iar.s']
+
+CPPDEFINES = ['STM32L4R5xx'] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

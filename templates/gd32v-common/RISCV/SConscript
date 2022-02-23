@@ -1,0 +1,24 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+
+src = []
+
+
+src += ['env_Eclipse/start.S']
+src += ['env_Eclipse/entry.S']
+src += ['env_Eclipse/handlers.c']
+src += ['env_Eclipse/init.c']
+src += ['drivers/n200_func.c']
+
+path = [pwd + '/drivers',
+    pwd + '/env_Eclipse',
+    pwd + '/stubs']
+
+CPPDEFINES = ['']
+
+group = AddCodeGroup('bsp', src, depend = ['SOC_SERIES_GD32VF1XX'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

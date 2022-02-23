@@ -1,0 +1,26 @@
+config SERIES_GD32F30X
+    bool
+    select ARCH_ARM_CORTEX_M4
+    default n
+
+config SOC_GD32F303RCT6
+    bool
+    select SERIES_GD32F30X
+    default n
+
+config SOC_GD32F30X_CL
+    bool
+    select SERIES_GD32F30X
+    default n
+    
+config SOC_GD32F30X_HD
+    bool
+    select SERIES_GD32F30X
+    default n
+    
+config SOC_GD32F30X_XD
+    bool
+    select SERIES_GD32F30X
+    default n
+    
+    

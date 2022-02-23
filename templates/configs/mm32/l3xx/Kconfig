@@ -1,0 +1,19 @@
+choice
+    prompt "|----MODEL"
+        default TEMP_MM32L373PF
+    help
+        Select the device in MM32L3XX
+
+    config TEMP_MM32L362PF
+        bool "MM32L362PF"
+        
+    config TEMP_MM32L362NT
+        bool "MM32L362NT"
+        
+    config TEMP_MM32L373PF
+        bool "MM32L373PF"
+        
+    config TEMP_MM32L373PS
+        bool "MM32L373PS"
+        
+endchoice

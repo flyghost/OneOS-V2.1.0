@@ -1,0 +1,54 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+LIBS    = []
+LIBPATH = []
+
+# add general drivers
+src = Split('''
+internal/bus_protocols/SDIO/wwd_bus_protocol_l475.c
+internal/bus_protocols/wwd_bus_common.c
+internal/chips/43362/wwd_chip_specific_functions.c
+internal/wwd_internal.c
+internal/wwd_sdpcm.c
+internal/wwd_thread_internal.c
+internal/wwd_thread.c
+internal/wwd_management.c
+internal/chips/43362/wwd_ap.c
+internal/wwd_ap_common.c
+internal/wwd_wifi.c
+network/wwd_buffer.c
+RTOS/noos.c
+RTOS/wwd_rtos.c
+utilities/tlv.c
+platform/platform_resource.c
+platform/wwd_resources.c
+sdio_driver/43362A2_bin.c
+sdio_driver/wlan_bus_sdio_l475.c
+''')
+
+# path   include path in project
+path =  [pwd]
+
+path += [pwd + '/include']
+path += [pwd + '/internal/bus_protocols/SDIO']
+path += [pwd + '/internal']
+path += [pwd + '/net']
+path += [pwd + '/internal/chips/43362']
+path += [pwd + '/include/RTOS']
+path += [pwd + '/canned_send']
+path += [pwd + '/network']
+path += [pwd + '/platform']
+path += [pwd + '/RTOS']
+path += [pwd + '/sdio_driver']
+path += [pwd + '/utilities']
+path += [pwd + '/include/debug']
+path += [pwd + '/include/network']
+path += [pwd + '/include/platform']
+path += [pwd + '/include/WICED']
+
+group = AddCodeGroup('wwd', src, depend = ['OS_USING_WWD'], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,52 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F403RC
+    help
+        Select the device in GD32F403xx
+
+    config TEMP_GD32F403RC
+        bool "GD32F403RC"
+    
+    config TEMP_GD32F403RE
+        bool "GD32F403RE"
+        
+    config TEMP_GD32F403RG
+        bool "GD32F403RG"
+    
+    config TEMP_GD32F403RI
+        bool "GD32F403RI"
+    
+    config TEMP_GD32F403RK
+        bool "GD32F403RK"
+    
+    config TEMP_GD32F403VC
+        bool "GD32F403VC"
+    
+    config TEMP_GD32F403VE
+        bool "GD32F403VE"
+    
+    config TEMP_GD32F403VG
+        bool "GD32F403VG"
+        
+    config TEMP_GD32F403VI
+        bool "GD32F403VI"
+        
+    config TEMP_GD32F403VK
+        bool "GD32F403VK"
+    
+    config TEMP_GD32F403ZC
+        bool "GD32F403ZC"
+    
+    config TEMP_GD32F403ZE
+        bool "GD32F403ZE"
+    
+    config TEMP_GD32F403ZG
+        bool "GD32F403ZG"
+        
+    config TEMP_GD32F403ZI
+        bool "GD32F403ZI"
+        
+    config TEMP_GD32F403ZK
+        bool "GD32F403ZK"
+
+endchoice

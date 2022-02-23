@@ -1,0 +1,12 @@
+Import('OS_ROOT')
+from build_tools import *
+
+if IsDefined('OS_USING_ONENET_MQTTS'):
+    src = Glob('*.c')
+
+# The set of source files associated with this SConscript file.
+path = [PresentDir() ]
+
+group = AddCodeGroup('onenet', src, depend = ['OS_USING_ONENET_MQTTS'], CPPPATH = path)
+
+Return('group')

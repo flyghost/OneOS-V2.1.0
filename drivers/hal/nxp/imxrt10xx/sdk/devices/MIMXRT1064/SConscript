@@ -1,0 +1,100 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+path = [pwd]
+src = Split(
+'''
+system_MIMXRT1064.c
+drivers/fsl_common.c
+drivers/fsl_clock.c
+drivers/fsl_cache.c
+drivers/fsl_flexspi.c
+drivers/fsl_ocotp.c
+drivers/fsl_xbara.c
+''')
+
+if IsDefined(['BSP_USING_GPIO']):
+    src += ['drivers/fsl_gpio.c']
+
+if IsDefined(['BSP_USING_LPUART']):
+    src += ['drivers/fsl_lpuart.c']
+
+if IsDefined(['BSP_USING_LPI2C']):
+    src += ['drivers/fsl_lpi2c.c']
+
+if IsDefined(['BSP_USING_LPSPI']):
+    src += ['drivers/fsl_lpspi.c']
+
+if IsDefined(['BSP_USING_GPT']) or IsDefined(['BSP_USING_PWM']):
+    src += ['drivers/fsl_gpt.c']
+
+if IsDefined(['BSP_USING_PWM']):
+    src += ['drivers/fsl_pwm.c']
+
+if IsDefined(['BSP_USING_RTC']):
+    src += ['drivers/fsl_snvs_hp.c']
+    
+if IsDefined(['BSP_USING_RTC_LP']):
+    src += ['drivers/fsl_snvs_lp.c']
+
+if IsDefined(['BSP_USING_WDOG']):
+    src += ['drivers/fsl_wdog.c']
+
+if IsDefined(['BSP_USING_RTWDOG']):
+    src += ['drivers/fsl_rtwdog.c']
+
+if IsDefined(['BSP_USING_ADC']):
+    src += ['drivers/fsl_adc.c']
+    
+if IsDefined(['BSP_USING_ADC_ETC']):
+    src += ['drivers/fsl_adc_etc.c']
+
+if IsDefined(['BSP_USING_SDRAM']):
+    src += ['drivers/fsl_semc.c']
+
+if IsDefined(['BSP_USING_LCD']):
+    src += ['drivers/fsl_elcdif.c']
+
+if IsDefined(['BSP_USING_CAN']):
+    src += ['drivers/fsl_flexcan.c']
+
+if IsDefined(['BSP_USING_ETH']):
+    src += ['drivers/fsl_enet.c']
+
+if IsDefined(['BSP_USING_SDIO']):
+    src += ['drivers/fsl_usdhc.c']
+
+if IsDefined(['OS_USING_SAI']):
+    src += ['drivers/fsl_sai.c']
+
+if IsDefined(['BSP_USING_LTDC']):
+    src += ['drivers/']
+
+if IsDefined(['BSP_USING_DMA']):
+    src += ['drivers/fsl_dmamux.c']
+    src += ['drivers/fsl_edma.c']
+    
+    #if IsDefined(['BSP_USING_LPSPI']):
+    #    src += ['drivers/fsl_lpspi_edma.c']
+        
+    if IsDefined(['BSP_USING_LPUART']):
+        src += ['drivers/fsl_lpuart_edma.c']
+
+    if IsDefined(['BSP_USING_SAI']):
+        src += ['drivers/fsl_sai_edma.c']
+    
+if IsDefined(['BSP_USING_TRNG']):
+    src += ['drivers/fsl_trng.c']
+
+if IsDefined(['BSP_USING_NOR_FLASH']):
+    src += ['drivers/fsl_romapi.c']
+    
+path += ['cmsis_drivers']
+path += ['drivers']
+#path += ['xip']
+
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SOC_IMXRT1064'], CPPPATH = path)
+
+Return('group')

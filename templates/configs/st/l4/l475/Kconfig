@@ -1,0 +1,16 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32l475-atk-pandora
+    help
+        Select the device in STM32L475xx
+        
+    config TEMP_stm32l475-atk-pandora
+        bool "stm32l475-atk-pandora"
+        
+    config TEMP_stm32l475-cmcc-oneos
+        bool "stm32l475-cmcc-oneos"
+
+    config TEMP_stm32l475-cmcc-oneos-demo
+        bool "stm32l475-cmcc-oneos-demo"
+        
+endchoice

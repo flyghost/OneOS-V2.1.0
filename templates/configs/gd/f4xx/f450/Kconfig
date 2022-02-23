@@ -1,0 +1,40 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F450VE
+    help
+        Select the device in GD32F450xx
+    
+    config TEMP_GD32F450VE
+        bool "GD32F450VE"
+    
+    config TEMP_GD32F450VG
+        bool "GD32F450VG"
+        
+    config TEMP_GD32F450VI
+        bool "GD32F450VI"
+        
+    config TEMP_GD32F450VK
+        bool "GD32F450VK"
+    
+    config TEMP_GD32F450ZE
+        bool "GD32F450ZE"
+    
+    config TEMP_GD32F450ZG
+        bool "GD32F450ZG"
+    
+    config TEMP_GD32F450ZI
+        bool "GD32F450ZI"
+    
+    config TEMP_GD32F450ZK
+        bool "GD32F450ZK"
+        
+    config TEMP_GD32F450IG
+        bool "GD32F450IG"
+    
+    config TEMP_GD32F450II
+        bool "GD32F450II"
+    
+    config TEMP_GD32F450IK
+        bool "GD32F450IK"
+
+endchoice

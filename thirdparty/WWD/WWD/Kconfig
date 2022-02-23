@@ -1,0 +1,7 @@
+menu "WIFI"
+
+    config OS_USING_WWD
+        bool "Using WWD Wi-Fi framework"
+        default n
+    
+endmenu

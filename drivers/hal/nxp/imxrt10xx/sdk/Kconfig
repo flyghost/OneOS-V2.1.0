@@ -1,0 +1,205 @@
+config BSP_SDIO_DEVICE_SD
+    bool
+    default n
+config BSP_SDIO_DEVICE_MMC
+    bool
+    default n
+config BSP_SDIO_DEVICE_SDIO
+    bool
+    default n
+    
+menuconfig BSP_USING_SDIO
+    bool "Using NXP SD/MMC device drivers"
+    default n
+
+    if BSP_USING_SDIO
+        choice
+            prompt "nxp sdio transfer mode"
+                default BSP_USDHC_MODE_NONBLOCKING
+                
+                config BSP_USDHC_MODE_BLOCKING
+                    bool "nxp usdhc blocking mode"
+
+                config BSP_USDHC_MODE_NONBLOCKING
+                    bool "nxp sdio nonblocking mode"
+        endchoice
+        
+        menuconfig BSP_USDHC1_ENABLE
+            bool "enable usdhc1"
+            default n
+            if BSP_USDHC1_ENABLE
+                choice
+                    prompt "choose usdhc mode"
+                        default BSP_USDHC1_MODE_SD
+
+                        config BSP_USDHC1_MODE_SD
+                            bool "sd card mode"
+                            select BSP_SDIO_DEVICE_SD
+
+                        config BSP_USDHC1_MODE_MMC
+                            bool "mmc mode"
+                            select BSP_SDIO_DEVICE_MMC
+
+                        config BSP_USDHC1_MODE_SDIO
+                            bool "sdio mode"
+                            select BSP_SDIO_DEVICE_SDIO
+                endchoice
+                
+                config BSP_USDHC1_PWR_PIN
+                    int "usdhc power pin"
+                    default 1
+                if BSP_USDHC1_PWR_PIN >= 0
+                    config BSP_USDHC1_PWR_PIN_LEVEL
+                        int "usdhc power pin level to turn on"
+                        default 1
+                endif
+                    
+                config BSP_USDHC1_IRQ_PIN
+                    int "usdhc irq pin"
+                    default 2
+                
+                if BSP_USDHC1_IRQ_PIN >= 0
+                    config BSP_USDHC1_IRQ_PIN_LEVEL
+                        int "usdhc irq pin level to detect"
+                        default 0
+                endif
+            endif
+        
+        menuconfig BSP_USDHC2_ENABLE
+            bool "enable usdhc2"
+            default n
+            if BSP_USDHC2_ENABLE
+                choice
+                    prompt "choose usdhc mode"
+                    default BSP_USDHC2_MODE_SD
+                    help
+                        Select the eth hardware
+
+                    config BSP_USDHC2_MODE_SD
+                        bool "sd card mode"
+                        select BSP_SDIO_DEVICE_SD
+
+                    config BSP_USDHC2_MODE_MMC
+                        bool "mmc mode"
+                        select BSP_SDIO_DEVICE_MMC
+
+                    config BSP_USDHC2_MODE_SDIO
+                        bool "sdio mode"
+                        select BSP_SDIO_DEVICE_SDIO
+                endchoice
+                
+                config BSP_USDHC2_PWR_PIN
+                    int "usdhc power pin"
+                    default 1
+                if BSP_USDHC2_PWR_PIN >= 0
+                    config BSP_USDHC2_PWR_PIN_LEVEL
+                        int "usdhc power pin level to turn on"
+                        default 1
+                endif
+                    
+                config BSP_USDHC2_IRQ_PIN
+                    int "usdhc irq pin"
+                    default 2
+                
+                if BSP_USDHC2_IRQ_PIN >= 0
+                    config BSP_USDHC2_IRQ_PIN_LEVEL
+                        int "usdhc irq pin level to detect"
+                        default 0
+                endif
+            endif
+    endif
+
+config BSP_USING_KSZ8081RNB
+bool 
+default n
+    
+menuconfig BSP_USING_ETH
+    bool "Enable Ethernet"
+    select NET_USING_LWIP
+    default n
+
+    if BSP_USING_ETH
+        menuconfig BSP_USING_ETH1
+            bool "Ethernet1 device"
+            default y
+            
+            if BSP_USING_ETH1
+                choice
+                    prompt "choose eth hardware"
+                    default ETH1_USING_KSZ8081RNB
+                    help
+                        Select the eth hardware
+
+                    config ETH1_USING_KSZ8081RNB
+                        bool "ksz8081rnb"
+                        select BSP_USING_KSZ8081RNB
+                endchoice
+                
+                config ETH1_RESET_PIN
+                    int "reset pin"
+                    default 9
+                    
+                config ETH1_INT_PIN
+                    int "int pin"
+                    default 10
+                
+                config ETH1_RXBUFF_NUM
+                    int "rx buffer number"
+                    default 4
+                    
+                config ETH1_TXBUFF_NUM
+                    int "tx buffer number"
+                    default 4
+                    
+                config ETH1_PHY_ADDR
+                    int "eth chip phy address"
+                    default 1
+            endif
+        
+        menuconfig BSP_USING_ETH2
+            bool "Ethernet2 device"
+            default n
+            
+            if BSP_USING_ETH2
+                choice
+                    prompt "choose eth hardware"
+                    default ETH2_USING_KSZ8081RNB
+                    help
+                        Select the eth hardware
+
+                    config ETH2_USING_KSZ8081RNB
+                        bool "ksz8081rnb"
+                        select BSP_USING_KSZ8081RNB
+                endchoice
+                
+                config ETH2_RESET_PIN
+                    int "reset pin"
+                    default 9
+                    
+                config ETH2_INT_PIN
+                    int "int pin"
+                    default 10
+                    
+                config ETH2_RXBUFF_NUM
+                    int "rx buffer number"
+                    default 4
+                    
+                config ETH2_TXBUFF_NUM
+                    int "tx buffer number"
+                    default 4
+                    
+                config ETH2_PHY_ADDR
+                    int "eth chip phy address"
+                    default 2
+            endif
+            
+    endif
+    
+if OS_USING_PWM
+    config BSP_PWM_MODE
+        int "config pwm mode"
+        default 0
+        comment "0--CenterAligned;1--SignedCenterAligned;2--EdgeAligned;3--SignedEdgeAligned"
+endif
+    
+source "$OS_ROOT/drivers/hal/nxp/imxrt10xx/sdk/*/Kconfig"

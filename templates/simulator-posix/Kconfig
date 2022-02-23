@@ -1,0 +1,17 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=st
+
+config BOARD_SIM_LINUX_SIM
+    bool
+    select ARCH_SIM_POSIX
+	select OS_ARCH_CPU_64BIT
+    default y
+
+config OS_ARCH_CPU_64BIT
+    bool
+    default n	
+    
+source "$OS_ROOT/Kconfig"

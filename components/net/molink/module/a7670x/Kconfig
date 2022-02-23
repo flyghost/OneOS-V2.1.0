@@ -1,0 +1,55 @@
+menu "A7670X Config"
+
+    config A7670X_AUTO_CREATE
+        bool "Enable A7670X Module Object Auto Create"
+        default n
+
+    if A7670X_AUTO_CREATE
+
+        config A7670X_DEVICE_NAME
+            string "A7670X Interface Device Name"
+            default "uart2"
+
+        config A7670X_DEVICE_RATE
+            int "A7670X Interface Device Rate"
+            default 115200
+
+        config A7670X_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 1500
+
+    endif
+
+    config A7670X_USING_GENERAL_OPS
+        bool "Enable A7670X Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config A7670X_USING_NETSERV_OPS
+        bool "Enable A7670X Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config A7670X_USING_PING_OPS
+        bool "Enable A7670X Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config A7670X_USING_IFCONFIG_OPS
+        bool "Enable A7670X Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select A7670X_USING_GENERAL_OPS
+        select A7670X_USING_NETSERV_OPS
+        default y
+    config A7670X_USING_NETCONN_OPS
+        bool "Enable A7670X Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config A7670X_USING_SOCKETS_OPS
+        bool "Enable A7670X Module BSD Socket Operates"
+        select A7670X_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

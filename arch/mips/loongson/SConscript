@@ -1,0 +1,30 @@
+import os
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+src  = []
+objs = []
+group = []
+
+if IsDefined(['ARCH_MIPS_LOONGSON']) == False:
+    Return('group')
+
+path = [pwd + '/include']
+
+src += Glob('arch_exception.c')
+src += Glob('arch_interrupt.c')
+src += Glob('arch_misc.c')
+src += Glob('arch_task.c')
+
+
+objs += AddCodeGroup('arch', src, depend = [''], CPPPATH = path)
+print(path)
+list = os.listdir(pwd)
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+
+Return('objs')
+

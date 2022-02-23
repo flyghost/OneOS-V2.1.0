@@ -1,0 +1,19 @@
+menu "gnss protocol"
+
+config GNSS_USING_PROT
+    bool "enable gnss protocol"
+    default n
+
+if GNSS_USING_PROT
+	
+	config GNSS_NMEA_0183_PROT
+    bool "enable nmea 0183 protocol"
+    default n
+	
+	if GNSS_NMEA_0183_PROT
+		source "$OS_ROOT/components/position/gnss_pos/prot/nmea/Kconfig"
+	endif
+	
+endif
+
+endmenu 

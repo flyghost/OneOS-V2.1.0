@@ -1,0 +1,15 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32VF103
+    help
+        Select the device in GD32VF10x
+
+    config MODEL_GD32VF103
+        bool "GD32VF103"
+    
+endchoice
+
+if MODEL_GD32VF103
+    source "$OS_ROOT/templates/configs/gd32v/f10x/f103/Kconfig"
+endif
+

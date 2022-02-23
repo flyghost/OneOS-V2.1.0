@@ -1,0 +1,19 @@
+choice
+    prompt "|---- MODEL"
+        default TEMP_MM32W362PFB
+    help
+        Select the device in MM32W3XX
+        
+    config TEMP_MM32W362PFB
+        bool "MM32W362PFB"
+        
+    config TEMP_MM32W362PSB
+        bool "MM32W362PSB"
+        
+    config TEMP_MM32W373PFB
+        bool "MM32W373PFB"
+        
+    config TEMP_MM32W373PSB
+        bool "MM32W373PSB"
+        
+endchoice

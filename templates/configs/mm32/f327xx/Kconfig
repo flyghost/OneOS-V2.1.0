@@ -1,0 +1,43 @@
+choice
+    prompt "|----MODEL"
+        default TEMP_mm32f3277g8p-cmcc-oneos
+    help
+        Select the device in MM32F327X
+
+    config TEMP_MM32F3273E7P
+        bool "MM32F3273E7P"
+
+    config TEMP_MM32F3273E8P
+        bool "MM32F3273E8P"
+
+    config TEMP_MM32F3273G7P
+        bool "MM32F3273G7P"
+
+    config TEMP_MM32F3273G8P
+        bool "MM32F3273G8P"
+
+    config TEMP_MM32F3277E7P
+        bool "MM32F3277E7P"
+
+    config TEMP_MM32F3277E8P
+        bool "MM32F3277E8P"
+
+    config TEMP_MM32F3277E9P
+        bool "MM32F3277E9P"
+
+    config TEMP_MM32F3277G7P
+        bool "MM32F3277G7P"
+
+    config TEMP_MM32F3277G8P
+        bool "MM32F3277G8P"
+
+    config TEMP_MM32F3277G9P
+        bool "MM32F3277G9P"
+
+    config TEMP_mm32f3277g7p-eminiboard-seekfree
+        bool "mm32f3277g7p-eminiboard-seekfree"
+        
+    config TEMP_mm32f3277g8p-cmcc-oneos
+        bool "mm32f3277g8p-cmcc-oneos"
+
+endchoice

@@ -1,0 +1,40 @@
+choice
+    prompt "|----MODEL"
+        default TEMP_MM32F0131C4N
+    help
+        Select the device in MM32F013XX
+
+    config TEMP_MM32F0131C4N
+        bool "MM32F0131C4N"
+
+    config TEMP_MM32F0131C4P
+        bool "MM32F0131C4P"
+
+    config TEMP_MM32F0131C6P
+        bool "MM32F0131C6P"
+
+    config TEMP_MM32F0132C4N
+        bool "MM32F0132C4N"
+
+    config TEMP_MM32F0132C4P
+        bool "MM32F0132C4P"
+
+    config TEMP_MM32F0132C6P
+        bool "MM32F0132C6P"
+        
+    config TEMP_MM32F0132C7P
+        bool "MM32F0132C7P"
+        
+    config TEMP_MM32F0133C4P
+        bool "MM32F0133C4P"
+
+    config TEMP_MM32F0133C4N
+        bool "MM32F0133C4N"
+
+    config TEMP_MM32F0133C6P
+        bool "MM32F0133C6P"
+
+    config TEMP_MM32F0133C7P
+        bool "MM32F0133C7P"
+
+endchoice

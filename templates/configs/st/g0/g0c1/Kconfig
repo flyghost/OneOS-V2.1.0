@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32G0C1RE
+    help
+        Select the device in STM32G0C1xx
+
+    config TEMP_STM32G0C1RC
+        bool "STM32G0C1RC"
+
+    config TEMP_STM32G0C1RE
+        bool "STM32G0C1RE"
+    
+endchoice

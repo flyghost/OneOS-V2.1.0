@@ -1,0 +1,13 @@
+choice
+    prompt "|----MODEL"
+    default MODEL_HC32F4A0
+    help
+        Select the device in HC32F4Ax
+
+    config MODEL_HC32F4A0
+        bool "HC32F4A0"
+endchoice
+
+if MODEL_HC32F4A0
+    source "$OS_ROOT/templates/configs/hdsc/f4a/f4a0/Kconfig"
+endif

@@ -1,0 +1,14 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+src = []
+
+if IsDefined(["OPTPARSE_TEST_DEMO"]):
+    src += Glob('optparse_test.c')
+
+CPPPATH = [pwd + '/optparse']
+
+group = AddCodeGroup('optparse', src, depend = ['TP_USING_OPTPARSE'], CPPPATH = CPPPATH)
+
+Return('group')

@@ -1,0 +1,20 @@
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+src = Split("""
+i2c.c
+""")
+
+if IsDefined('OS_USING_I2C_BITOPS'):
+    src += ['soft_i2c_bus.c']
+    src += ['soft_i2c_bus_config.c']
+
+if IsDefined(['BSP_USING_I2C_AT24CXX', 'OS_USING_FAL']):
+    src += ['at24cxx.c']
+    
+# The set of source files associated with this SConscript file.
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_I2C'], CPPPATH = [pwd])
+
+Return('group')

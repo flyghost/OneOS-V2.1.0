@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+src_file = Split("""
+../agent_tiny/atiny_mqtt/mqtt_client.c
+../agent_tiny/atiny_mqtt/flash_manager.c
+../agent_tiny/atiny_mqtt/hmac.c
+MQTTPacket/src/MQTTDeserializePublish.c
+MQTTPacket/src/MQTTPacket.c
+MQTTPacket/src/MQTTSerializePublish.c
+MQTTPacket/src/MQTTConnectClient.c
+MQTTPacket/src/MQTTSubscribeClient.c
+MQTTPacket/src/MQTTUnsubscribeClient.c
+MQTTClient-C/src/MQTTClient.c
+""")
+
+include_path = [
+    pwd + '/../../../include',
+    pwd + '/MQTTPacket/src'
+]
+
+path = []
+src = []
+CPPDEFINES = []
+
+if IsDefined(['USING_HUAWEI_CLOUD_CONNECT', 'HUAWEI_CLOUD_PORTOCOL_MQTT']):
+	src += src_file
+	path += include_path
+
+group = AddCodeGroup('mqtt/core', src, depend = ['USING_HUAWEI_CLOUD_CONNECT', 'HUAWEI_CLOUD_PORTOCOL_MQTT'], CPPPATH = path)
+
+Return('group')

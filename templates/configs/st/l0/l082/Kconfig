@@ -1,0 +1,9 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32L082CZ
+    help
+        Select the device in STM32L082xx
+    config TEMP_STM32L082CZ
+        bool "STM32L082CZ"
+
+endchoice

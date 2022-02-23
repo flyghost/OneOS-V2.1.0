@@ -1,0 +1,87 @@
+config SERIES_STM32H7
+    bool
+    default n
+
+config SERIES_STM32H7_M4
+    bool
+    select SERIES_STM32H7
+    select ARCH_ARM_CORTEX_M4
+    default n
+
+config SERIES_STM32H7_M7
+    bool
+    select SERIES_STM32H7
+    select ARCH_ARM_CORTEX_M7
+    default n
+
+config SOC_STM32H742xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M7
+    default n
+    
+config SOC_STM32H743xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M7
+    default n
+
+config SOC_STM32H745xx_CM4
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M4
+    default n
+ 
+config SOC_STM32H745xx_CM7
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M7
+    default n
+    
+config SOC_STM32H747xx_CM7
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M7
+    default n
+
+config SOC_STM32H747xx_CM4
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M4
+    default n
+
+config SOC_STM32H750xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M7
+    default n
+    
+config SOC_STM32H753xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M7
+    default n
+  
+config SOC_STM32H755xx_CM4
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M4
+    default n  
+ 
+config SOC_STM32H755xx_CM7
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M7
+    default n 
+
+config SOC_STM32H757xx_CM4
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M4
+    default n 
+
+config SOC_STM32H757xx_CM7
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32H7_M7
+    default n 

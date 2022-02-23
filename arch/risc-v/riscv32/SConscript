@@ -1,0 +1,21 @@
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+src  = []
+group = []
+path = [pwd + '/include']
+
+if IsDefined(['ARCH_RISCV32']) == False:
+    Return('group')
+
+src += Glob('*.c')
+src += Glob('*_gcc.S')  
+
+if IsDefined(['ARCH_RISCV_BUMBLEBEE']) == True:
+    src += Glob('bumblebee/*.S')
+    src += Glob('bumblebee/*.c')
+
+group = AddCodeGroup('arch', src, depend = [''], CPPPATH = path)
+
+Return('group')

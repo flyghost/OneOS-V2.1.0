@@ -1,0 +1,12 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F301R8
+    help
+        Select the device in STM32F301xx
+
+    config TEMP_STM32F301R8
+        bool "STM32F301R8"
+
+    config TEMP_STM32F301C8
+        bool "STM32F301C8"
+endchoice

@@ -1,0 +1,9 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F318C8
+    help
+        Select the device in STM32F318xx
+
+    config TEMP_STM32F318C8
+        bool "STM32F318C8"
+endchoice

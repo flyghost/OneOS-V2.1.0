@@ -1,0 +1,42 @@
+from build_tools import *
+
+pwd = PresentDir()
+#1. lwm2m
+lwm2m_src = Split("""
+atiny_osdep_adapter.c
+atiny_socket_adapter.c
+commandline_adapter.c
+fota_adapter.c
+los_task_adapter.c
+""")
+lwm2m_path = [
+    pwd
+]
+
+#2. mqtt
+mqtt_src = Split("""
+atiny_osdep_adapter.c
+atiny_socket_adapter.c
+commandline_adapter.c
+fota_adapter.c
+los_task_adapter.c
+MQTTliteos_adapter.c
+""")
+mqtt_path = [
+    pwd
+]
+
+
+src = []
+path = []
+
+if IsDefined(['HUAWEI_CLOUD_PORTOCOL_LwM2M']):
+    src += lwm2m_src
+    path += lwm2m_path
+elif IsDefined(['HUAWEI_CLOUD_PORTOCOL_MQTT']):
+    src = mqtt_src
+    path = mqtt_path
+
+group = AddCodeGroup('cloud/huawei/adapter', src, depend = ['USING_HUAWEI_CLOUD_CONNECT'], CPPPATH = path)
+
+Return('group')

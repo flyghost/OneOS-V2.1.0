@@ -1,0 +1,21 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_HC32L196
+    help
+        Select the device in HC32L19x
+
+    config MODEL_HC32L190
+        bool "HC32L190"
+        
+    config MODEL_HC32L196
+        bool "HC32L196"
+
+endchoice
+
+if MODEL_HC32L190
+    source "$OS_ROOT/templates/configs/hdsc/l19/l190/Kconfig"
+endif
+
+if MODEL_HC32L196
+    source "$OS_ROOT/templates/configs/hdsc/l19/l196/Kconfig"
+endif

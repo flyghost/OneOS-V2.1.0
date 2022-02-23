@@ -1,0 +1,21 @@
+import os
+import osconfig
+from build_tools import *
+Import('OS_ROOT')
+
+KERNEL_INCLUDE = OS_ROOT + '/kernel/include/'
+
+cwd = PresentDir()
+src = Glob('*.c') + Glob('*.S')
+CPPPATH = [cwd]
+CPPPATH += [KERNEL_INCLUDE]
+CPPPATH += [cwd + '/ports']
+
+#print(CPPPATH)
+
+if IsDefined(['PKG_USING_EASYFLASH']):
+    src += Glob('ports/ef_port.c')
+
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')

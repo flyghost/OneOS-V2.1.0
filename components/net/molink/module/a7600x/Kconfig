@@ -1,0 +1,55 @@
+menu "A7600X Config"
+
+    config A7600X_AUTO_CREATE
+        bool "Enable A7600X Module Object Auto Create"
+        default n
+
+    if A7600X_AUTO_CREATE
+
+        config A7600X_DEVICE_NAME
+            string "A7600X Interface Device Name"
+            default "uart2"
+
+        config A7600X_DEVICE_RATE
+            int "A7600X Interface Device Rate"
+            default 115200
+
+        config A7600X_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 2048
+
+    endif
+
+    config A7600X_USING_GENERAL_OPS
+        bool "Enable A7600X Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config A7600X_USING_NETSERV_OPS
+        bool "Enable A7600X Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config A7600X_USING_PING_OPS
+        bool "Enable A7600X Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config A7600X_USING_IFCONFIG_OPS
+        bool "Enable A7600X Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select A7600X_USING_GENERAL_OPS
+        select A7600X_USING_NETSERV_OPS
+        default y
+    config A7600X_USING_NETCONN_OPS
+        bool "Enable A7600X Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config A7600X_USING_SOCKETS_OPS
+        bool "Enable A7600X Module BSD Socket Operates"
+        select A7600X_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

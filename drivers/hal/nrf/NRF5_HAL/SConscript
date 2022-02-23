@@ -1,0 +1,161 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = []
+
+src += ['integration/nrfx/legacy/nrf_drv_clock.c']
+src += ['modules/nrfx/drivers/src/nrfx_clock.c']
+src += ['modules/nrfx/drivers/src/nrfx_power.c']
+src += ['modules/nrfx/drivers/src/prs/nrfx_prs.c']
+src += ['components/libraries/util/app_util_platform.c']
+src += ['components/libraries/experimental_section_vars/nrf_section_iter.c']
+src += ['components/libraries/atomic/nrf_atomic.c']
+
+if IsDefined(['OS_USING_PIN']):
+    src += ['modules/nrfx/drivers/src/nrfx_gpiote.c']
+
+if IsDefined(['OS_USING_SERIAL']):
+    src += ['modules/nrfx/drivers/src/nrfx_uarte.c']
+    
+if IsDefined(['OS_USING_WDG']):
+    src += ['modules/nrfx/drivers/src/nrfx_wdt.c']
+    
+if IsDefined(['OS_USING_ADC']):
+    src += ['modules/nrfx/drivers/src/nrfx_saadc.c']
+
+if IsDefined(['OS_USING_PWM']):
+    src += ['modules/nrfx/drivers/src/nrfx_pwm.c']
+    
+if IsDefined(['OS_USING_I2C']):
+    src += ['integration/nrfx/legacy/nrf_drv_twi.c']
+    src += ['modules/nrfx/drivers/src/nrfx_twim.c']
+    src += ['modules/nrfx/drivers/src/nrfx_twi.c']
+    src += ['modules/nrfx/drivers/src/nrfx_twi_twim.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['modules/nrfx/drivers/src/nrfx_spi.c']
+    #src += ['integration/nrfx/legacy/nrf_drv_spi.c']
+ 
+if IsDefined(['OS_USING_QSPI']):
+    src += ['modules/nrfx/drivers/src/nrfx_qspi.c']
+    
+if IsDefined(['OS_USING_FAL']):
+    src += ['modules/nrfx/drivers/src/nrfx_nvmc.c']
+
+if IsDefined(['BSP_USING_RTC']):
+    src += ['modules/nrfx/drivers/src/nrfx_rtc.c']
+    
+if IsDefined(['BSP_USING_TIMER']):
+    src += ['modules/nrfx/drivers/src/nrfx_timer.c']
+    
+# if IsDefined(['OS_USING_LPMGR']):
+    # src += ['components/libraries/pwr_mgmt/nrf_pwr_mgmt.c']
+    #src += ['components/libraries/timer/app_timer2.c']
+    #src += ['components/serialization/application/codecs/ble/middleware/app_mw_nrf_soc.c']
+
+path = [pwd + '/CMSIS']
+
+CPPDEFINES = ['USE_STDPERIPH_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SOC_SERIES_NRF52'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+
+Import('OS_ROOT')
+Import('osconfig')
+import os
+
+# get current directory
+cwd = PresentDir()
+#    ./external/segger_rtt/SEGGER_RTT_printf.c
+#   ./external/segger_rtt/SEGGER_RTT.c
+if IsDefined(['BSP_USING_SOFTDEVICE']):
+
+    SOFTDEVICE = Split('''
+    ./components/softdevice/common/nrf_sdh.c
+    ./components/libraries/util/app_error_weak.c
+    ./components/libraries/util/app_error.c
+    ./components/libraries/strerror/nrf_strerror.c
+    ./components/libraries/atomic_flags/nrf_atflags.c
+    ./components/libraries/sensorsim/sensorsim.c
+
+    ./components/libraries/log/src/nrf_log_frontend.c
+    ./components/libraries/log/src/nrf_log_default_backends.c
+    ./components/libraries/log/src/nrf_log_backend_uart.c
+    ./components/libraries/log/src/nrf_log_backend_serial.c
+    ./components/libraries/log/src/nrf_log_backend_rtt.c
+    ./components/libraries/log/src/nrf_log_str_formatter.c
+    ./components/libraries/ringbuf/nrf_ringbuf.c
+    ./components/libraries/memobj/nrf_memobj.c
+    ./components/libraries/balloc/nrf_balloc.c
+    
+    ./oneos_adapter/app_timer_oneos.c
+    ./oneos_adapter/nrf_sdh_oneos.c
+
+    ./external/fprintf/nrf_fprintf_format.c
+    ./external/fprintf/nrf_fprintf.c
+
+    ./components/softdevice/common/nrf_sdh_ble.c
+    ./components/ble/common/ble_conn_params.c
+    
+    ./components/ble/common/ble_srv_common.c
+    ./components/ble/common/ble_conn_state.c
+    ./components/ble/ble_advertising/ble_advertising.c
+    ./components/ble/nrf_ble_gatt/nrf_ble_gatt.c
+    ./components/ble/nrf_ble_qwr/nrf_ble_qwr.c
+    ./components/ble/ble_link_ctx_manager/ble_link_ctx_manager.c
+    ''')
+
+    BLE_ADVERTISING = Split('''
+    ./components/ble/common/ble_advdata.c
+    ''')
+
+    if not IsDefined(['OS_USING_RTT']):
+        LOG_RTT = Split('''
+        ./external/segger_rtt/SEGGER_RTT_printf.c
+        ./external/segger_rtt/SEGGER_RTT.c
+        ''')
+    else:
+        LOG_RTT = []
+
+    path = [cwd + '/components/libraries/util']
+    path += [cwd + '/components/libraries/experimental_section_vars']
+    path += [cwd + '/components/libraries/log']
+    path += [cwd + '/components/libraries/log/src']
+    path += [cwd + '/components/libraries/strerror']
+    path += [cwd + '/components/libraries/memobj']
+    path += [cwd + '/components/libraries/balloc']
+    path += [cwd + '/components/libraries/atomic']
+    path += [cwd + '/components/libraries/atomic_flags']
+    path += [cwd + '/components/libraries/sensorsim']
+    path += [cwd + '/components/libraries/timer']
+
+    path += [cwd + '/components/libraries/log/src']
+    path += [cwd + '/external/fprintf']
+    path += [cwd + '/external/segger_rtt']
+    path += [cwd + '/components/libraries/ringbuf']
+    
+    path += [cwd + '/oneos_adapter']
+
+    path += [cwd + '/components/ble/ble_link_ctx_manager']
+    path += [cwd + '/components/ble/common']
+    path += [cwd + '/components/ble/ble_advertising']
+    path += [cwd + '/components/ble/nrf_ble_gatt']
+    path += [cwd + '/components/ble/nrf_ble_qwr']
+    path += [cwd + '/components/ble/ble_services/ble_lbs']
+    path += [cwd + '/components/softdevice/common']
+
+
+
+    path += [cwd + '/integration/nrfx/legacy']
+
+    CPPDEFINES = ['SOFTDEVICE_PRESENT', 'CONFIG_GPIO_AS_PINRESET', 'USE_APP_CONFIG', 'NRF_SD_BLE_API_VERSION=7']
+    
+    SRC = SOFTDEVICE + BLE_ADVERTISING + LOG_RTT
+    group = group + AddCodeGroup('SOFTDEVICE', SRC, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+
+Return('group')

@@ -1,0 +1,10 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F098RC
+    help
+        Select the device in STM32F098xx
+
+    config TEMP_STM32F098RC
+        bool "STM32F098RC"
+
+endchoice

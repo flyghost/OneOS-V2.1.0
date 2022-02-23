@@ -1,0 +1,79 @@
+config MYNEWT_VAL_
+    int ""
+    default 
+
+config MYNEWT_VAL_BLE_HCI_EMSPI
+    int "Indicates that the emspi host HCI transport is present."
+    default 1
+
+
+config MYNEWT_VAL_    restrictions
+    int "Indicates that the emspi host HCI transport is present."
+    default 1
+
+
+config MYNEWT_VAL_BLE_HCI_EVT_HI_BUF_COUNT
+    int "Number of high-priority event buffers."
+    default  2
+
+
+config MYNEWT_VAL_BLE_HCI_EVT_LO_BUF_COUNT
+    int "Number of low-priority event buffers."
+    default  8
+
+
+config MYNEWT_VAL_BLE_HCI_EVT_BUF_SIZE
+    int "Size of each event buffer, in bytes."
+    default  70
+
+
+config MYNEWT_VAL_BLE_ACL_BUF_COUNT
+    int "The number of ACL data buffers"
+    default 4
+
+
+config MYNEWT_VAL_BLE_ACL_BUF_SIZE
+    int "This is the maximum size of the data portion of HCI ACL datapackets. It does not include the HCI data header (of 4 bytes)."
+    default 255
+
+
+config MYNEWT_VAL_BLE_HCI_ACL_OUT_COUNT
+    int "This count is used in creating a pool of elements used by thecode to enqueue various elements. In the case of the controlleronly HCI, this number should be equal to the number of mbufs inthe msys pool. For host only, it is really dependent on thenumber of ACL buffers that the controller tells the host ithas."
+    default 12
+
+
+config MYNEWT_VAL_BLE_HCI_EMSPI_SPI_NUM
+    int "This count is used in creating a pool of elements used by thecode to enqueue various elements. In the case of the controlleronly HCI, this number should be equal to the number of mbufs inthe msys pool. For host only, it is really dependent on thenumber of ACL buffers that the controller tells the host ithas."
+    default 5
+
+
+config MYNEWT_VAL_BLE_HCI_EMSPI_BAUD
+    int "This count is used in creating a pool of elements used by thecode to enqueue various elements. In the case of the controlleronly HCI, this number should be equal to the number of mbufs inthe msys pool. For host only, it is really dependent on thenumber of ACL buffers that the controller tells the host ithas."
+    default 8000000
+
+
+config MYNEWT_VAL_BLE_HCI_EMSPI_RESET_PIN
+    int "This count is used in creating a pool of elements used by thecode to enqueue various elements. In the case of the controlleronly HCI, this number should be equal to the number of mbufs inthe msys pool. For host only, it is really dependent on thenumber of ACL buffers that the controller tells the host ithas."
+    default 42
+
+
+config MYNEWT_VAL_BLE_HCI_EMSPI_SS_PIN
+    int "This count is used in creating a pool of elements used by thecode to enqueue various elements. In the case of the controlleronly HCI, this number should be equal to the number of mbufs inthe msys pool. For host only, it is really dependent on thenumber of ACL buffers that the controller tells the host ithas."
+    default 45
+
+
+config MYNEWT_VAL_BLE_HCI_EMSPI_RDY_PIN
+    int "The GPIO pin that the EM controller uses to indicate data ready."
+    default 26
+
+
+config MYNEWT_VAL_BLE_HCI_EMSPI_PRIO
+    int "The GPIO pin that the EM controller uses to indicate data ready."
+    default 5
+
+
+config MYNEWT_VAL_BLE_HCI_EMSPI_STACK_SIZE
+    int "The size of the emspi task (units: 4-byte words)."
+    default 256
+
+

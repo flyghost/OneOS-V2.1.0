@@ -1,0 +1,5 @@
+
+config SOC_INGENIC_X1000E
+    bool
+    select ARCH_MIPS_CHIP_X1000E
+

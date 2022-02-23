@@ -1,0 +1,17 @@
+import os
+from build_tools import *
+
+pwd  = PresentDir()
+objs = []
+src = []
+
+if IsDefined('OS_USING_GUI_LVGL'):
+    objs += AddCodeGroup('gui', src, depend = ['OS_USING_GUI_LVGL'], CPPPATH = [pwd])
+
+    list = os.listdir(pwd)
+    for d in list:
+        path = os.path.join(pwd, d)
+        if os.path.isfile(os.path.join(path, 'SConscript')):
+            objs = objs + SConscript(os.path.join(d, 'SConscript'))
+		
+Return('objs')

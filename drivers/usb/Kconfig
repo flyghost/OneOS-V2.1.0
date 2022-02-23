@@ -1,0 +1,138 @@
+menu "USB"
+    menuconfig OS_USING_USB_HOST
+        bool "Using USB host"
+        default n
+        if OS_USING_USB_HOST
+            config USB_USING_HOST_HS
+                bool "usb host use hs"
+                default n
+            config USB_USING_HOST_FS
+                bool "usb host use fs"
+                default n
+        
+            if USB_USING_HOST_HS || USB_USING_HOST_FS
+                config ENABLE_USBH_AUDIO_CLASS
+                    bool "enable usbh audio class"
+                    default n
+                    
+                config ENABLE_USBH_CDC_CLASS
+                    bool "enable usbh cdc class"
+                    default n
+                    
+                config ENABLE_USBH_MSC_CLASS
+                    bool "enable usbh msc class"
+                    default n
+                    
+                config ENABLE_USBH_HID_CLASS
+                    bool "enable usbh hid class"
+                    default y
+                    
+                config ENABLE_USBH_MTP_CLASS
+                    bool "enable usbh mtp class"
+                    default n
+                    
+                config ENABLE_USBH_HUB_CLASS
+                    bool "enable usbh hub class"
+                    default n
+                    
+                config ENABLE_USBH_SPECIFIC_CDC_CLASS
+                    bool "enable usbh specific cdc class"
+                    default n
+            endif
+        
+        endif
+        
+        
+        
+    menuconfig OS_USING_USB_DEVICE
+        bool "Using USB device"
+        default n
+        
+        if OS_USING_USB_DEVICE
+            config USB_USING_DEVICE_HS
+                bool "usb device use hs"
+                default n
+                
+            if USB_USING_DEVICE_HS
+                config USBD_HS_VENDOR_ID
+                    hex "USBD HS Vendor ID"
+                    default 0x0FFE
+                    
+                config USBD_HS_PRODUCT_ID
+                    hex "USBD HS Product ID"
+                    default 0x0001
+                    
+                choice
+                    prompt "choose usb device class"
+                        default OS_USBD_CDC_CLASS_HS
+                        help
+                            Select usb hs device class
+
+                        config OS_USBD_PRINTER_CLASS_HS
+                            bool "Printer device hs"
+
+                        config OS_USBD_MSC_CLASS_HS
+                            bool "MSC device hs"
+
+                        config OS_USBD_HID_CLASS_HS
+                            bool "HID device hs"
+
+                        config OS_USBD_CDC_CLASS_HS
+                            bool "CDC device hs"
+                endchoice
+                
+                if OS_USBD_CDC_CLASS_HS
+                    config OS_USBD_CDC_HS_STK_SIZE
+                        int "virtual com task stack size"
+                        default 512
+                endif    
+            endif
+            
+            config USB_USING_DEVICE_FS
+                bool "usb device use fs"
+                default y
+                
+            if USB_USING_DEVICE_FS
+                config USBD_FS_VENDOR_ID
+                    hex "USBD FS Vendor ID"
+                    default 0x0FFE
+                    
+                config USBD_FS_PRODUCT_ID
+                    hex "USBD FS Product ID"
+                    default 0x0001
+                    
+                choice
+                    prompt "choose usb device class"
+                        default OS_USBD_CDC_CLASS_FS
+                        help
+                            Select usb fs device class
+
+                        config OS_USBD_PRINTER_CLASS_FS
+                            bool "Printer device fs"
+                        
+                        config OS_USBD_MSC_CLASS_FS
+                            bool "MSC device fs"
+
+                        config OS_USBD_HID_CLASS_FS
+                            bool "HID device fs"
+
+                        config OS_USBD_CDC_CLASS_FS
+                            bool "CDC device fs"
+                endchoice
+                
+                if OS_USBD_CDC_CLASS_FS
+                    config OS_USBD_CDC_FS_STK_SIZE
+                        int "virtual com task stack size"
+                        default 512
+                endif    
+            endif
+        endif
+        
+        
+
+    if OS_USING_USB_DEVICE || OS_USING_USB_HOST
+        config OS_USBD_TASK_STACK_SZ
+            int "usb task stack size"
+            default 4096
+        endif
+endmenu

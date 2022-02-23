@@ -1,0 +1,10 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = Glob('*.c') + Glob('*.cpp')
+CPPPATH = [pwd + '/../include']
+
+group = AddCodeGroup('cmsis', src,
+    depend = ['OS_USING_CMSIS_RTOS2_API_V2_1_2'], CPPPATH = CPPPATH)
+
+Return('group')

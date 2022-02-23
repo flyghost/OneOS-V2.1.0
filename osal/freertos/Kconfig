@@ -1,0 +1,7 @@
+menu "FreeRTOS compatibility layer"
+
+config OS_USING_FREERTOS_API_V10_4_3
+    bool "Enable FreeRTOS compatibility layer V10.4.3"
+    default n
+	
+endmenu

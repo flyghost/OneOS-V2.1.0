@@ -1,0 +1,31 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F769IG
+    help
+        Select the device in STM32F769xx
+
+    config TEMP_STM32F769AI
+        bool "STM32F769AI"
+
+    config TEMP_STM32F769BG
+        bool "STM32F769BG"
+    
+    config TEMP_STM32F769BI
+        bool "STM32F769BI"
+    
+    config TEMP_STM32F769IG
+        bool "STM32F769IG"
+    
+    config TEMP_STM32F769II
+        bool "STM32F769II"
+    
+    config TEMP_STM32F769NG
+        bool "STM32F769NG"
+    
+    config TEMP_STM32F769NI
+        bool "STM32F769NI"
+
+    config TEMP_stm32f769-st-disco
+        bool "stm32f769-st-disco"
+    
+endchoice

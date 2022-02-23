@@ -1,0 +1,40 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F767VG
+    help
+        Select the device in STM32F767xx
+
+    config TEMP_STM32F767BG
+        bool "STM32F767BG"
+    
+    config TEMP_STM32F767BI
+        bool "STM32F767BI"
+    
+    config TEMP_STM32F767IG
+        bool "STM32F767IG"
+    
+    config TEMP_STM32F767II
+        bool "STM32F767II"
+    
+    config TEMP_STM32F767NG
+        bool "STM32F767NG"
+    
+    config TEMP_STM32F767NI
+        bool "STM32F767NI"
+        
+    config TEMP_STM32F767VG
+        bool "STM32F767VG"
+    
+    config TEMP_STM32F767VI
+        bool "STM32F767VI"
+        
+    config TEMP_STM32F767ZG
+        bool "STM32F767ZG"
+    
+    config TEMP_STM32F767ZI
+        bool "STM32F767ZI"
+    
+    config TEMP_stm32f767-atk-apollo
+        bool "stm32f767-atk-apollo"
+    
+endchoice

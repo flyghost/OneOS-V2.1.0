@@ -1,0 +1,10 @@
+config SERIES_HC32F46
+    bool
+    select ARCH_ARM_CORTEX_M4
+    default n
+
+config SOC_HC32F46X
+    bool
+    select MANUFACTOR_HC32
+    select SERIES_HC32F46
+    default n

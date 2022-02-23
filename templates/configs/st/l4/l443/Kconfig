@@ -1,0 +1,12 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32L443CC
+    help
+        Select the device in STM32L443xx
+        
+    config TEMP_STM32L443CC
+        bool "STM32L443CC"
+
+    config TEMP_STM32L443VC
+        bool "STM32L443VC"
+endchoice

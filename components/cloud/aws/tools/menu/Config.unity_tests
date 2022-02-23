@@ -1,0 +1,48 @@
+menu "Unity Tests Configurations"
+    depends on AWS_IOT_USING_UNITY_TESTS
+    
+    config IOT_TEST_SERVER
+        string "Config Unity Tests Host Name"
+        default "11111111"
+
+    config IOT_TEST_PORT
+        int "Config Unity Tests Port"
+        default 443
+
+    config IOT_TEST_ROOT_CA
+        string "Config Unity Tests Root CA Path"
+        default "3333333"        
+
+    config IOT_TEST_CLIENT_CERT
+        string "Config Unity Tests Client Cert Path"
+        default "44444444"
+        
+    config IOT_TEST_PRIVATE_KEY
+        string "Config Unity Tests Private Key"
+        default "77777777"
+        
+    config IOT_TEST_USER_NAME
+        string "Config Unity Tests User Name" #MY_THING_NAME?
+        default "55555555"
+    
+    config IOT_TEST_PASSWORD
+        string "Config Unity Tests Password"
+        default "66666666"
+    
+    config AWS_IOT_TEST_SHADOW_THING_NAME
+        string "Config Unity Tests shadow thing name"
+        default "888888888"
+        
+    config AWS_IOT_TEST_JOBS_THING_NAME
+        string "Config Unity Tests joobs thing name"
+        default "999999999"
+    
+    config AWS_IOT_TEST_DEFENDER_THING_NAME
+        string "Config Unity Tests defender thing name"
+        default "AAAAAAAAAA"
+    
+    config AWS_IOT_TEST_DEMO
+        bool "Enable Demos Unity Tests "
+        default n
+endmenu
+

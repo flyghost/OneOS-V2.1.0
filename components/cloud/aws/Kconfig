@@ -1,0 +1,163 @@
+# Kconfig file for package amazon-iot
+
+menu "AWS"
+    config PKG_USING_AWS_IOT
+    bool "Enable AWS-IoT: Amazon cloud iot sdk"
+    select OS_USING_RTC
+    select BSP_USING_ONCHIP_RTC
+    select NET_USING_BSD
+    select PKG_USING_NTP
+    select OS_USING_TIMER_SOFT
+    select SECURITY_USING_MBEDTLS
+    select MBEDTLS_THREADING_ALT
+    default n
+
+if PKG_USING_AWS_IOT
+
+    choice
+        prompt "Select sdk version"
+        default PKG_USING_AWS_IOT_V40000
+        help
+            Select the aws-iot version
+
+        config PKG_USING_AWS_IOT_V40000
+            bool "v4.0.0"
+    endchoice
+    
+    #config AWS_IOT_TLS_FORCE_VERIFY
+    #bool "TLS enable verify cert"
+    #default n
+
+    choice
+        prompt "The AWS global output log level."
+        default AWS_IOT_LOG_OUTPUT_LVL_I
+        help
+            When the log level is less than this option and it will stop output.
+        
+        config AWS_IOT_LOG_OUTPUT_LVL_N
+            bool "None"
+        config AWS_IOT_LOG_OUTPUT_LVL_E
+            bool "Error"
+        config AWS_IOT_LOG_OUTPUT_LVL_W
+            bool "Warning"
+        config AWS_IOT_LOG_OUTPUT_LVL_I
+            bool "Information"
+        config AWS_IOT_LOG_OUTPUT_LVL_D
+            bool "Debug"
+    endchoice
+
+    config AWS_IOT_LOG_LEVEL_GLOBAL
+        int
+        default 0 if AWS_IOT_LOG_OUTPUT_LVL_N
+        default 1 if AWS_IOT_LOG_OUTPUT_LVL_E
+        default 2 if AWS_IOT_LOG_OUTPUT_LVL_W
+        default 3 if AWS_IOT_LOG_OUTPUT_LVL_I
+        default 4 if AWS_IOT_LOG_OUTPUT_LVL_D
+    
+    choice
+        prompt "Select test method"
+        default AWS_IOT_USING_DEMO
+        help
+            Select the aws-iot test method
+        
+        config AWS_IOT_USING_DEMO
+            bool "Enable demo"
+   
+        config AWS_IOT_USING_UNITY_TESTS
+            bool "Enable unity tests"
+    endchoice
+     
+
+    #source "$OS_ROOT/thirdparty/AWSIoT-v4.0.0/tools/menu/Config.demo"
+    #source "$OS_ROOT/thirdparty/AWSIoT-v4.0.0/tools/menu/Config.unity_tests"
+    
+    if AWS_IOT_USING_DEMO
+        
+        config AWS_IOT_DEMO_SERVER
+            string "Config demo host name"
+            default ""
+
+        config AWS_IOT_DEMO_PORT
+            int "Config demo port"
+            default 8883
+
+        config AWS_IOT_DEMO_ROOT_CA
+            bool "Enable demo root ca certificate"
+            default y        
+
+        config AWS_IOT_DEMO_CLIENT_CERT
+            bool "Enable demo client certificate"
+            default y
+        
+        config AWS_IOT_DEMO_PRIVATE_KEY
+            bool "Enable demo client key"
+            default y
+
+        config AWS_IOT_DEMO_USER_NAME
+            string "Config demo user name"
+            default ""
+
+        config AWS_IOT_DEMO_PASSWORD
+            string "Config demo password"
+            default ""
+
+        config AWS_IOT_DEMO_IDENTIFIER
+            string "Config demo identifier (thing name)"
+            default ""
+            
+    endif
+    
+    if AWS_IOT_USING_UNITY_TESTS
+    
+        config AWS_IOT_TEST_SERVER
+        string "Config unity tests host name"
+        default ""
+
+        config AWS_IOT_TEST_PORT
+            int "Config unity tests port"
+            default 8883
+
+        config AWS_IOT_TEST_ROOT_CA
+            bool "Enable unity tests root ca certificate"
+            default y
+
+        config AWS_IOT_TEST_CLIENT_CERT
+            bool "Enable unity tests client certificate"
+            default y
+
+        config AWS_IOT_TEST_PRIVATE_KEY
+            bool "Enable unity tests client key"
+            default y
+
+        config AWS_IOT_TEST_USER_NAME
+            string "Config unity tests user name"
+            default ""
+        
+        config AWS_IOT_TEST_PASSWORD
+            string "Config unity tests password"
+            default ""
+            
+        config AWS_IOT_TEST_MQTT_CLIENT_IDENTIFIER
+            string "Config unity tests mqtt client identifier (thing name)"
+            default ""
+            
+        config AWS_IOT_TEST_SHADOW_THING_NAME
+            string "Config unity tests shadow thing name"
+            default ""
+            
+        config AWS_IOT_TEST_JOBS_THING_NAME
+            string "Config unity tests jobs thing name"
+            default ""
+        
+        config AWS_IOT_TEST_DEFENDER_THING_NAME
+            string "Config unity tests defender thing name"
+            default ""
+
+        config AWS_IOT_UNITY_TEST_DEMOS
+            bool "Using unity test demos"
+            default n
+            
+    endif
+    
+endif
+endmenu

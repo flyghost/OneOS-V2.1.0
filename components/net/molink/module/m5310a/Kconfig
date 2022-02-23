@@ -1,0 +1,61 @@
+menu "M5310A Config"
+
+    config M5310A_AUTO_CREATE
+        bool "Enable M5310A Module Object Auto Create"
+        default n
+
+    if M5310A_AUTO_CREATE
+
+        config M5310A_DEVICE_NAME
+            string "M5310A Interface Device Name"
+            default "uart2"
+
+        config M5310A_DEVICE_RATE
+            int "M5310A Interface Device Rate"
+            default 9600
+
+        config M5310A_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 3072
+
+    endif
+
+    config M5310A_USING_GENERAL_OPS
+        bool "Enable M5310A Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config M5310A_USING_NETSERV_OPS
+        bool "Enable M5310A Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config M5310A_USING_PING_OPS
+        bool "Enable M5310A Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config M5310A_USING_IFCONFIG_OPS
+        bool "Enable M5310A Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select M5310A_USING_GENERAL_OPS
+        select M5310A_USING_NETSERV_OPS
+        default y
+    config M5310A_USING_NETCONN_OPS
+        bool "Enable M5310A Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config M5310_USING_SOCKETS_OPS
+        bool "Enable M5310A Module BSD Socket Operates"
+        select M5310A_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+#    config M5310A_USING_ONENET_NB_OPS
+#        bool "Enable M5310A Module Onenet Nb Operates"
+#        select MOLINK_USING_ONENET_NB_OPS
+#        select M5310A_USING_GENERAL_OPS
+#        default y
+
+endmenu

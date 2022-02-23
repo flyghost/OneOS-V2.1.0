@@ -1,0 +1,19 @@
+# for module compiling
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+objs = []
+list = os.listdir(pwd)
+
+#define beken72XX config path.
+BEKEN_CFG = pwd + '/board/sys_config.h'
+Export('BEKEN_CFG')
+
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+
+Return('objs')

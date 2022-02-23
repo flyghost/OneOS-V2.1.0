@@ -1,0 +1,9 @@
+[submodule "deps/tinycbor"]
+	path = deps/tinycbor
+	url = https://github.com/intel/tinycbor.git
+[submodule "deps/mbedtls"]
+	path = deps/mbedtls
+	url = https://github.com/ARMmbed/mbedtls.git
+[submodule "deps/gtest"]
+	path = deps/gtest
+	url = https://github.com/google/googletest.git

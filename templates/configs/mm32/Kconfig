@@ -1,0 +1,56 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_MM32F327XX
+    help
+        Select the device in MM32
+
+    config SERIES_MM32F013XX
+        bool "MM32F013XX"
+        
+    config SERIES_MM32F027XX
+        bool "MM32F027XX"
+
+    config SERIES_MM32F103XX
+        bool "MM32F103XX"
+        
+    config SERIES_MM32L3XX
+        bool "MM32L3XX"
+        
+    config SERIES_MM32F327XX
+        bool "MM32F327XX"
+        
+    config SERIES_MM32SPIN2XX
+        bool "MM32SPIN2XX"
+        
+    config SERIES_MM32W3XX
+        bool "MM32WXX"
+        
+endchoice
+
+if SERIES_MM32F103XX
+    source "$OS_ROOT/templates/configs/mm32/f103xx/Kconfig"
+endif
+
+if SERIES_MM32F027XX
+    source "$OS_ROOT/templates/configs/mm32/f027xx/Kconfig"
+endif
+
+if SERIES_MM32F013XX
+    source "$OS_ROOT/templates/configs/mm32/f013xx/Kconfig"
+endif
+
+if SERIES_MM32L3XX
+    source "$OS_ROOT/templates/configs/mm32/l3xx/Kconfig"
+endif
+
+if SERIES_MM32F327XX
+    source "$OS_ROOT/templates/configs/mm32/f327xx/Kconfig"
+endif
+
+if SERIES_MM32SPIN2XX
+    source "$OS_ROOT/templates/configs/mm32/spin2xx/Kconfig"
+endif
+
+if SERIES_MM32W3XX
+    source "$OS_ROOT/templates/configs/mm32/w3xx/Kconfig"
+endif

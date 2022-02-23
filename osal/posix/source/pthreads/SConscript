@@ -1,0 +1,10 @@
+from build_tools import *
+
+pwd = PresentDir()
+src	= Glob('*.c')
+CPPPATH = [pwd + '/../../include/pthreads']
+
+group = AddCodeGroup('pthreads', src,
+    depend = ['OS_USING_PTHREADS', 'OS_USING_LIBC_ADAPTER'], CPPPATH = CPPPATH)
+
+Return('group')

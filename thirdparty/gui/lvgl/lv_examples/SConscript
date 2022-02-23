@@ -1,0 +1,40 @@
+import os
+from build_tools import *
+
+pwd  = PresentDir()
+objs = []
+path = []
+src  = []
+
+if IsDefined('OS_USING_GUI_LV_EX_MUSIC'):
+    path  = []
+    path +=  [pwd+"/src/lv_demo_music"]
+    path +=  [pwd+"/src/lv_demo_music/assets"]
+
+    src = []
+    src += Glob('src/lv_demo_music/*.c')
+    src += Glob('src/lv_demo_music/assets/*.c')
+
+    objs += AddCodeGroup('gui/lv_ex', src, depend = ['OS_USING_GUI_LV_EX_MUSIC'], CPPPATH = path)
+
+if IsDefined('OS_USING_GUI_LV_EX_PRINTER'):
+    path  = []
+    path +=  [pwd+"/src/lv_demo_printer"]
+    path +=  [pwd+"/src/lv_demo_printer/images"]
+
+    src = []
+    src += Glob('src/lv_demo_printer/*.c')
+    src += Glob('src/lv_demo_printer/images/*.c')
+
+    objs += AddCodeGroup('gui/lv_ex', src, depend = ['OS_USING_GUI_LV_EX_PRINTER'], CPPPATH = path)
+
+if IsDefined('OS_USING_GUI_LV_EX_GETSTARTED'):
+    path  = []
+    path +=  [pwd+"/src/lv_ex_get_started"]
+
+    src = []
+    src += Glob('src/lv_ex_get_started/*.c')
+
+    objs += AddCodeGroup('gui/lv_ex', src, depend = ['OS_USING_GUI_LV_EX_GETSTARTED'], CPPPATH = path)    
+
+Return('objs')

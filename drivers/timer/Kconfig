@@ -1,0 +1,73 @@
+menu "Timer"
+    config OS_USING_TIMER_DRIVER
+        bool "Using timer driver"
+        default y
+
+    if OS_USING_TIMER_DRIVER
+        config OS_USING_CLOCKSOURCE
+            bool "clocksource"
+            default y
+            
+            if OS_USING_CLOCKSOURCE
+                config OS_CLOCKSOURCE_SHOW
+                    bool "clocksource show"
+                    default n
+            endif
+            
+        config OS_USING_TIMEKEEPING
+            bool "Timekeeping"
+            depends on OS_USING_CLOCKSOURCE
+            default n
+            
+        config OS_USING_CLOCKEVENT
+            bool "clockevent"
+            select OS_USING_CLOCKSOURCE
+            default n
+            
+            if OS_USING_CLOCKEVENT
+                config OS_CLOCKEVENT_SHOW
+                    bool "clockevent show"
+                    default n
+            endif
+        
+        config OS_USING_HRTIMER
+            bool "hrtimer(soft timer)"
+            select OS_USING_CLOCKSOURCE
+            select OS_USING_CLOCKEVENT
+            default n
+            
+            if OS_USING_HRTIMER
+                config OS_USING_HRTIMER_FOR_KERNEL_TICK
+                    bool "hrtimer for kernel tick"
+                    default y
+            endif
+            
+        if ARCH_ARM_CORTEX_M
+            menu "cortex-m hardware timer config"                    
+                choice
+                    prompt "cortex-m systick config"
+                    
+                    if !OS_USING_HRTIMER_FOR_KERNEL_TICK
+                        config OS_USING_SYSTICK_FOR_KERNEL_TICK
+                            bool "systick for kernel tick"
+                    endif
+                    
+                    if OS_USING_CLOCKSOURCE
+                        config OS_USING_SYSTICK_FOR_CLOCKSOURCE
+                            bool "systick for clocksource"
+                    endif
+                        
+                    if OS_USING_CLOCKEVENT
+                        config OS_USING_SYSTICK_FOR_CLOCKEVENT
+                            bool "systick for clockevent"
+                    endif
+                endchoice
+                
+                config OS_USING_DWT_FOR_CLOCKSOURCE
+                    bool "cortex-m dwt for clocksource"
+                    default n
+                    depends on OS_USING_CLOCKSOURCE
+            endmenu
+        endif
+    endif
+endmenu

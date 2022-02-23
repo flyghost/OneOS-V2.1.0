@@ -1,0 +1,226 @@
+config BSP_USING_GPIO
+    bool "Enable GPIO"
+    select OS_USING_PIN
+    default y
+
+config BSP_USING_LED
+    bool "Enable LED"
+    select BSP_USING_GPIO
+    default y
+
+menuconfig BSP_USING_UART
+    bool "Enable UART"
+    default y
+    select OS_USING_SERIAL
+    if BSP_USING_UART
+        config BSP_USING_UART0
+            bool "Enable UART0"
+            default y
+            if BSP_USING_UART0
+                config UART0_USE_DMA
+                bool "Enable UART0 DMA RX"
+                default n
+            endif
+
+        config BSP_USING_UART1
+            bool "Enable UART1"
+            default n
+            if BSP_USING_UART1
+                if LPUART2_USE_DMA
+                    comment "DMA CHANNEL IS USED BY LPUART2,DMA CAN'T BE CHOSEN"
+                endif
+                config UART1_USE_DMA
+                bool "Enable UART1 DMA RX"
+                default n
+            endif
+
+        config BSP_USING_UART3
+            bool "Enable UART3"
+            default y
+            if BSP_USING_UART3
+                config UART3_USE_DMA
+                bool "Enable UART3 DMA RX"
+                default n
+            endif
+            
+        config BSP_USING_UART4
+            bool "Enable UART4"
+            default n
+            if BSP_USING_UART4
+                if LPUART1_USE_DMA
+                    comment "DMA CHANNEL IS USED BY LPUART1,DMA CAN'T BE CHOSEN"
+                endif
+                config UART4_USE_DMA
+                bool "Enable UART4 DMA RX"
+                default n
+            endif
+            
+        config BSP_USING_UART5
+            bool "Enable UART5"
+            default n
+            if BSP_USING_UART5
+                config UART5_USE_DMA
+                bool "Enable UART5 DMA RX"
+                default n
+            endif
+    endif
+
+menuconfig BSP_USING_LPUART
+    bool "Enable LPUART"
+    default n
+    select OS_USING_SERIAL
+    if BSP_USING_LPUART
+        config BSP_USING_LPUART0
+            bool "Enable LPUART0"
+            default n
+        if BSP_USING_LPUART0
+            config LPUART0_USE_DMA
+                bool "Enable LPUART DMA RX"
+                default n
+        endif
+        
+        config BSP_USING_LPUART1
+            bool "Enable LPUART1"
+            default n
+        if BSP_USING_LPUART1
+            if UART4_USE_DMA
+                comment "DMA CHANNEL IS USED BY UART4,DMA CAN'T BE CHOSEN"
+            endif
+            config LPUART1_USE_DMA
+                bool "Enable LPUART DMA RX"
+                default n
+        endif
+
+        config BSP_USING_LPUART2
+            bool "Enable LPUART2"
+            default n
+        if BSP_USING_LPUART2
+            if UART1_USE_DMA
+                comment "DMA CHANNEL IS USED BY UART1,DMA CAN'T BE CHOSEN"
+            endif
+            config LPUART2_USE_DMA
+            bool "Enable LPUART DMA RX"
+            default n
+        endif
+    endif
+
+config BSP_USING_ON_CHIP_FLASH
+    bool "Enable on-chip FLASH"
+    default n
+
+menuconfig BSP_USING_SPI
+    bool "Enable SPI BUS"
+    default n
+    select OS_USING_SPI
+    if BSP_USING_SPI
+        config BSP_USING_SPI1
+            bool "Enable SPI1 BUS"
+            default n
+
+        config BSP_USING_SPI2
+            bool "Enable SPI2 BUS"
+            default n
+    endif
+
+menuconfig BSP_USING_I2C
+    bool "Enable I2C BUS"
+    default n
+    select OS_USING_I2C
+    
+    config BSP_USING_I2C0
+        depends on BSP_USING_I2C
+        bool "Enable HARDWARE I2C0"
+        default n
+
+menuconfig BSP_USING_TIM
+    bool "Enable timer"
+    default n
+    select OS_USING_HWTIMER 
+    if BSP_USING_TIM
+        config BSP_USING_ATIM
+            bool "Enable ATIM"
+            default n
+        config BSP_USING_BSTIM
+            bool "Enable BSTIM"
+            default n
+            if BSP_USING_BSTIM
+                config BSP_USING_BSTIM16
+                bool "Enable BSTIM16"
+                default n
+                config BSP_USING_BSTIM32
+                bool "Enable BSTIM32"
+                default n
+            endif
+        config BSP_USING_GPTIM
+            bool "Enable GPTIM"
+            default n
+            if BSP_USING_GPTIM
+                config BSP_USING_GPTIM0
+                bool "Enable GPTIM0"
+                default n
+                config BSP_USING_GPTIM1
+                bool "Enable GPTIM1"
+                default n
+                config BSP_USING_GPTIM2
+                bool "Enable GPTIM2"
+                default n
+            endif
+        config BSP_USING_LPTIM
+            bool "Enable LPTIM"
+            default n
+            if BSP_USING_LPTIM
+                config BSP_USING_LPTIM32
+                bool "Enable LPTIM32"
+                default n
+                config BSP_USING_LPTIM16
+                bool "Enable LPTIM16"
+                default n
+            endif
+    endif
+
+menuconfig BSP_USING_PWM
+    bool "Enable pwm"
+    default n
+    select OS_USING_PWM
+    if BSP_USING_PWM
+    menuconfig BSP_USING_PWM1
+        bool "Enable timer1 output pwm"
+        default n
+        if BSP_USING_PWM1
+            config BSP_USING_PWM1_CH1
+                bool "Enable PWM1 channel1"
+                default n
+        endif
+    endif
+
+config BSP_USING_ADC
+    bool "Enable ADC"    
+    select OS_USING_ADC
+    default n
+
+menuconfig BSP_USING_RTC
+    bool "Enable RTC"
+    select OS_USING_RTC
+    default n
+    if BSP_USING_RTC
+        config BSP_USING_RTCA
+            bool "Enable RTCA"
+            default n
+        config BSP_USING_RTCB
+            bool "Enable RTCB"
+            default n
+        choice
+            prompt "choose rtc source"
+            config OS_RTC_SOURCE_RTCA
+                bool "RTCA"
+                depends on BSP_USING_RTCA
+            config OS_RTC_SOURCE_RTCB
+                bool "RTCB"
+                depends on BSP_USING_RTCB
+        endchoice
+    endif
+
+config BSP_USING_WDG
+    bool "Enable Watchdog Timer"
+    select OS_USING_WDG
+    default n

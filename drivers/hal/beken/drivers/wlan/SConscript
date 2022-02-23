@@ -1,0 +1,11 @@
+from build_tools import *
+Import('OS_ROOT')
+
+cwd = PresentDir()
+
+src = Glob('*.c') + Glob('*.S')
+CPPPATH = [cwd]
+
+group = AddCodeGroup('drv_wlan', src, depend = ['BEKEN_USING_WLAN'], CPPPATH = CPPPATH)
+
+Return('group')

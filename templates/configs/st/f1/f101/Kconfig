@@ -1,0 +1,61 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F101VE
+    help
+        Select the device in STM32F101xx
+
+    config TEMP_STM32F101CB
+        bool "STM32F101CB"
+
+    config TEMP_STM32F101RB
+        bool "STM32F101RB"
+    
+    config TEMP_STM32F101RC
+        bool "STM32F101RC"
+        
+    config TEMP_STM32F101RD
+        bool "STM32F101RD"
+        
+    config TEMP_STM32F101RE
+        bool "STM32F101RE"
+        
+    config TEMP_STM32F101RF
+        bool "STM32F101RF"
+    
+    config TEMP_STM32F101RG
+        bool "STM32F101RG"
+    
+    config TEMP_STM32F101VB
+        bool "STM32F101VB"
+    
+    config TEMP_STM32F101VC
+        bool "STM32F101VC"
+    
+    config TEMP_STM32F101VD
+        bool "STM32F101VD"
+    
+    config TEMP_STM32F101VE
+        bool "STM32F101VE"
+    
+    config TEMP_STM32F101VF
+        bool "STM32F101VF"
+
+    config TEMP_STM32F101VG
+        bool "STM32F101VG"
+    
+    config TEMP_STM32F101ZC
+        bool "STM32F101ZC"
+        
+    config TEMP_STM32F101ZD
+        bool "STM32F101ZD"
+    
+    config TEMP_STM32F101ZE
+        bool "STM32F101ZE"
+    
+     config TEMP_STM32F101ZF
+        bool "STM32F101ZF"
+    
+    config TEMP_STM32F101ZG
+        bool "STM32F101ZG"
+
+endchoice

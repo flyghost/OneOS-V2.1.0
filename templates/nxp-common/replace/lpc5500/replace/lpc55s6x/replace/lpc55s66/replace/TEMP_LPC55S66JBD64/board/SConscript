@@ -1,0 +1,46 @@
+import os
+import osconfig
+from build_tools import *
+
+sys.path.append(Env['OS_ROOT'] + '/drivers/hal/nxp/lpc5500/scripts/')
+import prebuild
+prebuild.prebuild(Env['BSP_ROOT'])
+
+pwd = PresentDir()
+LIBS    = []
+LIBPATH = []
+
+# add general drivers
+
+path =  [pwd]
+src = []
+#source_file = pathlib.Path(path + '/source')
+
+src = Split('''
+board.c
+board/board/clock_config.c
+board/board/peripherals.c
+board/board/pin_mux.c
+''')
+
+path =  [pwd]   
+# path   include path in project
+path += [pwd + '/board/board']
+path += [pwd + '/ports']
+
+if IsDefined(['BSP_USING_USB']):
+    src += Glob('source/generated/*.c')
+    path += [pwd + '/source']
+    path += [pwd + '/source/generated']
+    
+if osconfig.CROSS_TOOL == 'gcc':
+    src += ['startup/startup_LPC55S66_cm33_core0_gcc.S']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += ['startup/startup_LPC55S66_cm33_core0_arm.S']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += ['startup/startup_LPC55S66_cm33_core0_iar.s']
+
+CPPDEFINES = ['CPU_LPC55S66JBD64_cm33_core0'] 
+group = AddCodeGroup('bsp', src, depend = [''], LIBS= LIBS, CPPPATH = path, CPPDEFINES = CPPDEFINES)
+    
+Return('group')

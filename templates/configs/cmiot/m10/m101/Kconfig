@@ -1,0 +1,10 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_cm32m101a-64
+    help
+        Select the device in CM32M101x
+
+    config TEMP_cm32m101a-64
+        bool "cm32m101a-64"
+
+endchoice

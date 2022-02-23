@@ -1,0 +1,39 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = Split('''
+src/hk32f0xx_adc.c
+src/hk32f0xx_crc.c
+src/hk32f0xx_dbgmcu.c
+src/hk32f0xx_divsqrt.c
+src/hk32f0xx_dma.c
+src/hk32f0xx_exti.c
+src/hk32f0xx_flash.c
+src/hk32f0xx_gpio.c
+src/hk32f0xx_i2c.c
+src/hk32f0xx_iwdg.c
+src/hk32f0xx_misc.c
+src/hk32f0xx_pwr.c
+src/hk32f0xx_rcc.c
+src/hk32f0xx_rtc.c
+src/hk32f0xx_spi.c
+src/hk32f0xx_syscfg.c
+src/hk32f0xx_tim.c
+src/hk32f0xx_usart.c
+src/hk32f0xx_wwdg.c
+''')
+
+path = [pwd + '/inc',
+    pwd + '/CMSIS/HK32F0xx/Include',
+    pwd + '/CMSIS/Core']
+
+CPPDEFINES = ['USE_STDPERIPH_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_HK32F0'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')
+

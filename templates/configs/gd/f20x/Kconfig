@@ -1,0 +1,24 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32F205
+    help
+        Select the device in GD32F20x
+
+
+    config MODEL_GD32F205
+        bool "GD32F205"
+
+    config MODEL_GD32F207
+        bool "GD32F207"
+
+
+endchoice
+
+
+if MODEL_GD32F205
+    source "$OS_ROOT/templates/configs/gd/f20x/f205/Kconfig"
+endif
+
+if MODEL_GD32F207
+    source "$OS_ROOT/templates/configs/gd/f20x/f207/Kconfig"
+endif

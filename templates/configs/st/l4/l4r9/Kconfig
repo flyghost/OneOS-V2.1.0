@@ -1,0 +1,9 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32l4r9-st-disco
+    help
+        Select the device in stm32l4r9xx
+
+    config TEMP_stm32l4r9-st-disco
+        bool "stm32l4r9-st-disco"
+endchoice

@@ -1,0 +1,21 @@
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+pwd     = PresentDir()
+CPPPATH = []
+src = []
+
+src += Glob('./modules/oneos/iotjs_module_gpio-oneos.c')
+src += Glob('./modules/oneos/iotjs_module_uart-oneos.c')
+src += Glob('./modules/oneos/iotjs_module_i2c-oneos.c')
+src += Glob('./modules/oneos/iotjs_module_pwm-oneos.c')
+src += Glob('./modules/iotjs_module_gpio.c')
+src += Glob('./modules/iotjs_module_uart.c')
+src += Glob('./modules/iotjs_module_i2c.c')
+src += Glob('./modules/iotjs_module_pwm.c')
+src += Glob('./modules/iotjs_module_periph_common.c')
+
+group = AddCodeGroup('iotjs', src, depend = ['USING_IOTJS'], CPPPATH = CPPPATH)
+
+Return('group')

@@ -1,0 +1,9 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_bk7231n
+    help
+        Select the device in bk7231
+
+    config TEMP_bk7231n
+        bool "bk7231n"
+endchoice

@@ -1,0 +1,24 @@
+menu "Serial"
+    config OS_USING_SERIAL
+        bool "Enable serial drivers"
+        default y
+        select OS_USING_DMA
+        select OS_USING_DMA_RAM
+        select OS_USING_SOFT_DMA
+        
+    if OS_USING_SERIAL            
+        config OS_SERIAL_DELAY_CLOSE
+            bool "Enable serial close after sending"
+            default y
+            
+        config OS_SERIAL_RX_BUFSZ
+            int "Set RX buffer size"
+            default 64
+            
+        config OS_SERIAL_TX_BUFSZ
+            int "Set TX buffer size"
+            default 64            
+    endif
+    
+    source "$OS_ROOT/drivers/serial/*/Kconfig"
+endmenu

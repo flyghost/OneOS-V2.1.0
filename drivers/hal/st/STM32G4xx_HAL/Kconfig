@@ -1,0 +1,11 @@
+config SERIES_STM32G4
+    bool
+    select ARCH_ARM_CORTEX_M4
+    default n
+
+config SOC_STM32G4XX
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32G4
+    default n
+

@@ -1,0 +1,5 @@
+menu "BLOCK"
+    config OS_USING_BLOCK
+        bool "Using block device"
+        default y
+endmenu

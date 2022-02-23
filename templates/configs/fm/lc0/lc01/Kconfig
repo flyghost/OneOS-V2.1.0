@@ -1,0 +1,19 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_FM33LC016
+    help
+        Select the device in FM33LC01x
+
+    config TEMP_FM33LC013
+        bool "FM33LC013"
+
+    config TEMP_FM33LC014
+        bool "FM33LC014"
+        
+    config TEMP_FM33LC015
+        bool "FM33LC015"
+
+    config TEMP_FM33LC016
+        bool "FM33LC016"
+
+endchoice

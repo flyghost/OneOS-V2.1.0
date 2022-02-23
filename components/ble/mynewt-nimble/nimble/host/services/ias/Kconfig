@@ -1,0 +1,6 @@
+menu "ias"
+		config MYNEWT_VAL_BLE_SVC_IAS_SYSINIT_STAGE
+		    int "Sysinit stage for the immediate alert BLE service."
+		    default 303
+endmenu
+

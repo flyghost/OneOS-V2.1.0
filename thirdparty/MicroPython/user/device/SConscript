@@ -1,0 +1,21 @@
+# for module compiling
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+cwd = PresentDir()
+objs = []
+list = os.listdir(cwd)
+
+for d in list:
+    path = os.path.join(cwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+
+src = Glob('*.c')
+CPPPATH = [cwd, str(Dir('#'))]
+
+group = AddCodeGroup('mpy_device', src, depend = ['PKG_MICROPYTHON_DEVICE'], CPPPATH = CPPPATH)
+objs = objs + group
+
+Return('objs')

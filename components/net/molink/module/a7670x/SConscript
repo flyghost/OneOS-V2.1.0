@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_A7670X']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/a7670x.c')
+
+if IsDefined(['A7670X_USING_GENERAL_OPS']):
+    src += Glob('source/a7670x_general.c')
+
+if IsDefined(['A7670X_USING_NETSERV_OPS']):
+    src += Glob('source/a7670x_netserv.c')
+
+if IsDefined(['A7670X_USING_PING_OPS']):
+    src += Glob('source/a7670x_ping.c')
+
+if IsDefined(['A7670X_USING_IFCONFIG_OPS']):
+    src += Glob('source/a7670x_ifconfig.c')
+
+if IsDefined(['A7670X_USING_NETCONN_OPS']):
+    src += Glob('source/a7670x_netconn.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

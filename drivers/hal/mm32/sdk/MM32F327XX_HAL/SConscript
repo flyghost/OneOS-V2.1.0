@@ -1,0 +1,50 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = Split('''
+MM32F327x/Source/system_mm32f327x.c
+MM32F327x/HAL_lib/src/HAL_adc.c
+MM32F327x/HAL_lib/src/HAL_bkp.c
+MM32F327x/HAL_lib/src/HAL_can.c
+MM32F327x/HAL_lib/src/HAL_crc.c
+MM32F327x/HAL_lib/src/HAL_dac.c
+MM32F327x/HAL_lib/src/HAL_dma.c
+MM32F327x/HAL_lib/src/HAL_exti.c
+MM32F327x/HAL_lib/src/HAL_flash.c
+MM32F327x/HAL_lib/src/HAL_gpio.c
+MM32F327x/HAL_lib/src/HAL_i2c.c
+MM32F327x/HAL_lib/src/HAL_iwdg.c
+MM32F327x/HAL_lib/src/HAL_misc.c
+MM32F327x/HAL_lib/src/HAL_pwr.c
+MM32F327x/HAL_lib/src/HAL_rcc.c
+MM32F327x/HAL_lib/src/HAL_rtc.c
+MM32F327x/HAL_lib/src/HAL_spi.c
+MM32F327x/HAL_lib/src/HAL_tim.c
+MM32F327x/HAL_lib/src/HAL_uart.c
+MM32F327x/HAL_lib/src/HAL_wwdg.c
+MM32F327x/HAL_lib/src/HAL_sdio.c
+''')
+
+
+path = [pwd,
+        pwd + '/MM32F327x/HAL_lib/inc',
+        pwd + '/MM32F327x/Include',
+        ]
+ 
+
+if osconfig.CROSS_TOOL == 'keil':
+    path += [pwd + '/CMSIS/KEIL_CORE']
+elif osconfig.CROSS_TOOL == 'iar':
+    path += [pwd + '/CMSIS/IAR_CORE']
+#gcc is not suported
+elif osconfig.CROSS_TOOL == 'gcc':
+    path += [pwd + '/CMSIS/KEIL_CORE']
+
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_MM32F327XX'], CPPPATH = path)
+
+Return('group')

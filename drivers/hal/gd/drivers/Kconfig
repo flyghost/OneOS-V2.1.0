@@ -1,0 +1,172 @@
+config BSP_USING_PIN
+    bool "pin"
+    select OS_USING_PIN
+    default n
+
+config BSP_USING_USART
+    bool "usart"
+    select OS_USING_SERIAL
+    default n
+    
+    if BSP_USING_USART
+        config BSP_USING_USART0
+            bool "usart0"
+            default n
+            
+        config BSP_USING_USART1
+            bool "usart1"
+            default n
+            
+        config BSP_USING_USART2
+            bool "usart2"
+            default n
+            
+        config BSP_USING_UART6
+            bool "uart6"
+            depends on (SERIES_GD32F4XX || SERIES_GD32F403)
+            default n
+            
+        config BSP_USING_UART7
+            bool "uart7"
+            depends on (SERIES_GD32F4XX || SERIES_GD32F403)
+            default n
+    endif
+
+config BSP_USING_I2C
+    bool "i2c"
+    select OS_USING_I2C
+    default n
+    
+    if BSP_USING_I2C
+        config BSP_USING_I2C0
+            bool "i2c0"
+            default n
+            
+        config BSP_USING_I2C1
+            bool "i2c1"
+            default n
+    endif
+
+config BSP_USING_ADC
+    bool "adc"
+    select OS_USING_ADC
+    default n
+    
+    if BSP_USING_ADC
+        config BSP_USING_ADC0
+            bool "adc0"
+            default n
+            
+        config BSP_USING_ADC1
+            bool "adc1"
+            default n
+    endif
+
+config BSP_USING_DAC
+    bool "dac"
+    select OS_USING_DAC
+    default n
+    
+    if BSP_USING_DAC
+        config BSP_USING_DAC0
+            bool "dac use dac0"
+            default n
+            
+        config BSP_USING_DAC1
+            bool "dac use dac1"
+            default n
+    endif
+
+config BSP_USING_TIMER
+    bool "timer"
+    select OS_USING_TIMER
+    default n
+
+config BSP_USING_FLASH
+    bool "on chip flash"
+    select OS_USING_FLASH
+    default n
+
+config BSP_USING_RTC
+    bool "rtc"
+    select OS_USING_RTC
+    default n
+
+config BSP_USING_SPI
+    bool "spi"
+    select OS_USING_SPI
+    default n
+    
+    if BSP_USING_SPI
+        config BSP_USING_SPI0
+            bool "spi0"
+            default n
+            
+        config BSP_USING_SPI1
+            bool "spi1"
+            default n
+            
+        config BSP_USING_SPI2
+            bool "spi2"
+            default n
+            
+        config BSP_USING_SPI3
+            bool "spi3"
+            depends on (SERIES_GD32F4XX || SERIES_GD32F403)
+            default n
+            
+        config BSP_USING_SPI4
+            bool "spi4"
+            depends on (SERIES_GD32F4XX || SERIES_GD32F403)
+            default n
+            
+        config BSP_USING_SPI5
+            bool "spi5"
+            depends on (SERIES_GD32F4XX || SERIES_GD32F403)
+            default n
+    endif
+
+menuconfig BSP_USING_ETH
+    depends on (SERIES_GD32F4XX || SERIES_GD32F403)
+        bool "Enable Ethernet"
+        select OS_USING_LWIP
+        default n
+        if BSP_USING_ETH
+            comment "config eth hw"
+            config ETH_RESET_PIN
+                int "ETH reset pin number(default:phy_reset pin -->51)"
+                default 51
+                
+            config ETH_RESET_PIN_ACTIVE_HIGH
+                bool "ETH reset pin active level is high"
+                default n
+            
+            choice
+                prompt "choose eth hardware"
+                default PHY_USING_LAN8720A
+                help
+                    Select the eth hardware
+
+                config PHY_USING_LAN8720A
+                    bool "LAN8720A"
+
+                config PHY_USING_DM9161CEP
+                    bool "DM9161CEP"
+
+                config PHY_USING_DP83848C
+                    bool "DP83848C"
+            endchoice
+            
+            choice
+                prompt "choose RMII or MII"
+                default PHY_USING_RMII
+                help
+                    Select the eth RMII or MII
+
+                config PHY_USING_RMII
+                    bool "RMII"
+
+                config PHY_USING_MII
+                    bool "MII"
+            endchoice
+        endif

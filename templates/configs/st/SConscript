@@ -1,0 +1,41 @@
+import os
+import sys
+import importlib
+import importlib.util    
+
+inq_table = {}
+inq_table['SERIES_STM32L0'] = 'l0'
+inq_table['SERIES_STM32L1'] = 'l1'
+inq_table['SERIES_STM32F0'] = 'f0'
+inq_table['SERIES_STM32F1'] = 'f1'
+inq_table['SERIES_STM32F3'] = 'f3'
+inq_table['SERIES_STM32F4'] = 'f4'
+inq_table['SERIES_STM32F7'] = 'f7'
+inq_table['SERIES_STM32L4'] = 'l4'
+inq_table['SERIES_STM32L5'] = 'l5'
+inq_table['SERIES_STM32H7'] = 'h7'
+inq_table['SERIES_STM32MP1'] = 'mp1'
+inq_table['SERIES_STM32G0'] = 'g0'
+inq_table['SERIES_STM32G4'] = 'g4'
+    
+def soc_type_inq(g):
+    for inq in inq_table:
+        if inq not in g:
+            continue
+            
+        print(inq)
+            
+        realdir = os.path.dirname(os.path.realpath(__file__))
+    
+        sub_path = os.path.join(realdir, inq_table[inq])
+        sub_script = os.path.join(sub_path, "SConscript")
+
+        loader = importlib.machinery.SourceFileLoader('SConscript', sub_script)
+        spec   = importlib.util.spec_from_loader(loader.name, loader)
+        mod    = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+        target_path = mod.soc_type_inq(g)
+        
+        return target_path
+    
+    return None

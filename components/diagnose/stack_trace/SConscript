@@ -1,0 +1,15 @@
+Import('OS_ROOT')
+from build_tools import *
+
+pwd     = PresentDir()
+src     = []
+CPPPATH = [pwd]
+ 
+if IsDefined('STACK_TRACE_EN'):
+    src += ['stack_trace.c']    
+
+
+group = AddCodeGroup('stack_trace', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')
+

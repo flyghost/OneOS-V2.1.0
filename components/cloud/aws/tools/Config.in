@@ -1,0 +1,6 @@
+mainmenu "Main Menu"
+comment "Configure for demo or unity tests"
+
+source "tools/menu/Config.demo"
+source "tools/menu/Config.unity_tests"
+

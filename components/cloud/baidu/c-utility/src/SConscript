@@ -1,0 +1,54 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../../"
+
+# add basic sourse files of baiduiot 
+src  = Glob(root_path + 'c-utility/src/base32.c')
+src += Glob(root_path + 'c-utility/src/base64.c')
+src += Glob(root_path + 'c-utility/src/buffer.c')
+src += Glob(root_path + 'c-utility/src/connection_string_parser.c')
+src += Glob(root_path + 'c-utility/src/consolelogger.c')
+src += Glob(root_path + 'c-utility/src/constbuffer.c')
+src += Glob(root_path + 'c-utility/src/constmap.c')
+src += Glob(root_path + 'c-utility/src/crt_abstractions.c')
+src += Glob(root_path + 'c-utility/src/doublylinkedlist.c')
+src += Glob(root_path + 'c-utility/src/gb_rand.c')
+src += Glob(root_path + 'c-utility/src/gb_stdio.c')
+src += Glob(root_path + 'c-utility/src/gb_time.c')
+src += Glob(root_path + 'c-utility/src/gballoc.c')
+src += Glob(root_path + 'c-utility/src/gbnetwork.c')
+src += Glob(root_path + 'c-utility/src/hmac.c')
+src += Glob(root_path + 'c-utility/src/hmacsha256.c')
+src += Glob(root_path + 'c-utility/src/http_proxy_io.c')
+src += Glob(root_path + 'c-utility/src/httpapiex.c')
+src += Glob(root_path + 'c-utility/src/httpapiexsas.c')
+src += Glob(root_path + 'c-utility/src/httpheaders.c')
+src += Glob(root_path + 'c-utility/src/map.c')
+src += Glob(root_path + 'c-utility/src/optionhandler.c')
+src += Glob(root_path + 'c-utility/src/sastoken.c')
+src += Glob(root_path + 'c-utility/src/sha1.c')
+src += Glob(root_path + 'c-utility/src/sha224.c')
+src += Glob(root_path + 'c-utility/src/sha384-512.c')
+src += Glob(root_path + 'c-utility/src/singlylinkedlist.c')
+src += Glob(root_path + 'c-utility/src/string_tokenizer.c')
+src += Glob(root_path + 'c-utility/src/strings.c')
+src += Glob(root_path + 'c-utility/src/urlencode.c')
+src += Glob(root_path + 'c-utility/src/usha.c')
+src += Glob(root_path + 'c-utility/src/utf8_checker.c')
+src += Glob(root_path + 'c-utility/src/uws_client.c')
+src += Glob(root_path + 'c-utility/src/uws_frame_encoder.c')
+src += Glob(root_path + 'c-utility/src/vector.c')
+src += Glob(root_path + 'c-utility/src/wsio.c')
+src += Glob(root_path + 'c-utility/src/xio.c')
+src += Glob(root_path + 'c-utility/src/xlogging.c')
+path = [
+    pwd + root_path + 'c-utility/inc'
+]
+
+group = AddCodeGroup('cloud/baidu/src', src, depend = ['BAIDUIOT'], CPPPATH = path)
+
+Return('group')

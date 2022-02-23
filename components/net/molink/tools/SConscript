@@ -1,0 +1,16 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = []
+
+CPPPATH = [pwd + '/include']
+
+if IsDefined("MOLINK_TOOLS_USING_IFCONFIG") or IsDefined("MOLINK_TOOLS_USING_PING") or IsDefined("MOLINK_TOOLS_USING_SOCKETSTAT"):
+    src += Glob('source/tool.c')
+
+if IsDefined("MOLINK_TOOLS_USING_IPERF"):
+    src += Glob("source/iperf.c")
+
+group = AddCodeGroup('molink', src, depend = ['MOLINK_USING_TOOLS'], CPPPATH = CPPPATH)
+
+Return('group')

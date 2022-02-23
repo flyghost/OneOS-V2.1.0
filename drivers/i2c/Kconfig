@@ -1,0 +1,81 @@
+menu "I2C"
+    config OS_USING_I2C
+        bool "Using I2C device drivers"
+        default n
+
+    config OS_USING_I2C_BITOPS
+        depends on OS_USING_I2C
+        select OS_USING_CLOCKSOURCE
+        bool "Use GPIO to simulate I2C"
+        default n
+
+        if OS_USING_I2C_BITOPS
+            config SOFT_I2C_BUS_DELAY_US
+                int "simulate I2C bus delay(us)"
+                default 10
+        
+            menuconfig BSP_USING_SOFT_I2C1
+                bool "Enable I2C1 BUS (software simulation)"
+                default n
+                if BSP_USING_SOFT_I2C1
+                    config BSP_SOFT_I2C1_SCL_PIN
+                        int "i2c1 scl pin number"
+                        default 32
+                    config BSP_SOFT_I2C1_SDA_PIN
+                        int "I2C1 sda pin number"
+                        default 33
+                endif
+
+            menuconfig BSP_USING_SOFT_I2C2
+                bool "Enable I2C2 BUS (software simulation)"
+                default n
+                if BSP_USING_SOFT_I2C2
+                    config BSP_SOFT_I2C2_SCL_PIN
+                        int "i2c2 scl pin number"
+                        default 32
+                    config BSP_SOFT_I2C2_SDA_PIN
+                        int "I2C2 sda pin number"
+                        default 33
+                endif
+
+            menuconfig BSP_USING_SOFT_I2C3
+                bool "Enable I2C3 BUS (software simulation)"
+                default n
+                if BSP_USING_SOFT_I2C3
+                    config BSP_SOFT_I2C3_SCL_PIN
+                        int "i2c3 scl pin number"
+                        default 32
+                    config BSP_SOFT_I2C3_SDA_PIN
+                        int "I2C3 sda pin number"
+                        default 33
+                endif
+
+            menuconfig BSP_USING_SOFT_I2C4
+                bool "Enable I2C4 BUS (software simulation)"
+                default n
+                if BSP_USING_SOFT_I2C4
+                    config BSP_SOFT_I2C4_SCL_PIN
+                        int "i2c4 scl pin number"
+                        default 54
+                    config BSP_SOFT_I2C4_SDA_PIN
+                        int "I2C4 sda pin number"
+                        default 33
+                endif
+        endif
+        
+    config BSP_USING_I2C_AT24CXX
+        depends on OS_USING_I2C
+        bool "Use at24cxx eeprom"
+        default n
+        
+        if BSP_USING_I2C_AT24CXX
+            config BSP_AT24CXX_I2C_BUS_NAME
+                string "at24xx i2c bus name"
+                default "i2c1"
+
+            config BSP_AT24CXX_I2C_ADDR
+                hex "at24xx i2c addr(7bit)"
+                default 0x50
+        endif
+        
+endmenu

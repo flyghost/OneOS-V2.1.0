@@ -1,0 +1,34 @@
+choice
+    prompt "|----MODEL"
+        default TEMP_MM32F0271D6P
+    help
+        Select the device in MM32F027X
+
+    config TEMP_MM32F0271D6P
+        bool "MM32F0271D6P"
+
+    config TEMP_MM32F0271D7P
+        bool "MM32F0271D7P"
+
+    config TEMP_MM32F0271D8P
+        bool "MM32F0271D8P"
+
+    config TEMP_MM32F0272D6P
+        bool "MM32F0272D6P"
+
+    config TEMP_MM32F0272D7P
+        bool "MM32F0272D7P"
+
+    config TEMP_MM32F0272D8P
+        bool "MM32F0272D8P"
+
+    config TEMP_MM32F0273D6P
+        bool "MM32F0273D6P"
+
+    config TEMP_MM32F0273D7P
+        bool "MM32F0273D7P"
+
+    config TEMP_MM32F0273D8P
+        bool "MM32F0273D8P"
+
+endchoice

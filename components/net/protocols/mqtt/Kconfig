@@ -1,0 +1,4 @@
+menu "MQTT"
+    source "$OS_ROOT/components/net/protocols/mqtt/*/Kconfig"
+endmenu
+

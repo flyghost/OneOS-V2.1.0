@@ -1,0 +1,10 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HK32F39ARET6
+    help
+        Select the device in HK32F39A
+
+    config TEMP_HK32F39ARET6
+        bool "HK32F39ARET6"
+        
+endchoice

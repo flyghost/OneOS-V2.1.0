@@ -1,0 +1,34 @@
+menu "ram"
+		config MYNEWT_VAL_BLE_HCI_EVT_HI_BUF_COUNT
+		    int "Number of high-priority event buffers."
+		    default  2
+
+
+		config MYNEWT_VAL_BLE_HCI_EVT_LO_BUF_COUNT
+		    int "Number of low-priority event buffers."
+		    default  8
+
+
+		config MYNEWT_VAL_BLE_HCI_EVT_BUF_SIZE
+		    int "Size of each event buffer, in bytes."
+			default  257 if BLE_EXT_ADV
+		    default  70
+
+
+		config MYNEWT_VAL_BLE_ACL_BUF_COUNT
+		    int "The number of ACL data buffers"
+		    default 4
+
+
+		config MYNEWT_VAL_BLE_ACL_BUF_SIZE
+		    int "This is the maximum size of the data portion of HCI ACL data packets"
+		    default 255
+
+		    help 
+				This is the maximum size of the data portion of HCI ACL data packets. It does not include the HCI data header (of 4 bytes).
+
+		config MYNEWT_VAL_BLE_TRANS_RAM_SYSINIT_STAGE
+		    int "Sysinit stage for the RAM BLE transport."
+		    default 100
+endmenu
+

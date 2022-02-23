@@ -1,0 +1,33 @@
+from build_tools import *
+Import('OS_ROOT')
+Import('BEKEN_CFG')
+
+cwd  = PresentDir()
+
+src = []
+src += ["sensor.c"]
+
+path = []
+path += [cwd + '/']
+
+#sys_config = os.path.join(cwd, '..', '..', '..', 'config', 'sys_config.h')
+sys_config = BEKEN_CFG
+options = LocalOptions(sys_config)
+
+sensor_lib_name = 'sensor'
+
+libs = [sensor_lib_name]
+libpath = [cwd + '/']
+
+
+if (IsLocalDefined(options, 'CFG_WIFI_SENSOR') == 0):
+    group = []
+else:
+    group_use_lib = AddCodeGroup('beken_sensor_lib', [], depend = ['SOC_FAMILY_BK72XX'], CPPPATH = path, LIBS = libs, LIBPATH = libpath)
+
+    group_build_lib = AddCodeGroup('beken_sensor', src, depend = ['BUILD_LIB'], CPPPATH = path, LIBS = libs, LIBPATH = libpath, LIBNAME = 'lib' + sensor_lib_name + '.a')
+
+    group = group_use_lib + group_build_lib
+
+
+Return('group')

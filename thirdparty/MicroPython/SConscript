@@ -1,0 +1,103 @@
+import os
+import sys
+import subprocess
+from build_tools import *
+Import('OS_ROOT')
+
+objs = []
+cwd  = PresentDir()
+list = os.listdir(cwd)
+
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        objs = objs + SConscript(os.path.join(item, 'SConscript'))
+
+global qstr_srcs
+qstr_srcs=[]
+def gen_srcs():
+    global qstr_srcs
+    for item in objs:
+        filename=str(item)
+        dlen = len(cwd)
+        if filename[:dlen] == cwd:
+            if filename[dlen:] != "\\kernel\\lib\\utils\\pyexec.c":
+                qstr_srcs.append(str(item))
+    qstr_srcs.append(cwd+"/kernel/py/mpconfig.h")
+    qstr_srcs.append(cwd+"/user/start/include/mpconfigport.h")
+
+def create_dir_not_exist(path):
+    print(path)
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+def gen_qstr(env, target, source):
+    ucwd = "../../thirdparty/MicroPython/"
+    qstr_files=""
+    dlen = len(cwd)
+    for item in objs:
+        filename=str(item)
+        if filename[:dlen] == cwd:
+            qstr_files+=ucwd+filename[dlen+1:]+" "
+    qstr_files+=ucwd+"kernel/py/mpconfig.h"+" "  
+    qstr_files+=ucwd+"user/start/include/mpconfigport.h"
+
+    qenv_path = Env.get('CPPPATH', [''])
+    # special cflags
+    qstr_flags=' -E -DNO_QSTR'
+    qenv_lpath=" "
+    vcwd = "../../"
+    dlen = len(OS_ROOT)
+    for j in qenv_path:
+        filename=str(j)
+        qenv_lpath+="-I"+vcwd+filename[dlen+1:]+" "
+    #need cpppaths after micropython
+    qenv_lpath+="-I../../libc/include"+" "
+    qenv_lpath+="-I../../libc/include/newlib"+" "
+
+    gendir = cwd+"/user/start/include/genhdr"
+    create_dir_not_exist(gendir)
+
+    qstr_cmd="python "+cwd+"/tools/makeversionhdr.py "+cwd+"/user/start/include/genhdr/mpversion.h"
+    print("GEN genhdr/mpversion.h")
+    subprocess.run(qstr_cmd)
+
+    qstr_cmd="arm-none-eabi-gcc " + qstr_flags + qenv_lpath + qstr_files
+    outfile1=cwd+"/user/start/include/genhdr/qstr.i.last"
+    outfile2=cwd+"/user/start/include/genhdr/qstr.i.last.err"
+    f1=open(outfile1, 'w')
+    f2=open(outfile2, 'w')
+    print("GEN genhdr/qstr.i.last")
+    p=subprocess.Popen(qstr_cmd,stdout=f1,stderr=f2)
+    p.wait()
+    f1.close()
+    f2.close()
+
+    qstr_cmd="python "+cwd+"/tools/makeqstrdefs.py split "+cwd+"/user/start/include/genhdr/qstr.i.last "+cwd+"/user/start/include/genhdr/qstr "+cwd+"/user/start/include/genhdr/qstrdefs.collected.h"
+    print("GEN genhdr/qstr.split")
+    mqdef = subprocess.run(qstr_cmd)
+    if mqdef.returncode != 0:
+        sys.exit(1)
+
+    qstr_cmd="touch "+cwd+"/user/start/include/genhdr/qstr.split"
+    subprocess.run(qstr_cmd)
+
+    qstr_cmd="python "+cwd+"/tools/makeqstrdefs.py cat "+cwd+"/user/start/include/genhdr/qstr.i.last "+cwd+"/user/start/include/genhdr/qstr "+cwd+"/user/start/include/genhdr/qstrdefs.collected.h"
+    print("GEN genhdr/qstrdefs.collected.h")
+    subprocess.run(qstr_cmd)
+
+
+    qstr_cmd=r"cat "+cwd+"/kernel/py/qstrdefs.h "+cwd+r"/user/start/include/genhdr/qstrdefs.collected.h | sed 's/^Q(.*)/\"&\"/' | arm-none-eabi-gcc " + qstr_flags + qenv_lpath + r" - | sed 's/^\"\(Q(.*)\)\"/\1/' > " +cwd+"/user/start/include/genhdr/qstrdefs.preprocessed.h"
+    print("GEN genhdr/qstrdefs.preprocessed.h")
+    # pipe need os.system, can't use subprocess
+    os.system(qstr_cmd)
+
+    qstr_cmd="python "+cwd+"/tools/makeqstrdata.py "+cwd+"/user/start/include/genhdr/qstrdefs.preprocessed.h > " +cwd+"/user/start/include/genhdr/qstrdefs.generated.h"
+    print("GEN genhdr/qstrdefs.generated.h")
+    # pipe need os.system, can't use subprocess
+    os.system(qstr_cmd)
+
+gen_srcs()
+qstr_target=cwd+"/user/start/include/genhdr/qstr.i.last"
+Export('qstr_target', 'qstr_srcs', 'gen_qstr')
+
+Return('objs')

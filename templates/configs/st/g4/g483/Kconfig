@@ -1,0 +1,25 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32G483CE
+    help
+        Select the device in STM32G483xx
+
+    config TEMP_STM32G483CE
+        bool "STM32G483CE"
+
+    config TEMP_STM32G483ME
+        bool "STM32G483ME"
+    
+    config TEMP_STM32G483PE
+        bool "STM32G483PE"
+
+    config TEMP_STM32G483QE
+        bool "STM32G483QE"
+
+    config TEMP_STM32G483RE
+        bool "STM32G483RE"
+
+    config TEMP_STM32G483VE
+        bool "STM32G483VE"
+
+endchoice

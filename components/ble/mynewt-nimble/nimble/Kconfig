@@ -1,0 +1,184 @@
+menu "NimBLE"
+
+    if BLE_USING_NIMBLE
+        # config MYNEWT_VAL_BLE_ROLE_BROADCASTER
+        #    int "Enables the Broadcaster bluetooth role. (0/1)"
+        #    default 1
+        config BLE_ROLE_BROADCASTER
+            bool "Enables the Broadcaster bluetooth role. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ROLE_BROADCASTER
+            int 
+            default 0 if !BLE_ROLE_BROADCASTER
+            default 1 if BLE_ROLE_BROADCASTER
+
+
+        # config MYNEWT_VAL_BLE_ROLE_PERIPHERAL
+        #    int "Enables the Peripheral bluetooth role. (0/1)"
+        #    default 1
+        config BLE_ROLE_PERIPHERAL
+            bool "Enables the Peripheral bluetooth role. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ROLE_PERIPHERAL
+            int 
+            default 0 if !BLE_ROLE_PERIPHERAL
+            default 1 if BLE_ROLE_PERIPHERAL
+
+
+        # config MYNEWT_VAL_BLE_ROLE_OBSERVER
+        #    int "Enables the Observer bluetooth role. (0/1)"
+        #    default 1
+        config BLE_ROLE_OBSERVER
+            bool "Enables the Observer bluetooth role. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ROLE_OBSERVER
+            int 
+            default 0 if !BLE_ROLE_OBSERVER
+            default 1 if BLE_ROLE_OBSERVER
+
+
+        # config MYNEWT_VAL_BLE_ROLE_CENTRAL
+        #    int "Enables the Central bluetooth role. (0/1)"
+        #    default 1
+        config BLE_ROLE_CENTRAL
+            bool "Enables the Central bluetooth role. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ROLE_CENTRAL
+            int 
+            default 0 if !BLE_ROLE_CENTRAL
+            default 1 if BLE_ROLE_CENTRAL
+
+
+		config MYNEWT_VAL_BLE_MAX_CONNECTIONS
+		    int "The maximum number of concurrent connections."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MAX_PERIODIC_SYNCS
+		    int "The maximum number of concurrent periodic syncs that can  be created"
+		    default 1
+
+
+
+        # config MYNEWT_VAL_BLE_WHITELIST
+        #    int "Enables the BLE whitelist for controlling who to connect to or accept a connection from. (0/1)"
+        #    default 1
+        config BLE_WHITELIST
+            bool "Enables the BLE whitelist for controlling who to connect to or accept a connection from. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_WHITELIST
+            int 
+            default 0 if !BLE_WHITELIST
+            default 1 if BLE_WHITELIST
+
+		config MYNEWT_VAL_BLE_MULTI_ADV_INSTANCES
+		    int "This is the number of multi-advertising instances"
+		    default 0
+
+		    help 
+				This is the number of multi-advertising instances. This is NOT the total number of advertising instances. The total number of advertising instances is this number plus 1 (assuming the device supports advertising).
+
+		# config MYNEWT_VAL_BLE_EXT_ADV
+		#     int "This enables extended advertising feature."
+		#     default 0
+        config BLE_EXT_ADV
+            bool "This enables extended advertising feature."
+            default n
+        config MYNEWT_VAL_BLE_EXT_ADV
+            int
+            default 0 if !BLE_EXT_ADV
+            default 1 if BLE_EXT_ADV
+
+
+		# config MYNEWT_VAL_BLE_PERIODIC_ADV
+		#     int "This enables periodic advertising feature."
+		#     default 0
+        config BLE_PERIODIC_ADV
+            bool "This enables periodic advertising feature."
+            default n
+        config MYNEWT_VAL_BLE_PERIODIC_ADV
+            int
+            default 0 if !BLE_PERIODIC_ADV
+            default 1 if BLE_PERIODIC_ADV
+
+
+
+		# config MYNEWT_VAL_BLE_PERIODIC_ADV_SYNC_TRANSFER
+		#     int "This enables Periodic Advertising Sync Transfer Feature."
+		#     default 0
+        config BLE_PERIODIC_ADV_SYNC_TRANSFER
+            bool "This enables Periodic Advertising Sync Transfer Feature."
+            default n
+        config MYNEWT_VAL_BLE_PERIODIC_ADV_SYNC_TRANSFER
+            int
+            default 0 if !BLE_PERIODIC_ADV_SYNC_TRANSFER
+            default 1 if BLE_PERIODIC_ADV_SYNC_TRANSFER
+
+
+
+		config MYNEWT_VAL_BLE_EXT_ADV_MAX_SIZE
+		    int "This allows to configure maximum size of advertising data and scan response data used in LE Advertising Extensions"
+		    default 31
+
+		    help 
+				This allows to configure maximum size of advertising data and scan response data used in LE Advertising Extensions. Valid range 31-1650.
+
+		config MYNEWT_VAL_BLE_VERSION
+		    int "This allows to configure supported Bluetooth Core version"
+		    default 50
+
+		    help 
+				This allows to configure supported Bluetooth Core version. Some features may not be available if version is too low. Version is integer for easy comparison.
+
+		# config MYNEWT_VAL_BLE_ISO
+		#     int "This enables LE Isochronous Channels as per Bluetooth v5.2"
+		#     default 0
+        config BLE_ISO
+            bool "This enables LE Isochronous Channels as per Bluetooth v5.2"
+            default n
+        config MYNEWT_VAL_BLE_ISO
+            int
+            default 0 if !BLE_ISO
+            default 1 if BLE_ISO
+
+
+
+        # config MYNEWT_VAL_BLE_ISO_TEST
+        #    int "Enables BLE ISO Testing commands"
+        #    default 0
+        config BLE_ISO_TEST
+            bool "Enables BLE ISO Testing commands"
+            default n
+        config MYNEWT_VAL_BLE_ISO_TEST
+            int 
+            default 0 if !BLE_ISO_TEST
+            default 1 if BLE_ISO_TEST
+
+
+        config MYNEWT_VAL_MSYS_1_BLOCK_COUNT
+            int "Nimble memory system 1 block count."
+            default 12
+        
+        config MYNEWT_VAL_MSYS_1_BLOCK_SIZE
+            int "Nimble memory system 1 block size."
+            default 292
+
+        config MYNEWT_VAL_MSYS_2_BLOCK_COUNT
+            int "Nimble memory system 2 block count."
+            default 0
+        
+        config MYNEWT_VAL_MSYS_2_BLOCK_SIZE
+            int "Nimble memory system 2 block size."
+            default 0
+        
+
+        source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/Kconfig"
+        source "$OS_ROOT/components/ble/mynewt-nimble/nimble/controller/Kconfig"
+		source "$OS_ROOT/components/ble/mynewt-nimble/nimble/transport/Kconfig"
+        source "$OS_ROOT/components/ble/mynewt-nimble/nimble/drivers/Kconfig"
+
+        config NIMBLE_CFG_TINYCRYPT
+		    bool "NimBLE use tinycrypt in SM."
+		    default y
+    endif
+endmenu

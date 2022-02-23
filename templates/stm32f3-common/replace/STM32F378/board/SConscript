@@ -1,0 +1,31 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+CubeMX_Config/Core/Src/bsp.c
+CubeMX_Config/Core/Src/stm32f3xx_it_bsp.c
+CubeMX_Config/Core/Src/stm32f3xx_hal_msp.c
+CubeMX_Config/Core/Src/system_stm32f3xx.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/CubeMX_Config/Core/Inc']
+path += [pwd + '/ports']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_stm32f378xx_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_stm32f378xx_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_stm32f378xx_iar.s']
+
+CPPDEFINES = ['STM32F378xx']
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

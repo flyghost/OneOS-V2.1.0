@@ -1,0 +1,4 @@
+config OS_USING_CANFESTIVAL_EXAMPLE
+bool "Enable CanFestival example"
+default n
+source "$OS_ROOT/components/industrial/canopen/canfestival/examples/*/Kconfig"

@@ -1,0 +1,22 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=nrf
+
+config BOARD_PCA10056
+    bool
+    select SOC_NRF52840
+    default y
+
+# config BLE_APP_BEACON
+#     bool 
+#     default y
+config BLE_APP_HRS
+    bool 
+    default y
+# config BLE_APP_BAS
+#     bool 
+#     default y
+
+source "$OS_ROOT/Kconfig"

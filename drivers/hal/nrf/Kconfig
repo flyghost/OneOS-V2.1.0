@@ -1,0 +1,13 @@
+config SOC_FAMILY_NRF52
+    bool
+    default n
+
+#source "$OS_ROOT/drivers/hal/nrf/NRF5_HAL/components/libraries/Kconfig"
+#source "$OS_ROOT/drivers/hal/nrf/NRF5_HAL/integration/nrfx/legacy/Kconfig"
+#source "$OS_ROOT/drivers/hal/nrf/NRF5_HAL/modules/nrfx/drivers/src/Kconfig"
+#source "$OS_ROOT/drivers/hal/nrf/NRF5_HAL/modules/nrfx/hal/Kconfig"
+source "$OS_ROOT/drivers/hal/nrf/NRF5_HAL/Kconfig"
+
+if SOC_FAMILY_NRF52
+source "$OS_ROOT/drivers/hal/nrf/drivers/Kconfig"
+endif

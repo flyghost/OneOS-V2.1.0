@@ -1,0 +1,23 @@
+# for module compiling
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+pwd  = PresentDir()
+
+path  = [pwd]
+path += [pwd+"/src"]
+
+src = ['lvgl.c']
+src += Glob('src/lv_core/*.c')
+src += Glob('src/lv_draw/*.c')
+src += Glob('src/lv_font/*.c')
+src += Glob('src/lv_gpu/*.c')
+src += Glob('src/lv_hal/*.c')
+src += Glob('src/lv_misc/*.c')
+src += Glob('src/lv_themes/*.c')
+src += Glob('src/lv_widgets/*.c')
+
+objs = AddCodeGroup('gui/lvgl', src, depend = ['OS_USING_GUI_LVGL'], CPPPATH = path)
+
+Return('objs')

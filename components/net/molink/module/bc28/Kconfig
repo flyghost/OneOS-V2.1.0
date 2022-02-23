@@ -1,0 +1,81 @@
+menu "BC28 Config" 
+
+    config BC28_AUTO_CREATE
+        bool "Enable BC28 Module Object Auto Create"
+        select MOLINK_USING_AUTO_CREATE
+        default n
+
+    if BC28_AUTO_CREATE
+
+        config BC28_DEVICE_NAME
+            string "BC28 Interface Device Name"
+            default "uart2"
+
+        config BC28_DEVICE_RATE
+            int "BC28 Interface Device Rate"
+            default 9600
+
+        config BC28_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 1500
+
+    endif
+
+    config BC28_USING_GENERAL_OPS
+        bool "Enable BC28 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config BC28_USING_NETSERV_OPS
+        bool "Enable BC28 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config BC28_USING_PING_OPS
+        bool "Enable BC28 Module Ping Operates"
+        select BC28_USING_NETSERV_OPS
+        select BC28_USING_NETCONN_OPS
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config BC28_USING_IFCONFIG_OPS
+        bool "Enable BC28 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select BC28_USING_GENERAL_OPS
+        select BC28_USING_NETSERV_OPS
+        default y
+
+    config BC28_USING_NETCONN_OPS
+        bool "Enable BC28 Module Network TCP/IP Operates"
+        select BC28_USING_NETSERV_OPS
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config BC28_USING_SOCKETS_OPS
+        bool "Enable BC28 Module BSD Socket Operates"
+        select BC28_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+#    config BC28_USING_ONENET_NB_OPS
+#        bool "Enable BC28 Module Onenet Nb Operates"
+#        select MOLINK_USING_ONENET_NB_OPS
+#        default y
+#
+#    if BC28_USING_ONENET_NB_OPS
+#
+#        config BC28_RESP_BUFF_SIZE
+#            int "The OneNET AT Parser stack size"
+#            default 128
+#
+#        config BC28_URC_MANAGER_TASK_PRIORITY
+#            hex "The URC manager task priority"
+#            default 0x10
+#
+#        config BC28_URC_MANAGER_STACK_SIZE
+#            int "The URC manager task stack size"
+#            default 2048
+#
+#    endif
+
+endmenu

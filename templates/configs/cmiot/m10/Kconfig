@@ -1,0 +1,14 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_CM32M101
+    help
+        Select the device in CM32M101
+
+    config MODEL_CM32M101
+        bool "CM32M101"
+
+endchoice
+
+if MODEL_CM32M101
+    source "$OS_ROOT/templates/configs/cmiot/m10/m101/Kconfig"
+endif

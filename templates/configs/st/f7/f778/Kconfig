@@ -1,0 +1,10 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F778AI
+    help
+        Select the device in STM32F778xx
+
+    config TEMP_STM32F778AI
+        bool "STM32F778AI"
+    
+endchoice

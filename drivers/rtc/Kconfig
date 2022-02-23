@@ -1,0 +1,10 @@
+menu "RTC"
+    config OS_USING_RTC
+        bool "Using RTC drivers"
+        default n
+        if OS_USING_RTC
+            config OS_RTC_DEV_NAME
+                string "rtc device name"
+                default "rtc"
+        endif
+endmenu

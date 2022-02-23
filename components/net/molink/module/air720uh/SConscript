@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_AIR720UH']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/air720uh.c')
+
+if IsDefined(['AIR720UH_USING_GENERAL_OPS']):
+    src += Glob('source/air720uh_general.c')
+
+if IsDefined(['AIR720UH_USING_NETSERV_OPS']):
+    src += Glob('source/air720uh_netserv.c')
+
+if IsDefined(['AIR720UH_USING_PING_OPS']):
+    src += Glob('source/air720uh_ping.c')
+
+if IsDefined(['AIR720UH_USING_IFCONFIG_OPS']):
+    src += Glob('source/air720uh_ifconfig.c')
+
+if IsDefined(['AIR720UH_USING_NETCONN_OPS']):
+    src += Glob('source/air720uh_netconn.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

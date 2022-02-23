@@ -1,0 +1,57 @@
+
+menu "GM120 Config" 
+
+    config GM120_AUTO_CREATE
+        bool "Enable GM120 Module Object Auto Create"
+        default n
+
+    if GM120_AUTO_CREATE
+
+        config GM120_DEVICE_NAME
+            string "GM120 Interface Device Name"
+            default "uart2"
+
+        config GM120_DEVICE_RATE
+            int "GM120 Interface Device Rate"
+            default 115200
+
+        config GM120_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 122
+
+    endif
+
+    config GM120_USING_GENERAL_OPS
+        bool "Enable GM120 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config GM120_USING_NETSERV_OPS
+        bool "Enable GM120 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+		
+    config GM120_USING_PING_OPS
+        bool "Enable GM120 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+		
+    config GM120_USING_IFCONFIG_OPS
+        bool "Enable GM120 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select GM120_USING_GENERAL_OPS
+        select GM120_USING_NETSERV_OPS
+        default y
+		
+    config GM120_USING_NETCONN_OPS
+        bool "Enable GM120 Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config GM120_USING_SOCKETS_OPS
+        bool "Enable GM120 Module BSD Socket Operates"
+        select GM120_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

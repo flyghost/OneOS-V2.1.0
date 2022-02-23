@@ -1,0 +1,134 @@
+config BSP_USING_GPIO
+    bool "Enable GPIO"
+    select OS_USING_PIN
+    default y
+
+menuconfig BSP_USING_LPUART
+    bool "Enable LPUART(only can select two DMA ch for all lpuarts and uarts)"
+    default n
+    select OS_USING_SERIAL
+
+    if BSP_USING_LPUART
+
+        config BSP_USING_LPUART0
+            bool "Enable LPUART0"
+            default n
+
+        config LPUART0_USING_DMA
+            depends on BSP_USING_LPUART0
+            bool "Lpuart0 using dma"
+            default n
+
+        config BSP_USING_LPUART1
+            bool "Enable LPUART1"
+            default n
+
+        config LPUART1_USING_DMA
+            depends on BSP_USING_LPUART1
+            bool "Lpuart1 using dma"
+            default n
+
+    endif
+
+menuconfig BSP_USING_UART
+    bool "Enable UART  (only can select two DMA ch for all lpuarts and uarts)"
+    default y
+    select OS_USING_SERIAL
+
+    if BSP_USING_UART
+
+        config BSP_USING_UART0
+            bool "Enable UART0"
+            default n
+
+        config UART0_USING_DMA
+            depends on BSP_USING_UART0
+            bool "Uart0 using dma"
+            default n
+
+        config BSP_USING_UART1
+            bool "Enable UART1"
+            default y
+
+        config UART1_USING_DMA
+            depends on BSP_USING_UART1
+            bool "Uart1 using dma"
+            default n
+
+        config BSP_USING_UART2
+            bool "Enable UART2"
+            default n
+
+        config UART2_USING_DMA
+            depends on BSP_USING_UART2
+            bool "Uart2 using dma"
+            default n
+
+        config BSP_USING_UART3
+            bool "Enable UART3"
+            default n
+
+        config UART3_USING_DMA
+            depends on BSP_USING_UART3
+            bool "Uart3 using dma"
+            default n
+    endif
+
+menuconfig BSP_USING_I2C
+    bool "Enable I2C"
+    select OS_USING_I2C
+    default n
+
+    if BSP_USING_I2C
+        config BSP_USING_I2C0
+            bool "Enable I2C0"
+            default y
+
+        config BSP_USING_I2C1
+            bool "Enable I2C1"
+            default n
+    endif
+
+menuconfig BSP_USING_SPI
+    bool "Enable SPI"
+    select OS_USING_SPI
+    default n
+
+    if BSP_USING_SPI
+        config BSP_USING_SPI0
+            bool "Enable SPI0"
+            default y
+
+        config BSP_USING_SPI1
+            bool "Enable SPI1"
+            default n
+    endif
+
+menuconfig BSP_USING_LPTIM
+    bool "Enable LPTIMER"
+    select OS_USING_TIMER_DRIVER
+    select OS_USING_CLOCKSOURCE
+    select OS_USING_CLOCKEVENT
+    default n
+
+    if BSP_USING_LPTIM
+        config BSP_USING_LPTIM0
+            bool "Enable LPTIM0"
+            default y
+
+        config BSP_USING_LPTIM1
+            bool "Enable LPTIM1"
+            default n
+    endif
+
+config BSP_USING_TIMER
+    bool "Enable TIMER"
+    select OS_USING_TIMER_DRIVER
+    select OS_USING_CLOCKSOURCE
+    select OS_USING_CLOCKEVENT
+    default n
+
+config BSP_USING_ON_CHIP_FLASH
+    bool "Enable on-chip FLASH"
+    select OS_USING_FAL
+    default y

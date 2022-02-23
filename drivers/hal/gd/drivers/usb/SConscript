@@ -1,0 +1,43 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = []
+
+if IsDefined(['BSP_USING_USBH']):
+    src += ['driver/Source/drv_usb_core.c']
+    src += ['driver/Source/drv_usb_host.c']
+    src += ['driver/Source/drv_usbh_int.c']
+
+    src += ['host/core/Source/usbh_core.c']
+    src += ['host/core/Source/usbh_enum.c']
+    src += ['host/core/Source/usbh_pipe.c']
+    src += ['host/core/Source/usbh_transc.c']
+
+    src += ['host/class/cdc/Source/usbh_cdc_core.c']
+
+    src += ['gd32f4xx_usb_hw.c']
+
+    src += ['cmsis_rtos/cmsis_os.c']
+    
+path = [
+    pwd,
+    pwd + '/driver/Include',
+    pwd + '/host/core/Include',
+    pwd + '/host/class/cdc/Include',
+    pwd + '/std/class/cdc',
+    pwd + '/std/class/hid',
+    pwd + '/std/class/msc',
+    pwd + '/std/class/rndis',
+    pwd + '/std/common',
+    pwd + '/cmsis_rtos'
+    ]
+
+CPPDEFINES = ['USE_STDPERIPH_DRIVER']
+group = AddCodeGroup('usb', src, depend = ['SERIES_GD32F4XX'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

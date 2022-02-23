@@ -1,0 +1,24 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../../"
+
+testtool_src  = Glob(root_path + "c-utility/testtools/ctest/src/*.c")
+testtool_src += Glob(root_path + "c-utility/testtools/ctest/tests/ctest_ut/*.c")
+testtool_src += Glob(root_path + "c-utility/testtools/src/*.c")
+testtool_src += Glob(root_path + "c-utility/testtools/umock-c/src/*.c")
+testtool_path = [
+	pwd + root_path + 'c-utility/testtools/ctest/inc',
+	pwd + root_path + 'c-utility/testtools/testrunner/inc',
+	pwd + root_path + 'c-utility/testtools/umock-c/deps/ctest/inc',
+	pwd + root_path + 'c-utility/testtools/ctest/inc',
+	pwd + root_path + 'c-utility/testtools/umock-c/inc'
+#	pwd + root_path + ' '
+]
+
+group = AddCodeGroup('cloud/baidu/testtool', testtool_src, depend = ['BAIDUIOT_DEMO'], CPPPATH = testtool_path)
+
+Return('group')

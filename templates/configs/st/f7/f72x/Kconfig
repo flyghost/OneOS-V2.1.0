@@ -1,0 +1,37 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32f722-st-nucleo
+    help
+        Select the device in STM32F72x
+
+    config TEMP_stm32f722-st-nucleo
+        bool "stm32f722-st-nucleo"
+    config TEMP_STM32F722IC
+        bool "STM32F722IC"
+    config TEMP_STM32F722IE
+        bool "STM32F722IE"
+    config TEMP_STM32F722RC
+        bool "STM32F722RC"
+    config TEMP_STM32F722RE
+        bool "STM32F722RE"
+    config TEMP_STM32F722VC
+        bool "STM32F722VC"
+    config TEMP_STM32F722VE
+        bool "STM32F722VE"
+    config TEMP_STM32F722ZC
+        bool "STM32F722ZC"
+    config TEMP_STM32F722ZE
+        bool "STM32F722ZE"
+    config TEMP_STM32F723IC
+        bool "STM32F723IC"
+    config TEMP_STM32F723IE
+        bool "STM32F723IE"
+    config TEMP_STM32F723VC
+        bool "STM32F723VC"
+    config TEMP_STM32F723VE
+        bool "STM32F723VE"
+    config TEMP_STM32F723ZC
+        bool "STM32F723ZC"
+    config TEMP_STM32F723ZE
+        bool "STM32F723ZE"
+endchoice

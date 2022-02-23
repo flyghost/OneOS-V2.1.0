@@ -1,0 +1,29 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F412ZG
+    help
+        Select the device in STM32F412xx
+
+    config TEMP_STM32F412CE
+        bool "STM32F412CE"
+        
+    config TEMP_STM32F412CG
+        bool "STM32F412CG"
+        
+    config TEMP_STM32F412RG
+        bool "STM32F412RG"
+    
+    config TEMP_STM32F412VE
+        bool "STM32F412VE"
+        
+    config TEMP_STM32F412VG
+        bool "STM32F412VG"
+        
+
+    config TEMP_STM32F412ZE
+        bool "STM32F412ZE"
+        
+    config TEMP_STM32F412ZG
+        bool "STM32F412ZG"
+    
+endchoice

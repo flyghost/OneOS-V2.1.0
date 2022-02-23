@@ -1,0 +1,58 @@
+
+menu "N21 Config" 
+
+    config N21_AUTO_CREATE
+        bool "Enable N21 Module Object Auto Create"
+        default n
+
+    if N21_AUTO_CREATE
+
+        config N21_DEVICE_NAME
+            string "N21 Interface Device Name"
+            default "uart2"
+
+        config N21_DEVICE_RATE
+            int "N21 Interface Device Rate"
+            default 57600
+            range 0 57600
+
+        config N21_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config N21_USING_GENERAL_OPS
+        bool "Enable N21 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config N21_USING_NETSERV_OPS
+        bool "Enable N21 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config N21_USING_PING_OPS
+        bool "Enable N21 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config N21_USING_IFCONFIG_OPS
+        bool "Enable N21 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select N21_USING_GENERAL_OPS
+        select N21_USING_NETSERV_OPS
+        default y
+
+    config N21_USING_NETCONN_OPS
+        bool "Enable N21 Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config N21_USING_SOCKETS_OPS
+        bool "Enable N21 Module BSD Socket Operates"
+        select N21_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

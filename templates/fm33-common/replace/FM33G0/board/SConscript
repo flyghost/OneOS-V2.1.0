@@ -1,0 +1,38 @@
+import os
+import osconfig
+from build_tools import *
+
+#sys.path.append(Env['OS_ROOT'] + '/drivers/hal/st/scripts/')
+#import prebuild
+#prebuild.prebuild(Env['BSP_ROOT'])
+
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+bsp_config/Src/system_FM33G0XX.c
+bsp_config/Src/bsp.c
+bsp_config/Src/user_init.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/bsp_config/Inc']
+path += [pwd + '/ports']
+path += [pwd + '/peripheral']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_FM33G0XX_gcc.s']
+    path += [pwd + '/bsp_config/Inc/armgcc']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_FM33G0XX_arm.s']
+    path += [pwd + '/bsp_config/Inc/armgcc']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_FM33G0XX_iar.s']
+    path += [pwd + '/bsp_config/Inc/iar']
+
+CPPDEFINES = ['USE_HAL_DRIVER', '__VTOR_PRESENT', '__DEBUG'] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

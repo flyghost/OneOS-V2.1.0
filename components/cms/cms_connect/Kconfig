@@ -1,0 +1,61 @@
+menu "CMS Connect"
+
+config USING_CMS_CONNECT
+    bool "Using CMS connect component"
+    select NET_USING_BSD
+    select CMS_HEARTBEAT_ENABLE
+    default n
+    
+    if USING_CMS_CONNECT
+        choice
+            prompt "Application Protocol"
+            default CMS_CONNECT_MQTT
+
+            config CMS_CONNECT_MQTT
+                bool "MQTT"
+                select NET_USING_PAHO_MQTT
+
+            config CMS_CONNECT_UDP
+                bool "UDP"
+
+            config CMS_CONNECT_TCP
+                bool "TCP"
+        endchoice
+    endif
+
+    if USING_CMS_CONNECT
+        choice
+            prompt "CMS log print level"
+            default CMS_LOG_INFO
+
+            config CMS_LOG_ERROR
+                bool "Error"
+
+            config CMS_LOG_WARNING
+                bool "Warning"
+
+            config CMS_LOG_INFO
+                bool "Info"
+
+            config CMS_LOG_DEBUG
+                bool "Debug"
+
+        endchoice
+    endif
+
+    source "$OS_ROOT/components/cms/cms_connect/source/connect_manager/Kconfig"
+    source "$OS_ROOT/components/cms/cms_connect/source/connect_server/Kconfig"
+    
+    if CMS_CONNECT_COAP
+        source "$OS_ROOT/components/cms/cms_connect/source/coap/Kconfig"
+    endif
+    
+    if CMS_CONNECT_MQTT
+        source "$OS_ROOT/components/cms/cms_connect/source/mqtt/Kconfig"
+    endif
+
+    if CMS_CONNECT_LWM2M
+        source "$OS_ROOT/components/cms/cms_connect/source/lwm2m/Kconfig"
+    endif
+
+endmenu

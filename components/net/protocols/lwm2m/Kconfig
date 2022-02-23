@@ -1,0 +1,4 @@
+menu "LWM2M"
+    source "$OS_ROOT/components/net/protocols/lwm2m/*/Kconfig"
+endmenu
+

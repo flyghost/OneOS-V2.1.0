@@ -1,0 +1,70 @@
+menu "MQTT"
+
+config OS_USING_CTWING_MQTT
+    bool "Enable ctwing mqtt"
+    select NET_USING_PAHO_MQTT
+    select PKG_USING_CJSON
+    select NET_USING_BSD
+    default n
+
+if OS_USING_CTWING_MQTT
+
+    config CTIOT_MQTT_USING_TLS
+        bool "Enable ctwing mqtt TLS encrypt"
+        select SECURITY_USING_MBEDTLS
+        default n
+
+    config CTIOT_MQTT_DEVICE_NEED_DN_DATA
+        bool "Enable device echo server command"
+        default y
+
+    config CTIOT_MQTT_DEVICE_TRANSPARENT
+        bool "Enable device transparent transport"
+        default n
+
+    choice
+        prompt "The ctiot mqtt global output log level"
+        default CTIOT_LOG_OUTPUT_LVL_D
+        help
+            When the log level is less than this option and it will stop output.
+
+        config CTIOT_LOG_OUTPUT_LVL_D
+            bool "Debug"
+        config CTIOT_LOG_OUTPUT_LVL_I
+            bool "Information"
+        config CTIOT_LOG_OUTPUT_LVL_W
+            bool "Warning"
+        config CTIOT_LOG_OUTPUT_LVL_E
+            bool "Error"
+        config CTIOT_LOG_OUTPUT_LVL_F
+            bool "Fatal"
+    endchoice
+
+    config CTIOT_LOG_LEVEL_GLOBAL
+        int
+        default 0 if CTIOT_LOG_OUTPUT_LVL_D
+        default 1 if CTIOT_LOG_OUTPUT_LVL_I
+        default 2 if CTIOT_LOG_OUTPUT_LVL_W
+        default 3 if CTIOT_LOG_OUTPUT_LVL_E
+        default 4 if CTIOT_LOG_OUTPUT_LVL_F
+
+    config CTIOT_MQTT_USING_DEMO
+            bool "Enable ctiot mqtt demo"
+            default y
+
+        if CTIOT_MQTT_USING_DEMO
+            config CTIOT_MQTT_DEVICE_NUMBER	
+            string "Config demo device number"
+                default ""
+
+            config CTIOT_MQTT_DEVICE_ID
+            string "Config demo device id"
+                default "" 
+
+            config CTIOT_MQTT_DEVICE_TOKEN
+            string "Config demo device token"
+                default "" 
+        endif
+    endif
+    
+endmenu

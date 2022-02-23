@@ -1,0 +1,12 @@
+
+
+#include "model_log.h"
+
+
+struct model_misc_fun g_misc_fun;
+
+
+OS_WEAK struct model_misc_fun *model_get_misc_structure(void)
+{
+	return &g_misc_fun;
+}

@@ -1,0 +1,49 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32G071
+    help
+        Select the device in STM32G0xx
+
+    config MODEL_STM32G070
+        bool "STM32G070"
+
+    config MODEL_STM32G071
+        bool "STM32G071"
+        
+    config MODEL_STM32G081
+        bool "STM32G081"
+        
+    config MODEL_STM32G0B0
+        bool "STM32G0B0"
+        
+    config MODEL_STM32G0B1
+        bool "STM32G0B1"
+        
+    config MODEL_STM32G0C1
+        bool "STM32G0C1"
+
+endchoice
+
+if MODEL_STM32G070
+    source "$OS_ROOT/templates/configs/st/g0/g070/Kconfig"
+endif
+
+if MODEL_STM32G071
+    source "$OS_ROOT/templates/configs/st/g0/g071/Kconfig"
+endif
+
+if MODEL_STM32G081
+    source "$OS_ROOT/templates/configs/st/g0/g081/Kconfig"
+endif
+
+if MODEL_STM32G0B0
+    source "$OS_ROOT/templates/configs/st/g0/g0B0/Kconfig"
+endif
+
+if MODEL_STM32G0B1
+    source "$OS_ROOT/templates/configs/st/g0/g0B1/Kconfig"
+endif
+
+if MODEL_STM32G0C1
+    source "$OS_ROOT/templates/configs/st/g0/g0C1/Kconfig"
+endif

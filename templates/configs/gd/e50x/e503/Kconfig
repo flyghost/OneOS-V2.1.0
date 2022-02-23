@@ -1,0 +1,31 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32E503CC
+    help
+        Select the device in GD32E503xx
+
+    config TEMP_GD32E503CC
+        bool "GD32E503CC"
+    
+    config TEMP_GD32E503CE
+        bool "GD32E503CE"
+    
+    config TEMP_GD32E503RC
+        bool "GD32E503RC"
+    
+    config TEMP_GD32E503RE
+        bool "GD32E503RE"
+    
+    config TEMP_GD32E503VC
+        bool "GD32E503VC"
+        
+    config TEMP_GD32E503VE
+        bool "GD32E503VE"
+    
+    config TEMP_GD32E503ZC
+        bool "GD32E503ZC"
+    
+    config TEMP_GD32E503ZE
+        bool "GD32E503ZE"
+
+endchoice

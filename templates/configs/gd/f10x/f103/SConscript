@@ -1,0 +1,19 @@
+import os
+import sys
+import importlib
+import importlib.util
+
+
+target_script = "../templates/gd32-common/generate.py"
+
+def soc_type_inq(g):
+    target_path = None
+	
+    loader = importlib.machinery.SourceFileLoader(os.path.basename(target_script), target_script)
+    spec   = importlib.util.spec_from_loader(loader.name, loader)
+    mod    = importlib.util.module_from_spec(spec)
+    loader.exec_module(mod)
+    target_path = mod.template(g)
+    return target_path
+
+

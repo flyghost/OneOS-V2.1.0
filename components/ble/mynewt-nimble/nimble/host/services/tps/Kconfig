@@ -1,0 +1,6 @@
+menu "tps"
+		config MYNEWT_VAL_BLE_SVC_TPS_SYSINIT_STAGE
+		    int "Sysinit stage for the transmit power BLE service."
+		    default 303
+endmenu
+

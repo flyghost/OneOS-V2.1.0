@@ -1,0 +1,31 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32E103C8
+    help
+        Select the device in GD32E103xx
+
+    config TEMP_GD32E103T8
+        bool "GD32E103T8"
+    
+    config TEMP_GD32E103TB
+        bool "GD32E103TB"
+    
+    config TEMP_GD32E103C8
+        bool "GD32E103C8"
+    
+    config TEMP_GD32E103CB
+        bool "GD32E103CB"
+    
+    config TEMP_GD32E103R8
+        bool "GD32E103R8"
+        
+    config TEMP_GD32E103RB
+        bool "GD32E103RB"
+    
+    config TEMP_GD32E103V8
+        bool "GD32E103V8"
+    
+    config TEMP_GD32E103VB
+        bool "GD32E103VB"
+
+endchoice

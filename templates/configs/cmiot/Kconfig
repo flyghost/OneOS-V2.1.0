@@ -1,0 +1,15 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_CM32M10
+    help
+        Select the device in CM32
+     
+    config SERIES_CM32M10
+        bool "CM32M10"
+   
+endchoice
+
+if SERIES_CM32M10
+    source "$OS_ROOT/templates/configs/cmiot/m10/Kconfig"
+endif
+    

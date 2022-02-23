@@ -1,0 +1,36 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32f446-zet6-nucleo
+    help
+        Select the device in STM32F446xx
+
+    config TEMP_stm32f446-zet6-nucleo
+        bool "stm32f446-zet6-nucleo"
+
+    config TEMP_STM32F446MC
+        bool "STM32F446MC"
+
+    config TEMP_STM32F446ME
+        bool "STM32F446ME"
+
+    config TEMP_STM32F446RC
+        bool "STM32F446RC"
+
+    config TEMP_STM32F446RE
+        bool "STM32F446RE"
+
+    config TEMP_STM32F446VC
+        bool "STM32F446VC"
+
+    config TEMP_STM32F446VE
+        bool "STM32F446VE"
+
+    config TEMP_STM32F446ZC
+        bool "STM32F446ZC"
+
+    config TEMP_STM32F446ZE
+        bool "STM32F446ZE"
+        
+endchoice
+
+ 

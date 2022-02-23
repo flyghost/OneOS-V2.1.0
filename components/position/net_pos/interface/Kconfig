@@ -1,0 +1,21 @@
+menu "network positon"
+	
+	config ONEPOS_NET_POS_DEBUG
+		bool "enable network position debug"
+		default n
+	
+	config NET_POS_SUPP_REMOTE_CONF
+		bool "enable remote config"
+		default n
+	
+	config NET_POS_DEF_INTERVAL
+		int "interval of OnePos(should 3 or over)(s)"
+		range 3 65535
+		default 3	
+
+	config NET_POS_DEF_SEV_TYPE
+		int "default position server run type(0:period ciculation;1:single)"
+		range 0 1
+		default 0
+endmenu
+

@@ -1,0 +1,816 @@
+menu "HOST"
+config OS_USING_NIMBLE_HOST
+    bool "Indicates that a BLE host is present."
+    default y
+
+    if OS_USING_NIMBLE_HOST
+		config MYNEWT_VAL_BLE_HOST
+		    int 
+		    default 1
+
+        config NIMBLE_CFG_HOST
+		    int 
+			default 0 if !OS_USING_NIMBLE_HOST
+		    default 1 if OS_USING_NIMBLE_HOST
+
+
+        config MYNEWT_VAL_BLE_HOST_THREAD_STACK_SIZE
+		    int "BLE host thread stack size"
+			default 1024
+
+		config MYNEWT_VAL_BLE_HOST_THREAD_PRIORITY
+		    int "BLE host thread priority"
+			default 5
+
+
+		config MYNEWT_VAL_BLE_HS_AUTO_START
+		    int "Causes the BLE host to automatically start during system     initialization."
+		    default 1
+
+
+
+        # config MYNEWT_VAL_BLE_HS_DEBUG
+        #    int "Enables extra runtime assertions."
+        #    default 0
+        config BLE_HS_DEBUG
+            bool "Enables extra runtime assertions."
+            default n
+        config MYNEWT_VAL_BLE_HS_DEBUG
+            int 
+            default 0 if !BLE_HS_DEBUG
+            default 1 if BLE_HS_DEBUG
+
+		config MYNEWT_VAL_BLE_HS_PHONY_HCI_ACKS
+		    int "Rather than wait for HCI acknowledgements from a controller, the host simulates incoming acks"
+		    default 0
+
+		    help 
+				Rather than wait for HCI acknowledgements from a controller, the host simulates incoming acks.  Only recommended for test code running in the simulator.
+
+		config MYNEWT_VAL_BLE_HS_REQUIRE_OS
+		    int "Specifies whether the host can depend on the kernel being present"
+		    default 1
+
+		    help 
+				Specifies whether the host can depend on the kernel being present. This should only be disabled for unit tests running in the simulator.
+
+
+        # config MYNEWT_VAL_BLE_MONITOR_UART
+        #    int "Enables monitor interface over UART"
+        #    default 0
+        config BLE_MONITOR_UART
+            bool "Enables monitor interface over UART"
+            default n
+        config MYNEWT_VAL_BLE_MONITOR_UART
+            int 
+            default 0 if !BLE_MONITOR_UART
+            default 1 if BLE_MONITOR_UART
+
+		config MYNEWT_VAL_BLE_MONITOR_UART_DEV
+		    string "Monitor interface UART device"
+		    default "uart0"
+
+		config MYNEWT_VAL_BLE_MONITOR_UART_BAUDRATE
+		    int "Baudrate for monitor interface UART"
+		    default 1000000
+
+
+		config MYNEWT_VAL_BLE_MONITOR_UART_BUFFER_SIZE
+		    int "Monitor interface ringbuffer size for UART. This value should be a power of 2."
+		    default 64
+
+
+
+        # config MYNEWT_VAL_BLE_MONITOR_RTT
+        #    int "Enables monitor interface over RTT"
+        #    default 0
+        config BLE_MONITOR_RTT
+            bool "Enables monitor interface over RTT"
+            default n
+        config MYNEWT_VAL_BLE_MONITOR_RTT
+            int 
+            default 0 if !BLE_MONITOR_RTT
+            default 1 if BLE_MONITOR_RTT
+
+		config MYNEWT_VAL_BLE_MONITOR_RTT_BUFFER_NAME
+		    string "Monitor interface upstream buffer name"
+		    default "btmonitor"
+
+		config MYNEWT_VAL_BLE_MONITOR_RTT_BUFFER_SIZE
+		    int "Monitor interface upstream buffer size"
+		    default 256
+
+
+
+        # config MYNEWT_VAL_BLE_MONITOR_RTT_BUFFERED
+        #    int Enables buffering when using monitor interface over RTT. The data are written to RTT once complete packet is created in intermediate buffer. This allows to skip complete packet if there is not enough space in RTT buffer (e.g. there is no reader connected). If disabled, monitor will simply block waiting for RTT to free space in buffer.
+        #    default 1
+        config BLE_MONITOR_RTT_BUFFERED
+            bool "Enables buffering when using monitor interface over RTT"
+            default y
+            help
+                Enables buffering when using monitor interface over RTT. The data are written to RTT once complete packet is created in intermediate buffer. This allows to skip complete packet if there is not enough space in RTT buffer (e.g. there is no reader connected). If disabled, monitor will simply block waiting for RTT to free space in buffer.
+        config MYNEWT_VAL_BLE_MONITOR_RTT_BUFFERED
+            int 
+            default 0 if !BLE_MONITOR_RTT_BUFFERED
+            default 1 if BLE_MONITOR_RTT_BUFFERED
+
+		config MYNEWT_VAL_BLE_MONITOR_CONSOLE_BUFFER_SIZE
+		    int "Size of internal buffer for console output. Any line exceeding this length value will be split."
+		    default 128
+
+
+		config MYNEWT_VAL_BLE_L2CAP_MAX_CHANS
+		    int "The number of L2CAP channels to allocate"
+		    default 3
+		    help 
+				The number of L2CAP channels to allocate.  The default value allows for the signal, ATT, and SM channels for each connection.
+
+		config MYNEWT_VAL_BLE_L2CAP_SIG_MAX_PROCS
+		    int "The maximum number of concurrent L2CAP signal procedures."
+		    default 1
+
+
+
+        # config MYNEWT_VAL_BLE_L2CAP_JOIN_RX_FRAGS
+        #    int Whether to collapse incoming L2CAP fragments into a minimal set of mbufs.     1: Slower, more memory efficient.     0: Faster, less memory efficient.
+        #    default 1
+        config BLE_L2CAP_JOIN_RX_FRAGS
+            bool "Whether to collapse incoming L2CAP fragments into a minimal set of mbufs"
+            default y
+            help
+                Whether to collapse incoming L2CAP fragments into a minimal set of mbufs.     y: Slower, more memory efficient.     n: Faster, less memory efficient.
+        config MYNEWT_VAL_BLE_L2CAP_JOIN_RX_FRAGS
+            int 
+            default 0 if !BLE_L2CAP_JOIN_RX_FRAGS
+            default 1 if BLE_L2CAP_JOIN_RX_FRAGS
+
+		config MYNEWT_VAL_BLE_L2CAP_RX_FRAG_TIMEOUT
+		    int "Expiry time for incoming data packets (ms)"
+		    default 30000
+
+		    help 
+				Expiry time for incoming data packets (ms).  If this much time passes since the previous fragment was received, the connection is terminated.  A value of 0 means no timeout.
+
+		config MYNEWT_VAL_BLE_L2CAP_COC_MAX_NUM
+		    int "Defines maximum number of LE Connection Oriented Channels channels"
+		    default 0
+
+		    help 
+				Defines maximum number of LE Connection Oriented Channels channels. When set to (0), LE COC is not compiled in.
+
+		config MYNEWT_VAL_BLE_L2CAP_COC_MPS
+		    int "Defines the MPS of L2CAP COC module. The default value was 'MYNEWT_VAL_MSYS_1_BLOCK_SIZE-8' before stack ported."
+		    default MYNEWT_VAL_MSYS_1_BLOCK_SIZE
+		    help 
+				Defines the MPS of L2CAP COC module. This is actually NimBLE's internal L2CAP MTU. The default MPS size is chosen in a way, that the MPS plus the required HCI and L2CAP headers fit into the smallest available MSYS blocks.
+
+
+        # config MYNEWT_VAL_BLE_L2CAP_ENHANCED_COC
+        #    int "Enables LE Enhanced CoC mode."
+        #    default 0
+        config BLE_L2CAP_ENHANCED_COC
+            bool "Enables LE Enhanced CoC mode."
+            default n
+        config MYNEWT_VAL_BLE_L2CAP_ENHANCED_COC
+            int 
+            default 0 if !BLE_L2CAP_ENHANCED_COC
+            default 1 if BLE_L2CAP_ENHANCED_COC
+
+		config MYNEWT_VAL_BLE_SM_LEGACY
+		    int "Security manager legacy pairing."
+		    default 1
+
+
+		config BLE_SM_SC
+		    bool "Security manager secure connections (4.2)."
+            default y if BLE_MESH
+		    default n
+        config MYNEWT_VAL_BLE_SM_SC
+            int 
+            default 0 if !BLE_SM_SC
+            default 1 if BLE_SM_SC
+
+
+		config MYNEWT_VAL_BLE_SM_MAX_PROCS
+		    int "The maximum number of concurrent security manager procedures."
+		    default 1
+
+
+		# config MYNEWT_VAL_BLE_SM_IO_CAP
+		#     int "The IO capabilities to report during pairing"
+		#     default BLE_HS_IO_NO_INPUT_OUTPUT
+		#     help 
+		# 		The IO capabilities to report during pairing.  Valid values are:     BLE_HS_IO_DISPLAY_ONLY     BLE_HS_IO_DISPLAY_YESNO     BLE_HS_IO_KEYBOARD_ONLY     BLE_HS_IO_NO_INPUT_OUTPUT     BLE_HS_IO_KEYBOARD_DISPLAY
+        config MYNEWT_VAL_BLE_SM_IO_CAP
+		    hex "The IO capabilities to report during pairing"
+		    default 0x03
+		    help 
+				The IO capabilities to report during pairing.  Valid values are:     BLE_HS_IO_DISPLAY_ONLY     BLE_HS_IO_DISPLAY_YESNO     BLE_HS_IO_KEYBOARD_ONLY     BLE_HS_IO_NO_INPUT_OUTPUT     BLE_HS_IO_KEYBOARD_DISPLAY
+
+
+        # config MYNEWT_VAL_BLE_SM_OOB_DATA_FLAG
+        #    int "Whether the out-of-band pairing algorithm is advertised. (0/1)"
+        #    default 0
+        config BLE_SM_OOB_DATA_FLAG
+            bool "Whether the out-of-band pairing algorithm is advertised. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_SM_OOB_DATA_FLAG
+            int 
+            default 0 if !BLE_SM_OOB_DATA_FLAG
+            default 1 if BLE_SM_OOB_DATA_FLAG
+
+
+        # config MYNEWT_VAL_BLE_SM_BONDING
+        #    int "Enables bonding (persistence and restoration of secure links). (0/1)"
+        #    default 0
+        config BLE_SM_BONDING
+            bool "Enables bonding (persistence and restoration of secure links). (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_SM_BONDING
+            int 
+            default 0 if !BLE_SM_BONDING
+            default 1 if BLE_SM_BONDING
+
+
+        # config MYNEWT_VAL_BLE_SM_MITM
+        #    int "Whether man-in-the-middle protection is advertised during pairing. (0/1)"
+        #    default 0
+        config BLE_SM_MITM
+            bool "Whether man-in-the-middle protection is advertised during pairing. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_SM_MITM
+            int 
+            default 0 if !BLE_SM_MITM
+            default 1 if BLE_SM_MITM
+
+
+        # config MYNEWT_VAL_BLE_SM_KEYPRESS
+        #    int "Whether keypress support is advertised during pairing. (0/1)"
+        #    default 0
+        config BLE_SM_KEYPRESS
+            bool "Whether keypress support is advertised during pairing. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_SM_KEYPRESS
+            int 
+            default 0 if !BLE_SM_KEYPRESS
+            default 1 if BLE_SM_KEYPRESS
+
+		config MYNEWT_VAL_BLE_SM_OUR_KEY_DIST
+		    int "A bitmap indicating which keys to distribute during pairing"
+		    default 0
+
+		    help 
+				A bitmap indicating which keys to distribute during pairing.  The bits are defined as follows:     0x01: BLE_SM_PAIR_KEY_DIST_ENC     0x02: BLE_SM_PAIR_KEY_DIST_ID     0x04: BLE_SM_PAIR_KEY_DIST_SIGN     0x08: BLE_SM_PAIR_KEY_DIST_LINK
+
+		config MYNEWT_VAL_BLE_SM_THEIR_KEY_DIST
+		    int "A bitmap indicating which keys to accept during pairing"
+		    default 0
+
+		    help 
+				A bitmap indicating which keys to accept during pairing.  The bits are defined as follows:     0x01: BLE_SM_PAIR_KEY_DIST_ENC     0x02: BLE_SM_PAIR_KEY_DIST_ID     0x04: BLE_SM_PAIR_KEY_DIST_SIGN     0x08: BLE_SM_PAIR_KEY_DIST_LINK
+
+        # config MYNEWT_VAL_BLE_SM_SC_DEBUG_KEYS
+        #    int Enable SM debug mode. In this mode SM uses predefined DH key pair as described in Core Specification 5.0, Vol. 3, Part H, 2.3.5.6.1. This allows to decrypt air traffic easily and thus should be only used for debugging.
+        #    default 0
+        config BLE_SM_SC_DEBUG_KEYS
+            bool "Enable SM debug mode"
+            default n
+            help
+                Enable SM debug mode. In this mode SM uses predefined DH key pair as described in Core Specification 5.0, Vol. 3, Part H, 2.3.5.6.1. This allows to decrypt air traffic easily and thus should be only used for debugging.
+        config MYNEWT_VAL_BLE_SM_SC_DEBUG_KEYS
+            int 
+            default 0 if !BLE_SM_SC_DEBUG_KEYS
+            default 1 if BLE_SM_SC_DEBUG_KEYS
+
+		config MYNEWT_VAL_BLE_GAP_MAX_PENDING_CONN_PARAM_UPDATE
+		    int "Controls the number of connection parameter updates that can be pending simultaneously"
+		    default 1
+
+		    help 
+				Controls the number of connection parameter updates that can be pending simultaneously. Devices with many concurrent connections may need to increase this value.
+
+
+        # config MYNEWT_VAL_BLE_GATT_DISC_ALL_SVCS
+        #    int "Enables the Discover All Primary Services GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_DISC_ALL_SVCS
+            bool "Enables the Discover All Primary Services GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_DISC_ALL_SVCS
+            int 
+            default 0 if !BLE_GATT_DISC_ALL_SVCS
+            default 1 if BLE_GATT_DISC_ALL_SVCS
+
+
+        # config MYNEWT_VAL_BLE_GATT_DISC_SVC_UUID
+        #    int "Enables the Discover Primary Services by Service UUID GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_DISC_SVC_UUID
+            bool "Enables the Discover Primary Services by Service UUID GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_DISC_SVC_UUID
+            int 
+            default 0 if !BLE_GATT_DISC_SVC_UUID
+            default 1 if BLE_GATT_DISC_SVC_UUID
+
+
+        # config MYNEWT_VAL_BLE_GATT_FIND_INC_SVCS
+        #    int "Enables the Find Included Services GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_FIND_INC_SVCS
+            bool "Enables the Find Included Services GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_FIND_INC_SVCS
+            int 
+            default 0 if !BLE_GATT_FIND_INC_SVCS
+            default 1 if BLE_GATT_FIND_INC_SVCS
+
+
+        # config MYNEWT_VAL_BLE_GATT_DISC_ALL_CHRS
+        #    int "Enables the Discover All Characteristics of a Service GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_DISC_ALL_CHRS
+            bool "Enables the Discover All Characteristics of a Service GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_DISC_ALL_CHRS
+            int 
+            default 0 if !BLE_GATT_DISC_ALL_CHRS
+            default 1 if BLE_GATT_DISC_ALL_CHRS
+
+
+        # config MYNEWT_VAL_BLE_GATT_DISC_CHR_UUID
+        #    int "Enables the Discover Characteristics by UUID GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_DISC_CHR_UUID
+            bool "Enables the Discover Characteristics by UUID GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_DISC_CHR_UUID
+            int 
+            default 0 if !BLE_GATT_DISC_CHR_UUID
+            default 1 if BLE_GATT_DISC_CHR_UUID
+
+
+        # config MYNEWT_VAL_BLE_GATT_DISC_ALL_DSCS
+        #    int "Enables the Discover All Primary Services GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_DISC_ALL_DSCS
+            bool "Enables the Discover All Primary Services GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_DISC_ALL_DSCS
+            int 
+            default 0 if !BLE_GATT_DISC_ALL_DSCS
+            default 1 if BLE_GATT_DISC_ALL_DSCS
+
+
+        # config MYNEWT_VAL_BLE_GATT_READ
+        #    int "Enables the Read Characteristic Value GATT procedure. (0/1) (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_READ
+            bool "Enables the Read Characteristic Value GATT procedure. (0/1) (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_READ
+            int 
+            default 0 if !BLE_GATT_READ
+            default 1 if BLE_GATT_READ
+
+
+        # config MYNEWT_VAL_BLE_GATT_READ_UUID
+        #    int "Enables the Read Using Characteristic UUID GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_READ_UUID
+            bool "Enables the Read Using Characteristic UUID GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_READ_UUID
+            int 
+            default 0 if !BLE_GATT_READ_UUID
+            default 1 if BLE_GATT_READ_UUID
+
+
+        # config MYNEWT_VAL_BLE_GATT_READ_LONG
+        #    int "Enables the Read Long Characteristic Values GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_READ_LONG
+            bool "Enables the Read Long Characteristic Values GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_READ_LONG
+            int 
+            default 0 if !BLE_GATT_READ_LONG
+            default 1 if BLE_GATT_READ_LONG
+
+
+        # config MYNEWT_VAL_BLE_GATT_READ_MULT
+        #    int "Enables the Read Multiple Characteristic Values GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_READ_MULT
+            bool "Enables the Read Multiple Characteristic Values GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_READ_MULT
+            int 
+            default 0 if !BLE_GATT_READ_MULT
+            default 1 if BLE_GATT_READ_MULT
+
+
+        # config MYNEWT_VAL_BLE_GATT_WRITE_NO_RSP
+        #    int "Enables the Write Without Response GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_WRITE_NO_RSP
+            bool "Enables the Write Without Response GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_WRITE_NO_RSP
+            int 
+            default 0 if !BLE_GATT_WRITE_NO_RSP
+            default 1 if BLE_GATT_WRITE_NO_RSP
+
+
+        # config MYNEWT_VAL_BLE_GATT_SIGNED_WRITE
+        #    int "Enables the Signed Write Without Response GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_SIGNED_WRITE
+            bool "Enables the Signed Write Without Response GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_SIGNED_WRITE
+            int 
+            default 0 if !BLE_GATT_SIGNED_WRITE
+            default 1 if BLE_GATT_SIGNED_WRITE
+
+
+        # config MYNEWT_VAL_BLE_GATT_WRITE
+        #    int "Enables the Write Characteristic Value GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_WRITE
+            bool "Enables the Write Characteristic Value GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_WRITE
+            int 
+            default 0 if !BLE_GATT_WRITE
+            default 1 if BLE_GATT_WRITE
+
+
+        # config MYNEWT_VAL_BLE_GATT_WRITE_LONG
+        #    int "Enables the Write Long Characteristic Values GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_WRITE_LONG
+            bool "Enables the Write Long Characteristic Values GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_WRITE_LONG
+            int 
+            default 0 if !BLE_GATT_WRITE_LONG
+            default 1 if BLE_GATT_WRITE_LONG
+
+
+        # config MYNEWT_VAL_BLE_GATT_WRITE_RELIABLE
+        #    int "Enables the Reliable Writes GATT procedure. (0/1)"
+        #    default MYNEWT_VAL_BLE_ROLE_CENTRAL
+        config BLE_GATT_WRITE_RELIABLE
+            bool "Enables the Reliable Writes GATT procedure. (0/1)"
+            default n
+        config MYNEWT_VAL_BLE_GATT_WRITE_RELIABLE
+            int 
+            default 0 if !BLE_GATT_WRITE_RELIABLE
+            default 1 if BLE_GATT_WRITE_RELIABLE
+
+
+        # config MYNEWT_VAL_BLE_GATT_NOTIFY
+        #    int "Enables sending and receiving of GATT notifications. (0/1)"
+        #    default 1
+        config BLE_GATT_NOTIFY
+            bool "Enables sending and receiving of GATT notifications. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_GATT_NOTIFY
+            int 
+            default 0 if !BLE_GATT_NOTIFY
+            default 1 if BLE_GATT_NOTIFY
+
+
+        # config MYNEWT_VAL_BLE_GATT_INDICATE
+        #    int "Enables sending and receiving of GATT indications. (0/1)"
+        #    default 1
+        config BLE_GATT_INDICATE
+            bool "Enables sending and receiving of GATT indications. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_GATT_INDICATE
+            int 
+            default 0 if !BLE_GATT_INDICATE
+            default 1 if BLE_GATT_INDICATE
+
+		config MYNEWT_VAL_BLE_GATT_READ_MAX_ATTRS
+		    int "The maximum number of attributes that can be read with a single GATT Read Multiple Characteristic Values procedure"
+		    default 8
+
+		    help 
+				The maximum number of attributes that can be read with a single GATT Read Multiple Characteristic Values procedure. (0/1)
+
+		config MYNEWT_VAL_BLE_GATT_WRITE_MAX_ATTRS
+		    int "The maximum number of attributes that can be written with a single GATT Reliable Write procedure"
+		    default 4
+
+		    help 
+				The maximum number of attributes that can be written with a single GATT Reliable Write procedure. (0/1)
+
+		config MYNEWT_VAL_BLE_GATT_MAX_PROCS
+		    int "The maximum number of concurrent client GATT procedures. (0/1)"
+		    default 4
+
+
+		config MYNEWT_VAL_BLE_GATT_RESUME_RATE
+		    int "The rate to periodically resume GATT procedures that have stalled due to memory exhaustion"
+		    default 1000
+
+		    help 
+				The rate to periodically resume GATT procedures that have stalled due to memory exhaustion. (0/1)  Units are milliseconds. (0/1)
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_FIND_INFO
+        #    int "Enables processing of incoming Find Information Request ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_FIND_INFO
+            bool "Enables processing of incoming Find Information Request ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_FIND_INFO
+            int 
+            default 0 if !BLE_ATT_SVR_FIND_INFO
+            default 1 if BLE_ATT_SVR_FIND_INFO
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_FIND_TYPE
+        #    int "Enables processing of incoming Find By Type Value Request ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_FIND_TYPE
+            bool "Enables processing of incoming Find By Type Value Request ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_FIND_TYPE
+            int 
+            default 0 if !BLE_ATT_SVR_FIND_TYPE
+            default 1 if BLE_ATT_SVR_FIND_TYPE
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_READ_TYPE
+        #    int "Enables processing of incoming Read By Type Request ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_READ_TYPE
+            bool "Enables processing of incoming Read By Type Request ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_READ_TYPE
+            int 
+            default 0 if !BLE_ATT_SVR_READ_TYPE
+            default 1 if BLE_ATT_SVR_READ_TYPE
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_READ
+        #    int "Enables processing of incoming Read Request ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_READ
+            bool "Enables processing of incoming Read Request ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_READ
+            int 
+            default 0 if !BLE_ATT_SVR_READ
+            default 1 if BLE_ATT_SVR_READ
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_READ_BLOB
+        #    int "Enables processing of incoming Read Blob Request ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_READ_BLOB
+            bool "Enables processing of incoming Read Blob Request ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_READ_BLOB
+            int 
+            default 0 if !BLE_ATT_SVR_READ_BLOB
+            default 1 if BLE_ATT_SVR_READ_BLOB
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_READ_MULT
+        #    int "Enables processing of incoming Read Multiple Request ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_READ_MULT
+            bool "Enables processing of incoming Read Multiple Request ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_READ_MULT
+            int 
+            default 0 if !BLE_ATT_SVR_READ_MULT
+            default 1 if BLE_ATT_SVR_READ_MULT
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_READ_GROUP_TYPE
+        #    int "Enables processing of incoming Read by Group Type Request ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_READ_GROUP_TYPE
+            bool "Enables processing of incoming Read by Group Type Request ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_READ_GROUP_TYPE
+            int 
+            default 0 if !BLE_ATT_SVR_READ_GROUP_TYPE
+            default 1 if BLE_ATT_SVR_READ_GROUP_TYPE
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_WRITE
+        #    int "Enables processing of incoming Write Request ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_WRITE
+            bool "Enables processing of incoming Write Request ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_WRITE
+            int 
+            default 0 if !BLE_ATT_SVR_WRITE
+            default 1 if BLE_ATT_SVR_WRITE
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_WRITE_NO_RSP
+        #    int "Enables processing of incoming Write Command ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_WRITE_NO_RSP
+            bool "Enables processing of incoming Write Command ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_WRITE_NO_RSP
+            int 
+            default 0 if !BLE_ATT_SVR_WRITE_NO_RSP
+            default 1 if BLE_ATT_SVR_WRITE_NO_RSP
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_SIGNED_WRITE
+        #    int "Enables processing of incoming Signed Write Command ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_SIGNED_WRITE
+            bool "Enables processing of incoming Signed Write Command ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_SIGNED_WRITE
+            int 
+            default 0 if !BLE_ATT_SVR_SIGNED_WRITE
+            default 1 if BLE_ATT_SVR_SIGNED_WRITE
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_QUEUED_WRITE
+        #    int Enables processing of incoming Prepare Write Request and Execute Write Request ATT commands. (0/1)
+        #    default 1
+        config BLE_ATT_SVR_QUEUED_WRITE
+            bool "Enables processing of incoming Prepare Write Request and Execute Write Request ATT commands"
+            default y
+            help
+                Enables processing of incoming Prepare Write Request and Execute Write Request ATT commands. (0/1)
+        config MYNEWT_VAL_BLE_ATT_SVR_QUEUED_WRITE
+            int 
+            default 0 if !BLE_ATT_SVR_QUEUED_WRITE
+            default 1 if BLE_ATT_SVR_QUEUED_WRITE
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_NOTIFY
+        #    int "Enables processing of incoming Handle Value Notification ATT commands. (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_NOTIFY
+            bool "Enables processing of incoming Handle Value Notification ATT commands. (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_NOTIFY
+            int 
+            default 0 if !BLE_ATT_SVR_NOTIFY
+            default 1 if BLE_ATT_SVR_NOTIFY
+
+
+        # config MYNEWT_VAL_BLE_ATT_SVR_INDICATE
+        #    int "Enables processing of incoming Handle Value Indication ATT commands.  (0/1)"
+        #    default 1
+        config BLE_ATT_SVR_INDICATE
+            bool "Enables processing of incoming Handle Value Indication ATT commands.  (0/1)"
+            default y
+        config MYNEWT_VAL_BLE_ATT_SVR_INDICATE
+            int 
+            default 0 if !BLE_ATT_SVR_INDICATE
+            default 1 if BLE_ATT_SVR_INDICATE
+
+		config MYNEWT_VAL_BLE_ATT_PREFERRED_MTU
+		    int "The preferred MTU to indicate in MTU exchange commands."
+		    default 256
+
+
+		config MYNEWT_VAL_BLE_ATT_SVR_MAX_PREP_ENTRIES
+		    int "A GATT server uses these when a peer performs a 'write long characteristic values' or 'write long characteristic descriptors' procedure"
+		    default 64
+
+		    help 
+				A GATT server uses these when a peer performs a 'write long characteristic values' or 'write long characteristic descriptors' procedure.  One of these resources is consumed each time a peer sends a partial write.
+
+		config MYNEWT_VAL_BLE_ATT_SVR_QUEUED_WRITE_TMO
+		    int "Expiry time for incoming ATT queued writes (ms)"
+		    default 30000
+
+		    help 
+				Expiry time for incoming ATT queued writes (ms).  If this much time passes since the previous prepared write was received, the connection is terminated.  A value of 0 means no timeout.
+
+		config MYNEWT_VAL_BLE_RPA_TIMEOUT
+		    int "The rate that new random addresses should be generated (seconds)."
+		    default 300
+
+
+		config MYNEWT_VAL_BLE_STORE_MAX_BONDS
+		    int "Maximum number of bonds that can be persisted"
+		    default 3
+
+		    help 
+				Maximum number of bonds that can be persisted.  Note: increasing this value may also require increasing the capacity of the underlying storage mechanism.
+
+		config MYNEWT_VAL_BLE_STORE_MAX_CCCDS
+		    int "Maximum number of client characteristic configuration descriptors that can be persisted"
+		    default 8
+
+		    help 
+				Maximum number of client characteristic configuration descriptors that can be persisted.  Note: increasing this value may also require increasing the capacity of the underlying storage mechanism.
+
+		# config MYNEWT_VAL_BLE_MESH
+		#     int "This option enables Bluetooth Mesh support"
+		#     default 0
+		#     help 
+		# 		This option enables Bluetooth Mesh support. The specific features that are available may depend on other features that have been enabled in the stack, such as GATT support.
+        config BLE_MESH
+		    bool "This option enables Bluetooth Mesh support"
+		    default n
+		    help 
+				This option enables Bluetooth Mesh support. The specific features that are available may depend on other features that have been enabled in the stack, such as GATT support.
+        config MYNEWT_VAL_BLE_MESH
+            int 
+            default 0 if !BLE_MESH
+            default 1 if BLE_MESH
+
+
+        # config MYNEWT_VAL_BLE_HS_FLOW_CTRL
+        #    int Whether to enable host-side flow control.  This should only be enabled in host-only setups (i.e., not combined-host-controller).
+        #    default 0
+        config BLE_HS_FLOW_CTRL
+            bool "Whether to enable host-side flow control"
+            default n
+            help
+                Whether to enable host-side flow control.  This should only be enabled in host-only setups (i.e., not combined-host-controller).
+        config MYNEWT_VAL_BLE_HS_FLOW_CTRL
+            int 
+            default 0 if !BLE_HS_FLOW_CTRL
+            default 1 if BLE_HS_FLOW_CTRL
+
+		config MYNEWT_VAL_BLE_HS_FLOW_CTRL_ITVL
+		    int "The interval, in milliseconds, that the host should provide number-of-completed-packets updates to the controller"
+		    default 1000
+
+		    help 
+				The interval, in milliseconds, that the host should provide number-of-completed-packets updates to the controller.
+
+		config MYNEWT_VAL_BLE_HS_FLOW_CTRL_THRESH
+		    int "If the number of data buffers available to the controller falls to this number, immediately send a number-of-completed-packets event"
+		    default 2
+
+		    help 
+				If the number of data buffers available to the controller falls to this number, immediately send a number-of-completed-packets event. The free buffer count is calculated as follows: (total-acl-bufs - bufs-freed-since-last-num-completed-event).
+
+		config MYNEWT_VAL_BLE_HS_FLOW_CTRL_TX_ON_DISCONNECT
+		    int "If enabled, the host will immediately transmit a host-number-of-completed-packets command whenever a connection terminates"
+		    default 0
+
+		    help 
+				If enabled, the host will immediately transmit a host-number-of-completed-packets command whenever a connection terminates.  This behavior is not required by the standard, but is a necessary workaround when interfacing with some controllers.
+
+		config MYNEWT_VAL_BLE_HS_STOP_ON_SHUTDOWN
+		    int "Stops the Bluetooth host when the system shuts down"
+		    default 1
+
+		    help 
+				Stops the Bluetooth host when the system shuts down.  Stopping entails aborting all GAP procedures and terminating open connections.
+
+		config MYNEWT_VAL_BLE_HS_STOP_ON_SHUTDOWN_TIMEOUT
+		    int "Timeout used in NimBLE's host stop procedure in ms."
+		    default 2000
+
+
+		config MYNEWT_VAL_BLE_HS_SYSINIT_STAGE
+		    int "Sysinit stage for the NimBLE host."
+		    default 200
+
+
+		config MYNEWT_VAL_BLE_HS_LOG_MOD
+		    int "Numeric module ID to use for BLE host log messages."
+		    default 4
+
+
+		config MYNEWT_VAL_BLE_HS_LOG_LVL
+		    int "Minimum level for the BLE host log."
+		    default 1
+
+        menu "Services"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/ans/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/bas/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/bleuart/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/dis/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/gap/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/gatt/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/ias/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/ipss/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/lls/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/services/tps/Kconfig"
+        endmenu
+		menu "Store"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/store/config/Kconfig"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/store/ram/Kconfig"
+        endmenu
+		menu "Mesh"
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/host/mesh/Kconfig"
+        endmenu
+
+    endif
+endmenu

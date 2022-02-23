@@ -1,0 +1,17 @@
+from build_tools import *
+import osconfig
+
+# get current directory
+cwd     = PresentDir()
+# The set of source files associated with this SConscript file.
+src    = Glob('*.c')
+path   = [cwd]
+
+LOCAL_CCFLAGS = ''
+
+if osconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --c99 --gnu'
+
+group = AddCodeGroup('mpy_device', src, depend = ['MICROPY_DEVICE_LCD'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+Return('group')

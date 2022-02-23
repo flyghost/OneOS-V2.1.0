@@ -1,0 +1,82 @@
+import os
+import osconfig
+from build_tools import *
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+
+''')
+
+
+
+if IsDefined(['USB_USING_DEVICE_HS']) or IsDefined(['USB_USING_DEVICE_FS']):
+    src += Split('''                                               
+        ./Core/Src/proto_usbd_core.c           
+        ./Core/Src/proto_usbd_ctlreq.c         
+        ./Core/Src/proto_usbd_ioreq.c          
+            
+        ''')
+
+if IsDefined(['OS_USBD_CDC_CLASS_FS']):
+    src += Split('''                                               
+        ./Class/CDC/Src/usbd_cdc_fs_desc.c
+        ''')
+
+if IsDefined(['OS_USBD_CDC_CLASS_HS']):
+    src += Split('''                                               
+        ./Class/CDC/Src/usbd_cdc_hs_desc.c
+        ''')
+        
+if IsDefined(['OS_USBD_CDC_CLASS_HS']) or IsDefined(['OS_USBD_CDC_CLASS_FS']):
+    src += Split('''                                               
+        ./Class/CDC/Src/usbd_cdc.c
+        ''')    
+
+if IsDefined(['OS_USBD_PRINTER_CLASS_HS']):
+    src += Split('''                                               
+        ./Class/Printer/Src/usbd_printer_hs_desc.c
+        ''')
+
+if IsDefined(['OS_USBD_PRINTER_CLASS_FS']):
+    src += Split('''                                               
+        ./Class/Printer/Src/usbd_printer_fs_desc.c
+        ''')
+
+if IsDefined(['OS_USBD_PRINTER_CLASS_HS']) or IsDefined(['OS_USBD_PRINTER_FS']):
+    src += Split('''                                               
+        ./Class/Printer/Src/usbd_printer.c
+        ''')  
+    
+if IsDefined(['OS_USBD_MSC_CLASS_HS']):
+    src += Split('''                                               
+        ./Class/MSC/Src/usbh_msc.c       
+        ./Class/MSC/Src/usbh_msc_bot.c   
+        ./Class/MSC/Src/usbh_msc_scsi.c      
+        ''')
+    
+if IsDefined(['OS_USBD_HID_CLASS_HS']):
+    src += Split('''                                               
+        ./Class/HID/Src/usbh_hid.c      
+        ./Class/HID/Src/usbh_hid_keybd.c   
+        ./Class/HID/Src/usbh_hid_mouse.c  
+        ./Class/HID/Src/usbh_hid_parser.c    
+        ''')
+        
+    
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/Core/Inc']
+if IsDefined(['OS_USBD_PRINTER_CLASS_HS']):
+    path += [pwd + '/Class/Printer/Inc']
+if IsDefined(['OS_USBD_CDC_CLASS_HS']) or IsDefined(['OS_USBD_CDC_CLASS_FS']):
+    path += [pwd + '/Class/CDC/Inc']
+if IsDefined(['OS_USBD_MSC_CLASS_HS']):
+    path += [pwd + '/Class/MSC/Inc']
+if IsDefined(['OS_USBD_HID_CLASS_HS']) or IsDefined(['OS_USBD_HID_CLASS_FS']):
+    path += [pwd + '/Class/HID/Inc']
+
+group = AddCodeGroup('usb_device', src, depend = ['OS_USING_USB_DEVICE'], CPPPATH = path)
+
+Return('group')

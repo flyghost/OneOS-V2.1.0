@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_N58']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/n58.c')
+
+if IsDefined(['N58_USING_GENERAL_OPS']):
+    src += Glob('source/n58_general.c')
+
+if IsDefined(['N58_USING_NETSERV_OPS']):
+    src += Glob('source/n58_netserv.c')
+
+if IsDefined(['N58_USING_PING_OPS']):
+    src += Glob('source/n58_ping.c')
+
+if IsDefined(['N58_USING_IFCONFIG_OPS']):
+    src += Glob('source/n58_ifconfig.c')
+
+if IsDefined(['N58_USING_NETCONN_OPS']):
+    src += Glob('source/n58_netconn.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

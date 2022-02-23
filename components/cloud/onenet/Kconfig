@@ -1,0 +1,7 @@
+menu "OneNET"
+
+source "$OS_ROOT/components/cloud/onenet/mqtt-kit/Kconfig"
+source "$OS_ROOT/components/cloud/onenet/nbiot-kit/Kconfig"
+source "$OS_ROOT/components/cloud/onenet/edp/Kconfig"
+
+endmenu

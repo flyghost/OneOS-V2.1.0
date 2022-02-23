@@ -1,0 +1,8 @@
+
+menu "jerryscript"
+
+    config USING_JERRYSCRIPT
+    bool "enable jerryscript"
+    default n
+
+endmenu

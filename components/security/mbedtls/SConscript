@@ -1,0 +1,47 @@
+from build_tools import *
+import osconfig
+Import('OS_ROOT')
+import os
+
+mbedtl_objs = []
+if not IsDefined(['SECURITY_USING_MBEDTLS']):
+    Return('mbedtl_objs')
+
+
+pwd = PresentDir()
+
+# mbedtls_config_file = '\\"mbedtls_config.h\\"'
+# LOCAL_CCFLAGS = ' -DMBEDTLS_CONFIG_FILE=' + mbedtls_config_file
+# As there is no valid solution to add dependency for macro include files in scons,
+# we just copy the config file to include dir
+# if current project has it's own config.h file, will be copy in port dir first
+target_config = os.path.abspath(pwd + '/mbedtls-v2.16.8/include/mbedtls/config.h')
+src_config = os.path.abspath(pwd + '/port/inc/mbedtls_config.h')
+Execute( Copy(target_config, src_config) )
+
+src = Glob('mbedtls-v2.16.8/library/*.c')
+# os depended net_sockets.c is defined in port/src
+DeleteSrcFile(src, 'mbedtls-v2.16.8/library/net_sockets.c')
+
+src += Glob('port/src/*.c')
+if not IsDefined(['MBEDTLS_TIMING_ALT']):
+    DeleteSrcFile(src, 'port/src/timing_alt.c')
+
+if not IsDefined(['MBEDTLS_THREADING_C']):
+    DeleteSrcFile(src, 'port/src/threading_alt.c')
+
+if not IsDefined(['MBEDTLS_PLATFORM_GMTIME_R_ALT']):
+    DeleteSrcFile(src, 'port/src/gmtime_r_alt.c')
+
+if IsDefined(['SECURITY_USING_TLS_CLIENT_DEMO']):
+    src += Glob('demo/tls_client_demo.c')
+
+CPPPATH = [
+        pwd + '/mbedtls-v2.16.8/include',
+        pwd + '/mbedtls-v2.16.8/include/mbedtls',
+        pwd + '/port/inc',
+    ]
+
+group = AddCodeGroup('mbedtls', src, depend = ['SECURITY_USING_MBEDTLS'], CPPPATH = CPPPATH)
+
+Return('group')

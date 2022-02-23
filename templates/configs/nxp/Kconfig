@@ -1,0 +1,14 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_NXP_LPC5500
+    help
+        Select the device in nxp series
+        
+    config SERIES_NXP_LPC5500
+        bool "LPC5500"
+
+endchoice
+
+if SERIES_NXP_LPC5500
+    source "$OS_ROOT/templates/configs/nxp/lpc5500/Kconfig"
+endif

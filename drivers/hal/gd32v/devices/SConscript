@@ -1,0 +1,18 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['OS_USING_DEVICE']):
+    src += ['gd_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SOC_FAMILY_GD32VF103'], CPPPATH = path)
+
+Return('group')

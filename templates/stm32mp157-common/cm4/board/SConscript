@@ -1,0 +1,53 @@
+import os
+import osconfig
+from build_tools import *
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+''')
+
+src += [pwd + '/../../common/CubeMX_Config/CM4/Core/Src/bsp.c']
+src += [pwd + '/../../common/CubeMX_Config/CM4/Core/Src/stm32mp1xx_it_bsp.c']
+src += [pwd + '/../../common/CubeMX_Config/CM4/Core/Src/stm32mp1xx_hal_msp.c']
+src += [pwd + '/../../common/CubeMX_Config/Common/System/system_stm32mp1xx.c']
+    
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/../../common/CubeMX_Config/CM4/Core/Inc']
+path += [pwd + '/../../common/CubeMX_Config/CM4/OPENAMP']
+path += [pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/open-amp/lib/include']
+path += [pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/libmetal/lib/include']
+path += [pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/virtual_driver']
+path += [pwd + '/ports']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_stm32mp15xx_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_stm32mp15xx_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_stm32mp15xx_iar.s']
+    
+CPPDEFINES = ['STM32MP157Axx', 'CORE_CM4', 'NO_ATOMIC_64_SUPPORT', 'METAL_INTERNAL', 'METAL_MAX_DEVICE_REGIONS=2', 'VIRTIO_SLAVE_ONLY', 'USE_HAL_DRIVER'] 
+
+group = []
+
+group += AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+if IsDefined(['HAL_OPENAMP_MODULE_ENABLED']):
+    src  = [pwd + '/../../common/CubeMX_Config/CM4/OPENAMP/rsc_table.c']
+    src += [pwd + '/../../common/CubeMX_Config/CM4/OPENAMP/openamp_log.c']
+    src += [pwd + '/../../common/CubeMX_Config/CM4/OPENAMP/openamp.c']
+    src += [pwd + '/../../common/CubeMX_Config/CM4/OPENAMP/mbox_ipcc.c']
+    src += Glob(pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/libmetal/lib/*.c')
+    src += Glob(pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/libmetal/lib/system/generic/*.c')
+    src += Glob(pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/libmetal/lib/system/generic/cortexm/*.c')
+    src += Glob(pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/open-amp/lib/rpmsg/*.c')
+    src += Glob(pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/open-amp/lib/remoteproc/*.c')
+    src += Glob(pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/open-amp/lib/virtio/*.c')
+    src += Glob(pwd + '/../../common/CubeMX_Config/Middlewares/Third_Party/OpenAMP/virtual_driver/*.c')
+    
+    group += AddCodeGroup('openamp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+    
+Return('group')

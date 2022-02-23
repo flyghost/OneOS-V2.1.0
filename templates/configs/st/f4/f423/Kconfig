@@ -1,0 +1,24 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F423CH
+    help
+        Select the device in STM32F423xx
+
+    config TEMP_STM32F423CH
+        bool "STM32F423CH"
+        
+    config TEMP_STM32F423RH
+        bool "STM32F423RH"
+        
+    config TEMP_STM32F423MH
+        bool "STM32F423MH"
+        
+    config TEMP_STM32F423VH
+        bool "STM32F423VH"
+        
+	config TEMP_STM32F423ZH
+        bool "STM32F423ZH"
+        
+endchoice
+
+ 

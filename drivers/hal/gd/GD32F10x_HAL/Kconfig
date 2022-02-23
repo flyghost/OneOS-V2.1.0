@@ -1,0 +1,26 @@
+config SERIES_GD32F10X
+    bool
+    select ARCH_ARM_CORTEX_M3
+    default n
+
+config SOC_GD32F10X_MD
+    bool
+    select SERIES_GD32F10X
+    default n
+
+config SOC_GD32F10X_CL
+    bool
+    select SERIES_GD32F10X
+    default n
+    
+config SOC_GD32F10X_HD
+    bool
+    select SERIES_GD32F10X
+    default n
+    
+config SOC_GD32F10X_XD
+    bool
+    select SERIES_GD32F10X
+    default n
+    
+    

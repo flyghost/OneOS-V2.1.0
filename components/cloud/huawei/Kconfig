@@ -1,0 +1,32 @@
+menu "Huawei"
+
+config USING_HUAWEI_CLOUD_CONNECT
+    bool "Using huawei cloud connect component"
+    select NET_USING_BSD
+    default n
+    
+    if USING_HUAWEI_CLOUD_CONNECT
+        choice
+            prompt "Transport Protocol"
+            default HUAWEI_CLOUD_PORTOCOL_LwM2M
+
+            config HUAWEI_CLOUD_PORTOCOL_LwM2M
+                bool "LwM2M"
+
+            config HUAWEI_CLOUD_PORTOCOL_MQTT
+            select PKG_USING_CJSON
+                bool "MQTT"
+        endchoice
+    endif
+
+    source "$OS_ROOT/components/cloud/huawei/src/security/mbedtls/Kconfig"
+    
+    if HUAWEI_CLOUD_PORTOCOL_LwM2M
+        source "$OS_ROOT/components/cloud/huawei/demos/agenttiny_lwm2m/Kconfig"
+    endif
+    
+    if HUAWEI_CLOUD_PORTOCOL_MQTT
+        source "$OS_ROOT/components/cloud/huawei/demos/agenttiny_mqtt/Kconfig"
+    endif
+
+endmenu

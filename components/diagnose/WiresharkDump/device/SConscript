@@ -1,0 +1,12 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+cwd = PresentDir()
+path =  [cwd]
+
+src = Glob('*.c')
+
+group = AddCodeGroup('WiresharkDump', src, depend = [''], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,5 @@
+config MANUFACTOR_APOLLO
+    bool
+    default n
+
+source "$OS_ROOT/drivers/hal/apollo/*/Kconfig"

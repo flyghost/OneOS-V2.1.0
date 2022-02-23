@@ -1,0 +1,25 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32f091-nucleo-64
+    help
+        Select the device in STM32F091xx
+
+    config TEMP_stm32f091-nucleo-64
+        bool "stm32f091-nucleo-64"
+
+    config TEMP_STM32F091VB
+        bool "STM32F091VB"
+
+    config TEMP_STM32F091CB
+        bool "STM32F091CB"
+
+    config TEMP_STM32F091CC
+        bool "STM32F091CC"
+
+    config TEMP_STM32F091RB
+        bool "STM32F091RB"
+
+    config TEMP_STM32F091RC
+        bool "STM32F091RC"
+
+endchoice

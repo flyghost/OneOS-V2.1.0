@@ -1,0 +1,9 @@
+menu "Ramdisk"
+
+config OS_USING_RAMDISK
+    bool "Using ramdisk"
+    default n
+    help
+        The ramdisk is a vitural device in RAM.
+
+endmenu

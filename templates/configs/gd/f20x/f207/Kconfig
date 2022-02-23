@@ -1,0 +1,54 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F207RC
+    help
+        Select the device in GD32F207xx
+
+
+    config TEMP_GD32F207RC
+        bool "GD32F207RC"
+
+    config TEMP_GD32F207RE
+        bool "GD32F207RE"
+
+    config TEMP_GD32F207RG
+        bool "GD32F207RG"
+
+    config TEMP_GD32F207RK
+        bool "GD32F207RK"
+
+    config TEMP_GD32F207VC
+        bool "GD32F207VC"
+
+    config TEMP_GD32F207VE
+        bool "GD32F207VE"
+
+    config TEMP_GD32F207VG
+        bool "GD32F207VG"
+
+    config TEMP_GD32F207VK
+        bool "GD32F207VK"
+
+    config TEMP_GD32F207ZC
+        bool "GD32F207ZC"
+
+    config TEMP_GD32F207ZE
+        bool "GD32F207ZE"
+
+    config TEMP_GD32F207ZG
+        bool "GD32F207ZG"
+
+    config TEMP_GD32F207ZK
+        bool "GD32F207ZK"
+
+    config TEMP_GD32F207IE
+        bool "GD32F207IE"
+
+    config TEMP_GD32F207IG
+        bool "GD32F207IG"
+
+    config TEMP_GD32F207IK
+        bool "GD32F207IK"
+        
+endchoice
+

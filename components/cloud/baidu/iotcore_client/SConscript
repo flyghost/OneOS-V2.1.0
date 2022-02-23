@@ -1,0 +1,21 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../"
+
+#add iotcore_client files
+client_src  = Glob(root_path + 'iotcore_client/src/_md5.c')
+client_src += Glob(root_path + 'iotcore_client/src/iotcore_mqtt_client.c')
+client_src += Glob(root_path + 'iotcore_client/src/iotcore_param_util.c')
+client_src += Glob(root_path + 'iotcore_client/src/iotcore_retry_logic.c')
+#client_src += Glob(root_path + 'iotcore_client/src/iotcore_version.c')
+client_path = [
+	pwd + root_path + 'c-utility/pal/inc',
+	pwd + root_path + 'iotcore_client/inc'
+]
+group = AddCodeGroup('cloud/baidu/client', client_src, depend = ['BAIDUIOT_DEMO'], CPPPATH = client_path)
+
+Return('group')

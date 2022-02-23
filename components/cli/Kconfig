@@ -1,0 +1,25 @@
+menu "CLI"
+    config OS_USING_CLI
+        bool "Enable command line interface"
+        default n
+        if OS_USING_CLI
+            choice
+            prompt "choice cli payload network"
+            default CLI_PAYLOAD_BY_CMS 
+                    config CLI_PAYLOAD_BY_CMS
+                        bool "payload by cms"
+                    config CLI_PAYLOAD_BY_LWIP
+                        bool "payload by lwip"
+                    config CLI_PAYLOAD_BY_MOLINK
+                        bool "payload by molink"
+            endchoice
+            if CLI_PAYLOAD_BY_CMS
+                config CLI_DATA_PAYLOAD_SCODE
+                    int "cms service code for cli data payload"
+                    default 2001
+                config CLI_CONTROL_PAYLOAD_SCODE
+                    int "cms service code for cli control payload"
+                    default 2000
+            endif
+        endif
+endmenu

@@ -1,0 +1,30 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F750N8
+    help
+        Select the device in STM32F75x
+    config TEMP_STM32F750N8
+        bool "STM32F750N8"
+
+    config TEMP_STM32F750V8
+        bool "STM32F750V8"
+
+    config TEMP_STM32F750Z8
+        bool "STM32F750Z8"
+
+    config TEMP_STM32F756BG
+        bool "STM32F756BG"
+
+    config TEMP_STM32F756IG
+        bool "STM32F756IG"
+
+    config TEMP_STM32F756NG
+        bool "STM32F756NG"
+
+    config TEMP_STM32F756VG
+        bool "STM32F756VG"
+
+    config TEMP_STM32F756ZG
+        bool "STM32F756ZG"
+
+endchoice

@@ -1,0 +1,14 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+path =  [pwd]
+
+src = ['system_hc32l19x.c']
+src += ['interrupts_hc32l19x.c']
+
+group = AddCodeGroup('bsp', src, depend = ['SERIES_HC32L19'], CPPPATH = path)
+
+Return('group')

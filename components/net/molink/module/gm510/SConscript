@@ -1,0 +1,29 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_GM510']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/gm510.c')
+
+if IsDefined(['GM510_USING_GENERAL_OPS']):
+    src += Glob('source/gm510_general.c')
+	
+if IsDefined(['GM510_USING_NETSERV_OPS']):
+    src += Glob('source/gm510_netserv.c')
+    
+if IsDefined(['GM510_USING_NETCONN_OPS']):
+    src += Glob('source/gm510_netconn.c')
+    
+if IsDefined(['GM510_USING_IFCONFIG_OPS']):
+    src += Glob('source/gm510_ifconfig.c')
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

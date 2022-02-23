@@ -1,0 +1,19 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=mm32
+
+#MM32SPIN320B->MM32SPIN27PS
+config SOC_MM32SPIN422C
+    bool
+    select SERIES_MM32SPIN2XX
+    default y
+    
+    if SOC_MM32SPIN422C
+        config SOC_MODEL
+        string
+        default "MM32SPIN422C"
+    endif
+    
+source "$OS_ROOT/Kconfig"

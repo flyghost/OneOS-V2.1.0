@@ -1,0 +1,11 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32l433-nucleo-64
+    help
+        Select the device in STM32L433xx
+
+    config TEMP_stm32l433-nucleo-64
+        bool "stm32l433-nucleo-64"
+        
+        
+endchoice

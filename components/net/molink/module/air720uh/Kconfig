@@ -1,0 +1,58 @@
+menu "AIR720UH Config"
+
+    config AIR720UH_AUTO_CREATE
+        bool "Enable AIR720UH Module Object Auto Create"
+        default n
+
+    if AIR720UH_AUTO_CREATE
+
+        config AIR720UH_DEVICE_NAME
+            string "AIR720UH Interface Device Name"
+            default "uart2"
+
+        config AIR720UH_DEVICE_RATE
+            int "AIR720UH Interface Device Rate"
+            default 115200
+
+        config AIR720UH_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config AIR720UH_USING_GENERAL_OPS
+        bool "Enable AIR720UH Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config AIR720UH_USING_NETSERV_OPS
+        bool "Enable AIR720UH Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config AIR720UH_USING_PING_OPS
+        bool "Enable AIR720UH Module Ping Operates"
+        select MOLINK_USING_NETSERV_OPS
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config AIR720UH_USING_IFCONFIG_OPS
+        bool "Enable AIR720UH Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select AIR720UH_USING_GENERAL_OPS
+        select AIR720UH_USING_NETSERV_OPS
+        default y
+
+    config AIR720UH_USING_NETCONN_OPS
+        bool "Enable AIR720UH Module Network TCP/IP Operates"
+        select OS_USING_EVENT
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config AIR720UH_USING_SOCKETS_OPS
+        bool "Enable AIR720UH Module BSD Socket Operates"
+        select AIR720UH_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

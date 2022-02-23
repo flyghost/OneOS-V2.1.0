@@ -1,0 +1,6 @@
+menu "Osal"
+    source "$OS_ROOT/osal/posix/Kconfig"
+    source "$OS_ROOT/osal/rtthread/Kconfig"
+    source "$OS_ROOT/osal/cmsis/Kconfig"
+    source "$OS_ROOT/osal/freertos/Kconfig"
+endmenu

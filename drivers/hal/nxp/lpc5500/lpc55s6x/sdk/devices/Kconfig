@@ -1,0 +1,12 @@
+config SOC_LPC55S69
+    bool
+    select SERIES_NXP_LPC55S6X
+    default n
+
+config SOC_LPC55S66
+    bool
+    select SERIES_NXP_LPC55S6X
+    default n
+    
+
+

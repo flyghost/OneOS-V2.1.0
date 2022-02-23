@@ -1,0 +1,31 @@
+if SERIES_HC32F07
+source "$OS_ROOT/drivers/hal/hdsc/drivers/lfxx/Kconfig"
+endif
+
+if SERIES_HC32F17
+source "$OS_ROOT/drivers/hal/hdsc/drivers/lfxx/Kconfig"
+endif
+
+if SERIES_HC32F19
+source "$OS_ROOT/drivers/hal/hdsc/drivers/lfxx/Kconfig"
+endif
+
+if SERIES_HC32L07
+source "$OS_ROOT/drivers/hal/hdsc/drivers/lfxx/Kconfig"
+endif
+
+if SERIES_HC32L17
+source "$OS_ROOT/drivers/hal/hdsc/drivers/lfxx/Kconfig"
+endif
+
+if SERIES_HC32L19
+source "$OS_ROOT/drivers/hal/hdsc/drivers/lfxx/Kconfig"
+endif
+
+if SERIES_HC32F46
+source "$OS_ROOT/drivers/hal/hdsc/drivers/f46x/Kconfig"
+endif
+
+if SERIES_HC32F4A
+source "$OS_ROOT/drivers/hal/hdsc/drivers/f4Ax/Kconfig"
+endif

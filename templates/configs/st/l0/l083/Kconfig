@@ -1,0 +1,27 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32L083CB
+    help
+        Select the device in STM32L083xx
+    config TEMP_STM32L083CB
+        bool "STM32L083CB"
+
+    config TEMP_STM32L083CZ
+        bool "STM32L083CZ"
+
+    config TEMP_STM32L083RB
+        bool "STM32L083RB"
+
+    config TEMP_STM32L083RZ
+        bool "STM32L083RZ"
+
+    config TEMP_STM32L083V8
+        bool "STM32L083V8"
+
+    config TEMP_STM32L083VB
+        bool "STM32L083VB"
+
+    config TEMP_STM32L083VZ
+        bool "STM32L083VZ"
+
+endchoice

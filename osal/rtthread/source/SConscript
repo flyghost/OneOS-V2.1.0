@@ -1,0 +1,9 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = Glob('*.c') + Glob('*.cpp')
+CPPPATH = [pwd + '/../include']
+
+group = AddCodeGroup('rtthread', src, depend = ['OS_USING_RTTHREAD_API_V3_1_3'], CPPPATH = CPPPATH)
+
+Return('group')

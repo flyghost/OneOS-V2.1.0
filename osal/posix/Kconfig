@@ -1,0 +1,14 @@
+menu "POSIX compatibility layer"
+
+config OS_USING_PTHREADS
+    bool "Enable pthreads"
+    select OS_USING_LIBC_ADAPTER
+    default n
+
+if OS_USING_PTHREADS
+    config PTHREAD_NUM_MAX
+    int "Maximum number of pthreads"
+    default 8
+endif
+
+endmenu

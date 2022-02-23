@@ -1,0 +1,13 @@
+menu "posix serial"
+    config OS_USING_POSIX_SERIAL
+        bool "Using posix serial drivers"
+        select OS_USING_SERIAL
+        select OS_SOFT_DMA_SUPPORT_NORMAL_MODE
+        select OS_SOFT_DMA_SUPPORT_SIMUL_TIMEOUT
+        default n
+
+    config OS_USING_POSIX_SERIAL_NAME
+        depends on OS_USING_POSIX_SERIAL
+        string "posix serial device name"
+        default "uartP"
+endmenu

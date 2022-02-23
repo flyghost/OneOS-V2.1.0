@@ -1,0 +1,28 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+hk32f10x_it.c
+system_hk32f10x.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/ports']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_stm32f091xc_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_hk32f103xE_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_stm32f091xc_iar.s']
+
+CPPDEFINES = ['HK32F103VEXX'] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

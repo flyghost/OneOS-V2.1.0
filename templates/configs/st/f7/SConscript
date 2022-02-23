@@ -1,0 +1,39 @@
+import os
+import sys
+import importlib
+import importlib.util    
+
+inq_table = {}
+inq_table['MODEL_STM32F72X'] = 'f72x'
+inq_table['MODEL_STM32F73X'] = 'f73x'
+inq_table['MODEL_STM32F74X'] = 'f74x'
+inq_table['MODEL_STM32F75X'] = 'f75x'
+inq_table['MODEL_STM32F765'] = 'f765'
+inq_table['MODEL_STM32F767'] = 'f767'
+inq_table['MODEL_STM32F769'] = 'f769'
+inq_table['MODEL_STM32F777'] = 'f777'
+inq_table['MODEL_STM32F778'] = 'f778'
+inq_table['MODEL_STM32F779'] = 'f779'
+
+def soc_type_inq(g):
+    for inq in inq_table:
+        if inq not in g:
+            continue
+            
+        print(inq)
+            
+        realdir = os.path.dirname(os.path.realpath(__file__))
+    
+        sub_path = os.path.join(realdir, inq_table[inq])
+        sub_script = os.path.join(sub_path, "SConscript")
+
+        loader = importlib.machinery.SourceFileLoader('SConscript', sub_script)
+        spec   = importlib.util.spec_from_loader(loader.name, loader)
+        mod    = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+        target_path = mod.soc_type_inq(g)
+        
+        return target_path
+    
+    return None
+    

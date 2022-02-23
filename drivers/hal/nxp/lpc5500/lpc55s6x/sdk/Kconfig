@@ -1,0 +1,19 @@
+if OS_USING_USB_DEVICE
+    config BSP_USING_USB
+    bool "usb bus config"
+    default y
+    if BSP_USING_USB
+        choice
+            prompt "Select usdhc speed"
+            default BSP_USB_DEVICE_HS
+
+            config BSP_USB_DEVICE_HS
+                bool "Select usdhc high speed"
+
+            config BSP_USB_DEVICE_FS
+                bool "Select usdhc fullspeed"
+        endchoice
+    endif
+endif
+
+source "$OS_ROOT/drivers/hal/nxp/lpc5500/lpc55s6x/sdk/*/Kconfig"

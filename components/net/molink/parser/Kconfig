@@ -1,0 +1,22 @@
+menu "Parser"
+
+config MOLINK_USING_PARSER
+    bool "Enable AT Parser"
+    select OS_USING_MESSAGEQUEUE
+    select OS_USING_SEMAPHORE
+    select OS_USING_EVENT
+    select OS_USING_MUTEX
+    default n
+
+if MOLINK_USING_PARSER
+        config AT_PARSER_TASK_STACK_SIZE
+            int "The AT Parser task stack size"
+            default 2048
+
+        config AT_PARSER_PRINT_RAW
+            bool "Enable print RAW format AT command communication data"
+            default n
+            select DLOG_USING_ISR_LOG if OS_USING_DLOG 
+endif
+
+endmenu

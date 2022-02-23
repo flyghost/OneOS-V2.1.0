@@ -1,0 +1,34 @@
+import os
+from build_tools import *
+import osconfig
+
+# get current directory
+cwd     = PresentDir()
+# The set of source files associated with this SConscript file.
+
+src = []
+objs = []
+
+path    = [cwd + '/include']
+
+
+
+LOCAL_CCFLAGS = ''
+
+if osconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --c99 --gnu'
+
+group = AddCodeGroup('micropython', src, depend = ['PKG_USING_MICROPYTHON'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+
+
+list = os.listdir(cwd)
+
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        objs = objs + SConscript(os.path.join(item, 'SConscript'))
+
+
+objs = objs + group
+
+Return('objs')

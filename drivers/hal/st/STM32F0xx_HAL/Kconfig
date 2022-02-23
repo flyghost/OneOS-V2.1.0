@@ -1,0 +1,56 @@
+config SERIES_STM32F0
+    bool
+    select MANUFACTOR_STM32
+    select ARCH_ARM_CORTEX_M0
+    default n
+
+config SOC_STM32F0XXX
+    bool
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F030xC
+    bool
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F091xC
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F030xx
+    bool
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F070xx
+    bool
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F071xx
+    bool
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F072xx
+    bool
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F078xx
+    bool
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F091xx
+    bool
+    select SERIES_STM32F0
+    default n
+
+config SOC_STM32F098xx
+    bool
+    select SERIES_STM32F0
+    default n

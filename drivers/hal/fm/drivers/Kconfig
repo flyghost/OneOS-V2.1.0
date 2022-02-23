@@ -1,0 +1,12 @@
+if SERIES_FM33LC0
+source "$OS_ROOT/drivers/hal/fm/drivers/lc0/Kconfig"
+endif
+
+if SERIES_FM33LG0
+source "$OS_ROOT/drivers/hal/fm/drivers/lg0/Kconfig"
+endif
+
+if SERIES_FM33G0
+source "$OS_ROOT/drivers/hal/fm/drivers/g0/Kconfig"
+endif
+

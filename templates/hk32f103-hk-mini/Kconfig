@@ -1,0 +1,12 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=hk32
+
+config BOARD_HK32F103_MINI
+    bool
+    select SOC_HK32F103VET6
+    default y
+    
+source "$OS_ROOT/Kconfig"

@@ -1,0 +1,16 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F071VB
+    help
+        Select the device in STM32F071xx
+
+    config TEMP_STM32F071C8
+        bool "STM32F071C8"
+
+    config TEMP_STM32F071RB
+        bool "STM32F071RB"
+
+    config TEMP_STM32F071VB
+        bool "STM32F071VB"
+
+endchoice

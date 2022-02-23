@@ -1,0 +1,93 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+drv_interrupt.c
+""")
+
+if IsDefined(['OS_USING_PIN']):
+    src += ['drv_gpio.c']
+    
+#if IsDefined(['BSP_USING_LED']):
+#    src += ['drv_led.c']
+    
+if IsDefined(['BSP_USING_UART']):
+    src += ['drv_uart.c']
+
+if IsDefined(['BSP_USING_LPUART']):
+    src += ['drv_lpuart.c']
+
+if IsDefined(['OS_USING_TIMER_DRIVER', 'BSP_USING_TIM']):
+    if IsDefined('BSP_USING_ATIM') or IsDefined('BSP_USING_BSTIM32') or IsDefined('BSP_USING_GPTIM0') or IsDefined('BSP_USING_GPTIM1'):
+        src += ['drv_hwtimer.c']
+
+if IsDefined(['OS_USING_TIMER_DRIVER', 'BSP_USING_TIM', 'BSP_USING_LPTIM32']):
+    src += ['drv_lptim.c']
+
+if IsDefined(['OS_USING_PWM']):
+    src += ['drv_pwm.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['drv_spi.c']
+
+if IsDefined(['OS_USING_I2C', 'OS_USING_I2C_BITOPS']):
+    if IsDefined('BSP_USING_I2C1') or IsDefined('BSP_USING_I2C2') or IsDefined('BSP_USING_I2C3') or IsDefined('BSP_USING_I2C4'):
+        src += ['drv_soft_i2c.c']
+
+if IsDefined(['OS_USING_ADC']):
+    src += Glob('drv_adc.c')
+
+if IsDefined('BSP_USING_SDRAM'):
+    src += ['drv_sdram.c']
+
+if IsDefined('BSP_USING_LCD'):
+    src += ['drv_lcd.c']
+
+if IsDefined('BSP_USING_LCD_MIPI'):
+    src += ['drv_lcd_mipi.c']
+
+if IsDefined('BSP_USING_ONCHIP_RTC'):
+    src += ['drv_rtc.c']
+    
+if IsDefined(['OS_USING_FAL']):
+    src += ['flash/drv_flash.c']
+    
+if IsDefined('OS_USING_HWCRYPTO'):
+    src += ['drv_crypto.c']
+
+if IsDefined(['OS_USING_WDG', 'BSP_USING_WDT']):
+    src += ['drv_iwdt.c']
+
+if IsDefined(['BSP_USING_SDIO']):
+    src += ['drv_sdio.c']
+
+if IsDefined(['BSP_USING_USBD']):
+    src += ['drv_usbd.c']
+
+if IsDefined(['BSP_USING_PULSE_ENCODER']):
+    src += ['drv_pulse_encoder.c']
+
+if IsDefined(['BSP_USING_USBH']):
+    src += ['drv_usbh.c']
+
+if IsDefined('OS_USING_ENC28J60'):
+    src += ['drv_enc28j60.c']
+
+if IsDefined(['OS_USING_LPMGR', 'OS_USING_TICKLESS_LPMGR']):
+    src += ['drv_lpmgr.c']
+    src += ['drv_lptim.c']
+
+src += ['drv_common.c']
+
+path =  [pwd]
+
+if IsDefined('OS_USING_FAL'):
+    path += [pwd + '/flash']
+
+group = AddCodeGroup('hal/drivers', src, depend = ['SERIES_FM33LC0'], CPPPATH = path)
+
+Return('group')

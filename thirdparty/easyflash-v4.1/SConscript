@@ -1,0 +1,14 @@
+from build_tools import *
+
+pwd     = PresentDir()
+path    = [pwd + '/inc']
+path    += [pwd + '/port']
+
+src     = Glob('src/*.c')
+
+group = AddCodeGroup('easyflash', src, depend = ['PKG_USING_EASYFLASH'], CPPPATH = path)
+
+if IsDefined(['PKG_USING_EASYFLASH']):
+    group += AddCodeGroup('easyflash', [pwd + '/port/ef_port.c'], depend = ['PKG_USING_EASYFLASH'], CPPPATH = path)
+
+Return('group')

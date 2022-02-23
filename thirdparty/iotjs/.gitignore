@@ -1,0 +1,51 @@
+# Produced files
+
+/build
+/build/*
+# /src/iotjs_js.h
+# /src/iotjs_js.c
+# /src/iotjs_string_ext.inl.h
+# /src/iotjs_module_inl.h
+/test/tmp/*
+/test/dynamicmodule/build/*
+/tools/module_generator/output
+/test/module_generator/test_c/*.a
+/test/module_generator/test_c/*.o
+/test/module_generator/test_cpp/*.a
+/test/module_generator/test_cpp/*.o
+eslint.log
+
+# IDE related files
+nbproject
+**.sublime-project
+**.sublime-workspace
+.idea
+
+# Random Trash
+*.swp
+*.swo
+*~
+core
+vgcore.*
+**.orig
+**.directory
+**.patch
+.tags*
+cscope.*
+*.pyc
+
+# Dependency directories
+node_modules/
+iotjs_modules/
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# ctags and ID database
+tags
+ID
+TAGS
+
+# config files
+*.config
+!build.config

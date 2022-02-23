@@ -1,0 +1,61 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+src = Split("""
+src/hc_sysctrl.c
+src/hc_ddl.c
+src/hc_gpio.c
+src/hc_reset.c
+""")
+
+if IsDefined(['BSP_USING_LPUART']):
+    src += ['src/hc_lpuart.c']
+
+if IsDefined(['BSP_USING_UART']):
+    src += ['src/hc_uart.c']
+
+if IsDefined(['BSP_USING_ON_CHIP_FLASH']):
+    src += ['src/hc_flash.c']
+
+if IsDefined(['OS_USING_I2C']):
+    src += ['src/hc_i2c.c']
+
+if IsDefined(['OS_USING_DAC']):
+    src += ['src/hc_dac.c']
+
+if IsDefined(['OS_USING_ADC']):
+    src += ['src/hc_adc.c']
+    src += ['src/hc_bgr.c']
+
+if IsDefined(['OS_USING_WDG']):
+    src += ['src/hc_wdt.c']
+
+if IsDefined(['OS_USING_RTC']):
+    src += ['src/hc_rtc.c']
+
+if IsDefined(['OS_USING_SPI', 'BSP_USING_SPI0']) or IsDefined(['OS_USING_SPI', 'BSP_USING_SPI1']):
+    src += ['src/hc_spi.c']
+
+if IsDefined(['OS_USING_CLOCKEVENT', 'BSP_USING_LPTIM0']) or IsDefined(['OS_USING_CLOCKEVENT', 'BSP_USING_LPTIM1']):
+    src += ['src/hc_lptim.c']
+
+if IsDefined(['OS_USING_LPMGR']):
+    src += ['src/hc_lpm.c']
+
+if IsDefined(['OS_USING_TIMER_DRIVER', 'BSP_USING_TIMER']):
+    src += ['src/hc_bt.c']
+
+if IsDefined(['BSP_USING_LPUART']) or IsDefined(['BSP_USING_UART']):
+    src += ['src/hc_dmac.c']
+
+path = [pwd + '/inc']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_HC32L07'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

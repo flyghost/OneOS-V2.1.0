@@ -1,0 +1,68 @@
+menu "EC20 Config" 
+
+    config EC20_AUTO_CREATE
+        bool "Enable EC20 Module Object Auto Create"
+        default n
+
+    if EC20_AUTO_CREATE
+
+        config EC20_DEVICE_NAME
+            string "EC20 Interface Device Name"
+            default "uart2"
+
+        config EC20_DEVICE_RATE
+            int "EC20 Interface Device Rate"
+            default 115200
+
+        config EC20_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config EC20_USING_GENERAL_OPS
+        bool "Enable EC20 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config EC20_USING_NETSERV_OPS
+        bool "Enable EC20 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config EC20_USING_PING_OPS
+        bool "Enable EC20 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config EC20_USING_IFCONFIG_OPS
+        bool "Enable EC20 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select EC20_USING_GENERAL_OPS
+        select EC20_USING_NETSERV_OPS
+        select EC20_USING_NETCONN_OPS
+        default y
+
+    config EC20_USING_NETCONN_OPS
+        bool "Enable EC20 Module Network TCP/IP Operates"
+        select OS_USING_EVENT
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config EC20_USING_SOCKETS_OPS
+        bool "Enable EC20 Module BSD Socket Operates"
+        select EC20_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+#   config EC20_USING_PPP_OPS
+#        bool "Enable EC20 PPPoS Operates"
+#       select MOLINK_USING_PPP_OPS
+#       select MOLINK_USING_GENERAL_OPS
+#       select MOLINK_USING_NETSERV_OPS
+#       select NET_USING_LWIP
+#       select LWIP_USING_PPP
+#       select LWIP_USING_PPPOS
+#       default n
+
+endmenu

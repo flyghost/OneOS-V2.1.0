@@ -1,0 +1,110 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd     = PresentDir()
+
+src     = []
+CPPPATH = []
+
+
+
+if IsDefined(['OS_USING_CTWING_MQTT']):
+
+####### src start ######
+    if IsDefined(['CTIOT_MQTT_USING_TLS']):
+        src += Glob('src/platform/ctiot_tls_mbedtls.c')
+
+    src += Glob('src/platform/ctiot_os.c')
+    src += Glob('src/platform/mqtt_os.c')
+    src += Glob('src/MQTTClient/*.c')
+    src += Glob('src/ctiot_client/*.c')
+    CPPPATH += [pwd + '/src/platform']
+    CPPPATH += [pwd + '/src/MQTTClient']
+    CPPPATH += [pwd + '/src/ctiot_client']
+
+#### src end ####
+
+####### certs start ######
+    #### root ca cert start ####
+    root_ca_cert_template = """
+/**
+ ***********************************************************************************************************************
+ * Copyright (c) 2020, China Mobile Communications Group Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the \"License\ you may not use this file except in compliance with 
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on 
+ * an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations under the License.
+ *
+ * \@file        ctiot_root_ca_cert.c
+ *
+ * \@brief       ca cert c file auto generate by SConscript
+ *
+ * \@details     
+ *
+ * \@revision
+ * Date         Author          Notes
+ * 2020-11-26   OneOS Team      first version
+ ***********************************************************************************************************************
+ */
+
+#include <stdlib.h>
+
+const char ctiot_root_ca_cert[] = "" \\
+${ROOT_CA_CERT_CONTENT}
+;
+
+"""
+    root_ca_cert_subs = Template(root_ca_cert_template)
+
+    root_ca_cert_dir = pwd + os.sep + (os.sep).join(['certs', 'root_ca_cert'])
+    output_root_ca_cert_file = pwd + os.sep + (os.sep).join(['certs', 'src', 'ctiot_root_ca_cert.c'])
+
+    ROOT_CA_FILE = []
+    root_ca_file_list = os.listdir(root_ca_cert_dir)
+    if len(root_ca_file_list):
+        for i in range(0, len(root_ca_file_list)):
+            path = os.path.join(root_ca_cert_dir, root_ca_file_list[i])
+            if os.path.isfile(path):
+                ROOT_CA_FILE += [path]
+
+    ROOT_CA_FILE = list(set(ROOT_CA_FILE))
+
+    root_ca_cfile_content = ""
+    if len(ROOT_CA_FILE) > 0:
+        for i in range(0, len(ROOT_CA_FILE)):
+            if os.path.isfile(ROOT_CA_FILE[i]):
+                # read cert file, copy to ctiot_root_ca_cert.c
+                with open(ROOT_CA_FILE[i], 'r') as ca:
+                    # pre-read, check first line
+                    if not ca.readline().startswith("-----BEGIN CERTIFICATE"):
+                        print("[mbedtls] Warning: ", ROOT_CA_FILE[i], "is not CA file! Skipped!")
+                        continue
+                    ca.seek(0)
+                    for line in ca.readlines():
+                        root_ca_cfile_content += '"' + line.strip() + '\\r\\n" \\\n'
+
+    root_ca_cert_content = root_ca_cert_subs.substitute(ROOT_CA_CERT_CONTENT = root_ca_cfile_content)
+    with open(output_root_ca_cert_file, 'w') as cafile:
+        cafile.write(root_ca_cert_content)
+    #### root ca cert end ####
+    if IsDefined(['CTIOT_MQTT_USING_TLS']):
+        src += Glob('certs/src/*.c')
+        CPPPATH += [pwd + '/certs']
+####### certs end ######
+
+####### sample start ######
+    if IsDefined(['CTIOT_MQTT_USING_DEMO']):
+        src += Glob('mqtt_sdk_sample/ctiot_client/*.c')
+        CPPPATH += [pwd + '/mqtt_sdk_sample/ctiot_client']
+####### sample end ######
+
+group = AddCodeGroup('ctiot', src, depend = ['OS_USING_CTWING_MQTT'], CPPPATH = CPPPATH)
+
+Return('group')

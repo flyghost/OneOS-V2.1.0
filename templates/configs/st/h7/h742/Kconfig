@@ -1,0 +1,43 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32H742VI
+    help
+        Select the device in STM32H742xx
+
+    config TEMP_STM32H742VI
+        bool "STM32H742VI"
+        
+    config TEMP_STM32H742ZI
+        bool "STM32H742ZI"
+        
+     config TEMP_STM32H742AI
+        bool "STM32H742AI"  
+
+    config TEMP_STM32H742II
+        bool "STM32H742II"
+        
+    config TEMP_STM32H742BI
+        bool "STM32H742BI"
+        
+     config TEMP_STM32H742XI
+        bool "STM32H742XI" 
+
+    config TEMP_STM32H742VG
+        bool "STM32H742VG"
+        
+    config TEMP_STM32H742ZG
+        bool "STM32H742ZG"
+        
+     config TEMP_STM32H742AG
+        bool "STM32H742AG" 
+ 
+    config TEMP_STM32H742IG
+        bool "STM32H742IG"
+        
+    config TEMP_STM32H742BG
+        bool "STM32H742BG"
+        
+     config TEMP_STM32H742XG
+        bool "STM32H742XG" 
+        
+endchoice

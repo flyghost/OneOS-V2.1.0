@@ -1,0 +1,12 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32L462CE
+    help
+        Select the device in STM32L462xx
+  
+    config TEMP_STM32L462CE
+        bool "STM32L462RC"
+
+    config TEMP_STM32L462RE
+        bool "STM32L462RE"
+endchoice

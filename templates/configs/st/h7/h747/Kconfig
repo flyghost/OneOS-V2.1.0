@@ -1,0 +1,36 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32H747XI
+    help
+        Select the device in STM32H747xx
+
+    config TEMP_STM32H747AG
+        bool "STM32H747AG"
+    
+    config TEMP_STM32H747AI
+        bool "STM32H747AI"
+   
+    config TEMP_STM32H747XG
+        bool "STM32H747XG"
+        
+    config TEMP_STM32H747XI
+        bool "STM32H747XI"
+        
+    config TEMP_STM32H747ZI
+        bool "STM32H747ZI"  		
+     
+    config TEMP_STM32H747II
+        bool "STM32H747II" 
+
+    config TEMP_STM32H747BI
+        bool "STM32H747BI" 
+ 
+    config TEMP_STM32H747IG
+        bool "STM32H747IG" 
+
+    config TEMP_STM32H747BG
+        bool "STM32H747BG" 
+        
+    config TEMP_stm32h747-st-disco
+        bool "stm32h747-st-disco"
+endchoice

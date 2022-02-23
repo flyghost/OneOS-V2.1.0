@@ -1,0 +1,53 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = []
+CPPPATH = []
+LIBPATH = []
+LIBS    = []
+
+src = Glob('source/cms_config.c')
+CPPPATH = [pwd + '/include']
+CPPPATH += [pwd + '/source']
+LIBPATH = [pwd + '/library']
+
+LIB_NAME = ""
+
+if IsDefined('ARCH_ARM_CORTEX_M0'):
+     LIB_NAME = "arm_cortex-m0"
+elif IsDefined('ARCH_ARM_CORTEX_M0plus'):
+     LIB_NAME = "arm_cortex-m0plus"
+elif IsDefined('ARCH_ARM_CORTEX_M3'):
+     LIB_NAME = "arm_cortex-m3"
+elif IsDefined('ARCH_ARM_CORTEX_M4'):
+     LIB_NAME = "arm_cortex-m4"
+elif IsDefined('ARCH_ARM_CORTEX_M7'):
+     LIB_NAME = "arm_cortex-m7"
+elif IsDefined('ARCH_ARM_CORTEX_M33_TZ'):
+     LIB_NAME = "arm_cortex-m33"
+
+if IsDefined('CMS_LITE'):
+     LIB_NAME += "_cms_core_lite"
+elif IsDefined('CMS_STD'):
+     LIB_NAME += "_cms_core_std"
+
+if IsDefined('CMS_CONNECT_MQTT'):
+     LIB_NAME += "_tcp"
+elif IsDefined('CMS_CONNECT_TCP'):
+     LIB_NAME += "_tcp"
+elif IsDefined('CMS_CONNECT_UDP'):
+     LIB_NAME += "_udp"
+
+# LIB_NAME = "arm_cortex-m4"
+# LIB_NAME += "_cms_core_lite"
+# LIB_NAME = "arm_cortex-m4_cms_core_lite_udp"
+
+LIBS += [LIB_NAME]
+# LIBS += ['arm_cortex-m4_cms_core_lite_udp']
+
+
+
+group = AddCodeGroup('cms_core', src, depend = ['USING_CMS_CONNECT' or 'CMS_USING_ID'], CPPPATH = CPPPATH)
+group += AddCodeGroup('cms_core_lib', [], depend = ['USING_CMS_CONNECT' or 'CMS_USING_ID'], LIBS=LIBS, LIBPATH = LIBPATH)
+
+Return('group')

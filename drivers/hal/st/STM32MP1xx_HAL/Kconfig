@@ -1,0 +1,28 @@
+config SERIES_STM32MP1
+    bool
+    default n
+
+config SERIES_STM32MP1_M4
+    bool
+    select SERIES_STM32MP1
+    select ARCH_ARM_CORTEX_M4
+    default n
+
+config SERIES_STM32MP1_A7
+    bool
+    select SERIES_STM32MP1
+    select ARCH_ARM_CORTEX_A7
+    default n
+
+config SOC_STM32MP157_CA7
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32MP1_A7
+    default n
+
+config SOC_STM32MP157_CM4
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32MP1_M4
+    default n
+

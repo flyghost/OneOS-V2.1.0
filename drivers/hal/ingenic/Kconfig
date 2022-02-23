@@ -1,0 +1,18 @@
+config SOC_FAMILY_INGENIC
+    bool
+    default n
+
+config SOC_INGENIC_X1000E
+    bool
+    select SOC_FAMILY_INGENIC
+    default n
+
+config SOC_INGENIC_T31X
+    bool
+    select SOC_FAMILY_INGENIC
+    default n
+	
+source "$OS_ROOT/drivers/hal/ingenic/hal_x1000e/Kconfig"
+source "$OS_ROOT/drivers/hal/ingenic/hal_t31x/Kconfig"
+source "$OS_ROOT/drivers/hal/ingenic/drivers/Kconfig"
+

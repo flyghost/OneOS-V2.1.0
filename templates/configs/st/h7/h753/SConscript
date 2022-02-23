@@ -1,0 +1,18 @@
+import os
+import sys
+import importlib
+import importlib.util
+
+template_dir = "../templates/stm32h7-common/"
+
+def soc_type_inq(g):
+    target_path = None
+
+    target_script = "../scripts/generate.py"
+    loader = importlib.machinery.SourceFileLoader(os.path.basename(target_script), target_script)
+    spec   = importlib.util.spec_from_loader(loader.name, loader)
+    mod    = importlib.util.module_from_spec(spec)
+    loader.exec_module(mod)
+    target_path = mod.template(template_dir, g)
+    
+    return target_path

@@ -1,0 +1,35 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+
+src += ['drv_common.c']
+
+if IsDefined(['OS_USING_PIN']) or IsDefined(['OS_USING_SPI']):
+    src += ['drv_gpio.c']
+
+if IsDefined(['OS_USING_SERIAL']):
+    src += ['drv_usart.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['drv_spi.c']
+    
+if IsDefined(['OS_USING_I2C', 'BSP_USING_I2C']):
+    src += ['drv_i2c.c']
+ 
+if IsDefined(['OS_USING_FAL', 'BSP_USING_FLASH']):
+    src += ['drv_flash/drv_flash_f3.c']
+
+path =  [pwd]
+
+if IsDefined(['OS_USING_FAL', 'BSP_USING_FLASH']):
+    path += [pwd + '/drv_flash']
+
+group = AddCodeGroup('hal/drivers', src, depend = ['SOC_SERIES_GD32VF1XX'], CPPPATH = path)
+
+Return('group')

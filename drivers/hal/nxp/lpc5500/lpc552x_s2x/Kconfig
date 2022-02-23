@@ -1,0 +1,2 @@
+source "$OS_ROOT/drivers/hal/nxp/lpc5500/lpc552x_s2x/*/Kconfig"
+

@@ -1,0 +1,119 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32F401
+    help
+        Select the device in STM32F4xx
+
+    config MODEL_STM32F401
+        bool "STM32F401"
+        
+    config MODEL_STM32F405
+        bool "STM32F405"
+        
+    config MODEL_STM32F407
+        bool "STM32F407"
+
+    config MODEL_STM32F410
+        bool "STM32F410"
+
+    config MODEL_STM32F411
+        bool "STM32F411"
+        
+    config MODEL_STM32F412
+        bool "STM32F412"
+
+    config MODEL_STM32F413
+        bool "STM32F413"
+
+    config MODEL_STM32F415
+        bool "STM32F415"
+
+    config MODEL_STM32F417
+        bool "STM32F417"
+
+    config MODEL_STM32F423
+        bool "STM32F423"
+    
+    config MODEL_STM32F427
+        bool "STM32F427"
+   
+   config MODEL_STM32F429
+        bool "STM32F429"
+
+   config MODEL_STM32F43X
+        bool "STM32F43X"
+
+   config MODEL_STM32F446
+        bool "STM32F446"
+
+   config MODEL_STM32F469
+        bool "STM32F469"
+
+   config MODEL_STM32F479
+        bool "STM32F479"
+    
+endchoice
+
+if MODEL_STM32F401
+    source "$OS_ROOT/templates/configs/st/f4/f401/Kconfig"
+endif
+
+if MODEL_STM32F405
+    source "$OS_ROOT/templates/configs/st/f4/f405/Kconfig"
+endif
+
+if MODEL_STM32F407
+    source "$OS_ROOT/templates/configs/st/f4/f407/Kconfig"
+endif
+
+if MODEL_STM32F410
+    source "$OS_ROOT/templates/configs/st/f4/f410/Kconfig"
+endif
+
+if MODEL_STM32F411
+    source "$OS_ROOT/templates/configs/st/f4/f411/Kconfig"
+endif
+
+if MODEL_STM32F412
+    source "$OS_ROOT/templates/configs/st/f4/f412/Kconfig"
+endif
+
+if MODEL_STM32F413
+    source "$OS_ROOT/templates/configs/st/f4/f413/Kconfig"
+endif
+
+if MODEL_STM32F415
+    source "$OS_ROOT/templates/configs/st/f4/f415/Kconfig"
+endif
+
+if MODEL_STM32F417
+    source "$OS_ROOT/templates/configs/st/f4/f417/Kconfig"
+endif
+
+if MODEL_STM32F423
+    source "$OS_ROOT/templates/configs/st/f4/f423/Kconfig"
+endif
+
+if MODEL_STM32F427
+    source "$OS_ROOT/templates/configs/st/f4/f427/Kconfig"
+endif
+
+if MODEL_STM32F429
+    source "$OS_ROOT/templates/configs/st/f4/f429/Kconfig"
+endif
+
+if MODEL_STM32F43X
+    source "$OS_ROOT/templates/configs/st/f4/f43x/Kconfig"
+endif
+
+if MODEL_STM32F446
+    source "$OS_ROOT/templates/configs/st/f4/f446/Kconfig"
+endif
+
+if MODEL_STM32F469
+    source "$OS_ROOT/templates/configs/st/f4/f469/Kconfig"
+endif
+
+if MODEL_STM32F479
+    source "$OS_ROOT/templates/configs/st/f4/f479/Kconfig"
+endif

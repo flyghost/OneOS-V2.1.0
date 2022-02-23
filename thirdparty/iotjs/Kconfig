@@ -1,0 +1,13 @@
+
+menu "iotjs"
+
+    config USING_IOTJS
+    bool "enable iotjs"
+    select USING_JERRYSCRIPT
+    select OS_USING_PTHREADS
+    select NET_USING_LWIP_IPV6
+    select NET_USING_BSD
+    select OS_USING_IO_MULTIPLEXING
+    default n
+
+endmenu

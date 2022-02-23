@@ -1,0 +1,21 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+path = []
+src = []
+
+if IsDefined(['NET_USING_MOLINK']):
+    path += [pwd + '/include']
+    src += Glob('source/mo_object.c')
+    src += Glob('source/mo_lib.c')
+
+if IsDefined(['MOLINK_USING_IP']):
+    src += Glob('source/mo_ipaddr.c')
+
+if IsDefined(['MOLINK_USING_GENERAL_OPS']):
+    src += Glob('source/mo_time.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

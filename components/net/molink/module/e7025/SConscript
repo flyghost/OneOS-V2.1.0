@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_E7025']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/e7025.c')
+    
+if IsDefined(['E7025_USING_GENERAL_OPS']):
+    src += Glob('source/e7025_general.c')
+
+if IsDefined(['E7025_USING_NETSERV_OPS']):
+    src += Glob('source/e7025_netserv.c')
+
+if IsDefined(['E7025_USING_PING_OPS']):
+    src += Glob('source/e7025_ping.c')
+
+if IsDefined(['E7025_USING_IFCONFIG_OPS']):
+    src += Glob('source/e7025_ifconfig.c')
+
+if IsDefined(['E7025_USING_NETCONN_OPS']):
+    src += Glob('source/e7025_netconn.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_BC20']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/bc20.c')
+
+if IsDefined(['BC20_USING_GENERAL_OPS']):
+    src += Glob('source/bc20_general.c')
+
+if IsDefined(['BC20_USING_NETSERV_OPS']):
+    src += Glob('source/bc20_netserv.c')
+    
+if IsDefined(['BC20_USING_PING_OPS']):
+    src += Glob('source/bc20_ping.c')
+    
+if IsDefined(['BC20_USING_IFCONFIG_OPS']):
+    src += Glob('source/bc20_ifconfig.c')
+    
+if IsDefined(['BC20_USING_NETCONN_OPS']):
+    src += Glob('source/bc20_netconn.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

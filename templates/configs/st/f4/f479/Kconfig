@@ -1,0 +1,42 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F479AG
+    help
+        Select the device in STM32F479xx
+    config TEMP_STM32F479AG
+        bool "STM32F479AG"
+
+    config TEMP_STM32F479AI
+        bool "STM32F479AI"
+
+    config TEMP_STM32F479BG
+        bool "STM32F479BG"
+
+    config TEMP_STM32F479BI
+        bool "STM32F479BI"
+
+    config TEMP_STM32F479IG
+        bool "STM32F479IG"
+
+    config TEMP_STM32F479II
+        bool "STM32F479II"
+
+    config TEMP_STM32F479NG
+        bool "STM32F479NG"
+
+    config TEMP_STM32F479NI
+        bool "STM32F479NI"
+
+    config TEMP_STM32F479VG
+        bool "STM32F479VG"
+
+    config TEMP_STM32F479VI
+        bool "STM32F479VI"
+
+    config TEMP_STM32F479ZG
+        bool "STM32F479ZG"
+
+    config TEMP_STM32F479ZI
+        bool "STM32F479ZI"
+
+endchoice

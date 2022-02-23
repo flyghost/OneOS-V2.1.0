@@ -1,0 +1,32 @@
+menu "Infrared"
+    config OS_USING_INFRARED
+        bool "Using infrared device drivers"
+        select OS_USING_TIMER_DRIVER
+        select OS_USING_CLOCKSOURCE
+        select OS_USING_TIMER
+        select OS_TIMER_SORT
+        default n
+
+    if OS_USING_INFRARED    
+        menuconfig BSP_USING_RMT_CTL_ATK_TX
+            bool "Enable atk remote control tx"
+            default n
+
+            if BSP_USING_RMT_CTL_ATK_TX
+                config BSP_USING_RMT_CTL_ATK_TX_PIN
+                    int "tx pin"
+                    default 16
+            endif
+            
+        menuconfig BSP_USING_RMT_CTL_ATK_RX
+            bool "Enable atk remote control rx"
+            default n
+
+            if BSP_USING_RMT_CTL_ATK_RX
+                config BSP_USING_RMT_CTL_ATK_RX_PIN
+                    int "rx pin"
+                    default 17
+            endif
+    endif
+
+endmenu

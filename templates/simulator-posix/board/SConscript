@@ -1,0 +1,14 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+src  = []
+group = []
+path = [pwd]
+
+src += Glob('board.c')
+
+group = AddCodeGroup('arch', src, depend = [''], CPPPATH = path)
+
+Return('group')

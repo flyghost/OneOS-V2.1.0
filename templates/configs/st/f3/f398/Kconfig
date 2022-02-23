@@ -1,0 +1,10 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F398VE
+    help
+        Select the device in STM32F398xx
+
+    config TEMP_STM32F398VE
+        bool "STM32F398VE"
+
+endchoice

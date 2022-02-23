@@ -1,0 +1,75 @@
+
+# Kconfig file for package ali-iotkit
+menu "Aliyun"
+    config PKG_USING_ALI_IOTKIT
+    bool "Ali-iotkit: Aliyun cloud sdk 'iotkit-embedded'"
+    select NET_USING_BSD    
+    default n
+
+if PKG_USING_ALI_IOTKIT
+
+    choice
+        prompt "Version"
+        default PKG_USING_ALI_IOTKIT_V30100
+        help
+            Select the ali-iotkit version
+
+        config PKG_USING_ALI_IOTKIT_V30100
+            bool "v3.1.0"
+    endchoice
+    
+    config PKG_USING_ALI_IOTKIT_PRODUCT_KEY
+        string "Config Product Key"
+        default "a1mFunc9SVl"
+
+    config PKG_USING_ALI_IOTKIT_PRODUCT_SECRET
+        string "Config Product Secret"
+        default "*******"
+
+    config PKG_USING_ALI_IOTKIT_DEVICE_NAME
+        string "Config Device Name"
+        default "dev_0"        
+
+    config PKG_USING_ALI_IOTKIT_DEVICE_SECRET
+        string "Config Device Secret"
+        default "4mevyxGE6CGCGX8kL6dGWIyIj7Gq31tj"
+
+    config PKG_ALI_IOTKIT_SELECT_ITEM
+        bool
+        select PLATFORM_HAS_OS
+        select PLATFORM_HAS_STDINT
+        default y
+        
+    if PKG_USING_ALI_IOTKIT_V30100
+        source "$OS_ROOT/components/cloud/aliyun/tools/menu/Config.infra"
+        source "$OS_ROOT/components/cloud/aliyun/tools/menu/Config.dev_sign"
+        source "$OS_ROOT/components/cloud/aliyun/tools/menu/Config.mqtt"
+    #    source "$OS_ROOT/components/cloud/aliyun/tools/menu/Config.dynamic_register"
+        source "$OS_ROOT/components/cloud/aliyun/tools/menu/Config.wrappers"
+        source "$OS_ROOT/components/cloud/aliyun/tools/menu/Config.ota"
+        source "$OS_ROOT/components/cloud/aliyun/tools/menu/Config.coap"
+    #    source "$OS_ROOT/components/cloud/aliyun/tools/menu/Config.http"
+    endif
+    
+    config PKG_USING_ALI_IOTKIT_SAMPLES
+        bool "Samples"
+        default n 
+
+    if PKG_USING_ALI_IOTKIT_SAMPLES
+        config PKG_USING_ALI_IOTKIT_MQTT_SAMPLE
+            bool "Enable MQTT sample"
+            depends on MQTT_COMM_ENABLED
+            default y
+        config PKG_USING_ALI_IOTKIT_COAP_SAMPLE
+            bool "Enable COAP sample"
+            depends on COAP_COMM_ENABLED
+            default n
+        config PKG_USING_ALI_IOTKIT_OTA_SAMPLE
+            bool "Enable OTA sample"
+            depends on OTA_ENABLED
+            default n
+    endif
+
+
+endif
+endmenu

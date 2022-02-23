@@ -1,0 +1,25 @@
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+src  = []
+group = []
+path = [pwd]
+
+if IsDefined(['ARCH_ARM_CORTEX_M33']) == False:
+    Return('group')
+
+# The set of source files associated with this SConscript file.
+if osconfig.COMPILER == 'armcc':
+    if IsDefined(['ARCH_ARM_ASM_GNUC']) == True:    
+        src += Glob('gcc/*_gcc.S')
+    else:
+        src += Glob('rvds/*_rvds.S')
+
+if osconfig.COMPILER == 'gcc':
+    src += Glob('gcc/*_gcc.S')
+
+src += Glob('*.c')
+group = AddCodeGroup('arch', src, depend = [''], CPPPATH = path)
+
+Return('group')

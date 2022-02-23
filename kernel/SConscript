@@ -1,0 +1,52 @@
+from build_tools import *
+
+pwd  = PresentDir()
+src  = Glob('source/*.c')
+
+CPPPATH    = [pwd + '/include']
+CPPDEFINES = []
+ASDEFINES  = []
+
+if IsDefined('OS_USING_OVERFLOW_CHECK') == True or IsDefined('OS_USING_TASK_HOOK') == True:
+    CPPDEFINES += ['OS_TASK_SWITCH_NOTIFY']
+    ASDEFINES  += ['OS_TASK_SWITCH_NOTIFY']
+
+if IsDefined('OS_USING_TIMER') == False:
+    DeleteSrcFile(src, ['source/os_timer.c'])
+    
+if IsDefined('OS_USING_WORKQUEUE') == False:
+    DeleteSrcFile(src, ['source/os_workqueue.c'])
+   
+if IsDefined('OS_USING_MUTEX') == False:
+    DeleteSrcFile(src, ['source/os_mutex.c'])
+
+if IsDefined('OS_USING_SEMAPHORE') == False:
+    DeleteSrcFile(src, ['source/os_sem.c'])
+
+if IsDefined('OS_USING_EVENT') == False:
+    DeleteSrcFile(src, ['source/os_event.c'])
+    
+if IsDefined('OS_USING_MESSAGEQUEUE') == False:
+    DeleteSrcFile(src, ['source/os_mq.c'])    
+    
+if IsDefined('OS_USING_MAILBOX') == False:
+    DeleteSrcFile(src, ['source/os_mailbox.c'])
+
+if IsDefined('OS_USING_ALG_FIRSTFIT') == False:
+    DeleteSrcFile(src, ['source/os_mem_firstfit.c'])     
+
+if IsDefined('OS_USING_ALG_BUDDY') == False:
+    DeleteSrcFile(src, ['source/os_mem_buddy.c']) 
+
+if IsDefined('OS_USING_SYS_HEAP') == False and IsDefined('OS_USING_MEM_HEAP') == False:
+    DeleteSrcFile(src, ['source/os_memory.c']) 
+
+if IsDefined('OS_USING_MEM_POOL') == False:
+    DeleteSrcFile(src, ['source/os_mem_pool.c'])
+    
+if IsDefined('OS_USING_SAFETY_MECHANISM') == False:
+    DeleteSrcFile(src, ['source/os_safety.c'])
+
+group = AddCodeGroup('kernel', src, depend = [''], CPPPATH = CPPPATH, CPPDEFINES = CPPDEFINES, ASDEFINES = ASDEFINES)
+
+Return('group')

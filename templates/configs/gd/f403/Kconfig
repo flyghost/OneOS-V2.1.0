@@ -1,0 +1,15 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32F403
+    help
+        Select the device in GD32F403
+
+    config MODEL_GD32F403
+        bool "GD32F403"
+
+endchoice
+
+if MODEL_GD32F403
+    source "$OS_ROOT/templates/configs/gd/f403/f403/Kconfig"
+endif
+

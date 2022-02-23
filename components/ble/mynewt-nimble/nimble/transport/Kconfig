@@ -1,0 +1,48 @@
+menu "Transport"
+choice
+    prompt "HCI transport Select"
+    default BLE_USING_RAM
+    help
+        Selects HCI transport to be included in build. This has virtually the same effect as including package dependency manually, but it allows to easily override HCI transport package in application or target settings.
+
+    config BLE_USING_RAM
+        bool "ram"
+
+    config BLE_USING_UART
+        bool "uart"
+
+    config BLE_USING_SOCKET
+        bool "socket"
+
+    config BLE_USING_USB
+        bool "usb"
+
+endchoice
+
+    if SOC_FAMILY_NRF52
+        if BLE_USING_RAM
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/transport/ram/Kconfig"
+        endif
+
+        if BLE_USING_UART
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/transport/uart/Kconfig"
+        endif
+
+        if BLE_USING_SOCKET
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/transport/socket/Kconfig"
+        endif
+
+        if BLE_USING_USB
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/transport/usb/Kconfig"
+        endif
+    endif
+
+    if (!SOC_FAMILY_NRF52)
+        if BLE_USING_UART
+            source "$OS_ROOT/components/ble/mynewt-nimble/nimble/transport/uart/Kconfig"
+        endif
+    endif
+
+
+
+endmenu

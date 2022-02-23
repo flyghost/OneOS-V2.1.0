@@ -1,0 +1,28 @@
+# Kconfig file for Baiduiot
+menu "Baidu"
+
+menuconfig BAIDUIOT
+    bool "Baidu iotcore"
+    select NET_USING_BSD 
+    default n
+    
+if (BAIDUIOT)
+    choice
+        prompt "Select method"
+        config BAIDUIOT_DEMO
+        bool "Enable demo"
+
+#        config BAIDU_UNITTEST
+#        bool "Enable unit test"
+    endchoice
+endif
+
+if (BAIDUIOT_DEMO)
+    source "$OS_ROOT/components/cloud/baidu/iotcore_client/samples/Kconfig"
+endif
+
+if (BAIDU_UNITTEST)
+    source "$OS_ROOT/components/cloud/baidu/c-utility/tests/Kconfig"
+endif
+
+endmenu

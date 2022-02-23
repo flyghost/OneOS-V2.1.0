@@ -1,0 +1,5 @@
+if OS_USING_CANFESTIVAL_EXAMPLE
+    config OS_USING_CANFESTIVAL_EXAMPLE_OD114S
+    bool "Enable od114s master example"
+    default n
+endif

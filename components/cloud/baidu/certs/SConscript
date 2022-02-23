@@ -1,0 +1,153 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../"
+
+####### certs start ######
+    
+#### client cert start ####
+client_cert_template = """
+/**
+ ***********************************************************************************************************************
+ * Copyright (c) 2020, China Mobile Communications Group Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the \"License\ you may not use this file except in compliance with 
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on 
+ * an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations under the License.
+ *
+ * \@file        aws_iot_client_cert.c
+ *
+ * \@brief       client cert c file auto generate by SConscript
+ *
+ * \@details     
+ *
+ * \@revision
+ * Date         Author          Notes
+ * 2020-09-10   OneOS Team      first version
+ ***********************************************************************************************************************
+ */
+
+#include <stdlib.h>
+
+const char client_cert[] = 
+${CLIENT_CERT_CONTENT};
+
+"""
+client_cert_subs = Template(client_cert_template)
+
+client_cert_dir = pwd + root_path + os.sep + (os.sep).join(['certs', 'ClientCert&Key'])
+output_client_cert_file = pwd + root_path + os.sep + (os.sep).join(['certs', 'baiduiot_client_cert.c'])
+
+CLIENT_CERT_FILE = []
+client_cert_file_list = os.listdir(client_cert_dir)
+if len(client_cert_file_list):
+	for i in range(0, len(client_cert_file_list)):
+		path = os.path.join(client_cert_dir, client_cert_file_list[i])
+		if os.path.isfile(path):
+			CLIENT_CERT_FILE += [path]
+
+CLIENT_CERT_FILE = list(set(CLIENT_CERT_FILE))
+
+client_cert_cfile_content = ""
+if len(CLIENT_CERT_FILE) > 0:
+	for i in range(0, len(CLIENT_CERT_FILE)):
+		if os.path.isfile(CLIENT_CERT_FILE[i]):
+			# read cert file, copy to aws_iot_client_cert.c
+			with open(CLIENT_CERT_FILE[i], 'r') as clientcert:
+				for line in clientcert.readlines()[1:28]:
+					client_cert_cfile_content += '"' + line.strip() + '\\r\\n" \\\n'
+
+client_cert_content = client_cert_subs.substitute(CLIENT_CERT_CONTENT = client_cert_cfile_content)
+with open(output_client_cert_file, 'w') as clientcertfile:
+	clientcertfile.write(client_cert_content)
+#### client cert end ####
+    
+#### client key start ####
+client_key_template = """
+/**
+ ***********************************************************************************************************************
+ * Copyright (c) 2020, China Mobile Communications Group Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the \"License\ you may not use this file except in compliance with 
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on 
+ * an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations under the License.
+ *
+ * \@file        aws_iot_key_cert.c
+ *
+ * \@brief       client key c file auto generate by SConscript
+ *
+ * \@details     
+ *
+ * \@revision
+ * Date         Author          Notes
+ * 2020-09-10   OneOS Team      first version
+ ***********************************************************************************************************************
+ */
+
+#include <stdlib.h>
+
+const char client_key[] = 
+${CLIENT_KEY_CONTENT};
+
+"""
+client_key_subs = Template(client_key_template)
+
+client_key_dir = pwd + root_path + os.sep + (os.sep).join(['certs', 'ClientCert&Key'])
+output_client_key_file = pwd + root_path + os.sep + (os.sep).join(['certs', 'baiduiot_client_key.c'])
+
+CLIENT_KEY_FILE = []
+client_key_file_list = os.listdir(client_key_dir)
+if len(client_key_file_list):
+	for i in range(0, len(client_key_file_list)):
+		path = os.path.join(client_key_dir, client_key_file_list[i])
+		if os.path.isfile(path):
+			CLIENT_KEY_FILE += [path]
+
+CLIENT_KEY_FILE = list(set(CLIENT_KEY_FILE))
+
+client_key_cfile_content = ""
+if len(CLIENT_KEY_FILE) > 0:
+	for i in range(0, len(CLIENT_KEY_FILE)):
+		if os.path.isfile(CLIENT_KEY_FILE[i]):
+			# read cert file, copy to aws_iot_client_cert.c
+			with open(CLIENT_KEY_FILE[i], 'r') as clientkey:
+				for line in clientkey.readlines()[29:56]:
+					client_key_cfile_content += '"' + line.strip() + '\\r\\n" \\\n'
+
+client_key_content = client_key_subs.substitute(CLIENT_KEY_CONTENT = client_key_cfile_content)
+with open(output_client_key_file, 'w') as clientkeyfile:
+	clientkeyfile.write(client_key_content)
+#### client key end ####    
+####### certs end ######
+
+# add basic sourse files of baiduiot 
+src  = ""
+path = ""
+if IsDefined(['BAIDUIOT_PSK']):
+	src  = Glob('./../certs/baiduiot_certs.c')
+
+if IsDefined(['BAIDUIOT_CA']):
+	src  = Glob(root_path + 'certs/baiduiot_certs.c')
+	src += Glob(root_path + 'certs/baiduiot_client_cert.c')
+	src += Glob(root_path + 'certs/baiduiot_client_key.c')
+
+path = [
+    pwd + root_path + 'certs'
+]
+
+group = AddCodeGroup('cloud/baidu/certs', src, depend = ['BAIDUIOT_CLOUD_WITH_TLS'], CPPPATH = path)
+
+Return('group')

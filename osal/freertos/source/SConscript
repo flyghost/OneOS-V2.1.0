@@ -1,0 +1,10 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = Glob('*.c') + Glob('*.cpp')
+CPPPATH = [pwd + '/../include']
+
+group = AddCodeGroup('freertos', src,
+    depend = ['OS_USING_FREERTOS_API_V10_4_3'], CPPPATH = CPPPATH)
+
+Return('group')

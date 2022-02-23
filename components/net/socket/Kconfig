@@ -1,0 +1,26 @@
+menu "Socket"
+
+config NET_USING_BSD
+    bool "Enable BSD socket API"
+    default n
+
+    if NET_USING_BSD
+        if NET_USING_LWIP || NET_USING_MOLINK
+        
+            choice
+            prompt "protocol stack implement"
+            default BSD_USING_MOLINK
+
+            config BSD_USING_MOLINK
+                bool "Support OneOS modules stack"
+                depends on MOLINK_USING_SOCKETS_OPS
+            config BSD_USING_LWIP
+                bool "Support lwIP stack"
+                depends on NET_USING_LWIP
+            endchoice
+
+        endif
+
+    endif
+
+endmenu

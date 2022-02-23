@@ -1,0 +1,15 @@
+menu "cell positon"
+	
+	config ONEPOS_CELL_POS
+	bool "network positon using cell positon"
+	default n
+	
+	if ONEPOS_CELL_POS
+		config ONEPOS_CELL_DEVICE_NAME
+		string "device name of cell position using"
+		default "ml302"
+	endif
+
+
+endmenu
+

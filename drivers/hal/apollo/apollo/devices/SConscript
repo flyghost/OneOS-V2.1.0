@@ -1,0 +1,14 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+src = ['am_devices.c']
+src += ['bsp.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SERIES_APOLLO'], CPPPATH = path)
+
+Return('group')

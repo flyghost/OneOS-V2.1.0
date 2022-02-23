@@ -1,0 +1,57 @@
+
+menu "L610 Config" 
+
+    config L610_AUTO_CREATE
+        bool "Enable L610 Module Object Auto Create"
+        default n
+
+    if L610_AUTO_CREATE
+
+        config L610_DEVICE_NAME
+            string "L610 Interface Device Name"
+            default "uart2"
+
+        config L610_DEVICE_RATE
+            int "L610 Interface Device Rate"
+            default 115200
+
+        config L610_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config L610_USING_GENERAL_OPS
+        bool "Enable L610 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config L610_USING_NETSERV_OPS
+        bool "Enable L610 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config L610_USING_PING_OPS
+        bool "Enable L610 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config L610_USING_IFCONFIG_OPS
+        bool "Enable L610 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select L610_USING_GENERAL_OPS
+        select L610_USING_NETSERV_OPS
+        default y
+
+    config L610_USING_NETCONN_OPS
+        bool "Enable L610 Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config L610_USING_SOCKETS_OPS
+        bool "Enable L610 Module BSD Socket Operates"
+        select L610_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

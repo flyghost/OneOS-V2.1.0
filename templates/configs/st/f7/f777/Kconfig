@@ -1,0 +1,22 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F777VI
+    help
+        Select the device in STM32F777xx
+
+    config TEMP_STM32F777BI
+        bool "STM32F777BI"
+    
+    config TEMP_STM32F777II
+        bool "STM32F777II"
+    
+    config TEMP_STM32F777NI
+        bool "STM32F777NI"
+    
+    config TEMP_STM32F777VI
+        bool "STM32F777VI"
+    
+    config TEMP_STM32F777ZI
+        bool "STM32F777ZI"
+    
+endchoice

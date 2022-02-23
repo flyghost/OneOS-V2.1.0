@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HC32F190JCTA
+    help
+        Select the device in HC32F190xxxx
+
+    config TEMP_HC32F190JCTA
+        bool "HC32F190JCTA"
+        
+    config TEMP_HC32F190FCUA
+        bool "HC32F190FCUA"
+
+endchoice

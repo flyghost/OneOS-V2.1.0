@@ -1,0 +1,19 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F779II
+    help
+        Select the device in STM32F779xx
+
+    config TEMP_STM32F779AI
+        bool "STM32F779AI"
+    
+    config TEMP_STM32F779BI
+        bool "STM32F779BI"
+
+    config TEMP_STM32F779II
+        bool "STM32F779II"
+    
+    config TEMP_STM32F779NI
+        bool "STM32F779NI"
+    
+endchoice

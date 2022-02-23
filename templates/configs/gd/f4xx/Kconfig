@@ -1,0 +1,28 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32F405
+    help
+        Select the device in GD32F4xx
+
+    config MODEL_GD32F405
+        bool "GD32F405"
+    
+    config MODEL_GD32F407
+        bool "GD32F407"
+    
+    config MODEL_GD32F450
+        bool "GD32F450"
+
+endchoice
+
+if MODEL_GD32F405
+    source "$OS_ROOT/templates/configs/gd/f4xx/f405/Kconfig"
+endif
+
+if MODEL_GD32F407
+    source "$OS_ROOT/templates/configs/gd/f4xx/f407/Kconfig"
+endif
+
+if MODEL_GD32F450
+    source "$OS_ROOT/templates/configs/gd/f4xx/f450/Kconfig"
+endif

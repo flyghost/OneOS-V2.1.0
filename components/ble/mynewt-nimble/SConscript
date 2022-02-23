@@ -1,0 +1,133 @@
+import os
+import osconfig
+from build_tools import *
+import re
+
+
+cwd = PresentDir()
+
+# add general drivers
+subdirs = []
+
+if IsDefined(['OS_USING_NIMBLE_HOST']):
+    subdirs += [
+        'nimble/host/src',
+        'nimble/host/util/src',
+        'nimble/host/services/ans/src',
+        'nimble/host/services/bas/src',
+        'nimble/host/services/gap/src',
+        'nimble/host/services/gatt/src',
+        'nimble/host/services/ias/src',
+        'nimble/host/services/lls/src',
+        'nimble/host/services/tps/src',
+        'nimble/host/services/ipss/src',
+        'nimble/host/store/ram/src'
+    ]
+
+if IsDefined(['OS_USING_NIMBLE_CONTROLLER']):
+    subdirs += ['nimble/controller/src']
+
+if IsDefined(['NIMBLE_CFG_TINYCRYPT']):
+    subdirs += ['ext/tinycrypt/src']
+
+if IsDefined(['OS_USING_NIMBLE_CONTROLLER']):
+    if IsDefined(['SOC_SERIES_NRF52']):
+        subdirs += ['nimble/drivers/nrf52/src']
+
+if IsDefined(['SOC_SERIES_NRF52']):
+    if IsDefined(['BLE_USING_RAM']):
+        subdirs += ['nimble/transport/ram/src']
+    elif IsDefined(['BLE_USING_UART']):
+        subdirs += ['nimble/transport/uart/src']
+    elif IsDefined(['BLE_USING_SOCKET']):
+        subdirs += ['nimble/transport/socket/src']
+    elif IsDefined(['BLE_USING_USB']):
+        subdirs += ['nimble/transport/usb/src']
+else:
+    if IsDefined(['BLE_USING_UART']):
+        subdirs += ['nimble/transport/uart/src']
+
+if IsDefined(['BLE_HOST_MESH']):
+    subdirs += ['nimble/host/mesh/src']
+
+
+src = []
+for subdir in subdirs:
+    dir = cwd + '/' + subdir
+    list=os.listdir(dir)
+    for file in list:
+        matchObj = re.match( r'(.+)\.c', file, re.M|re.I)
+        if matchObj:
+            src += [subdir + '/'+ file]
+            print(subdir + '/' + file)
+
+src += Split('''
+porting/nimble/src/endian.c
+porting/nimble/src/mem.c
+porting/nimble/src/os_mbuf.c
+porting/nimble/src/os_msys_init.c
+porting/nimble/src/nimble_port.c
+porting/nimble/src/os_mempool.c
+porting/npl/oneos/src/nimble_port_oneos.c
+porting/npl/oneos/src/npl_os_oneos.c
+''')
+
+if IsDefined(['OS_USING_NIMBLE_CONTROLLER']):
+    src += Split('''
+porting/nimble/src/os_cputime.c
+porting/nimble/src/os_cputime_pwr2.c
+porting/nimble/src/hal_timer.c
+porting/npl/oneos/src/nrf5x_isr.c
+''')
+
+
+# path   include path in project
+path =  [cwd]
+path += [cwd + '/nimble/include']
+path += [cwd + '/porting/nimble/include']
+path += [cwd + '/porting/npl/oneos/include']
+
+if IsDefined(['OS_USING_NIMBLE_CONTROLLER']):
+    path += [cwd + '/nimble/controller/include']
+
+if IsDefined(['OS_USING_NIMBLE_HOST']):
+    path += [cwd + '/nimble/host/include']
+    path += [cwd + '/nimble/host/services/ans/include']
+    path += [cwd + '/nimble/host/services/bas/include']
+    path += [cwd + '/nimble/host/services/bleuart/include']
+    path += [cwd + '/nimble/host/services/gap/include']
+    path += [cwd + '/nimble/host/services/gatt/include']
+    path += [cwd + '/nimble/host/services/ias/include']
+    path += [cwd + '/nimble/host/services/lls/include']
+    path += [cwd + '/nimble/host/services/tps/include']
+    path += [cwd + '/nimble/host/services/ipss/include']
+    path += [cwd + '/nimble/host/store/ram/include']
+    path += [cwd + '/nimble/host/util/include']
+
+if IsDefined(['NIMBLE_CFG_TINYCRYPT']):
+    path += [cwd + '/ext/tinycrypt/include']
+
+if IsDefined(['SOC_SERIES_NRF52']):
+    path += [cwd + '/nimble/drivers/nrf52/include']
+
+if IsDefined(['SOC_SERIES_NRF52']):
+    if IsDefined(['BLE_USING_RAM']):
+        path += [cwd + '/nimble/transport/ram/include']
+    elif IsDefined(['BLE_USING_UART']):
+        path += [cwd + '/nimble/transport/uart/include']
+    elif IsDefined(['BLE_USING_SOCKET']):
+        path += [cwd + '/nimble/transport/socket/include']
+    elif IsDefined(['BLE_USING_USB']):
+        path += [cwd + '/nimble/transport/usb/include']
+else:
+    if IsDefined(['BLE_USING_UART']):
+        path += [cwd + '/nimble/transport/uart/include']
+
+if IsDefined(['BLE_HOST_MESH']):
+    path += [cwd + '/nimble/host/mesh/include']
+    path += [cwd + '/nimble/host/mesh/src']
+
+
+group = AddCodeGroup('nimble', src, depend = [''], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,16 @@
+# for module compiling
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+
+path =  [pwd]
+
+src = []
+
+src += Glob('*.c')
+
+objs = AddCodeGroup('gui/lv_gif', src, depend = ['OS_USING_GUI_LVGL_GIF'], CPPPATH = [pwd])
+
+Return('objs')

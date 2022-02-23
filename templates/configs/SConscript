@@ -1,0 +1,77 @@
+import os
+import sys
+import shutil
+import importlib
+import importlib.util
+
+
+def develop_board_inq(g):
+    for soc_type in g:
+        if 'TEMP_' not in soc_type:
+            continue
+            
+        source_path = "../templates/" + soc_type[5:]
+        target_path = os.path.join(source_path, 'target/')
+        
+        if os.path.exists(source_path):            
+            if os.path.exists(target_path):
+                shutil.rmtree(target_path)
+            
+            if os.path.exists(target_path):
+                return None
+            
+            try:
+                shutil.copytree(source_path, target_path)
+            except shutil.Error as e:
+                errors = e.args[0]
+                for error in errors:
+                    src, dst, msg = error
+                    if not os.path.exists(dst):
+                        shutil.copytree(src, dst)
+            
+            return target_path
+
+    return None
+
+inq_table = {}
+inq_table['MANUFACTOR_STM32'] = 'st'
+inq_table['MANUFACTOR_GD32']  = 'gd'
+inq_table['MANUFACTOR_GD32V'] = 'gd32v'
+inq_table['MANUFACTOR_NXP']   = 'nxp'
+inq_table['MANUFACTOR_HDSC']  = 'hdsc'
+inq_table['MANUFACTOR_CMIOT'] = 'cmiot'
+inq_table['MANUFACTOR_MM32']  = 'mm32'
+inq_table['MANUFACTOR_HK32']  = 'hk32'
+inq_table['MANUFACTOR_INGENIC']  = 'ingenic'
+inq_table['MANUFACTOR_NRF']   = 'nrf'
+inq_table['MANUFACTOR_FM33']  = 'fm'
+inq_table['MANUFACTOR_BEKEN'] = 'beken'
+
+def soc_type_inq(g):
+    # develop board
+    target_path = develop_board_inq(g)
+    if target_path != None:
+        return target_path
+
+    # soc
+    for inq in inq_table:
+        if inq not in g:
+            continue
+            
+        print(inq)
+        print("**********************")   
+        realdir = os.path.dirname(os.path.realpath(__file__))
+    
+        sub_path = os.path.join(realdir, inq_table[inq])
+        sub_script = os.path.join(sub_path, "SConscript")
+
+        loader = importlib.machinery.SourceFileLoader('SConscript', sub_script)
+        spec   = importlib.util.spec_from_loader(loader.name, loader)
+        mod    = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+        target_path = mod.soc_type_inq(g)
+        
+        return target_path
+    
+    return None
+    

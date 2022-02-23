@@ -1,0 +1,71 @@
+config MOLINK_USING_GENERAL_OPS
+    bool
+    default n
+
+config MOLINK_USING_NETSERV_OPS
+    bool
+    default n
+
+config MOLINK_USING_PING_OPS
+    bool
+    select MOLINK_USING_IP
+    default n
+
+config MOLINK_USING_IFCONFIG_OPS
+    bool
+    select MOLINK_USING_IP
+    default n
+
+config MOLINK_USING_NETCONN_OPS
+    bool
+    select OS_USING_MESSAGEQUEUE
+    select MOLINK_USING_IP
+    default n
+
+config MOLINK_USING_SOCKETS_OPS
+    bool
+    select MOLINK_USING_NETCONN_OPS
+    select OS_USING_LIBC_ADAPTER
+    default n
+
+config MOLINK_USING_MQTTC_OPS
+    bool
+    select OS_USING_MESSAGEQUEUE
+    default n
+
+if MOLINK_USING_MQTTC_OPS
+    config MOLINK_USING_MQTTC_TASK
+    bool
+    default n
+endif
+
+config MOLINK_USING_ONENET_NB_OPS
+    bool
+    select MOLINK_USING_IP
+    default n
+
+config MOLINK_USING_WIFI_OPS
+    bool
+    default n
+
+config MOLINK_USING_PPP_OPS
+    bool
+    default n
+
+config MOLINK_USING_AUTO_PROBE_OPS
+    bool
+    default n
+
+config MOLINK_USING_CTM2M_OPS
+    bool
+    default n
+
+config MOLINK_USING_IP
+    bool
+    default n
+
+    if MOLINK_USING_IP
+        config MOLINK_USING_IPV4
+        bool
+        default y
+    endif

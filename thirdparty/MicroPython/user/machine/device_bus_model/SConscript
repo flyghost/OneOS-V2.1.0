@@ -1,0 +1,12 @@
+from build_tools import *
+import osconfig
+
+# get current directory
+cwd     = PresentDir()
+src     = Glob('./*.c')
+path    = [cwd + '/']
+
+
+group = AddCodeGroup('micropython', src, depend = ['PKG_USING_MICROPYTHON'], CPPPATH = path)
+
+Return('group')

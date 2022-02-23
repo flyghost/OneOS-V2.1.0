@@ -1,0 +1,28 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32F303
+    help
+        Select the device in GD32F30x
+
+    config MODEL_GD32F303
+        bool "GD32F303"
+    
+    config MODEL_GD32F305
+        bool "GD32F305"
+    
+    config MODEL_GD32F307
+        bool "GD32F307"
+
+endchoice
+
+if MODEL_GD32F303
+    source "$OS_ROOT/templates/configs/gd/f30x/f303/Kconfig"
+endif
+
+if MODEL_GD32F305
+    source "$OS_ROOT/templates/configs/gd/f30x/f305/Kconfig"
+endif
+
+if MODEL_GD32F307
+    source "$OS_ROOT/templates/configs/gd/f30x/f307/Kconfig"
+endif

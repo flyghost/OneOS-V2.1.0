@@ -1,0 +1,38 @@
+from build_tools import *
+import osconfig
+
+objs 	= []
+# get current directory
+cwd     = PresentDir()
+list 	= os.listdir(cwd)
+# The set of source files associated with this SConscript file.
+src    = Glob('machine/*.c')
+src    += Glob('machine/middle/*.c')
+src    += Glob('start/src/*.c')
+src    += Glob('machine/driver/OneOS/*.c')
+src    += Glob('machine/device_bus_model/*.c')
+
+path    = [cwd + '/']
+path   += [cwd + '/start/include']
+path   += [cwd + '/machine']
+path   += [cwd + '/machine/middle/include']
+path   += [cwd + '/machine/driver/OneOS/include']
+path   += [cwd + '/machine/device_bus_model']
+
+
+LOCAL_CCFLAGS = ''
+
+if osconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --c99 --gnu'
+
+group = AddCodeGroup('micropython', src, depend = ['PKG_USING_MICROPYTHON'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        objs = objs + SConscript(os.path.join(item, 'SConscript'))
+		
+
+objs = objs + group
+
+Return('objs')

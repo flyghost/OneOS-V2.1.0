@@ -1,0 +1,93 @@
+choice
+    prompt "MANUFACTOR"
+        default MANUFACTOR_STM32
+        
+    config MANUFACTOR_STM32
+        bool "STM32"
+
+    config MANUFACTOR_GD32
+        bool "GD32"
+
+    config MANUFACTOR_GD32V
+        bool "GD32V"
+
+    config MANUFACTOR_NXP
+        bool "NXP"
+
+    config MANUFACTOR_HDSC
+        bool "HDSC"
+
+    config MANUFACTOR_CMIOT
+        bool "CMIOT"
+
+    config MANUFACTOR_MM32
+        bool "MM32"
+                
+    config MANUFACTOR_HK32
+        bool "HK32"
+        
+    config MANUFACTOR_INGENIC
+        bool "INGENIC"
+        
+    config MANUFACTOR_NRF
+        bool "NRF"
+        
+    config MANUFACTOR_FM33
+        bool "FM33"
+        
+    #config MANUFACTOR_BEKEN
+    #    bool "BEKEN"
+    
+endchoice
+
+if MANUFACTOR_STM32
+    source "$OS_ROOT/templates/configs/st/Kconfig"
+endif
+
+if MANUFACTOR_GD32
+    source "$OS_ROOT/templates/configs/gd/Kconfig"
+endif
+
+if MANUFACTOR_GD32V
+    source "$OS_ROOT/templates/configs/gd32v/Kconfig"
+endif
+
+if MANUFACTOR_NXP
+    source "$OS_ROOT/templates/configs/nxp/Kconfig"
+endif
+
+if MANUFACTOR_HDSC
+    source "$OS_ROOT/templates/configs/hdsc/Kconfig"
+endif
+
+if MANUFACTOR_CMIOT
+    source "$OS_ROOT/templates/configs/cmiot/Kconfig"
+endif
+
+if MANUFACTOR_HSXP
+    #source "$OS_ROOT/templates/configs/hsxp/Kconfig"
+endif
+
+if MANUFACTOR_MM32
+    source "$OS_ROOT/templates/configs/mm32/Kconfig"
+endif
+
+if MANUFACTOR_HK32
+    source "$OS_ROOT/templates/configs/hk32/Kconfig"
+endif
+
+if MANUFACTOR_INGENIC
+    source "$OS_ROOT/templates/configs/ingenic/Kconfig"
+endif
+
+if MANUFACTOR_NRF
+    source "$OS_ROOT/templates/configs/nrf/Kconfig"
+endif
+
+if MANUFACTOR_FM33
+    source "$OS_ROOT/templates/configs/fm/Kconfig"
+endif
+
+if MANUFACTOR_BEKEN
+    source "$OS_ROOT/templates/configs/beken/Kconfig"
+endif

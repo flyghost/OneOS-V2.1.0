@@ -1,0 +1,21 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+path =  [pwd]
+src = []
+
+if IsDefined('SECURITY_USING_ONETLS'):
+    # add general drivers
+    src += Glob('library/*.c')
+
+    # path   include path in project
+    path += [pwd + '/library']
+    path += [pwd + '/include']
+    path += [pwd + '/include/mbedtls']
+    path += [pwd + '/include/psa']
+
+group = AddCodeGroup('onetls/crypto', src, depend = ['SECURITY_USING_ONETLS'], CPPPATH = path)
+
+Return('group')

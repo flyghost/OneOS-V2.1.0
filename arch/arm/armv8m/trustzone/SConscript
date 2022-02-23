@@ -1,0 +1,28 @@
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+src  = []
+group = []
+path = [pwd]
+
+if IsDefined(['ARCH_ARM_CORTEX_M33_TZ']) == False:
+    Return('group')
+
+# The set of source files associated with this SConscript file.
+if osconfig.COMPILER == 'armcc':
+    src += Glob('rvds/*_rvds.S')
+
+if osconfig.COMPILER == 'gcc':
+    src += Glob('gcc/*_gcc.S')
+
+src += Glob('arch_interrupt.c')
+src += Glob('arch_misc.c')
+src += Glob('arch_exc_nonsecure.c')
+src += Glob('arch_secure.c')
+src += Glob('arch_task.c')
+
+
+group = AddCodeGroup('arch', src, depend = [''], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,36 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_EC20']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/ec20.c')
+
+if IsDefined(['EC20_USING_GENERAL_OPS']):
+    src += Glob('source/ec20_general.c')
+    
+if IsDefined(['EC20_USING_NETSERV_OPS']):
+    src += Glob('source/ec20_netserv.c')
+    
+if IsDefined(['EC20_USING_PING_OPS']):
+    src += Glob('source/ec20_ping.c')
+    
+if IsDefined(['EC20_USING_IFCONFIG_OPS']):
+    src += Glob('source/ec20_ifconfig.c')
+    
+if IsDefined(['EC20_USING_NETCONN_OPS']):
+    src += Glob('source/ec20_netconn.c')
+    
+if IsDefined(['EC20_USING_PPP_OPS']):
+    src += Glob('source/ec20_ppp.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

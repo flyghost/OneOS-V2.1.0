@@ -1,0 +1,14 @@
+# for ble component
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+objs = []
+cwd = PresentDir()
+list = os.listdir(cwd)
+
+if IsDefined(['OS_USING_BLE', 'BLE_USING_NIMBLE']):
+	objs = SConscript(('mynewt-nimble/SConscript'))
+
+Return('objs')
+

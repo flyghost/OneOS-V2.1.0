@@ -1,0 +1,6 @@
+menu "ipss"
+		config MYNEWT_VAL_BLE_SVC_IPSS_SYSINIT_STAGE
+		    int "Sysinit stage for the IPSS BLE service"
+		    default 303
+endmenu
+

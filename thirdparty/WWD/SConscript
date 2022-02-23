@@ -1,0 +1,25 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+list = os.listdir(pwd)
+
+src = Split('''
+wwd_dev.c
+wwd_bus.c
+''')
+
+if IsDefined(['BSP_USING_AP6181']):
+    src += ['ap6181.c']
+
+path = [pwd]
+
+group = AddCodeGroup('wwd', src, depend = ['OS_USING_WWD'], CPPPATH = path)
+
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        group += SConscript(os.path.join(d, 'SConscript'))
+
+Return('group')

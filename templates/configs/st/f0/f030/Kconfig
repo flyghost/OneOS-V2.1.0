@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F030CC
+    help
+        Select the device in STM32F030xx
+
+    config TEMP_STM32F030CC
+        bool "STM32F030CC"
+
+    config TEMP_STM32F030RC
+        bool "STM32F030RC"
+
+endchoice

@@ -1,0 +1,19 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32G441CB
+    help
+        Select the device in STM32G441xx
+
+    config TEMP_STM32G441CB
+        bool "STM32G441CB"
+    
+    config TEMP_STM32G441MB
+        bool "STM32G441MB"
+
+    config TEMP_STM32G441RB
+        bool "STM32G441RB"
+
+    config TEMP_STM32G441VB
+        bool "STM32G441VB"
+
+endchoice

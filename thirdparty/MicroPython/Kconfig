@@ -1,0 +1,462 @@
+menu "MicroPython"
+menuconfig PKG_USING_MICROPYTHON
+    bool "Enable MicroPython"
+	select OS_USING_CONSOLE
+	select OS_USING_DEVICE
+	select OS_USING_LIBC
+	select OS_USING_VFS
+    default n
+	
+	if PKG_USING_MICROPYTHON
+
+#==========================================================================
+
+		menu "Hardware information"
+			config MICROPY_HW_MCU_NAME
+				string "Set micropython mcu name"
+				default "stm32l475"
+				
+			config MICROPYTHON_RAM_SIZE
+				int "The maximum memory size of micropython (KB)"
+	            default 16
+			
+			config MICROPYTHON_RAM_START
+				hex "The start memory adress of micropython"
+	            default 0x10000000
+			
+			config MICROPYTHON_USING_REPL
+			    bool "Use micropython repl"
+				default y
+			
+		endmenu
+
+
+		 menu "Micropython std-libs and micro-libs"
+		 
+			config MICROPY_USING_THREAD
+	            bool "thread: multi-thread/task module"
+	            default n
+				
+			if MICROPY_USING_THREAD
+				config MP_THREAD_MAX_NUM
+					int "maximum number of thread"
+					default 10
+			endif
+			
+	        config MICROPY_USING_MATH
+	            bool "math: mathematical functions"
+	            default n
+	
+	        if MICROPY_USING_MATH
+	        	config MICROPY_USING_MATH_SPECIAL_FUNCTIONS
+					bool "provide special math functions: math.{erf,erfc,gamma,lgamma}"
+					default n
+					
+				config MICROPY_USING_MATH_FACTORIAL
+					bool "provide math.factorial function"
+					default n
+					
+				config MICROPY_USING_MATH_ISCLOSE
+					bool "provide math.isclose function"
+					default n
+			endif
+
+			
+	        config MICROPY_USING_UBINASCII
+	            bool "ubinascii: binary/ASCII conversions"
+	            default n
+	        	if MICROPY_USING_UBINASCII
+	           		config MICROPY_USING_UBINASCII_CRC32
+	           		bool "Compute CRC-32"
+	           	default n
+	        endif  
+
+
+	        config MICROPY_USING_COLLECTIONS
+	            bool "ucollections: collection and container types"
+	            default n
+				if MICROPY_USING_COLLECTIONS
+					config MICROPY_USING_COLLECTIONS_DEQUE
+					bool "provide ucollections.deque type"
+					default n
+
+					config MICROPY_USING_COLLECTIONS_ORDEREDDICT
+					bool "provide ucollections.OrderedDict type"
+					default n
+
+					config MICROPY_USING_COLLECTIONS_NAMEDTUPLE__ASDICT
+					bool "provide the _asdict function for namedtuple"
+					select MICROPY_USING_COLLECTIONS_ORDEREDDICT
+					default n
+	        endif 
+
+			#---------------- 
+			config MICROPY_USING_ARRAY
+					bool "uarray: arrays of numeric data"
+					default n
+	        config MICROPY_USING_UHASHLIB
+	            bool "uhashlib: hashing algorithms"
+	            default n
+				if MICROPY_USING_UHASHLIB
+					config MICROPY_USING_UHASHLIB_SHA256
+						bool "provide SHA256 algorithms"
+						default y
+
+					config MICROPY_USING_UHASHLIB_MD5
+						bool "provide MD5 algorithms"
+						default n
+				
+					config MICROPY_USING_UHASHLIB_SHA1
+						bool "provide SHA1 algorithms"
+						default n
+            	endif
+			#---------------- 
+			config MICROPY_USING_USSL
+				bool "ussl: SSL/TLS module"
+				select MICROPY_USING_UHASHLIB
+				select MICROPY_USING_UHASHLIB_MD5
+				select MICROPY_USING_UHASHLIB_SHA1
+				default n
+			if MICROPY_USING_USSL
+				choice
+				prompt "ssl type"
+				default MICROPY_USING_SSL_MBEDTLS
+				#config MICROPY_USING_SSL_AXTLS
+				#	bool "axTLS ssl"
+				config MICROPY_USING_SSL_MBEDTLS
+					bool "mbedTLS ssl"
+				endchoice
+			endif
+			config MICROPY_USING_USOCKET
+	            bool "usocket: socket module"
+	            default n
+				
+	        config MICROPY_USING_USELECT
+	            bool "uselect: wait for events on a set of streams"
+	            default n
+
+	        config MICROPY_USING_UHEAPQ
+	            bool "uheapq: heap queue algorithm"
+	            default n
+
+
+	        config MICROPY_USING_UJSON
+	            bool "ujson: JSON encoding and decoding"
+	            default n
+
+
+	        config MICROPY_USING_URE
+	            bool "ure: simple regular expressions"
+	            default n
+            if MICROPY_USING_URE
+	           config MICROPY_USING_URE_DEBUG
+	           bool "provide ure.DEBUG function"
+	           default n
+            
+	           config MICROPY_USING_URE_MATCH_GROUPS
+               bool "provide groups function for ure.match/search"
+               default n
+            
+               config MICROPY_USING_URE_MATCH_SPAN_START_END
+               bool "provide span/start/end function for ure.match/search"
+               default n
+
+               config MICROPY_USING_URE_SUB
+               bool "provide ure.sub function"
+               default n
+            endif 
+
+
+	        config MICROPY_USING_UZLIB
+	            bool "uzlib: zlib decompression"
+	            default n
+
+			config MICROPY_USING_UTIME
+				bool "utime: time/utime module"
+				select MICROPY_PY_RTC
+				select PKG_MICROPYTHON_MACHINE_BUS
+	            default n
+    	endmenu
+#==========================================================================
+		menu "Micropython specific-libs"
+			config MICROPY_USING_UCTYPES
+				bool "uctypes: access binary data in a structured way" 
+				default n
+				
+			config MICROPY_USING_UCRYPTOLIB
+				bool "ucryptolib: cryptographic ciphers" 
+				select SECURITY_USING_MBEDTLS
+				select MICROPY_USING_USSL
+				default n
+				
+			#config MICROPY_USING_POSITION
+			#	bool "position: oneos micropython position"
+			#	select OS_USING_OnePos
+			#	default n
+			#config MICROPY_USING_WIFISCAN
+			#	bool "wifiscan: scan wifi aps" 
+			#	default n
+			config MICROPY_USING_URANDOM
+				bool "urandom: random number generator" 
+				default n
+			
+			#config MICROPY_USING_FOTA
+			#	bool "fota: oneos micropython FOTA"
+			#	select FOTA_USING_CMIOT
+			#	default n
+		    #config MICROPY_USING_MO_NETWORK
+			#	bool "net: network of sim related molink"
+			#	default n 
+			#config MICROPY_USING_SYSMISC
+			#	bool "sysmisc: micropython sys misc"
+			#	default n
+
+		#	config MICROPY_USING_VIRTUAL_AT
+		#		bool "virat: micropython virtual at"
+		#		default n
+
+		#config MICROPY_USING_CODECS
+		#		bool "codecs: micropython charset convert"
+		#		select PKG_USING_OPENCC
+		#		default n
+		
+		menuconfig PKG_MICROPYTHON_MACHINE_BUS
+			bool "machine: Enable micropython machine module"
+			default n
+		if PKG_MICROPYTHON_MACHINE_BUS
+			config MICROPY_PY_ADC
+				bool "adc: Enable micropython machine module"
+				select OS_USING_ADC
+				default n
+			if MICROPY_PY_ADC
+				config MICROPYTHON_MACHINE_ADC_PRENAME
+					string "similar adc devices prename"
+					default "adc"
+			endif	
+			
+			config MICROPY_PY_CAN
+				bool "can: Enable micropython machine module"
+				select OS_USING_CAN
+				default n
+			if MICROPY_PY_CAN
+				config MICROPYTHON_MACHINE_CAN_PRENAME
+					string "Set similar can devices prename"
+					default "can"
+			endif	
+			
+			config MICROPY_PY_DAC
+				bool "dac: Enable micropython machine module"
+				select OS_USING_DAC
+				default n
+			if MICROPY_PY_DAC
+				config MICROPYTHON_MACHINE_DAC_PRENAME
+					string "Set similar dac devices prename"
+					default "dac"
+			endif
+			
+			config MICROPY_PY_I2C
+				bool "i2c: Enable micropython machine module"
+				#select MICROPY_PY_PIN
+				select OS_USING_I2C
+				default n
+			if MICROPY_PY_I2C
+				config MICROPYTHON_MACHINE_I2C_PRENAME
+					string "Set similar i2c devices prename"
+					default "i2c"
+			endif
+			
+			config MICROPY_PY_SPI
+				bool "spi: Enable micropython machine module"
+				select MICROPY_PY_PIN
+				select OS_USING_SPI
+				default n
+			if MICROPY_PY_SPI
+				config MICROPYTHON_MACHINE_SPI_PRENAME
+					string "Set similar spi devices prename"
+					default "spi"
+			endif
+			
+			config MICROPY_PY_UART
+				bool "uart: Enable micropython machine module"
+				select OS_USING_SERIAL
+				default n
+			if MICROPY_PY_UART
+				config MICROPYTHON_MACHINE_UART_PRENAME
+					string "Set similar uart devices prename"
+					default "uart"
+			endif
+			
+			config MICROPY_PY_PWM
+				bool "pwm: Enable micropython machine module"
+				select OS_USING_PWM
+				default n
+			if MICROPY_PY_PWM
+				config MICROPYTHON_MACHINE_PWM_PRENAME
+					string "Set similar pwm devices prename"
+					default "pwm"
+			endif
+			
+			config MICROPY_PY_WDT
+				bool "wdt: Enable micropython machine module"
+				select OS_USING_WDG
+				default n
+			if MICROPY_PY_WDT
+				config MICROPYTHON_MACHINE_WDT_NAME
+					string "Set wdt device name"
+					default "wdg"
+			endif
+
+			config MICROPY_PY_PIN
+				bool "pin: Enable micropython machine module"
+				select OS_USING_PIN
+				default n
+
+			config MICROPY_PY_RTC
+				bool "rtc: Enable micropython machine module"
+				select OS_USING_RTC
+				default n		
+			
+			config MICROPY_PY_TIMER
+				bool "timer: Enable micropython machine module"
+				default n
+			
+			#config MICROPY_PY_PM
+			#	bool "pm: Enable micropython machine module"
+			#	select OS_USING_LPMGR
+			#	default n
+		endif
+
+
+		menuconfig PKG_MICROPYTHON_DEVICE
+			bool "device: Enable micropython device module"
+			default n
+			
+		if PKG_MICROPYTHON_DEVICE
+			config MICROPY_DEVICE_AUDIO
+				bool "audio: Enable device module"
+				select OS_USING_AUDIO
+				default n
+			if MICROPY_DEVICE_AUDIO
+				config MICROPYTHON_DEVICE_AUDIO_NAME
+					string "Set audio device name"
+					default "audio0"
+			endif
+			
+			config MICROPY_DEVICE_BEEP
+				bool "beep: Enable device module"
+				default n
+			
+			config MICROPY_DEVICE_KEY
+				bool "key: Enable device module"
+				default n
+			
+			config MICROPY_DEVICE_LCD
+				bool "lcd: Enable device module(only supports ST7789VW)"
+				select OS_USING_GRAPHIC
+				select OS_USING_ST7789VW
+				default n
+			
+			config MICROPY_DEVICE_LED
+				bool "led: Enable device module"
+				default n
+			
+			config MICROPY_DEVICE_HUMITURE
+				bool "humiture: Enable sensor module"
+				default n
+			if MICROPY_DEVICE_HUMITURE
+				config MICROPYTHON_DEVICE_HUMIDITY_NAME
+					string "Set humidity sensor name"
+					default "humi_aht10"
+				
+				config MICROPYTHON_DEVICE_TEMPERATURE_NAME
+					string "Set temperature sensor name"
+					default "temp_aht10"
+			endif
+			
+			config MICROPY_DEVICE_SIX_AXIS
+				bool "six_axis: Enable sensor module"
+				default n
+			if MICROPY_DEVICE_SIX_AXIS
+				config MICROPYTHON_DEVICE_GGYROSCOPE_NAME
+					string "Set gyroscope sensor name"
+					default "gyro_icm20602"
+					
+				config MICROPYTHON_DEVICE_ACCELEROMETER_NAME
+					string "Set accelerometer sensor name"
+					default "acce_icm20602"
+			endif
+			
+			config MICROPY_DEVICE_ALS_PS
+				bool "als_ps: Enable sensor module"
+				default n
+			if MICROPY_DEVICE_ALS_PS
+				config MICROPYTHON_DEVICE_LIGHTSENSOR_NAME
+					string "Set light sensor name"
+					default "li_ap3216c"
+			
+				config MICROPYTHON_DEVICE_PROXIMITY_NAME
+					string "Set proximity sensor name"
+					default "pr_ap3216c"
+			endif
+			
+		endif
+		endmenu
+
+        menu "Micropython components"
+			
+			config MICROPY_USING_FILESYSTEM
+				bool "Mount file system to sd card or internal flash" 
+				default n
+				
+			if MICROPY_USING_FILESYSTEM
+				config MICROPY_FS_DEVICE_NAME
+					string "Set file system device(SD,W25Q64, etc)"
+					default "sd0"
+			endif
+			if 0
+				config MICROPY_USING_AMS
+					bool "Enable micropython application-management-system(ams)" 
+					select NET_USING_BSD
+					default n
+					
+				if MICROPY_USING_AMS
+					config AMS_TASK_STACK_SIZE
+						int "The stack szie  of micropython ams task" 
+						default 6144
+						
+					config AMS_TASK_PRIOIRTY
+						int "The priority level value of micropython ams task" 
+						default 21
+					
+					config MICROPY_RUNNER_STACK_SIZE
+						int "The stack szie  of micropython runner task" 
+						default 8192
+					config MICROPY_RUNNER_PRIOIRTY
+						int "The priority level value of micropython runner task" 
+						default 25
+					config AMS_SERVER_IP_ADDR
+						string "Set the IP address of AMS Cloud platform server"
+						default "111.10.38.128"
+				endif
+			endif
+			if 0
+			config MICROPY_PY_ONENET
+				bool "Enable micropython onenet module"
+				default n
+			endif
+
+		endmenu
+
+#==========================================================================
+
+        menu "Micropython debug mode"
+			
+			config MICROPY_USING_DEBUG_MODE
+				bool "Enable debug mode" 
+				default n
+		endmenu
+#==========================================================================
+	endif
+	
+	
+endmenu

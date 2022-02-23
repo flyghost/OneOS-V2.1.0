@@ -1,0 +1,25 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32H753VI
+    help
+        Select the device in STM32H753xx
+
+    config TEMP_STM32H753VI
+        bool "STM32H753VI"
+        
+    config TEMP_STM32H753ZI
+        bool "STM32H753ZI"
+        
+     config TEMP_STM32H753AI
+        bool "STM32H753AI"  
+
+    config TEMP_STM32H753II
+        bool "STM32H753II"
+        
+    config TEMP_STM32H753BI
+        bool "STM32H753BI"
+        
+     config TEMP_STM32H753XI
+        bool "STM32H753XI" 
+
+endchoice

@@ -1,0 +1,37 @@
+import os
+import sys
+import importlib
+import importlib.util    
+
+inq_table = {}
+inq_table['MODEL_STM32H742'] = 'h742'
+inq_table['MODEL_STM32H743'] = 'h743'
+inq_table['MODEL_STM32H745'] = 'h745'
+inq_table['MODEL_STM32H747'] = 'h747'
+inq_table['MODEL_STM32H750'] = 'h750'
+inq_table['MODEL_STM32H753'] = 'h753'
+inq_table['MODEL_STM32H755'] = 'h755'
+inq_table['MODEL_STM32H757'] = 'h757'
+
+def soc_type_inq(g):
+    for inq in inq_table:
+        if inq not in g:
+            continue
+            
+        print(inq)
+            
+        realdir = os.path.dirname(os.path.realpath(__file__))
+    
+        sub_path = os.path.join(realdir, inq_table[inq])
+        sub_script = os.path.join(sub_path, "SConscript")
+
+        loader = importlib.machinery.SourceFileLoader('SConscript', sub_script)
+        spec   = importlib.util.spec_from_loader(loader.name, loader)
+        mod    = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+        target_path = mod.soc_type_inq(g)
+        
+        return target_path
+    
+    return None
+    

@@ -1,0 +1,15 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_GD32VF10x
+    help
+        GD32VF10x
+
+    config SERIES_GD32VF10x
+        bool "GD32VF10x"
+        
+endchoice
+
+if SERIES_GD32VF10x
+    source "$OS_ROOT/templates/configs/gd32v/f10x/Kconfig"
+endif
+

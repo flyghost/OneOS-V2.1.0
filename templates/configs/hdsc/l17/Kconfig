@@ -1,0 +1,21 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_HC32L176
+    help
+        Select the device in HC32L17x
+
+    config MODEL_HC32L170
+        bool "HC32L170"
+        
+    config MODEL_HC32L176
+        bool "HC32L176"
+
+endchoice
+
+if MODEL_HC32L170
+    source "$OS_ROOT/templates/configs/hdsc/l17/l170/Kconfig"
+endif
+
+if MODEL_HC32L176
+    source "$OS_ROOT/templates/configs/hdsc/l17/l176/Kconfig"
+endif

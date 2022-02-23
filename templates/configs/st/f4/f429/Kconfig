@@ -1,0 +1,66 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F429AG
+    help
+        Select the device in STM32F429xx
+
+    config TEMP_STM32F429AG
+        bool "STM32F429AG"
+        
+    config TEMP_STM32F429AI
+        bool "STM32F429AI"
+        
+    config TEMP_STM32F429BE
+        bool "STM32F429BE"
+        
+    config TEMP_STM32F429BG
+        bool "STM32F429BG"
+        
+    config TEMP_STM32F429BI
+        bool "STM32F429BI"
+        
+    config TEMP_STM32F429IE
+        bool "STM32F429IE"
+        
+    config TEMP_STM32F429IG
+        bool "STM32F429IG"
+        
+    config TEMP_STM32F429II
+        bool "STM32F429II"
+        
+    config TEMP_STM32F429NE
+        bool "STM32F429NE"
+        
+    config TEMP_STM32F429NG
+        bool "STM32F429NG"
+        
+    config TEMP_STM32F429NI
+        bool "STM32F429NI"
+        
+    config TEMP_STM32F429VE
+        bool "STM32F429VE"
+        
+    config TEMP_STM32F429VG
+        bool "STM32F429VG"
+        
+    config TEMP_STM32F429VI
+        bool "STM32F429VI"
+        
+    config TEMP_STM32F429ZE
+        bool "STM32F429ZE"
+        
+    config TEMP_STM32F429ZG
+        bool "STM32F429ZG"
+        
+    config TEMP_STM32F429ZI
+        bool "STM32F429ZI"
+
+    config TEMP_stm32f429-atk-apollo
+        bool "stm32f429-atk-apollo"
+        
+    config TEMP_stm32f429-st-disco
+        bool "stm32f429-st-disco"
+
+endchoice
+
+ 

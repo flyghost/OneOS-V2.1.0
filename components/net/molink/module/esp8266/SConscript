@@ -1,0 +1,34 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_ESP8266']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/esp8266.c')
+
+if IsDefined(['ESP8266_USING_GENERAL_OPS']):
+    src += Glob('source/esp8266_general.c')
+    
+if IsDefined(['ESP8266_USING_WIFI_OPS']):
+    src += Glob('source/esp8266_wifi.c')
+
+if IsDefined(['ESP8266_USING_PING_OPS']):
+    src += Glob('source/esp8266_ping.c')
+    
+if IsDefined(['ESP8266_USING_IFCONFIG_OPS']):
+    src += Glob('source/esp8266_ifconfig.c')
+    
+if IsDefined(['ESP8266_USING_NETCONN_OPS']):
+    src += Glob('source/esp8266_netconn.c')
+
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

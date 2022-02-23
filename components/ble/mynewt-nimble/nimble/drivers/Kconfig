@@ -1,0 +1,5 @@
+menu "Drivers"
+    if SOC_SERIES_NRF52
+        source "$OS_ROOT/components/ble/mynewt-nimble/nimble/drivers/nrf52/Kconfig"
+    endif
+endmenu

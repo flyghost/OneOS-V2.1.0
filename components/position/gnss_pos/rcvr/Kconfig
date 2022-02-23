@@ -1,0 +1,56 @@
+menu "gnss receiver"
+	
+	config GNSS_USING_RCVR
+	bool "onepos supp gnss receiver"
+	default n
+	
+	if GNSS_USING_RCVR
+		source "$OS_ROOT/components/position/gnss_pos/rcvr/interface/Kconfig"
+		
+		menu "support gnss rcvr list"
+
+			config GNSS_USING_ICOFCHINA
+				bool "icofchina"
+				default n
+
+				if GNSS_USING_ICOFCHINA
+					source "$OS_ROOT/components/position/gnss_pos/rcvr/icofchina/Kconfig"
+				endif
+
+			config GNSS_USING_UNICORECOMM
+				bool "unicorecomm"
+				default n
+
+				if GNSS_USING_UNICORECOMM
+					source "$OS_ROOT/components/position/gnss_pos/rcvr/unicorecomm/Kconfig"
+				endif
+
+			config GNSS_USING_TECHTOTOP
+				bool "techtotop"
+				default n
+
+				if GNSS_USING_TECHTOTOP
+					source "$OS_ROOT/components/position/gnss_pos/rcvr/techtotop/Kconfig"
+				endif
+			
+			config GNSS_USING_UBLOX
+				bool "ublox"
+				default n
+
+				if GNSS_USING_UBLOX
+					source "$OS_ROOT/components/position/gnss_pos/rcvr/ublox/Kconfig"
+				endif
+
+			config GNSS_USING_MX
+				bool "mx"
+				default n
+
+				if GNSS_USING_MX
+					source "$OS_ROOT/components/position/gnss_pos/rcvr/mx/Kconfig"
+				endif
+		endmenu
+		
+	endif
+	
+endmenu
+

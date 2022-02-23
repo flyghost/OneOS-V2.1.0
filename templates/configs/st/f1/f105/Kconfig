@@ -1,0 +1,25 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F105RC
+    help
+        Select the device in STM32F105xx
+
+    config TEMP_STM32F105R8
+        bool "STM32F105R8"
+        
+    config TEMP_STM32F105RB
+        bool "STM32F105RB"
+        
+    config TEMP_STM32F105RC
+        bool "STM32F105RC"
+
+    config TEMP_STM32F105V8
+        bool "STM32F105V8"
+        
+    config TEMP_STM32F105VB
+        bool "STM32F105VB"  
+        
+    config TEMP_STM32F105VC
+        bool "STM32F105VC"
+
+endchoice

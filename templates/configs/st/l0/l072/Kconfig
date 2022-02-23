@@ -1,0 +1,27 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32L072CB
+    help
+        Select the device in STM32L072xx
+    config TEMP_STM32L072CB
+        bool "STM32L072CB"
+
+    config TEMP_STM32L072CZ
+        bool "STM32L072CZ"
+
+    config TEMP_STM32L072RB
+        bool "STM32L072RB"
+
+    config TEMP_STM32L072RZ
+        bool "STM32L072RZ"
+
+    config TEMP_STM32L072V8
+        bool "STM32L072V8"
+
+    config TEMP_STM32L072VB
+        bool "STM32L072VB"
+
+    config TEMP_STM32L072VZ
+        bool "STM32L072VZ"
+
+endchoice

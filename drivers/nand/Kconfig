@@ -1,0 +1,13 @@
+menu "NAND"
+    config OS_USING_NAND
+        bool "Using nand flash driver"
+        select OS_FAL_DYNAMIC_FLASH
+        default n
+
+    if OS_USING_NAND
+        config BSP_NAND_MT29F4G08ABADA
+            bool "nand flash MT29F4G08ABADA"
+            default n
+    endif
+        
+endmenu

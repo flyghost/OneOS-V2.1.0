@@ -1,0 +1,50 @@
+menu "LWM2M-v1.0.0"
+
+config NET_USING_LWM2M
+	bool "Enable LWM2M"
+	select NET_USING_BSD
+	default n
+    
+    if NET_USING_LWM2M
+		
+		config CONFIG_LWM2M_SECURE
+            bool "Enable LWM2M DTLS encrypt"
+			select SECURITY_USING_MBEDTLS
+            default n
+			
+		config LWM2M_USING_SAMPLE
+            bool "Enable LWM2M sample"
+            default n
+			
+			if LWM2M_USING_SAMPLE
+			config LWM2M_SERVER_ADDR_STR
+			       string "LWM2M Server Addr String"
+				   default "192.168.1.102"
+			config LWM2M_SERVER_PORT_STR
+				   string "LWM2M Server Port String"
+				   default "5684"
+			endif
+			
+		config LWM2M_CLIENT_MODE
+			bool "Enable LWM2M client mode"
+			default	n
+		
+			choice 
+				prompt "Select log level"		
+				default LWM2M_LOG_DEBUG
+				config LWM2M_LOG_ERROR
+				bool "Error Log Level"
+				config LWM2M_LOG_WARN
+				bool "Warn Log Level"
+				config LWM2M_LOG_INFO
+				bool "Info Log Level"
+				config LWM2M_LOG_DEBUG
+				bool "Debug Log Level"
+				config LWM2M_LOG_VERBOSE
+				bool "Verbose Log Level"
+				config LWM2M_LOG_NONE
+				bool "None Log Level"
+			endchoice
+    endif
+	
+endmenu

@@ -1,0 +1,39 @@
+import os
+import sys
+import importlib
+import importlib.util
+
+inq_table = {}
+inq_table['SERIES_GD32E10x'] = 'e10x'
+inq_table['SERIES_GD32E50x'] = 'e50x'
+inq_table['SERIES_GD32F3x0'] = 'f3x0'
+inq_table['SERIES_GD32F4xx'] = 'f4xx'
+inq_table['SERIES_GD32F30x'] = 'f30x'
+inq_table['SERIES_GD32F403'] = 'f403'
+inq_table['SERIES_GD32F10x'] = 'f10x'
+inq_table['SERIES_GD32F20x'] = 'f20x'
+
+    
+def soc_type_inq(g):
+    for inq in inq_table:
+        if inq not in g:
+            continue
+            
+        print(inq)
+            
+        realdir = os.path.dirname(os.path.realpath(__file__))
+    
+        sub_path = os.path.join(realdir, inq_table[inq])
+        sub_script = os.path.join(sub_path, "SConscript")
+
+        loader = importlib.machinery.SourceFileLoader('SConscript', sub_script)
+        spec   = importlib.util.spec_from_loader(loader.name, loader)
+        mod    = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+        target_path = mod.soc_type_inq(g)
+        
+        return target_path
+    
+    return None
+
+

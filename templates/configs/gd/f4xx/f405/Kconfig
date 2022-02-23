@@ -1,0 +1,28 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F405RE
+    help
+        Select the device in GD32F405xx
+      
+    config TEMP_GD32F405RE
+        bool "GD32F405RE"
+    
+    config TEMP_GD32F405RG
+        bool "GD32F405RG"
+    
+    config TEMP_GD32F405RK
+        bool "GD32F405RK"
+    
+    config TEMP_GD32F405VG
+        bool "GD32F405VG"
+        
+    config TEMP_GD32F405VK
+        bool "GD32F405VK"
+    
+    config TEMP_GD32F405ZG
+        bool "GD32F405ZG"
+        
+    config TEMP_GD32F405ZK
+        bool "GD32F405ZK"
+
+endchoice

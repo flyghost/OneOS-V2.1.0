@@ -1,0 +1,17 @@
+menu "GUI"
+    config OS_GUI_DISP_DEV_NAME
+        string "GUI display dev name"
+        default "lcd"
+            
+    config OS_GUI_INPUT_DEV_NAME
+        string "GUI input dev name"
+        default "touch"
+
+    menuconfig OS_USING_GUI_LVGL
+        bool "Enable LVGL"
+        default n
+        
+        if OS_USING_GUI_LVGL                    
+        source "$OS_ROOT/thirdparty/gui/lvgl/Kconfig"
+        endif
+endmenu

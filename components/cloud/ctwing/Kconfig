@@ -1,0 +1,5 @@
+menu "CTWing"
+
+source "$OS_ROOT/components/cloud/ctwing/mqtt/Kconfig"
+
+endmenu

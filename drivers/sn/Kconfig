@@ -1,0 +1,6 @@
+menu "SN"
+    config OS_USING_SN
+        bool "Enable SN Config"
+        default n
+        select BSP_USING_FLASH
+endmenu

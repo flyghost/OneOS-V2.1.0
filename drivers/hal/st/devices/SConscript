@@ -1,0 +1,13 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+src = ['stm32_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['MANUFACTOR_STM32'], CPPPATH = path)
+
+Return('group')

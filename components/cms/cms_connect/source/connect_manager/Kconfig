@@ -1,0 +1,19 @@
+if USING_CMS_CONNECT
+    config CMS_SERVER_ADDRESS
+        string "CMS Server Address"
+        default "172.16.21.83"
+        
+    config CMS_SERVER_PORT
+        string "CMS Server Port"
+        default "6588" if CMS_CONNECT_MQTT
+        default "6588" if CMS_CONNECT_TCP
+        default "5688" if CMS_CONNECT_UDP
+    
+    config CMS_SEND_BUFF
+        int "Size of send buffer"
+        default 1460
+    
+    config CMS_RECV_BUFF
+        int "Size of receive buffer"
+        default 1460
+endif

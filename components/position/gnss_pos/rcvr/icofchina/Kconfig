@@ -1,0 +1,7 @@
+menu "icofchina gnss receiver"
+
+    config ICOFCHINA_DEV_NAME
+        string "icofchina gnss receiver using device name"
+        default "uart2"
+
+endmenu

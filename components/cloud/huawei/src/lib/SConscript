@@ -1,0 +1,26 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+src_file = Split("""
+
+""")
+
+include_path = [
+
+    pwd + '/../../include',
+    pwd + '/../ota/flag_operate',
+    pwd + '/../../src/connectivity/mqtt/MQTTClient-C/src'
+]
+
+path = []
+src = []
+
+if IsDefined(['USING_HUAWEI_CLOUD_CONNECT', 'HUAWEI_CLOUD_PORTOCOL_MQTT']):
+    src += src_file
+    path += include_path
+
+group = AddCodeGroup('mqtt/lib', src, depend = ['USING_HUAWEI_CLOUD_CONNECT', 'HUAWEI_CLOUD_PORTOCOL_MQTT'], CPPPATH = path)
+
+Return('group')
+

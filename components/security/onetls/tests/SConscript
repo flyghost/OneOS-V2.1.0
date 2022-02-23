@@ -1,0 +1,17 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+path =  [pwd]
+src = []
+
+if IsDefined('ONETLS_TESTS'):
+    # add general drivers
+    src += Glob('onetls_tls_*.c')
+    # path   include path in project
+    path += [pwd + '/']
+
+group = AddCodeGroup('onetls/tests', src, depend = ['ONETLS_TESTS'], CPPPATH = path)
+
+Return('group')

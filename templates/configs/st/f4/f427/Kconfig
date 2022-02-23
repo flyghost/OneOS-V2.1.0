@@ -1,0 +1,40 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F427AG
+    help
+        Select the device in STM32F427xx
+  
+    config TEMP_STM32F427AG
+        bool "STM32F427AG"
+        
+    config TEMP_STM32F427AI
+        bool "STM32F427AI"
+        
+    config TEMP_STM32F427IG
+        bool "STM32F427IG"
+        
+    config TEMP_STM32F427II
+        bool "STM32F427II"
+        
+    config TEMP_STM32F427VG
+        bool "STM32F427VG"
+        
+    config TEMP_STM32F427VI
+        bool "STM32F427VI"
+        
+    config TEMP_STM32F427ZG
+        bool "STM32F427ZG"
+        
+    config TEMP_STM32F427ZI
+        bool "STM32F427ZI"
+        
+endchoice
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+# for module compiling
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+print("CCY: OS_ROOT = ",OS_ROOT)
+
+sys.path.append(Env['OS_ROOT'] + '/drivers/hal/st/scripts/')
+import prebuild
+prebuild.prebuild(Env['BSP_ROOT'], '/board/CubeMX_Config/Core/Src/')
+
+pwd = PresentDir()
+objs = []
+list = os.listdir(pwd)
+
+print("pwd: list = ",pwd)
+print("CCY: list = ",list)
+
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+
+Return('objs')

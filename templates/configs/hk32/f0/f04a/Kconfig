@@ -1,0 +1,25 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HK32F04ARBT6
+    help
+        Select the device in HK32F04A
+
+    config TEMP_HK32F04ARBT6
+        bool "HK32F04ARBT6"
+        
+    config TEMP_HK32F04ACBT6
+        bool "HK32F04ACBT6"
+        
+    config TEMP_HK32F04AKBT6
+        bool "HK32F04AKBT6"
+        
+    config TEMP_HK32F04AKBU6
+        bool "HK32F04AKBU6"
+        
+    config TEMP_HK32F04AGBU6
+        bool "HK32F04AGBU6"
+        
+    config TEMP_HK32F04AFBP6
+        bool "HK32F04AFBP6"
+        
+endchoice

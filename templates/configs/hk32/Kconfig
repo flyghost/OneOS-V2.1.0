@@ -1,0 +1,35 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_HK32F1
+    help
+        Select the device in HK32
+        
+    config SERIES_HK32F0
+        bool "HK32F0"
+        
+    config SERIES_HK32F1
+        bool "HK32F1"
+        
+    config SERIES_HK32L0
+        bool "HK32L0"
+        
+    config SERIES_HK32F3
+        bool "HK32F3"
+        
+endchoice
+
+if SERIES_HK32F0
+    source "$OS_ROOT/templates/configs/hk32/f0/Kconfig"
+endif
+
+if SERIES_HK32F1
+    source "$OS_ROOT/templates/configs/hk32/f1/Kconfig"
+endif
+
+if SERIES_HK32L0
+    source "$OS_ROOT/templates/configs/hk32/l0/Kconfig"
+endif
+
+if SERIES_HK32F3
+    source "$OS_ROOT/templates/configs/hk32/f3/Kconfig"
+endif

@@ -1,0 +1,22 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HC32L196PCTA
+    help
+        Select the device in HC32L196xxxx
+
+    config TEMP_HC32L196PCTA
+        bool "HC32L196PCTA"
+
+    config TEMP_HC32L196KCTA
+        bool "HC32L196KCTA"
+
+    config TEMP_HC32L196MCTA
+        bool "HC32L196MCTA"
+
+    config TEMP_HC32L196JCTA
+        bool "HC32L196JCTA"
+
+    config TEMP_hc32l196pcta-stk
+        bool "hc32l196pcta-stk"
+
+endchoice

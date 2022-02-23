@@ -1,0 +1,57 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+group = []
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['OS_USING_PIN', 'BSP_USING_GPIO']):
+    src += ['drv_gpio.c']
+    
+if IsDefined(['OS_USING_SERIAL', 'BSP_USING_USART']):
+    src += ['drv_usart.c']
+
+if IsDefined(['OS_USING_TIMER_DRIVER', 'BSP_USING_CTIMER']):
+    src += ['drv_hwtimer.c']
+
+if IsDefined(['OS_USING_SPI', 'BSP_USING_SPI']):
+    src += ['drv_spi.c']
+    
+if IsDefined(['OS_USING_I2C', 'BSP_USING_I2C']):
+    src += ['drv_i2c.c']
+
+if IsDefined(['OS_USING_ADC', 'BSP_USING_ADC']):
+    src += Glob('drv_adc.c')
+
+if IsDefined(['OS_USING_CLOCKEVENT', 'BSP_USING_TIM']):
+    src += ['drv_tim.c']
+	
+if IsDefined(['OS_USING_RTC', 'BSP_USING_RTC']):
+    src += ['drv_rtc.c']
+
+if IsDefined(['OS_USING_I2S', 'BSP_USING_I2S']):
+    src += ['drv_i2s.c']
+
+if IsDefined(['OS_HWCRYPTO_USING_CRC', 'BSP_USING_CRC_ENGINE']):
+    src += ['drv_crypto_crc.c']
+
+if IsDefined(['OS_USING_WDG', 'BSP_USING_WWDT']):
+    src += ['drv_wwdt.c']
+
+if IsDefined(['OS_USING_USB_DEVICE', 'BSP_USING_USB']):
+    src += ['drv_usbd.c']
+
+if IsDefined(['OS_USING_FAL', 'SERIES_NXP_LPC550X_S0X']):
+    src += ['flash/drv_flash_lpc55s6x.c']
+    
+src += ['drv_common.c']
+
+path =  [pwd]
+path += [pwd + '/flash']
+
+group = AddCodeGroup('hal/drivers', src, depend = ['SERIES_NXP_LPC550X_S0X'], CPPPATH = path)
+
+Return('group')

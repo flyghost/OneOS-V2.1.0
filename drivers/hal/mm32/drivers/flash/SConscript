@@ -1,0 +1,19 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+path =  [pwd]
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['BSP_USING_ONCHIP_FLASH']):
+    src += ['drv_flash_common.c']
+
+if IsDefined('BSP_USING_ONCHIP_FLASH'):
+    path += [pwd]
+
+group = AddCodeGroup('hal/drivers', src, depend = ['MANUFACTOR_MM32'], CPPPATH = path)
+
+Return('group')

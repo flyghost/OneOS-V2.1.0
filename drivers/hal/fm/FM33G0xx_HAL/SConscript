@@ -1,0 +1,64 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+#FM33G0xx_HAL_Driver/Src/fm33g0xx_exti.c
+src = Split('''
+FM33G0xx_HAL_Driver/Src/fm33g0xx_scu.c
+FM33G0xx_HAL_Driver/Src/fm33g0xx_rcc.c
+FM33G0xx_HAL_Driver/Src/fm33g0xx_dma.c
+FM33G0xx_HAL_Driver/Src/fm33g0xx_wwdt.c
+FM33G0xx_HAL_Driver/Src/fm33g0xx_iwdt.c
+FM33G0xx_HAL_Driver/Src/fm33g0xx_rtc.c
+FM33G0xx_HAL_Driver/Src/fm33g0xx_flash.c
+FM33G0xx_HAL_Driver/Src/fm33g0xx_anac.c
+''')
+
+if IsDefined(['OS_USING_PIN']):
+    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_gpio.c']
+
+if IsDefined(['OS_USING_SERIAL','BSP_USING_UART']):
+    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_uart.c']
+    
+if IsDefined(['OS_USING_SERIAL','BSP_USING_LPUART']):
+    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_lpuart.c']
+
+#if IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_ATIM']):
+#    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_atim.c']
+    
+#if IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_BSTIM32']):
+#    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_bstim32.c']
+    
+#if IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_GPTIM0']) or IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_GPTIM1']):
+#    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_gptim.c']
+    
+#if IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_LPTIM32']):
+#    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_lptim32.c']
+    
+#if IsDefined(['OS_USING_SPI']):
+#    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_hspi.c']
+    
+#if IsDefined(['OS_USING_WDG']):
+#    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_iwdt.c']
+    
+#if IsDefined(['OS_USING_ADC']):
+#    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_anac.c']
+    
+if IsDefined(['OS_USING_LCD']):
+    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_lcd.c']
+
+if IsDefined(['OS_USING_LPMGR']):
+    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_pmu.c']
+    src += ['FM33G0xx_HAL_Driver/Src/fm33g0xx_lptim.c']
+
+path = [pwd + '/FM33G0xx_HAL_Driver/Inc',
+        pwd + '/CMSIS/Device/FM/FM33xx/Include']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_FM33G0'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

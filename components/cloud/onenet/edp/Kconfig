@@ -1,0 +1,24 @@
+menu "EDP"
+
+config OS_USING_ONENET_EDP
+	bool "Enable onenet edp protocal"
+    select PKG_USING_CJSON
+    select NET_USING_BSD
+    select BSP_USING_ONCHIP_RTC
+    select OS_USING_RTC
+    select PKG_USING_NTP
+	default n
+    
+    if OS_USING_ONENET_EDP
+    
+        config OS_USING_ONENET_EDP_CRYPT
+            bool "Enable edp crypt"
+            select SECURITY_USING_MBEDTLS
+            default n            
+                    
+        config OS_USING_ONENET_EDP_SAMPLE
+            bool "Enable edp sample"
+            default n            
+    endif
+	
+endmenu

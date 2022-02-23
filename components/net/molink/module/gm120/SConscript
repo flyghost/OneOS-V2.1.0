@@ -1,0 +1,32 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_GM120']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/gm120.c')
+
+if IsDefined(['GM120_USING_GENERAL_OPS']):
+    src += Glob('source/gm120_general.c')
+	
+if IsDefined(['GM120_USING_NETSERV_OPS']):
+    src += Glob('source/gm120_netserv.c')
+	
+if IsDefined(['GM120_USING_PING_OPS']):
+    src += Glob('source/gm120_ping.c')
+    
+if IsDefined(['GM120_USING_NETCONN_OPS']):
+    src += Glob('source/gm120_netconn.c')
+    
+if IsDefined(['GM120_USING_IFCONFIG_OPS']):
+    src += Glob('source/gm120_ifconfig.c')
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

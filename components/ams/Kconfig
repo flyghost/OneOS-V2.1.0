@@ -1,0 +1,66 @@
+menu "AMS"
+
+    config PKG_USING_AMS
+        bool "AMS: Application Managment System of High level language."
+    default n
+
+    if PKG_USING_AMS
+        config AMS_USING_DEBUG_MODE
+            bool "Output the debug mode."
+        default n
+    if 0
+        config AMS_FS_DEVICE_NAME
+            string "Set file system device(SD,W25Q64, etc)"
+            default "sd0"
+        choice 
+            prompt "Block device type: SD or Flash."
+            default AMS_FS_DEVICE_TYPE_CHOICE_FLASH
+            config AMS_FS_DEVICE_TYPE_CHOICE_FLASH
+                bool "flash"
+            config AMS_FS_DEVICE_TYPE_CHOICE_SD
+                bool "sd"
+        endchoice
+    endif
+        choice
+            prompt "App type: The High level language used to write Application."
+            default AMS_APP_TYPE_CHOICE_PY
+            config AMS_APP_TYPE_CHOICE_PY
+                bool "MicroPython"
+                select PKG_USING_MICROPYTHON
+            config AMS_APP_TYPE_CHOICE_JS
+                bool "Java Script"
+                select USING_IOTJS
+        endchoice
+
+        config AMS_USING_PLATFORM
+            bool "Using APP platform management."
+            default y
+        if AMS_USING_PLATFORM
+            config AMS_PLARFORM_IP_ADDR
+                string "Set the IP address of AMS Cloud platform."
+                default "111.10.38.128"
+            config AMS_DEVICE_IMEI
+                string "Set the imei of the module, length: 15."
+                default "861390030650363"
+            config AMS_DEVICE_IMSI
+                string "Set the imsi of the module, length: 15."
+                default "460042370500473"
+            config AMS_DEVICE_ICCID
+                string "Set the iccid of the module, length: 20."
+                default "89860403101892378494"
+        endif
+        config AMS_MAIN_THD_STACK_SIZE
+            int "The stack szie of AMS main thread." 
+            default 6144
+        config AMS_MAIN_THD_PRIOIRTY
+            int "The priority of AMS main thread." 
+            default 21
+        config AMS_RUN_THD_STACK_SIZE
+            int "The stack szie of AMS runner thread." 
+            default 8192
+        config AMS_RUN_THD_PRIOIRTY
+            int "The priority of AMS runner thread." 
+            default 25
+    endif
+    
+endmenu

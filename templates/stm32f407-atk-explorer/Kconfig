@@ -1,0 +1,13 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=st
+
+config BOARD_ATK_EXPLORER
+    bool
+    select SOC_STM32F407xx
+    default y
+    
+source "$OS_ROOT/Kconfig"
+

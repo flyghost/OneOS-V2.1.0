@@ -1,0 +1,8 @@
+menu "NB-IoT kit"
+
+config OS_USING_ONENET_NBIOT
+	bool "Enable onenet nbiot-kit ( Not open source, contact OneOS Team if necessary )"
+
+	default n
+
+endmenu

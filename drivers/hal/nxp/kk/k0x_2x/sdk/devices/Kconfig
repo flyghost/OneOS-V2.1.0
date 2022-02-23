@@ -1,0 +1,8 @@
+config SOC_KK02_100
+    bool
+    select SERIES_NXP_KK0X_2X
+    default n
+    
+    
+
+

@@ -1,0 +1,75 @@
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+pwd     = PresentDir()
+CPPPATH = []
+src = []
+
+src += Glob('deps/http-parser/http_parser.c')
+
+
+src += Glob('deps/libtuv/src/inet.c')
+src += Glob('deps/libtuv/src/threadpool.c')
+src += Glob('deps/libtuv/src/tuv_debuglog.c')
+src += Glob('deps/libtuv/src/unix/async.c')
+src += Glob('deps/libtuv/src/unix/core.c')
+src += Glob('deps/libtuv/src/unix/fs.c')
+src += Glob('deps/libtuv/src/unix/getaddrinfo.c')
+src += Glob('deps/libtuv/src/unix/loop-watcher.c')
+src += Glob('deps/libtuv/src/unix/loop.c')
+src += Glob('deps/libtuv/src/unix/stream.c')
+src += Glob('deps/libtuv/src/unix/tcp.c')
+src += Glob('deps/libtuv/src/unix/poll.c')
+src += Glob('deps/libtuv/src/unix/thread.c')
+src += Glob('deps/libtuv/src/unix/timer.c')
+src += Glob('deps/libtuv/src/unix/udp.c')
+src += Glob('deps/libtuv/src/unix/oneos.c')
+src += Glob('deps/libtuv/src/unix/oneos-event.c')
+src += Glob('deps/libtuv/src/uv-common.c')
+
+
+src += Glob('src/platform/oneos/iotjs_oneos.c')
+src += Glob("src/platform/oneos/iotjs_recvfile.c")
+src += Glob('src/iotjs.c')
+src += Glob('src/iotjs_binding.c')
+src += Glob('src/iotjs_binding_helper.c')
+src += Glob('src/iotjs_debuglog.c')
+src += Glob('src/iotjs_env.c')
+src += Glob('src/iotjs_module.c')
+src += Glob('src/iotjs_string.c')
+src += Glob('src/iotjs_string_ext.c')
+src += Glob('src/iotjs_util.c')
+src += Glob('src/iotjs_uv_handle.c')
+src += Glob('src/iotjs_uv_request.c')
+src += Glob('src/iotjs_js.c')
+src += Glob('src/modules/iotjs_module_buffer.c')
+src += Glob('src/modules/iotjs_module_console.c')
+src += Glob('src/modules/iotjs_module_constants.c')
+src += Glob('src/modules/iotjs_module_dns.c')
+src += Glob('src/modules/iotjs_module_fs.c')
+src += Glob('src/modules/iotjs_module_http_parser.c')
+src += Glob('src/modules/iotjs_module_process.c')
+src += Glob('src/modules/iotjs_module_tcp.c')
+src += Glob('src/modules/iotjs_module_udp.c')
+src += Glob('src/modules/iotjs_module_timer.c')
+
+
+CPPPATH.append(pwd + '/include')
+CPPPATH.append(pwd + '/src')
+CPPPATH.append(pwd + '/src/platform/linux')
+CPPPATH.append(pwd + '/deps/http-parser')
+CPPPATH.append(pwd + '/deps/libtuv/include')
+CPPPATH.append(pwd + '/deps/libtuv/src')
+CPPPATH.append(pwd + '/deps/http-parser')
+
+group = AddCodeGroup('iotjs', src, depend = ['USING_IOTJS'], CPPPATH = CPPPATH)
+
+list = os.listdir(pwd)
+
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        group = group + SConscript(os.path.join(d, 'SConscript'))
+
+Return('group')

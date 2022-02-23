@@ -1,0 +1,58 @@
+menu "CLM920RV3 Config" 
+
+    config CLM920RV3_AUTO_CREATE
+        bool "Enable CLM920RV3 Module Object Auto Create"
+        default n
+
+    if CLM920RV3_AUTO_CREATE
+
+        config CLM920RV3_DEVICE_NAME
+            string "CLM920RV3 Interface Device Name"
+            default "uart2"
+
+        config CLM920RV3_DEVICE_RATE
+            int "CLM920RV3 Interface Device Rate"
+            default 115200
+
+        config CLM920RV3_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 1500
+
+    endif
+
+    config CLM920RV3_USING_GENERAL_OPS
+        bool "Enable CLM920RV3 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config CLM920RV3_USING_NETSERV_OPS
+        bool "Enable CLM920RV3 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config CLM920RV3_USING_PING_OPS
+        bool "Enable CLM920RV3 Module test Ping function(Only for test use)"
+        select MOLINK_USING_PING_OPS
+        default n
+
+    config CLM920RV3_USING_IFCONFIG_OPS
+        bool "Enable CLM920RV3 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select CLM920RV3_USING_GENERAL_OPS
+        select CLM920RV3_USING_NETSERV_OPS
+        select CLM920RV3_USING_NETCONN_OPS
+        default y
+
+    config CLM920RV3_USING_NETCONN_OPS
+        bool "Enable CLM920RV3 Module Network TCP/IP Operates"
+        select OS_USING_EVENT
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config CLM920RV3_USING_SOCKETS_OPS
+        bool "Enable CLM920RV3 Module BSD Socket Operates"
+        select CLM920RV3_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

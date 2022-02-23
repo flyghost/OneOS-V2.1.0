@@ -1,0 +1,34 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd     = PresentDir()
+CPPPATH = [pwd, str(Dir('#'))]
+
+src  = ['hwcrypto.c']
+
+if (IsDefined(['OS_HWCRYPTO_USING_AES'])  or
+    IsDefined(['OS_HWCRYPTO_USING_DES'])  or
+    IsDefined(['OS_HWCRYPTO_USING_3DES']) or
+    IsDefined(['OS_HWCRYPTO_USING_RC4'])):
+    src += ['hw_symmetric.c']
+    if IsDefined(['OS_HWCRYPTO_USING_GCM']):
+        src += ['hw_gcm.c']
+
+if (IsDefined(['OS_HWCRYPTO_USING_MD5'])  or
+    IsDefined(['OS_HWCRYPTO_USING_SHA1']) or
+    IsDefined(['OS_HWCRYPTO_USING_SHA2'])):
+    src += ['hw_hash.c']
+
+if IsDefined(['OS_HWCRYPTO_USING_RNG']):
+    src += ['hw_rng.c']
+
+if IsDefined(['OS_HWCRYPTO_USING_CRC']):
+    src += ['hw_crc.c']
+
+if IsDefined(['OS_HWCRYPTO_USING_BIGNUM']):
+    src += ['hw_bignum.c']
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_HWCRYPTO'], CPPPATH = CPPPATH)
+
+Return('group')

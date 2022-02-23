@@ -1,0 +1,95 @@
+import os
+import osconfig
+from build_tools import *
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+
+''')
+
+
+
+if IsDefined(['USB_USING_HOST_HS']) or IsDefined(['USB_USING_HOST_FS']):
+    src += Split('''                                               
+        ./Core/Src/proto_usbh_core.c           
+        ./Core/Src/proto_usbh_ctlreq.c         
+        ./Core/Src/proto_usbh_ioreq.c          
+        ./Core/Src/proto_usbh_pipes.c          
+        ''')
+    
+if IsDefined(['ENABLE_USBH_AUDIO_CLASS']):
+    src += Split('''                                               
+        ./Class/AUDIO/Src/usbh_audio.c       
+        ''')
+
+if IsDefined(['ENABLE_USBH_CDC_CLASS']):
+    src += Split('''                                               
+        ./Class/CDC/Src/usbh_cdc.c      
+        ''')
+    
+if IsDefined(['ENABLE_USBH_MSC_CLASS']):
+    src += Split('''                                               
+        ./Class/MSC/Src/usbh_msc.c       
+        ./Class/MSC/Src/usbh_msc_bot.c   
+        ./Class/MSC/Src/usbh_msc_scsi.c      
+        ''')
+    
+if IsDefined(['ENABLE_USBH_HID_CLASS']):
+    src += Split('''                                               
+        ./Class/HID/Src/usbh_hid.c      
+        ./Class/HID/Src/usbh_hid_keybd.c   
+        ./Class/HID/Src/usbh_hid_mouse.c  
+        ./Class/HID/Src/usbh_hid_parser.c    
+        ''')
+    
+if IsDefined(['ENABLE_USBH_MTP_CLASS']):
+    src += Split('''                                               
+        ./Class/MTP/Src/usbh_mtp.c       
+        ./Class/MTP/Src/usbh_mtp_ptp.c       
+        ''')
+
+if IsDefined(['ENABLE_USBH_HUB_CLASS']):
+    src += Split('''                                               
+        ./Class/HUB/Src/usbh_hub.c      
+        ''')
+        
+if IsDefined(['ENABLE_USBH_SPECIFIC_CDC_CLASS']):
+    src += Split('''
+        usbh_cdc_dev.c
+        ./Class/Specific_CDC/Src/usbh_specific_cdc.c     
+        ''')
+        
+if IsDefined(['ENABLE_USBH_CDC_CLASS']) or IsDefined(['ENABLE_USBH_NONSTAND_CDC_CLASS']):
+    src += Split('''                                               
+        usbh_cdc_dev.c     
+        ''')
+        
+    
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/Core/Inc']
+if IsDefined(['ENABLE_USBH_AUDIO_CLASS']):
+    path += [pwd + '/Class/AUDIO/Inc']
+if IsDefined(['ENABLE_USBH_CDC_CLASS']):
+    path += [pwd + '/Class/CDC/Inc']
+if IsDefined(['ENABLE_USBH_MSC_CLASS']):
+    path += [pwd + '/Class/MSC/Inc']
+if IsDefined(['ENABLE_USBH_HID_CLASS']):
+    path += [pwd + '/Class/HID/Inc']
+if IsDefined(['ENABLE_USBH_MTP_CLASS']):
+    path += [pwd + '/Class/MTP/Inc']
+if IsDefined(['ENABLE_USBH_HUB_CLASS']):
+    path += [pwd + '/Class/HUB/Inc']
+if IsDefined(['ENABLE_USBH_SPECIFIC_CDC_CLASS']):
+    path += [pwd + '/Class/Specific_CDC/Inc']
+
+
+
+
+#CPPDEFINES = ['STM32H747xx', 'CORE_CM7'] 
+#group = AddCodeGroup('usb_host', src, depend = ['OS_USING_USB_HOST'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+group = AddCodeGroup('usb_host', src, depend = ['OS_USING_USB_HOST'], CPPPATH = path)
+
+Return('group')

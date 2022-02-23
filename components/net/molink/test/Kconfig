@@ -1,0 +1,63 @@
+menu "Test"
+
+config MOLINK_USING_TESTCASE
+    bool "Enable Molink Test Case"
+    select OS_USING_ATEST
+    default n
+
+if MOLINK_USING_TESTCASE
+
+    config MOLINK_USING_GENERAL_TC
+        bool "Enable Molink General API Test Case"
+        depends on MOLINK_USING_GENERAL_OPS
+        default n
+    
+    if MOLINK_USING_GENERAL_TC
+    
+        config MOLINK_USING_AT_BASIC_TC
+            bool "Enable Molink AT BASIC Test FUNC"
+            depends on MOLINK_USING_PARSER
+            default n
+    
+    endif
+
+    config MOLINK_USING_NETSERV_TC
+        bool "Enable Molink Nerserv API Test Case"
+        depends on MOLINK_USING_NETSERV_OPS
+        default n
+
+    config MOLINK_USING_NETCONN_TC
+        bool "Enable Molink Netconn API Test Case"
+        depends on MOLINK_USING_NETCONN_OPS
+        default n
+
+    config MOLINK_USING_SOCKET_TC
+        bool "Enable Molink Socket API Test Case"
+        depends on MOLINK_USING_SOCKETS_OPS
+        default n
+
+    config MOLINK_USING_MQTTC_TC
+        bool "Enable Molink MQTT Client API Test Case"
+        depends on MOLINK_USING_MQTTC_OPS
+        default n
+
+    config MOLINK_USING_WIFI_TC
+        bool "Enable Molink Wifi API Test Case"
+        depends on MOLINK_USING_WIFI_OPS
+        default n
+
+    if MOLINK_USING_WIFI_TC
+
+        config WIFI_TC_CONNECT_SSID
+            string "Test Connect AP SSID"
+            default "ssid"
+
+        config WIFI_TC_CONNECT_PASSWORD
+            string "Test Connect AP Password"
+            default "password"
+
+    endif
+
+endif
+
+endmenu

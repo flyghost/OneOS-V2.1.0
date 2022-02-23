@@ -1,0 +1,16 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = []
+
+path =  [pwd]
+
+if IsDefined('OS_USING_DMA_RAM'):
+    src += ['dma_ram.c']
+
+if IsDefined('OS_USING_SOFT_DMA'):
+    src += ['soft_dma.c']
+    
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_DMA'], CPPPATH = path)
+
+Return('group')

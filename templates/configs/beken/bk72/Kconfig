@@ -1,0 +1,13 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_BK7231
+    help
+        Select the device in BK72
+
+    config MODEL_BK7231
+        bool "Bk7231"	
+endchoice
+
+if MODEL_BK7231
+    source "$OS_ROOT/templates/configs/beken/bk72/bk7231/Kconfig"
+endif

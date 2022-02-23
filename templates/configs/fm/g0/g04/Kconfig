@@ -1,0 +1,22 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_FM33G048
+    help
+        Select the device in FM33G04x
+
+    config TEMP_FM33G042
+        bool "FM33G042"
+
+    config TEMP_FM33G043
+        bool "FM33G043"
+   
+    config TEMP_FM33G045
+        bool "FM33G045"
+
+    config TEMP_FM33G046
+        bool "FM33G046"
+
+    config TEMP_FM33G048
+        bool "FM33G048"
+
+endchoice

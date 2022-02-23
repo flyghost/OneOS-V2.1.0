@@ -1,0 +1,57 @@
+
+menu "N58 Config" 
+
+    config N58_AUTO_CREATE
+        bool "Enable N58 Module Object Auto Create"
+        default n
+
+    if N58_AUTO_CREATE
+
+        config N58_DEVICE_NAME
+            string "N58 Interface Device Name"
+            default "uart2"
+
+        config N58_DEVICE_RATE
+            int "N58 Interface Device Rate"
+            default 115200
+
+        config N58_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config N58_USING_GENERAL_OPS
+        bool "Enable N58 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config N58_USING_NETSERV_OPS
+        bool "Enable N58 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config N58_USING_PING_OPS
+        bool "Enable N58 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config N58_USING_IFCONFIG_OPS
+        bool "Enable N58 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select N58_USING_GENERAL_OPS
+        select N58_USING_NETSERV_OPS
+        default y
+
+    config N58_USING_NETCONN_OPS
+        bool "Enable N58 Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config N58_USING_SOCKETS_OPS
+        bool "Enable N58 Module BSD Socket Operates"
+        select N58_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

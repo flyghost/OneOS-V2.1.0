@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_EC200X_600S']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/ec200x_600s.c')
+
+if IsDefined(['EC200X_600S_USING_GENERAL_OPS']):
+    src += Glob('source/ec200x_600s_general.c')
+    
+if IsDefined(['EC200X_600S_USING_NETSERV_OPS']):
+    src += Glob('source/ec200x_600s_netserv.c')
+    
+if IsDefined(['EC200X_600S_USING_PING_OPS']):
+    src += Glob('source/ec200x_600s_ping.c')
+    
+if IsDefined(['EC200X_600S_USING_IFCONFIG_OPS']):
+    src += Glob('source/ec200x_600s_ifconfig.c')
+    
+if IsDefined(['EC200X_600S_USING_NETCONN_OPS']):
+    src += Glob('source/ec200x_600s_netconn.c')	
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

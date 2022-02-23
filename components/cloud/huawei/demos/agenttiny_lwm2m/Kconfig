@@ -1,0 +1,12 @@
+
+config HUAWEI_CLOUD_LwM2M_DEMO
+    bool "Enable LwM2M demo program"
+    default n
+if HUAWEI_CLOUD_LwM2M_DEMO
+    config HUAWEI_IOT_LWM2M_SERVER_ADDRESS
+        string "LwM2M Server Address"
+        default "119.3.250.80"
+    config HUAWEI_IOT_DEVICE_LWM2M_ID
+        string "Config Device ID Code"
+        default "dev_0"
+endif

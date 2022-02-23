@@ -1,0 +1,34 @@
+menu "PIN"
+    config OS_USING_PIN
+        bool "Using generic GPIO device drivers"
+        default y
+        
+    config OS_PIN_MAX_CHIP
+        int "IO chip number"
+        default 1
+        depends on OS_USING_PIN
+        
+    menuconfig BSP_USING_PIN_PCF8574
+        bool "Using IO expander device pcf8574"
+        select OS_USING_PIN
+        default n
+        
+        if BSP_USING_PIN_PCF8574
+            config OS_PCF8574_I2C_BUS_NAME
+                string "pcf8574 i2c bus name"
+                default "soft_i2c2"
+
+            config OS_PCF8574_I2C_BUS_ADDR
+                hex "pcf8574 i2c addr(7bit)"
+                default 0x20
+                
+            config OS_PCF8574_INT_PIN
+                int "pcf8574 int pin"
+                default 28
+                
+            config OS_PCF8574_PIN_BASE
+                int "pcf8574 pin base(0, 1000, 2000, ...)"
+                default 1000
+        endif
+
+endmenu

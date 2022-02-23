@@ -1,0 +1,12 @@
+menu "Drivers"
+    menuconfig OS_USING_DEVICE
+        bool "Enable device manager"
+        default y
+        if OS_USING_DEVICE
+            config OS_USING_DEVICE_NOTIFY
+            bool "Enable device notify"
+            default y
+        endif
+        
+    source "$OS_ROOT/drivers/*/Kconfig"
+endmenu

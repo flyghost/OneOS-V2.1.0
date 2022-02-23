@@ -1,0 +1,60 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+CPPPATH=[]
+CPPDEFINES=[]
+
+src = Split('''
+src/ref-impl/client/lwm2mclient.c
+src/ref-impl/client/object_access_control.c
+src/ref-impl/client/object_connectivity_moni.c
+src/ref-impl/client/object_connectivity_stat.c
+src/ref-impl/client/object_device.c
+src/ref-impl/client/object_firmware.c
+src/ref-impl/client/object_location.c
+src/ref-impl/client/object_security.c
+src/ref-impl/client/object_server.c
+src/ref-impl/client/system_api.c
+src/ref-impl/client/test_object.c
+src/ref-impl/shared/commandline.c
+src/ref-impl/shared/memtrace.c
+src/ref-impl/shared/platform.c
+src/ref-impl/shared/mbedconnection.c
+src/ref-impl/shared/connection.c
+src/wakaama-1.0/data.c
+src/wakaama-1.0/utils.c
+src/wakaama-1.0/uri.c
+src/wakaama-1.0/liblwm2m.c
+src/wakaama-1.0/transaction.c
+src/wakaama-1.0/registration.c
+src/wakaama-1.0/list.c
+src/wakaama-1.0/tlv.c
+src/wakaama-1.0/packet.c
+src/wakaama-1.0/block1.c
+src/wakaama-1.0/objects.c
+src/wakaama-1.0/discover.c
+src/wakaama-1.0/observe.c
+src/wakaama-1.0/management.c
+src/wakaama-1.0/json.c
+src/wakaama-1.0/bootstrap.c
+src/er-coap-13/er-coap-13.c
+''')
+
+CPPPATH += [pwd + '/include']
+CPPPATH += [pwd + '/include/er-coap-13']
+
+LOCAL_CCFLAGS = ''
+
+if osconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --gnu'
+
+group = AddCodeGroup('LWM2M', src, depend = ['NET_USING_LWM2M'], CPPPATH = CPPPATH, LOCAL_CCFLAGS = LOCAL_CCFLAGS, CPPDEFINES = CPPDEFINES)
+
+examples_src = Split('''
+oneos/sample/lwm2m_sample_test.c
+''')
+group = group + AddCodeGroup('lwm2m-examples', examples_src, depend = ['LWM2M_USING_SAMPLE', 'NET_USING_LWM2M'], CPPPATH = CPPPATH)
+
+Return('group')

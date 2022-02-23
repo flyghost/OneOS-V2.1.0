@@ -1,0 +1,26 @@
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+src = ['graphic.c']
+
+if IsDefined('OS_USING_DSI'):
+    src += ['dsi.c']
+
+if IsDefined('BSP_USING_OTM8009A'):
+    src += ['otm8009a.c']
+    
+if IsDefined('BSP_USING_ILI9341'):
+    src += ['ili9341.c']
+	
+if IsDefined('OS_USING_ST7789VW'):
+    src += ['st7789vw.c']
+    
+if IsDefined('BSP_USING_ATKTFLCD9341'):
+    src += ['atk_tflcd9341.c']
+    
+# The set of source files associated with this SConscript file.
+
+group = AddCodeGroup('graphic', src, depend = ['OS_USING_GRAPHIC'], CPPPATH = [pwd])
+
+Return('group')

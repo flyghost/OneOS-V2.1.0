@@ -1,0 +1,18 @@
+menu "bluetooth positon"
+	
+	config ONEPOS_USING_BLE_POS
+	bool "enable bluetooth positon"
+	select OS_USING_BLE
+	default n
+	
+	if ONEPOS_USING_BLE_POS
+
+		config ONEPOS_BLE_POSITION_INTERVAL
+		int "onepos bletooth position time interval(unit : ms)"
+		range 500 2000
+		default 1000
+		
+	endif
+endmenu
+
+

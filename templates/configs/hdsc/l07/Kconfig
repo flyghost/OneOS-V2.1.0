@@ -1,0 +1,21 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_HC32L072
+    help
+        Select the device in HC32L07x
+
+    config MODEL_HC32L072
+        bool "HC32L072"
+        
+    config MODEL_HC32L073
+        bool "HC32L073"
+
+endchoice
+
+if MODEL_HC32L072
+    source "$OS_ROOT/templates/configs/hdsc/l07/l072/Kconfig"
+endif
+
+if MODEL_HC32L073
+    source "$OS_ROOT/templates/configs/hdsc/l07/l073/Kconfig"
+endif

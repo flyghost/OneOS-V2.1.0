@@ -1,0 +1,5 @@
+menu "WDG"
+    config OS_USING_WDG
+        bool "Using watchdog drivers"
+        default n
+endmenu

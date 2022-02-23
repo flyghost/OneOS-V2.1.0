@@ -1,0 +1,10 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32L422CB
+    help
+        Select the device in STM32L422xx
+        
+    config TEMP_STM32L422CB
+        bool "STM32L422CB"
+        
+endchoice

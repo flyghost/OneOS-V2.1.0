@@ -1,0 +1,26 @@
+menu "gnss receiver operation"
+
+	if GNSS_USING_RCVR
+		config ONEPOS_RCVR_DEBUG
+			bool "enable gnss receiver debug"
+			default n
+	
+		config RCVR_SUPP_PROT
+			bool "gnss receiver using protocol"
+			select GNSS_USING_PROT
+			default n
+
+		config RCVR_SUPP_RESET
+			bool "gnss receiver support reset operation"
+			default n
+
+		config RCVR_SUPP_AGNSS
+			select ONEPOS_USING_PROT
+			bool "gnss receiver support agnss operation"
+			default n
+
+	endif
+	
+endmenu
+	
+

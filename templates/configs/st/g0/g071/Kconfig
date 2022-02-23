@@ -1,0 +1,22 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32g071-nucleo-64
+    help
+        Select the device in STM32G071xx
+
+    config TEMP_STM32G071C8
+        bool "STM32G071C8"
+
+    config TEMP_STM32G071CB
+        bool "STM32G071CB"
+
+    config TEMP_STM32G071R8
+        bool "STM32G071R8"
+
+    config TEMP_STM32G071RB
+        bool "STM32G071RB"
+
+    config TEMP_stm32g071-nucleo-64
+        bool "stm32g071-nucleo-64"
+    
+endchoice

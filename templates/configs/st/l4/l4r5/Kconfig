@@ -1,0 +1,10 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32l4r5-nucleo-144
+    help
+        Select the device in STM32L4R5xx
+        
+    config TEMP_stm32l4r5-nucleo-144
+        bool "stm32l4r5-nucleo-144"
+        
+endchoice

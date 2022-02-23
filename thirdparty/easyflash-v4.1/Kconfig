@@ -1,0 +1,83 @@
+menu "Easyflash"
+
+    config PKG_USING_EASYFLASH
+        bool
+        prompt "EasyFlash: Lightweight embedded flash memory library."
+        default n
+    
+    if PKG_USING_EASYFLASH
+        menu "on chip flash"
+            config ON_CHIP_FLASH
+                bool
+                prompt "on chip flash"
+                default n
+            
+            if ON_CHIP_FLASH
+                config PKG_EF_ERASE_MIN_SIZE
+                    int
+                    prompt "The flash erase granularity. Generally one flash sector size."
+                    default 2048
+
+                config PKG_EF_WRITE_GRAN
+                    int
+                    prompt "The flash write granularity. Generally 32(bits). In particular:8(bits) on stm32f4, 64(bits) on stm32l4."
+                    default 32
+
+                config PKG_EF_START_ADDR
+                    hex
+                    prompt "Start addr of easyflash part on fal."
+                    default 0x00000000
+
+                config PKG_ENV_AREA_SIZE
+                    int
+                    prompt "ENV area size. Must over or equal (2 * flash erase granularity) for GC."
+                    default 4096
+
+                config USING_LOGIC_FALSH
+                    bool
+                    prompt "Malloc memory as logic flash to copy flash. Enable this config when use stm32l4 series."
+                    default n
+
+                config PKG_EASYFLASH_DEBUG
+                    bool "Enable debug log output"
+                    default n
+
+            endif
+        endmenu
+        
+        menu "nor flash"
+            config NOR_FLASH
+                bool 
+                prompt "nor flash(spi)."
+                default n
+                
+            if NOR_FLASH
+                config PKG_EF_ERASE_MIN_SIZE
+                    int
+                    prompt "The flash erase granularity. Generally one flash sector size."
+                    default 4096
+
+                config PKG_EF_WRITE_GRAN
+                    int
+                    prompt "The flash write granularity. Nor flash write granularity should be 1 bits."
+                    default 1
+
+                config PKG_EF_START_ADDR
+                    hex
+                    prompt "Start addr of easyflash part on fal."
+                    default 0x00000000
+
+                config PKG_ENV_AREA_SIZE
+                    int
+                    prompt "ENV area size. Must over or equal (2 * flash erase granularity) for GC."
+                    default 8192
+
+                config PKG_EASYFLASH_DEBUG
+                    bool "Enable debug log output"
+                    default n
+            endif
+         endmenu
+    endif
+
+endmenu
+

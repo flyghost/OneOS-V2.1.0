@@ -1,0 +1,37 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F305RB
+    help
+        Select the device in GD32F305xx
+
+    config TEMP_GD32F305RB
+        bool "GD32F305RB"
+
+    config TEMP_GD32F305RC
+        bool "GD32F305RC"
+        
+    config TEMP_GD32F305RE
+        bool "GD32F305RE"
+    
+    config TEMP_GD32F305RG
+        bool "GD32F305RG"
+        
+    config TEMP_GD32F305VC
+        bool "GD32F305VC"
+    
+    config TEMP_GD32F305VE
+        bool "GD32F305VE"
+        
+    config TEMP_GD32F305VG
+        bool "GD32F305VG"
+    
+    config TEMP_GD32F305ZC
+        bool "GD32F305ZC"
+        
+    config TEMP_GD32F305ZE
+        bool "GD32F305ZE"
+    
+    config TEMP_GD32F305ZG
+        bool "GD32F305ZG"
+        
+endchoice

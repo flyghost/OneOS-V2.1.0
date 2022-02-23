@@ -1,0 +1,25 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HC32F460PETB
+    help
+        Select the device in HC32F460xxxx
+
+    config TEMP_HC32F460JETA
+        bool "HC32F460JETA"
+        
+    config TEMP_HC32F460JEUA
+        bool "HC32F460JEUA"
+
+    config TEMP_HC32F460KETA
+        bool "HC32F460KETA"
+
+    config TEMP_HC32F460KEUA
+        bool "HC32F460KEUA"
+
+    config TEMP_HC32F460PEHB
+        bool "HC32F460PEHB"
+
+    config TEMP_HC32F460PETB
+        bool "HC32F460PETB"
+
+endchoice

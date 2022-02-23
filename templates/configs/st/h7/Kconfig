@@ -1,0 +1,62 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32H747
+    help
+        Select the device in STM32H7xx
+
+    config MODEL_STM32H747
+        bool "STM32H747"
+    
+    config MODEL_STM32H742
+        bool "STM32H742"
+        
+    config MODEL_STM32H743
+        bool "STM32H743"
+
+    config MODEL_STM32H745
+        bool "STM32H745"
+ 
+    config MODEL_STM32H750
+        bool "STM32H750"
+        
+    config MODEL_STM32H753
+        bool "STM32H753"
+ 
+    config MODEL_STM32H755
+        bool "STM32H755"
+        
+    config MODEL_STM32H757
+        bool "STM32H757"
+endchoice
+
+if MODEL_STM32H747
+    source "$OS_ROOT/templates/configs/st/h7/h747/Kconfig"
+endif
+
+if MODEL_STM32H743
+    source "$OS_ROOT/templates/configs/st/h7/h743/Kconfig"
+endif
+
+if MODEL_STM32H745
+    source "$OS_ROOT/templates/configs/st/h7/h745/Kconfig"
+endif
+
+if MODEL_STM32H742
+    source "$OS_ROOT/templates/configs/st/h7/h742/Kconfig"
+endif
+
+if MODEL_STM32H750
+    source "$OS_ROOT/templates/configs/st/h7/h750/Kconfig"
+endif
+
+if MODEL_STM32H753
+    source "$OS_ROOT/templates/configs/st/h7/h753/Kconfig"
+endif
+
+if MODEL_STM32H755
+    source "$OS_ROOT/templates/configs/st/h7/h755/Kconfig"
+endif
+
+if MODEL_STM32H757
+    source "$OS_ROOT/templates/configs/st/h7/h757/Kconfig"
+endif

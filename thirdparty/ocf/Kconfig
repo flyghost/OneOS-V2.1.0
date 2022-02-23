@@ -1,0 +1,65 @@
+menu "Iotivity"
+
+    config PKG_USING_IOTIVITY
+        bool "Iotivity: OCF Iotivity library"
+        default n
+
+    if PKG_USING_IOTIVITY
+        choice
+            prompt "ocf device type"
+            config OCF_AIRCONDITIONER
+                bool "ocf air conditioner"
+            config OCF_AIRPURIFIER
+                bool "ocf airpurifier"
+            config OCF_CAMERA
+                bool "ocf camera"
+            config OCF_LIGHT
+                bool "ocf light"
+            config OCF_SMARTLOCK
+                bool "ocf smartlock"
+            config OCF_WATERHEATER
+                bool "ocf waterheater"
+            config OCF_WASHER
+                bool "ocf washer"
+        endchoice
+        config OCF_IPV4
+            bool "Iotivity: OCF ipv4 support"
+            default y
+        config OCF_DEBUG
+            bool "Iotivity: OCF debug"
+            default y
+        config OCF_SERVER
+            bool "Iotivity: OCF server"
+            default y
+        config OCF_CLIENT
+            bool "Iotivity: OCF client"
+            default n
+        config OCF_SECURITY
+            bool "Iotivity: OCF security"
+            default y
+        config OCF_DYNAMIC_ALLOCATION
+            bool "Iotivity: OCF dynamic allocation"
+            default y
+        config OCF_PKI
+            bool "Iotivity: OCF PKI"
+            default y
+        config OCF_ONEOS_2_0
+            bool "Iotivity: OCF use oneos 2.0"
+            default y
+        config OCF_CUSTOM_RAM
+            bool "Iotivity: OCF use custom ram"
+            default n
+        config OCF_USE_GUI
+            bool "Iotivity: OCF use gui"
+            default n
+    endif
+
+endmenu
+   
+
+   
+
+    
+
+ 
+

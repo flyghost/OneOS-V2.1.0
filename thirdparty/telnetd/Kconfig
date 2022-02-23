@@ -1,0 +1,13 @@
+
+# Kconfig file for telnetd
+if OS_USING_SHELL
+
+menu "telnetd"
+    config TELNET_SERVER
+    bool "enable telnet server"
+    select NET_USING_BSD
+    default n
+
+endmenu
+
+endif

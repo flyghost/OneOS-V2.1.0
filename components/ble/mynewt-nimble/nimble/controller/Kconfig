@@ -1,0 +1,521 @@
+menu "Controller"
+config OS_USING_NIMBLE_CONTROLLER
+    bool "Indicates that NimBLE controller is present. The default value forthis setting shall not be overriden."
+    default y
+
+    if OS_USING_NIMBLE_CONTROLLER
+		config MYNEWT_VAL_BLE_CONTROLLER
+		    int 
+		    default 1
+
+
+		config NIMBLE_CFG_CONTROLLER
+		    int 
+			default 0 if !OS_USING_NIMBLE_CONTROLLER
+		    default 1 if OS_USING_NIMBLE_CONTROLLER
+
+
+		config MYNEWT_VAL_BLE_CTLR_THREAD_STACK_SIZE
+		    int "BLE controller thread stack size"
+			default 2048
+
+
+		config MYNEWT_VAL_BLE_CTLR_THREAD_PRIORITY
+		    int "BLE controller thread priority"
+			default 4
+
+
+		# config MYNEWT_VAL_BLE_HW_WHITELIST_ENABLE
+		#     int "Used to enable hardware white list"
+		#     default 1
+        config BLE_HW_WHITELIST_ENABLE
+            bool "Used to enable hardware white list"
+			default n if BLE_LL_CFG_FEAT_LL_EXT_ADV
+            default y
+        config MYNEWT_VAL_BLE_HW_WHITELIST_ENABLE
+            int
+            default 0 if !BLE_HW_WHITELIST_ENABLE
+            default 1 if BLE_HW_WHITELIST_ENABLE
+
+
+        # config MYNEWT_VAL_BLE_LL_SYSVIEW
+        #    int "Enable SystemView tracing module for controller."
+        #    default 0
+        config BLE_LL_SYSVIEW
+            bool "Enable SystemView tracing module for controller."
+            default n
+        config MYNEWT_VAL_BLE_LL_SYSVIEW
+            int 
+            default 0 if !BLE_LL_SYSVIEW
+            default 1 if BLE_LL_SYSVIEW
+
+		config MYNEWT_VAL_BLE_LL_PRIO
+		    int "The priority of the LL task"
+		    default 0
+
+
+		config MYNEWT_VAL_BLE_LL_SCA
+		    int "Sleep clock accuracy of our device (in ppm). Range 0~500."
+			# default MYNEWT_VAL_BLE_LL_OUR_SCA
+		    default 60
+
+		config MYNEWT_VAL_BLE_LL_TX_PWR_DBM
+		    int "Transmit power level."
+		    default 0
+
+		config MYNEWT_VAL_BLE_LL_NUM_COMP_PKT_ITVL_MS
+		    int "Determines the interval at which the controller will send the number of completed packets event to the host"
+		    default 2000
+
+		    help 
+				Determines the interval at which the controller will send the number of completed packets event to the host. Rate is in milliseconds.
+
+		config MYNEWT_VAL_BLE_LL_MFRG_ID
+		    hex "Manufacturer ID. Should be set to unique ID per manufacturer."
+		    default 0xFFFF
+
+		config MYNEWT_VAL_BLE_LL_NUM_SCAN_DUP_ADVS
+		    int "The number of duplicate advertisers stored."
+		    default 8
+
+		config MYNEWT_VAL_BLE_LL_NUM_SCAN_RSP_ADVS
+		    int "The number of advertisers from which we have heard a scan response"
+		    default 8
+		    help 
+				The number of advertisers from which we have heard a scan response. Prevents sending duplicate events to host.
+
+		config MYNEWT_VAL_BLE_LL_WHITELIST_SIZE
+		    int "Size of the LL whitelist."
+		    default 8
+
+		config MYNEWT_VAL_BLE_LL_RESOLV_LIST_SIZE
+		    int "Size of the resolving list."
+		    default 4
+
+		config MYNEWT_VAL_BLE_LL_MAX_PKT_SIZE
+		    int "The maximum PDU size that can be sent/received"
+		    default 251
+
+		config MYNEWT_VAL_BLE_LL_SUPP_MAX_RX_BYTES
+		    int "The maximum supported received PDU size"
+		    default MYNEWT_VAL_BLE_LL_MAX_PKT_SIZE
+
+		config MYNEWT_VAL_BLE_LL_SUPP_MAX_TX_BYTES
+		    int "The maximum supported transmit PDU size"
+		    default MYNEWT_VAL_BLE_LL_MAX_PKT_SIZE
+
+		config MYNEWT_VAL_BLE_LL_CONN_INIT_MAX_TX_BYTES
+		    int "Used to set the initial maximum transmit PDU size in a connection"
+		    default 27
+		    help 
+				Used to set the initial maximum transmit PDU size in a connection. If this is set to a value greater than 27, the controller will automatically attempt to do the data length update procedure. The host can always tell the controller to update this value.
+
+		config MYNEWT_VAL_BLE_LL_CONN_INIT_SLOTS
+		    int "This is the number of 'slots' allocated to a connection when scheduling connections"
+		    default 4
+		    help 
+				This is the number of 'slots' allocated to a connection when scheduling connections. Each slot is 1.25 msecs long. Note that a connection event may last longer than the number of slots allocated here and may also end earlier (depending on when the next scheduled event occurs and how much data needs to be transferred in the connection). However, you will be guaranteed that a connection event will be given this much time, if needed. Consecutively scheduled items will be at least this far apart
+
+		config MYNEWT_VAL_BLE_LL_CONN_INIT_MIN_WIN_OFFSET
+		    int "This is the minimum number of 'slots' for WindowOffset value used for CONNECT_IND when creating new connection as a master"
+		    default 0
+		    help 
+				This is the minimum number of 'slots' for WindowOffset value used for CONNECT_IND when creating new connection as a master. Each slot is 1.25 msecs long. Increasing this value will delay first connection event after connection is created. However, older TI CC254x controllers cannot change connection parameters later if WindowOffset was set to 0 in CONNECT_IND. To ensure interoperability with such devices set this value to 2 (or more).
+
+		config MYNEWT_VAL_BLE_LL_STRICT_CONN_SCHEDULING
+		    int "Forces the scheduler on a central to schedule connections in fixed time intervals called periods"
+		    default 0
+		    help 
+				Forces the scheduler on a central to schedule connections in fixed time intervals called periods. If set to 0, the scheduler is not forced to do this. If set to 1, the scheduler will only schedule connections at period boundaries. See comments in ble_ll_sched.h for more details.
+
+		config MYNEWT_VAL_BLE_LL_ADD_STRICT_SCHED_PERIODS
+		    int "The number of additional periods that will be allocated for strict scheduling"
+		    default 0
+		    help 
+				The number of additional periods that will be allocated for strict scheduling. The total # of periods allocated for strict scheduling will be equal to the number of connections plus this number.
+
+		config MYNEWT_VAL_BLE_LL_USECS_PER_PERIOD
+		    int "The number of usecs per period."
+		    default 3250
+
+		config MYNEWT_VAL_BLE_LL_RNG_BUFSIZE
+		    int "The number of random bytes that the link layer will try to always have available for the host to use"
+		    default 32
+		    help 
+				The number of random bytes that the link layer will try to always have available for the host to use. Decreasing this value may cause host delays if the host needs lots of random material often.
+
+		config MYNEWT_VAL_BLE_LL_RFMGMT_ENABLE_TIME
+		    int "Time required for radio and/or related components to be fully enabled before any request from LL is sent"
+			# default MYNEWT_VAL_BLE_XTAL_SETTLE_TIME
+		    default 0
+		    help 
+				Time required for radio and/or related components to be fully enabled before any request from LL is sent. This value is used by rfmgmt to enable PHY in advance, before request from LL is made. It depends on radio driver selected and may also depend on hardware used: - nrf51 - time required for XTAL to settle - nrf52 - time required for XTAL to settle Value is specified in microseconds. If set to 0, rfmgmt keeps PHY enabled all the time.
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_ENCRYPTION
+        #    int This option enables/disables encryption support in the controller. This option saves both both code and RAM.
+        #    default 1
+        config BLE_LL_CFG_FEAT_LE_ENCRYPTION
+            bool "This option enables/disables encryption support in the controller"
+            default y
+            help
+                This option enables/disables encryption support in the controller. This option saves both both code and RAM.
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_ENCRYPTION
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_LE_ENCRYPTION
+            default 1 if BLE_LL_CFG_FEAT_LE_ENCRYPTION
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_CONN_PARAM_REQ
+        #    int This option enables/disables the connection parameter request procedure.  This is implemented in the controller but is disabled by default.
+        #    default 1
+        config BLE_LL_CFG_FEAT_CONN_PARAM_REQ
+            bool "This option enables/disables the connection parameter request procedure"
+            default y
+            help
+                This option enables/disables the connection parameter request procedure.  This is implemented in the controller but is disabled by default.
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_CONN_PARAM_REQ
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_CONN_PARAM_REQ
+            default 1 if BLE_LL_CFG_FEAT_CONN_PARAM_REQ
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_SLAVE_INIT_FEAT_XCHG
+        #    int This option allows a slave to initiate the feature exchange procedure.  This feature is implemented but currently has no impact on code or ram size
+        #    default 1
+        config BLE_LL_CFG_FEAT_SLAVE_INIT_FEAT_XCHG
+            bool "This option allows a slave to initiate the feature exchange procedure"
+            default y
+            help
+                This option allows a slave to initiate the feature exchange procedure.  This feature is implemented but currently has no impact on code or ram size
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_SLAVE_INIT_FEAT_XCHG
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_SLAVE_INIT_FEAT_XCHG
+            default 1 if BLE_LL_CFG_FEAT_SLAVE_INIT_FEAT_XCHG
+
+
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_PING
+           int "This option allows a controller to send/receive LE pings. Currently, this feature is not implemented by the controller so turning it on or off has no effect."
+           default MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_ENCRYPTION
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_DATA_LEN_EXT
+        #    int This option enables/disables the data length update procedure in the controller. If enabled, the controller is allowed to change the size of tx/rx pdu's used in a connection. This option has only minor impact on code size and non on RAM.
+        #    default 1
+        config BLE_LL_CFG_FEAT_DATA_LEN_EXT
+            bool "This option enables/disables the data length update procedure in the controller"
+            default y
+            help
+                This option enables/disables the data length update procedure in the controller. If enabled, the controller is allowed to change the size of tx/rx pdu's used in a connection. This option has only minor impact on code size and non on RAM.
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_DATA_LEN_EXT
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_DATA_LEN_EXT
+            default 1 if BLE_LL_CFG_FEAT_DATA_LEN_EXT
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_PRIVACY
+        #    int "This option is used to enable/disable LL privacy."
+        #    default 1
+        config BLE_LL_CFG_FEAT_LL_PRIVACY
+            bool "This option is used to enable/disable LL privacy."
+            default y
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_PRIVACY
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_LL_PRIVACY
+            default 1 if BLE_LL_CFG_FEAT_LL_PRIVACY
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_CSA2
+        #    int "This option is used to enable/disable support for LE Channel Selection Algorithm #2."
+        #    default 0
+        config BLE_LL_CFG_FEAT_LE_CSA2
+            bool "This option is used to enable/disable support for LE Channel Selection Algorithm #2."
+			default y if BLE_LL_CFG_FEAT_LL_EXT_ADV
+            default n
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_CSA2
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_LE_CSA2
+            default 1 if BLE_LL_CFG_FEAT_LE_CSA2
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_2M_PHY
+        #    int "This option is used to enable/disable support for the 2Mbps PHY."
+        #    default 0
+        config BLE_LL_CFG_FEAT_LE_2M_PHY
+            bool "This option is used to enable/disable support for the 2Mbps PHY."
+            default n
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_2M_PHY
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_LE_2M_PHY
+            default 1 if BLE_LL_CFG_FEAT_LE_2M_PHY
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_CODED_PHY
+        #    int "This option is used to enable/disable support for the coded PHY."
+        #    default 0
+        config BLE_LL_CFG_FEAT_LE_CODED_PHY
+            bool "This option is used to enable/disable support for the coded PHY."
+            default n
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LE_CODED_PHY
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_LE_CODED_PHY
+            default 1 if BLE_LL_CFG_FEAT_LE_CODED_PHY
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_EXT_ADV
+		# 	int "This option is used to enable/disable support for Extended Advertising Feature. That means extended scanner, advertiser and connect."
+		# 	default MYNEWT_VAL_BLE_EXT_ADV
+		config BLE_LL_CFG_FEAT_LL_EXT_ADV
+            bool "This option is used to enable/disable support for Extended Advertising Feature. That means extended scanner, advertiser and connect."
+            default n if !BLE_EXT_ADV
+			default y if BLE_EXT_ADV
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_EXT_ADV
+            int
+            default 0 if !BLE_LL_CFG_FEAT_LL_EXT_ADV
+            default 1 if BLE_LL_CFG_FEAT_LL_EXT_ADV
+		   
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_PERIODIC_ADV
+		# 	int "This option is used to enable/disable support for Periodic Advertising Feature."
+		# 	default MYNEWT_VAL_BLE_PERIODIC_ADV
+		config BLE_LL_CFG_FEAT_LL_PERIODIC_ADV
+            bool "This option is used to enable/disable support for Periodic Advertising Feature."
+            default n if !BLE_PERIODIC_ADV
+			default y if BLE_PERIODIC_ADV
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_PERIODIC_ADV
+            int
+            default 0 if !BLE_LL_CFG_FEAT_LL_PERIODIC_ADV
+            default 1 if BLE_LL_CFG_FEAT_LL_PERIODIC_ADV
+
+
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_PERIODIC_ADV_SYNC_CNT
+			int "This option is used to configure number of supported periodic syncs."
+			default MYNEWT_VAL_BLE_MAX_PERIODIC_SYNCS
+
+
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_PERIODIC_ADV_SYNC_LIST_CNT
+			int "Size of Periodic Advertiser sync list."
+			default MYNEWT_VAL_BLE_MAX_PERIODIC_SYNCS
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_PERIODIC_ADV_SYNC_TRANSFER
+		# 	int "This option is use to enable/disable support for Periodic Advertising Sync Transfer Feature."
+		# 	default MYNEWT_VAL_BLE_PERIODIC_ADV_SYNC_TRANSFER
+		config BLE_LL_CFG_FEAT_LL_PERIODIC_ADV_SYNC_TRANSFER
+            bool "This option is use to enable/disable support for Periodic Advertising Sync Transfer Feature."
+            default n if !BLE_PERIODIC_ADV_SYNC_TRANSFER
+			default y if BLE_PERIODIC_ADV_SYNC_TRANSFER
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_PERIODIC_ADV_SYNC_TRANSFER
+            int
+            default 0 if !BLE_LL_CFG_FEAT_LL_PERIODIC_ADV_SYNC_TRANSFER
+            default 1 if BLE_LL_CFG_FEAT_LL_PERIODIC_ADV_SYNC_TRANSFER
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_CTRL_TO_HOST_FLOW_CONTROL
+        #    int Enable controller-to-host flow control support. This allows host to limit number of ACL packets sent at once from controller to avoid congestion on HCI transport if feature is also supported by host.
+        #    default 0
+        config BLE_LL_CFG_FEAT_CTRL_TO_HOST_FLOW_CONTROL
+            bool "Enable controller-to-host flow control support"
+            default n
+            help
+                Enable controller-to-host flow control support. This allows host to limit number of ACL packets sent at once from controller to avoid congestion on HCI transport if feature is also supported by host.
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_CTRL_TO_HOST_FLOW_CONTROL
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_CTRL_TO_HOST_FLOW_CONTROL
+            default 1 if BLE_LL_CFG_FEAT_CTRL_TO_HOST_FLOW_CONTROL
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_SCA_UPDATE
+        #    int "This option is used to enable/disable support for SCA update procedure"
+        #    default 0
+        config BLE_LL_CFG_FEAT_LL_SCA_UPDATE
+            bool "This option is used to enable/disable support for SCA update procedure"
+            default n
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_SCA_UPDATE
+            int 
+            default 0 if !BLE_LL_CFG_FEAT_LL_SCA_UPDATE
+            default 1 if BLE_LL_CFG_FEAT_LL_SCA_UPDATE
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_ISO
+		# 	int "This option is used to enable/disable support for LE Isochronous Channels as per Bluetooth v5.2 channels"
+		# 	default MYNEWT_VAL_BLE_ISO
+		config BLE_LL_CFG_FEAT_LL_ISO
+            bool "This option is used to enable/disable support for LE Isochronous Channels as per Bluetooth v5.2 channels"
+            default n if !BLE_ISO
+			default y if BLE_ISO
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_ISO
+            int
+            default 0 if !BLE_LL_CFG_FEAT_LL_ISO
+            default 1 if BLE_LL_CFG_FEAT_LL_ISO
+
+
+        # config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_ISO_TEST
+		# 	int "This option is used to enable/disbale test commands for ISO support"
+		# 	default MYNEWT_VAL_BLE_ISO_TEST
+		config BLE_LL_CFG_FEAT_LL_ISO_TEST
+            bool "This option is used to enable/disbale test commands for ISO support"
+            default n if !BLE_ISO_TEST
+			default y if BLE_ISO_TEST
+        config MYNEWT_VAL_BLE_LL_CFG_FEAT_LL_ISO_TEST
+            int
+            default 0 if !BLE_LL_CFG_FEAT_LL_ISO_TEST
+            default 1 if BLE_LL_CFG_FEAT_LL_ISO_TEST
+
+
+		config MYNEWT_VAL_BLE_LL_EXT_ADV_AUX_PTR_CNT
+		    int "This option configure a max number of scheduled outstanding auxiliary packets for receive on secondary advertising channel"
+			default 5 if BLE_LL_CFG_FEAT_LL_EXT_ADV
+		    default 0
+
+		    help 
+				This option configure a max number of scheduled outstanding auxiliary packets for receive on secondary advertising channel.
+
+		# config MYNEWT_VAL_BLE_PUBLIC_DEV_ADDR
+		#     int "Allows the target or app to override the public device address used by the controller"
+		#     default (uint8_t[6]){0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
+		#     help 
+		# 		Allows the target or app to override the public device address used by the controller. If all zero, the controller will attempt to retrieve the public device address from its chip specific location. If non-zero, this address will be used.
+
+		# config MYNEWT_VAL_BLE_LL_DTM
+		#     int "Enables HCI Test commands needed for Bluetooth SIG certification"
+		#     default MYNEWT_VAL_BLE_LL_DIRECT_TEST_MODE
+		config BLE_LL_DTM
+            bool "Enables HCI Test commands needed for Bluetooth SIG certification"
+            default n if !BLE_LL_DIRECT_TEST_MODE
+			default y if BLE_LL_DIRECT_TEST_MODE
+        config MYNEWT_VAL_BLE_LL_DTM
+            int
+            default 0 if !BLE_LL_DTM
+            default 1 if BLE_LL_DTM
+
+
+		# config MYNEWT_VAL_BLE_LL_DTM_EXTENSIONS
+		#     int "Enables non-standard extensions to HCI test commands"
+		#     default 0
+		#     help 
+		# 		 Enables non-standard extensions to HCI test commands. Once enabled,  HCI_LE_Transmitter_Test accepts extra parameters in addition to  those defined in Core specification    interval (2 octets)   interval between packets (usecs), overrides                          standard interval    pkt_count (2 octets)  number of packets to transmit, controller                          will automatically stop sending packets                          after given number of packets was sent  Setting either of these parameters to 0 will configure for default  behavior, as per Core specification.  If specified interval is shorter then allowed by specification it  will be ignored.  Extended parameters shall immediately follow standard parameters.  Controller can accept both standard and extended version of command  depending on specified HCI command length.
+		config BLE_LL_DTM_EXTENSIONS
+            bool "Enables non-standard extensions to HCI test commands"
+            default n
+			help 
+				 Enables non-standard extensions to HCI test commands. Once enabled,  HCI_LE_Transmitter_Test accepts extra parameters in addition to  those defined in Core specification    interval (2 octets)   interval between packets (usecs), overrides                          standard interval    pkt_count (2 octets)  number of packets to transmit, controller                          will automatically stop sending packets                          after given number of packets was sent  Setting either of these parameters to 0 will configure for default  behavior, as per Core specification.  If specified interval is shorter then allowed by specification it  will be ignored.  Extended parameters shall immediately follow standard parameters.  Controller can accept both standard and extended version of command  depending on specified HCI command length.
+        config MYNEWT_VAL_BLE_LL_DTM_EXTENSIONS
+            int
+            default 0 if !BLE_LL_DTM_EXTENSIONS
+            default 1 if BLE_LL_DTM_EXTENSIONS
+
+
+		# config MYNEWT_VAL_BLE_LL_VND_EVENT_ON_ASSERT
+		#     int "This options enables controller to send a vendor-specific event on an assertion in controller code"
+		#     default 0
+		#     help 
+		# 		This options enables controller to send a vendor-specific event on an assertion in controller code. The event contains file name and line number where assertion occured.
+		config BLE_LL_VND_EVENT_ON_ASSERT
+            bool "This options enables controller to send a vendor-specific event on an assertion in controller code"
+			default y if !BLE_HOST
+            default n
+			help 
+				This options enables controller to send a vendor-specific event on an assertion in controller code. The event contains file name and line number where assertion occured.
+        config MYNEWT_VAL_BLE_LL_VND_EVENT_ON_ASSERT
+            int
+            default 0 if !BLE_LL_VND_EVENT_ON_ASSERT
+            default 1 if BLE_LL_VND_EVENT_ON_ASSERT
+
+
+		config MYNEWT_VAL_BLE_LL_SYSINIT_STAGE
+		    int "Sysinit stage for the NimBLE controller."
+		    default 250
+
+
+		config MYNEWT_VAL_BLE_LL_DEBUG_GPIO_HCI_CMD
+		    int "GPIO pin number to debug HCI commands flow"
+		    default -1
+
+		    help 
+				GPIO pin number to debug HCI commands flow. Pin is set to high state when HCI command is being processed.
+
+		config MYNEWT_VAL_BLE_LL_DEBUG_GPIO_HCI_EV
+		    int "GPIO pin number to debug HCI events flow. Pin is set to high state when HCI event is being sent."
+		    default -1
+
+
+		config MYNEWT_VAL_BLE_LL_DEBUG_GPIO_SCHED_RUN
+		    int "GPIO pin number to debug scheduler running (on timer)"
+		    default -1
+
+		    help 
+				GPIO pin number to debug scheduler running (on timer). Pin is set to high state while scheduler is running.
+
+		config MYNEWT_VAL_BLE_LL_DEBUG_GPIO_SCHED_ITEM_CB
+		    int "GPIO pin number to debug scheduler item execution times"
+		    default -1
+
+		    help 
+				GPIO pin number to debug scheduler item execution times. Pin is set to high state while item is executed.
+
+		config MYNEWT_VAL_BLE_LL_SCHED_AUX_MAFS_DELAY
+		    int "Additional delay [us] between last ADV_EXT_IND and AUX_ADV_IND PDUs when scheduling extended advertising event"
+		    default 0
+
+		    help 
+				Additional delay [us] between last ADV_EXT_IND and AUX_ADV_IND PDUs when scheduling extended advertising event. This extends T_MAFS.
+
+		config MYNEWT_VAL_BLE_LL_SCHED_AUX_CHAIN_MAFS_DELAY
+		    int "Additional delay [us] between consecutive AUX_CHAIN_IND PDUs when scheduling extended or periodic advertising event"
+		    default 0
+
+		    help 
+				Additional delay [us] between consecutive AUX_CHAIN_IND PDUs when scheduling extended or periodic advertising event. This extends T_MAFS.
+
+		config MYNEWT_VAL_BLE_LL_SCHED_SCAN_AUX_PDU_LEN
+		    int "This is expected PDU len for AUX_ADV_IND and subsequent AUX_CHAIN_IND"
+		    default 41
+
+		    help 
+				This is expected PDU len for AUX_ADV_IND and subsequent AUX_CHAIN_IND. When scheduling scan scheduler will reserve time for receiving this amount of time. Setting this to high value improves reception of large PDUs but results in wasting scheduler space when receiving small PDUs only. On the other hand too low value can result in not being able to scan whole PDU due to being preempted by next scheduled item. By default size matching legacy ADV_IND PDU payload is used: ExtHeader (Flags, AdvA, ADI) + 31 bytes of data.
+
+		config MYNEWT_VAL_BLE_LL_SCHED_SCAN_SYNC_PDU_LEN
+		    int "This is expected PDU len for AUX_SYNC_IND and subsequent AUX_CHAIN_IND"
+		    default 32
+
+		    help 
+				This is expected PDU len for AUX_SYNC_IND and subsequent AUX_CHAIN_IND. When scheduling scan scheduler will reserve time for receiving this amount of time. Setting this to high value improves reception of large PDUs but results in wasting scheduler space when receiving small PDUs only. On the other hand too low value can result in not being able to scan whole PDU due to being preempted by next scheduled item. By default size matching PDU with legacy data size is used: ExtHeader + 31 bytes of data.
+
+		# config MYNEWT_VAL_BLE_LL_DIRECT_TEST_MODE
+		#     int "use BLE_LL_DTM instead"
+		#     default 0
+
+
+		# config MYNEWT_VAL_BLE_XTAL_SETTLE_TIME
+		#     int "use BLE_LL_RFMGMT_ENABLE_TIME instead"
+		#     default 0
+
+
+		# config MYNEWT_VAL_BLE_LL_OUR_SCA
+		#     int "use BLE_LL_SCA instead"
+		#     default 60
+
+
+		# config MYNEWT_VAL_BLE_DEVICE
+		#     int "Superseded by BLE_CONTROLLER"
+		#     default 1
+
+
+		# config MYNEWT_VAL_BLE_LP_CLOCK
+		#     int "Superseded by BLE_CONTROLLER"
+		#     default 1
+
+
+		# config MYNEWT_VAL_BLE_NUM_COMP_PKT_RATE
+		#     int "Superseded by BLE_LL_NUM_COMP_PKT_ITVL_MS"
+		#     # default (2 * OS_TICKS_PER_SEC)
+		# 	default 200
+
+		# config MYNEWT_VAL_BLE_LL_MASTER_SCA
+		#     int "use BLE_LL_SCA instead"
+		#     default 4
+
+
+    endif
+endmenu

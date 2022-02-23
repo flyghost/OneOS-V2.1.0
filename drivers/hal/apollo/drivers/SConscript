@@ -1,0 +1,88 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['BSP_USING_GPIO']):
+    src += ['drv_gpio.c']
+    
+if IsDefined(['BSP_USING_LED']):
+    src += ['drv_led.c']
+	
+if IsDefined(['OS_USING_SERIAL']):
+    src += ['drv_uart.c']
+
+if IsDefined(['OS_USING_HWTIMER']):
+    src += ['drv_hwtimer.c']
+
+if IsDefined(['OS_USING_PWM']):
+    src += ['drv_pwm.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['drv_spi.c']
+
+if IsDefined(['OS_USING_I2C', 'BSP_USING_I2C']):
+    src += ['drv_i2c.c']
+
+if IsDefined(['BSP_USING_ETH', 'NET_USING_LWIP']):
+    src += ['drv_eth.c']
+
+if IsDefined(['OS_USING_ADC']):
+    src += Glob('drv_adc.c')
+
+if IsDefined(['OS_USING_CAN']):
+    src += ['drv_can.c']
+
+if IsDefined(['OS_USING_LPMGR']):
+    src += ['drv_lpmgr.c']
+    src += ['drv_lptim.c']
+
+if IsDefined('BSP_USING_SDRAM'):
+    src += ['drv_sdram.c']
+
+if IsDefined('BSP_USING_LCD'):
+    src += ['drv_lcd.c']
+
+if IsDefined('BSP_USING_LCD_MIPI'):
+    src += ['drv_lcd_mipi.c']
+
+if IsDefined('BSP_USING_ONCHIP_RTC'):
+    src += ['drv_rtc.c']
+
+if IsDefined('OS_USING_HWCRYPTO'):
+    src += ['drv_crypto.c']
+
+if IsDefined(['BSP_USING_WDT']):
+    src += ['drv_wdt.c']
+
+if IsDefined(['BSP_USING_SDIO']):
+    src += ['drv_sdio.c']
+
+if IsDefined(['BSP_USING_USBD']):
+    src += ['drv_usbd.c']
+
+if IsDefined(['BSP_USING_PULSE_ENCODER']):
+    src += ['drv_pulse_encoder.c']
+
+if IsDefined(['BSP_USING_USBH']):
+    src += ['drv_usbh.c']
+
+if IsDefined('OS_USING_ENC28J60'):
+    src += ['drv_enc28j60.c']
+
+src += ['drv_common.c']
+
+path =  [pwd]
+path += [pwd + '/config']
+
+if IsDefined('BSP_USING_ON_CHIP_FLASH'):
+    path += [pwd + '/drv_flash']
+
+group = AddCodeGroup('bsp', src, depend = ['MANUFACTOR_APOLLO'], CPPPATH = path)
+
+Return('group')

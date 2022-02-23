@@ -1,0 +1,7 @@
+menu "techtotop gnss receiver"
+
+    config TECHTOTOP_DEV_NAME
+        string "techtotop gnss receiver using device name"
+        default "uart3"
+
+endmenu

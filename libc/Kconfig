@@ -1,0 +1,36 @@
+menu "C standard library adapter"
+    config OS_USING_LIBC_ADAPTER
+        bool "Enable libc adapter"
+        default y
+
+    if OS_USING_LIBC_ADAPTER
+        choice
+            prompt "Gcc libc adapter"
+            default OS_USING_NEWLIB_ADAPTER
+            
+            config OS_USING_NEWLIB_ADAPTER
+                bool "Enable newlib adapter"
+        endchoice
+    
+        choice
+            prompt "Armcc libc adapter"
+            default OS_USING_ARMCCLIB_ADAPTER
+            
+            config OS_USING_ARMCCLIB_ADAPTER
+                bool "Enable armcc libc adapter"
+        endchoice
+        
+        config OS_USING_IO_MULTIPLEXING
+            bool "Enable I/O Multiplexing (poll/select)"
+            select OS_USING_VFS_DEVFS
+            select OS_USING_VFS
+            default n
+
+            if OS_USING_IO_MULTIPLEXING
+                config PRESET_FD_SETSIZE
+                    int "The Max File Descriptors for select"
+                    default 64
+                    range 1 1024
+            endif
+    endif
+endmenu

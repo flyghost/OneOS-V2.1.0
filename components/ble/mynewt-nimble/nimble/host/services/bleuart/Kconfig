@@ -1,0 +1,11 @@
+menu "bleuart"
+		config MYNEWT_VAL_BLEUART_MAX_INPUT
+		    int "The size of the largest line that can be received over the UART service."
+		    default 120
+
+
+		config MYNEWT_VAL_BLEUART_SYSINIT_STAGE
+		    int "Sysinit stage for the BLE UART service."
+		    default 500
+endmenu
+

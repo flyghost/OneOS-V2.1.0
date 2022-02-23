@@ -1,0 +1,13 @@
+# SConscript for sensor framework 
+
+from build_tools import *
+
+pwd = PresentDir()
+src = ['infrared.c']
+
+if IsDefined('BSP_USING_RMT_CTL_ATK_TX') or IsDefined('BSP_USING_RMT_CTL_ATK_RX'):
+    src += ['remote_control_atk.c']
+    
+group = AddCodeGroup('infrared', src, depend = ['OS_USING_INFRARED'], CPPPATH = [pwd])
+
+Return('group')

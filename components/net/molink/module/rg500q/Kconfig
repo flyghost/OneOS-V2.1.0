@@ -1,0 +1,44 @@
+menu "RG500Q Config"
+
+    config RG500Q_AUTO_CREATE
+        bool "Enable RG500Q Module Object Auto Create"
+        default n
+
+    if RG500Q_AUTO_CREATE
+
+        config RG500Q_DEVICE_NAME
+            string "RG500Q Interface Device Name"
+            default "usbh_cdc_hs"
+
+        config RG500Q_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config RG500Q_USING_GENERAL_OPS
+        bool
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config RG500Q_USING_NETSERV_OPS
+        bool
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config RG500Q_USING_PPP_OPS
+        bool
+        select MOLINK_USING_PPP_OPS
+        select MOLINK_USING_PARSER
+        select NET_USING_LWIP
+        select LWIP_USING_PPP
+        select LWIP_USING_PPPOS
+        select OS_USING_SYS_HEAP
+        select OS_USING_MAILBOX
+        default y
+
+    config RG500Q_APN_NAME
+        string "Access point name."
+        default "APN"
+
+endmenu

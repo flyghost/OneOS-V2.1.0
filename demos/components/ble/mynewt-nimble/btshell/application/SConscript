@@ -1,0 +1,15 @@
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+objs = []
+list = os.listdir(pwd)
+
+src = []
+path =  [pwd]
+
+objs += AddCodeGroup('application', src, depend = [''], CPPPATH = path)
+objs += SConscript('src/' + 'SConscript')
+
+Return('objs')

@@ -1,0 +1,23 @@
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+src  = []
+group = []
+path = [pwd + '/include']
+
+if IsDefined(['ARCH_SIM_POSIX']) == False:
+    Return('group')
+    
+# The set of source files associated with this SConscript file.
+
+src += Glob('arch_exception.c')   
+src += Glob('arch_task.c')
+src += Glob('arch_interrupt.c')
+src += Glob('arch_misc.c')
+src += Glob('arch_atomic.c')
+src += Glob('wait_for_event.c')
+
+group = AddCodeGroup('arch', src, depend = [''], CPPPATH = path)
+
+Return('group')

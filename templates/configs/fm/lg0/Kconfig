@@ -1,0 +1,28 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_FM33LG04
+    help
+        Select the device in FM33LG04x
+
+    config MODEL_FM33LG01
+        bool "FM33LG01"
+
+    config MODEL_FM33LG02
+        bool "FM33LG02"
+        
+    config MODEL_FM33LG04
+        bool "FM33LG04"
+
+endchoice
+
+if MODEL_FM33LG01
+    source "$OS_ROOT/templates/configs/fm/lg0/lg01/Kconfig"
+endif
+
+if MODEL_FM33LG02
+    source "$OS_ROOT/templates/configs/fm/lg0/lg02/Kconfig"
+endif
+
+if MODEL_FM33LG04
+    source "$OS_ROOT/templates/configs/fm/lg0/lg04/Kconfig"
+endif

@@ -1,0 +1,81 @@
+config SOC_IMXRT1052
+    bool
+    select SERIES_NXP_IMXRT10XX
+    default n
+    
+config SOC_IMXRT1061
+    bool
+    select SERIES_NXP_IMXRT10XX
+    default n
+    
+config SOC_IMXRT1064
+    bool
+    select SERIES_NXP_IMXRT10XX
+    default n
+    
+menuconfig BSP_USING_EXTERN_STORAGE
+    bool "condfig board extern storage"
+    default y
+    
+    if BSP_USING_EXTERN_STORAGE
+        menuconfig BSP_USING_NOR_FLASH
+            bool "nor flash"
+            default y
+            
+            if BSP_USING_NOR_FLASH
+                config BSP_NOR_FLASH_SIZE
+                    hex "flash size"
+                    default 0x4000000
+                    
+                if SOC_IMXRT1052
+                    config BSP_NOR_FLASH_PAGE_SIZE
+                        hex "flash page size"
+                        default 0x100
+                        
+                    config BSP_NOR_FLASH_SECTOR_SIZE
+                        hex "flash sector size"
+                        default 0x1000
+                        
+                    config BSP_NOR_FLASH_BLOCK_SIZE
+                        hex "flash block size"
+                        default 0x10000
+                endif
+            endif
+            
+        menuconfig BSP_USING_NAND_FLASH
+            bool "nand flash in semc"
+            default n
+            
+            if BSP_USING_NAND_FLASH
+                config BSP_NAND_FLASH_SIZE
+                    hex "flash size"
+                    default 0x4000000
+                    
+                if SOC_IMXRT1052
+                    config BSP_NAND_FLASH_PAGE_SIZE
+                        hex "flash page size"
+                        default 0x100
+                        
+                    config BSP_NAND_FLASH_SECTOR_SIZE
+                        hex "flash sector size"
+                        default 0x1000
+                        
+                    config BSP_NAND_FLASH_BLOCK_SIZE
+                        hex "flash block size"
+                        default 0x10000
+                endif
+            endif
+    
+        choice 
+            prompt "select boot up storage"
+                default BSP_BOOTUP_NOR_FLASH
+
+                config BSP_BOOTUP_NOR_FLASH
+                    bool "boot up for nor flash"
+
+                config BSP_BOOTUP_NAND_FLASH
+                    bool "boot up for nand flash use semc"
+        endchoice
+    endif
+    
+

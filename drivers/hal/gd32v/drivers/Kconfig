@@ -1,0 +1,60 @@
+config BSP_USING_PIN
+	bool "pin"
+	default n
+
+menuconfig BSP_USING_UART
+	bool "Enable UART"
+	default y
+    select OS_USING_SERIAL
+    select BSP_UART_NO_IDLE
+	if BSP_USING_UART
+		config OS_USING_USART0
+			bool "Enable UART0"
+			default y
+        if OS_USING_USART0
+            config OS_USING_USART0_DMA
+                bool "UART0 enable dma"
+                default y
+        endif
+		config OS_USING_USART1
+			bool "Enable UART1"
+			default y
+        if OS_USING_USART1
+            config OS_USING_USART1_DMA
+                bool "UART1 enable dma"
+                default y
+        endif
+        config BSP_UART_NO_IDLE
+            bool "Disable UART IDLE"
+            default y
+            select OS_SERIAL_IDLE_TIMER 
+	endif
+
+config BSP_USING_I2C
+	bool "i2c"
+	default n
+
+if BSP_USING_I2C
+	config BSP_USING_I2C0
+		bool "i2c0"
+		default n
+
+	config BSP_USING_I2C1
+		bool "i2c1"
+		default n
+endif
+
+menu "Select SPI port"
+	depends on OS_USING_SPI
+	config BSP_USING_SPI0
+		bool "Enable SPI0"
+		default y
+
+	config BSP_USING_SPI1
+		bool "Enable SPI1"
+		default n
+endmenu
+
+config BSP_USING_FLASH
+	bool "on chip flash"
+	default n	

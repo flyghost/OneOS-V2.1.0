@@ -1,0 +1,11 @@
+menu "Position"
+
+	config OS_USING_ONEPOS
+    bool "enable position support"
+    select OS_USING_SYS_HEAP
+    default n
+	
+	if OS_USING_ONEPOS
+		source "$OS_ROOT/components/position/*/Kconfig"
+	endif
+endmenu

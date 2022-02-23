@@ -1,0 +1,22 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_HK32L083
+    help
+        Select the device in HK32F1xx
+
+    config MODEL_HK32L083
+        bool "HK32L083"
+
+endchoice
+
+if MODEL_HK32L083
+    source "$OS_ROOT/templates/configs/hk32/l0/l083/Kconfig"
+endif
+
+if MODEL_HK32L084
+    source "$OS_ROOT/templates/configs/hk32/l0/l084/Kconfig"
+endif
+
+if MODEL_HK32L088
+    source "$OS_ROOT/templates/configs/hk32/l0/l088/Kconfig"
+endif

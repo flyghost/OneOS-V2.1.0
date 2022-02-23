@@ -1,0 +1,9 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+src = ['mtd.c']
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_MTD'], CPPPATH = [pwd])
+
+Return('group')

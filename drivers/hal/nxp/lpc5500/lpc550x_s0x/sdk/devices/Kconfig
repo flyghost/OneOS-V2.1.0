@@ -1,0 +1,32 @@
+config SOC_LPC5502
+    bool
+    select SERIES_NXP_LPC550X_S0X
+    default n
+
+config SOC_LPC5504
+    bool
+    select SERIES_NXP_LPC550X_S0X
+    default n
+    
+config SOC_LPC5506
+    bool
+    select SERIES_NXP_LPC550X_S0X
+    default n
+    
+config SOC_LPC55S02
+    bool
+    select SERIES_NXP_LPC550X_S0X
+    default n
+    
+config SOC_LPC55S04
+    bool
+    select SERIES_NXP_LPC550X_S0X
+    default n
+    
+config SOC_LPC55S06
+    bool
+    select SERIES_NXP_LPC550X_S0X
+    default n
+    
+
+

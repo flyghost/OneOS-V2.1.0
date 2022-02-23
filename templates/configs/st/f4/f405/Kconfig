@@ -1,0 +1,22 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F405VG
+    help
+        Select the device in STM32F405xx
+
+    config TEMP_STM32F405OE
+        bool "STM32F405OE"
+
+    config TEMP_STM32F405OG
+        bool "STM32F405OG"
+    
+    config TEMP_STM32F405RG
+        bool "STM32F405RG"
+    
+    config TEMP_STM32F405VG
+        bool "STM32F405VG"
+    
+    config TEMP_STM32F405ZG
+        bool "STM32F405ZG"
+    
+endchoice

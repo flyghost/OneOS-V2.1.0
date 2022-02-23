@@ -1,0 +1,21 @@
+from build_tools import *
+pwd       = PresentDir()
+CPPPATH  = [pwd + '/../inc']
+CPPPATH += [pwd + '/../inc/platform']
+
+src = Split("""
+cf_emcy.c
+cf_lifegrd.c
+cf_nmtMaster.c
+cf_nmtSlave.c
+cf_objacces.c
+cf_pdo.c
+cf_sdo.c
+cf_states.c
+cf_sync.c
+cf_timer.c
+""")
+src += Glob('platform/*.c')
+
+group   = AddCodeGroup('industrial/canfestival', src, depend = ['OS_USING_CANFESTIVAL'], CPPPATH = CPPPATH)
+Return('group')

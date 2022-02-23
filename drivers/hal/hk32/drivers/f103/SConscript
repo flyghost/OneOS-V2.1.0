@@ -1,0 +1,29 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+    
+if IsDefined(['OS_USING_PIN', 'BSP_USING_PIN']):
+    src += ['drv_gpio.c']
+    
+if IsDefined(['OS_USING_SERIAL', 'BSP_USING_USART']):
+    src += ['drv_usart.c']
+
+if IsDefined(['OS_USING_TIMER_DRIVER', 'BSP_USING_TIMER']):
+    src += ['drv_hwtimer.c']
+    
+if IsDefined(['OS_USING_FAL', 'BSP_USING_FLASH', 'SERIES_HK32F1']):
+    src += ['flash/drv_flash_f1.c']
+    
+src += ['drv_common.c']
+
+path =  [pwd]
+    
+group = AddCodeGroup('hal/drivers', src, depend = ['SERIES_HK32F1'], CPPPATH = path)
+
+Return('group')

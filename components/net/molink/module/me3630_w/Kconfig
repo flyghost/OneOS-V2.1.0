@@ -1,0 +1,52 @@
+
+menu "ME3630_W Config" 
+
+    config ME3630_W_AUTO_CREATE
+        bool "Enable ME3630_W Module Object Auto Create"
+        default n
+
+    if ME3630_W_AUTO_CREATE
+
+        config ME3630_W_DEVICE_NAME
+            string "ME3630_W Interface Device Name"
+            default "uart2"
+
+        config ME3630_W_DEVICE_RATE
+            int "ME3630_W Interface Device Rate"
+            default 115200
+
+        config ME3630_W_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config ME3630_W_USING_GENERAL_OPS
+        bool "Enable ME3630_W Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config ME3630_W_USING_NETSERV_OPS
+        bool "Enable ME3630_W Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config ME3630_W_USING_IFCONFIG_OPS
+        bool "Enable ME3630_W Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select ME3630_W_USING_GENERAL_OPS
+        select ME3630_W_USING_NETSERV_OPS
+        default y
+
+    config ME3630_W_USING_NETCONN_OPS
+        bool "Enable ME3630_W Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config ME3630_W_USING_SOCKETS_OPS
+        bool "Enable ME3630_W Module BSD Socket Operates"
+        select ME3630_W_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

@@ -1,0 +1,36 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_MB26']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/mb26.c')
+
+if IsDefined(['MB26_USING_GENERAL_OPS']):
+    src += Glob('source/mb26_general.c')
+    
+if IsDefined(['MB26_USING_NETSERV_OPS']):
+    src += Glob('source/mb26_netserv.c')
+    
+if IsDefined(['MB26_USING_PING_OPS']):
+    src += Glob('source/mb26_ping.c')
+    
+if IsDefined(['MB26_USING_IFCONFIG_OPS']):
+    src += Glob('source/mb26_ifconfig.c')
+    
+if IsDefined(['MB26_USING_NETCONN_OPS']):
+    src += Glob('source/mb26_netconn.c')
+
+if IsDefined(['MB26_USING_CTM2M_OPS']):
+    src += Glob('source/mb26_ctm2m.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

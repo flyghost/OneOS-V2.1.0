@@ -1,0 +1,34 @@
+choice
+    prompt "|------SUB MODEL"
+    default TEMP_HC32F4A0PITB
+    help
+        Select the device in HC32F4A0xxxx
+
+    config TEMP_HC32F4A0PGTB
+        bool "HC32F4A0PGTB"
+        
+    config TEMP_HC32F4A0PITB
+        bool "HC32F4A0PITB"
+
+    config TEMP_HC32F4A0RGTB
+        bool "HC32F4A0RGTB"
+
+    config TEMP_HC32F4A0RITB
+        bool "HC32F4A0RITB"
+
+    config TEMP_HC32F4A0SGHB
+        bool "HC32F4A0SGHB"
+        
+    config TEMP_HC32F4A0SGTB
+        bool "HC32F4A0SGTB"
+
+    config TEMP_HC32F4A0SIHB
+        bool "HC32F4A0SIHB"
+
+    config TEMP_HC32F4A0SITB
+        bool "HC32F4A0SITB"
+
+    config TEMP_HC32F4A0TIHB
+        bool "HC32F4A0TIHB"
+
+endchoice

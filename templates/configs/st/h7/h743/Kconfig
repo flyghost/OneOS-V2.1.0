@@ -1,0 +1,45 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32h743-atk-apollo
+    help
+        Select the device in STM32H743xx
+
+    config TEMP_STM32H743VI
+        bool "STM32H743VI"
+        
+    config TEMP_STM32H743ZI
+        bool "STM32H743ZI"
+        
+     config TEMP_STM32H743AI
+        bool "STM32H743AI"  
+
+    config TEMP_STM32H743II
+        bool "STM32H743II"
+        
+    config TEMP_STM32H743BI
+        bool "STM32H743BI"
+        
+     config TEMP_STM32H743XI
+        bool "STM32H743XI" 
+
+    config TEMP_STM32H743VG
+        bool "STM32H743VG"
+        
+    config TEMP_STM32H743ZG
+        bool "STM32H743ZG"
+        
+     config TEMP_STM32H743AG
+        bool "STM32H743AG" 
+ 
+    config TEMP_STM32H743IG
+        bool "STM32H743IG"
+        
+    config TEMP_STM32H743BG
+        bool "STM32H743BG"
+        
+     config TEMP_STM32H743XG
+        bool "STM32H743XG" 
+        
+    config TEMP_stm32h743-atk-apollo
+        bool "stm32h743-atk-apollo"
+endchoice

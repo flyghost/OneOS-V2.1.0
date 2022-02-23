@@ -1,0 +1,4 @@
+menu "HTTP"
+    source "$OS_ROOT/components/net/protocols/http/*/Kconfig"
+endmenu
+

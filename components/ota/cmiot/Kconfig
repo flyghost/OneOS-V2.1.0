@@ -1,0 +1,158 @@
+menu "Fota by CMIOT"
+    
+    config FOTA_USING_CMIOT
+        bool "Enable fota by cmiot"
+        default n
+        select NET_USING_BSD
+        select OS_USING_FAL
+        select OS_USING_LIBC_ADAPTER
+
+    if FOTA_USING_CMIOT
+        
+        choice
+        prompt "The supported network protocol"
+        default CMIOT_NETWORKING_MODE_COAP
+        help
+            Select download protocol
+        config CMIOT_NETWORKING_MODE_COAP
+            bool "Coap"
+            help
+                Download differential packets using coap
+        config CMIOT_NETWORKING_MODE_HTTP
+            bool "Http"
+            help
+                Download differential packets using http
+        endchoice
+
+        config CMIOT_DEFAULT_NETWORK_PROTOCOL
+            int
+            default 1  if CMIOT_NETWORKING_MODE_COAP
+            default 2 if CMIOT_NETWORKING_MODE_HTTP
+        
+        choice
+        prompt "The supported algorithm"
+        default CMIOT_ALGORITHM_LUSUN
+        help
+            Select the differential algorithm
+        config CMIOT_ALGORITHM_LUSUN
+            bool "Lusun"
+            help
+                Select lusun as the differential algorithm
+        config CMIOT_ALGORITHM_WOSUN
+            bool "Wosun low"
+            help
+                Select wosun low as the differential algorithm
+        config CMIOT_ALGORITHM_WOSUN_HIGH
+            bool "Wosun high"
+            help
+                Select wosun high as the difference algorithm
+        config CMIOT_ALGORITHM_LUCKSPAR
+            bool "LuckSpar"
+            help
+                Select LuckSpar as the difference algorithm
+        endchoice
+
+        config CMIOT_FOTA_ALGORITHM
+            int
+            default 0  if CMIOT_ALGORITHM_LUSUN
+            default 1 if CMIOT_ALGORITHM_WOSUN
+            default 2 if CMIOT_ALGORITHM_WOSUN_HIGH
+	    default 3 if CMIOT_ALGORITHM_LUCKSPAR
+
+        config CMIOT_DEFAULT_SECTOR_SIZE
+            hex
+            default 0x800  if SERIES_STM32F0
+            default 0x800 if SERIES_STM32F1
+            default 0x20000 if SERIES_STM32F2
+            default 0x800 if SERIES_STM32F3
+            default 0x20000 if SERIES_STM32F4
+            default 0x40000 if SERIES_STM32F7
+            default 0x20000 if SERIES_STM32H7
+            default 0x100 if SERIES_STM32L1
+            default 0x800 if SERIES_STM32L4
+            default 0x800 if SERIES_STM32G0
+            default 0x800 if SERIES_STM32L5
+
+        if CMIOT_ALGORITHM_WOSUN || CMIOT_ALGORITHM_WOSUN_HIGH
+
+            config CMIOT_FLASH_APP_ADDR
+                hex "App part addr from fal's OS_APP_PART_ADDR"
+                default 0x8010000
+
+            config CMIOT_UPDATE_SIZE
+                hex "Download part size from fal's OS_DL_PART_SIZE"
+                default 0x30000
+
+        endif
+
+        config CMIOT_FOTA_WOSUN_VERSION
+            string
+            default "IOT4.0_R42641"
+        
+        config CMIOT_FOTA_LUSUN_VERSION
+            string
+            default "IOT5.0_LUSUN11_R50426"
+			
+        config CMIOT_FOTA_LUCKSPAR_VERSION
+            string
+            default "IOT6.0_LUCKSPAR_R010100"
+
+        config CMIOT_SEGMENT_SIZE_INDEX_START
+            int
+            default 0 if CMIOT_NETWORKING_MODE_COAP
+            default 3 if CMIOT_NETWORKING_MODE_HTTP
+
+        config CMIOT_DEFAULT_SEGMENT_SIZE_INDEX
+            int "Segment size index"
+            range CMIOT_SEGMENT_SIZE_INDEX_START 5
+            default 3
+            help
+                Set the size of each download,0 is 16 bytes,1 is 32 bytes,2 is 64 bytes,3 is 128 bytes,4 is 256 bytes,5 is 512 bytes
+        
+        config CMIOT_FOTA_SERVICE_OEM
+            string "Oem"
+            default "cmiot_cd"
+            help
+                Consistent with the OEM of project information in OTA platform
+        
+        config CMIOT_FOTA_SERVICE_MODEL
+            string "Model"
+            default "L475RE"
+            help
+                Consistent with the device model of project information in OTA platform
+        
+        config CMIOT_FOTA_SERVICE_PRODUCT_ID
+            string "Product id"
+            default "1571101950"
+            help
+                Consistent with the product id of project information in OTA platform
+        
+        config CMIOT_FOTA_SERVICE_PRODUCT_SEC
+            string "Product secret"
+            default "c36b6a45f78546e1a11390a90ee7f158"
+            help
+                Consistent with the product secret of project information in OTA platform
+        
+        config CMIOT_FOTA_SERVICE_DEVICE_TYPE
+            string "Device type"
+            default "box"
+            help
+                Consistent with the device type of project information in OTA platform
+        
+        config CMIOT_FOTA_SERVICE_PLATFORM
+            string "Platform"
+            default "stm32l4"
+            help
+                Consistent with the platform of project information in OTA platform
+        
+        config CMIOT_FIRMWARE_VERSION
+            string "Firmware version"
+            default "1.0"
+        
+        config CMIOT_FOTA_OS_VERSION
+            string
+            default "ONEOS_V1.0"
+        
+    endif
+
+endmenu

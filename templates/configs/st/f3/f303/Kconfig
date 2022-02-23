@@ -1,0 +1,55 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32f303-k8t6-nucleo
+    help
+        Select the device in STM32F303xx
+
+    config TEMP_STM32F303K8
+        bool "STM32F303K8"
+
+    config TEMP_STM32F303C8
+        bool "STM32F303C8"
+
+    config TEMP_STM32F303CB
+        bool "STM32F303CB"
+        
+    config TEMP_STM32F303CC
+        bool "STM32F303CC"
+
+    config TEMP_STM32F303R8
+        bool "STM32F303R8"
+
+    config TEMP_STM32F303RB
+        bool "STM32F303RB"
+        
+    config TEMP_STM32F303RC
+        bool "STM32F303RC"
+        
+    config TEMP_STM32F303RD
+        bool "STM32F303RD"
+        
+    config TEMP_STM32F303RE
+        bool "STM32F303RE"
+
+    config TEMP_STM32F303VB
+        bool "STM32F303VB"
+
+    config TEMP_STM32F303VC
+        bool "STM32F303VC"
+
+    config TEMP_STM32F303VD
+        bool "STM32F303VD"
+
+    config TEMP_STM32F303VE
+        bool "STM32F303VE"
+        
+    config TEMP_STM32F303ZD
+        bool "STM32F303ZD"
+
+    config TEMP_STM32F303ZE
+        bool "STM32F303ZE"
+
+    config TEMP_stm32f303-k8t6-nucleo
+        bool "stm32f303-k8t6-nucleo"
+
+endchoice

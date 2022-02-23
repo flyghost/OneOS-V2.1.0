@@ -1,0 +1,17 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../../"
+
+#add iotcore_client sample files 
+sample_src  = Glob(root_path + 'iotcore_client/samples/iotcore_mqtt_client_sample.c')
+sample_path = [
+	pwd + root_path + 'iotcore_client/samples'
+]
+
+group = AddCodeGroup('cloud/baidu/sample', sample_src, depend = ['BAIDUIOT_DEMO'], CPPPATH = sample_path)
+
+Return('group')

@@ -1,0 +1,16 @@
+menu "ans"
+		config MYNEWT_VAL_BLE_SVC_ANS_NEW_ALERT_CAT
+		    int "Initial supported new alert category bitmask."
+		    default 0
+
+
+		config MYNEWT_VAL_BLE_SVC_ANS_UNR_ALERT_CAT
+		    int "Initial supported unread alert category bitmask."
+		    default 0
+
+
+		config MYNEWT_VAL_BLE_SVC_ANS_SYSINIT_STAGE
+		    int "Sysinit stage for the alert notification service."
+		    default 303
+endmenu
+

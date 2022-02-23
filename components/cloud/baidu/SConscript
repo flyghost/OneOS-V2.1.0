@@ -1,0 +1,23 @@
+# for baidu iot component
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+objs = []
+pwd = PresentDir()
+
+if IsDefined(['BAIDUIOT_DEMO']):
+	objs += SConscript(('c-utility/src/SConscript'))
+	objs += SConscript(('c-utility/adapters/SConscript'))	
+	objs += SConscript(('iotcore_client/SConscript'))
+	objs += SConscript(('iotcore_client/samples/SConscript'))
+	objs += SConscript(('umqtt/SConscript'))
+	objs += SConscript(('certs/SConscript'))
+
+if IsDefined(['BAIDU_UNITTEST']):	
+	objs += SConscript(('c-utility/tests/SConscript'))
+	objs += SConscript(('c-utility/testtools/SConscript'))
+	objs += SConscript(('certs/SConscript'))
+
+Return('objs')
+

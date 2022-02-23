@@ -1,0 +1,38 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+src = []
+
+src += ['system_gd32vf103.c']
+src += ['Source/gd32vf103_eclic.c']
+src += ['Source/gd32vf103_rcu.c']
+src += ['Source/gd32vf103_dma.c']
+
+if IsDefined(['OS_USING_PIN']):
+    src += ['Source/gd32vf103_exti.c']
+    src += ['Source/gd32vf103_gpio.c']
+
+if IsDefined(['OS_USING_SERIAL']):
+    src += ['Source/gd32vf103_usart.c']
+
+if IsDefined(['OS_USING_I2C']):
+    src += ['Source/gd32vf103_i2c.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['Source/gd32vf103_spi.c']
+    
+if IsDefined(['BSP_USING_FLASH']):
+    src += ['Source/gd32vf103_fmc.c']
+	
+path = [pwd]
+path += [pwd + '/Include']
+
+CPPDEFINES = ['USE_STDPERIPH_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SOC_SERIES_GD32VF1XX'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

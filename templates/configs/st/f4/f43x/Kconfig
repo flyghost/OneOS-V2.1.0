@@ -1,0 +1,60 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F437AI
+    help
+        Select the device in STM32F43xx
+    config TEMP_STM32F437AI
+        bool "STM32F437AI"
+
+    config TEMP_STM32F437IG
+        bool "STM32F437IG"
+
+    config TEMP_STM32F437II
+        bool "STM32F437II"
+
+    config TEMP_STM32F437VG
+        bool "STM32F437VG"
+
+    config TEMP_STM32F437VI
+        bool "STM32F437VI"
+
+    config TEMP_STM32F437ZG
+        bool "STM32F437ZG"
+
+    config TEMP_STM32F437ZI
+        bool "STM32F437ZI"
+
+    config TEMP_STM32F439AI
+        bool "STM32F439AI"
+
+    config TEMP_STM32F439BG
+        bool "STM32F439BG"
+
+    config TEMP_STM32F439BI
+        bool "STM32F439BI"
+
+    config TEMP_STM32F439IG
+        bool "STM32F439IG"
+
+    config TEMP_STM32F439II
+        bool "STM32F439II"
+
+    config TEMP_STM32F439NG
+        bool "STM32F439NG"
+
+    config TEMP_STM32F439NI
+        bool "STM32F439NI"
+
+    config TEMP_STM32F439VG
+        bool "STM32F439VG"
+
+    config TEMP_STM32F439VI
+        bool "STM32F439VI"
+
+    config TEMP_STM32F439ZG
+        bool "STM32F439ZG"
+
+    config TEMP_STM32F439ZI
+        bool "STM32F439ZI"
+
+endchoice

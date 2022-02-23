@@ -1,0 +1,52 @@
+---
+image: gcc:9.3.0
+
+Linux_Secured_Test:
+  variables:
+    GIT_SUBMODULE_STRATEGY: normal
+  stage: build
+  before_script:
+    - apt update && apt -y install make autoconf
+    - set -o pipefail
+    - export VERBOSE=false
+    - export CCACHE_DISABLE=false
+  script:
+    - cd port/linux
+    - make DYNAMIC=1 IPV4=1 TCP=1 SECURE=1 test
+
+Linux_Unsecured_Test:
+  variables:
+    GIT_SUBMODULE_STRATEGY: normal
+  stage: build
+  before_script:
+    - apt update && apt -y install make autoconf
+    - set -o pipefail
+    - export VERBOSE=false
+    - export CCACHE_DISABLE=false
+  script:
+    - cd port/linux
+    - make DYNAMIC=1 IPV4=1 TCP=1 SECURE=0 test
+
+Android_build:
+  variables:
+    GIT_SUBMODULE_STRATEGY: normal
+  stage: build
+  image: gitlab.iotivity.org:5050/iotivity/iotivity-lite
+  script:
+    - cd port/android
+    - make DYNAMIC=1 TCP=1 IPV4=1 SECURE=1 PKI=1 CLOUD=1 JAVA=1 DEBUG=0
+  retry:
+    max: 2
+    when: runner_system_failure
+
+doxygen:
+  variables:
+    GIT_SUBMODULE_STRATEGY: none
+  stage: build
+  before_script:
+    - apt update && apt -y install doxygen
+  script:
+    - doxygen --version
+    - cd tools
+    - ./build_doc.sh
+    

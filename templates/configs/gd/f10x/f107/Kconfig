@@ -1,0 +1,60 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F107RB
+    help
+        Select the device in GD32F107xx
+
+
+    config TEMP_GD32F107RB
+        bool "GD32F107RB"
+
+    config TEMP_GD32F107RC
+        bool "GD32F107RC"
+
+    config TEMP_GD32F107RD
+        bool "GD32F107RD"
+
+    config TEMP_GD32F107RE
+        bool "GD32F107RE"
+
+    config TEMP_GD32F107RF
+        bool "GD32F107RF"
+
+    config TEMP_GD32F107RG
+        bool "GD32F107RG"
+
+    config TEMP_GD32F107VB
+        bool "GD32F107VB"
+
+    config TEMP_GD32F107VC
+        bool "GD32F107VC"
+
+    config TEMP_GD32F107VD
+        bool "GD32F107VD"
+
+    config TEMP_GD32F107VE
+        bool "GD32F107VE"
+
+    config TEMP_GD32F107VF
+        bool "GD32F107VF"
+
+    config TEMP_GD32F107VG
+        bool "GD32F107VG"
+
+    config TEMP_GD32F107ZC
+        bool "GD32F107ZC"
+
+    config TEMP_GD32F107ZD
+        bool "GD32F107ZD"
+
+    config TEMP_GD32F107ZE
+        bool "GD32F107ZE"
+
+    config TEMP_GD32F107ZF
+        bool "GD32F107ZF"
+
+    config TEMP_GD32F107ZG
+        bool "GD32F107ZG"
+
+
+endchoice

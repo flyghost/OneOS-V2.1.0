@@ -1,0 +1,18 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F330CB
+    help
+        Select the device in GD32F330xx
+
+    config TEMP_GD32F330CB
+        bool "GD32F330CB"
+        
+    config TEMP_GD32F330R8
+        bool "GD32F330R8"
+        
+    config TEMP_GD32F330RB
+        bool "GD32F330RB"
+    
+    
+
+endchoice

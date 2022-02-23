@@ -1,0 +1,24 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+demo_src = Split("""
+agent_tiny_cmd_ioctl.c
+agent_tiny_demo.c
+agent_tiny_report.c
+""")
+
+demo_path = [
+    pwd
+]
+
+path = []
+src = []
+
+if IsDefined(['HUAWEI_CLOUD_LwM2M_DEMO']):
+    path += demo_path
+    src += demo_src
+
+group = AddCodeGroup('cloud/huawei/lwm2m/demo', src, depend = ['HUAWEI_CLOUD_LwM2M_DEMO'], CPPPATH = path)
+
+Return('group')

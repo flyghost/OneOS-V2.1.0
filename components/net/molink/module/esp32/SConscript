@@ -1,0 +1,33 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_ESP32']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/esp32.c')
+
+if IsDefined(['ESP32_USING_GENERAL_OPS']):
+    src += Glob('source/esp32_general.c')
+
+if IsDefined(['ESP32_USING_WIFI_OPS']):
+    src += Glob('source/esp32_wifi.c')
+    
+if IsDefined(['ESP32_USING_PING_OPS']):
+    src += Glob('source/esp32_ping.c')
+    
+if IsDefined(['ESP32_USING_IFCONFIG_OPS']):
+    src += Glob('source/esp32_ifconfig.c')
+    
+if IsDefined(['ESP32_USING_NETCONN_OPS']):
+    src += Glob('source/esp32_netconn.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

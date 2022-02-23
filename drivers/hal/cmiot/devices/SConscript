@@ -1,0 +1,18 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['OS_USING_DEVICE']):
+    src += ['cm32_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SERIES_CM32M10'], CPPPATH = path)
+
+Return('group')

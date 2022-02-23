@@ -1,0 +1,11 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+src = Glob('source/*.c')
+
+path = [pwd + '/include']
+
+group = AddCodeGroup('common', src, depend = [''], CPPPATH = path)
+
+Return('group')

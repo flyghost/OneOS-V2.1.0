@@ -1,0 +1,18 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32H750VB
+    help
+        Select the device in STM32H750xx
+
+    config TEMP_STM32H750VB
+        bool "STM32H750VB"
+        
+    config TEMP_STM32H750ZB
+        bool "STM32H750ZB"
+        
+     config TEMP_STM32H750IB
+        bool "STM32H750IB"  
+
+    config TEMP_STM32H750XB
+        bool "STM32H750XB"     
+endchoice

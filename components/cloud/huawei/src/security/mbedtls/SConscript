@@ -1,0 +1,37 @@
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+
+tls_src = Split("""
+mbedtls_port/dtls_interface.c
+mbedtls_port/net_sockets_alt.c
+mbedtls_port/timing_alt.c
+mbedtls_port/entropy_hardware_poll.c
+""")
+tls_src += Glob('../../../../../security/mbedtls/mbedtls-v2.16.8/library/*.c')
+
+tls_path = [
+    pwd + '/../../../../../security/mbedtls/mbedtls-v2.16.8/include',
+    pwd + '/../../../../../security/mbedtls/mbedtls-v2.16.8/include/mbedtls',
+    pwd + '/mbedtls_port'
+]
+
+src = []
+path = []
+group = []
+
+src += tls_src
+path += tls_path
+
+
+if IsDefined(['HUAWEI_CLOUD_PORTOCOL_LwM2M', 'HUAWEI_CLOUD_WITH_TLS']):
+    group = AddCodeGroup('mbedtls', src, depend = ['HUAWEI_CLOUD_PORTOCOL_LwM2M', 'HUAWEI_CLOUD_WITH_TLS'], CPPPATH = path, CPPDEFINES = ['MBEDTLS_CONFIG_FILE="<los_mbedtls_config_coaps.h>"'])
+elif IsDefined(['HUAWEI_CA']):
+    group = AddCodeGroup('mbedtls', src, depend = ['HUAWEI_CLOUD_PORTOCOL_MQTT'], CPPPATH = path, CPPDEFINES = ['MBEDTLS_CONFIG_FILE="<los_mbedtls_config_cert.h>"'])
+elif IsDefined(['HUAWEI_CLOUD_PORTOCOL_MQTT']):
+    group = AddCodeGroup('mbedtls', src, depend = ['HUAWEI_CLOUD_PORTOCOL_MQTT'], CPPPATH = path, CPPDEFINES = ['MBEDTLS_CONFIG_FILE="<los_mbedtls_config_psk.h>"'])
+
+
+Return('group')

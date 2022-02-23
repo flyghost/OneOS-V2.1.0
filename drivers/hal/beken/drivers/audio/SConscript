@@ -1,0 +1,10 @@
+from build_tools import *
+Import('OS_ROOT')
+
+cwd = PresentDir()
+src = Glob('*.c') + Glob('*.S')
+CPPPATH = [cwd]
+
+group = AddCodeGroup('drv_audio', src, depend = ['RT_USING_AUDIO'], CPPPATH = CPPPATH)
+
+Return('group')

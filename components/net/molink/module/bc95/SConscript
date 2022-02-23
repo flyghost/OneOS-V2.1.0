@@ -1,0 +1,36 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_BC95']):
+    Return('objs')
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/bc95.c')
+
+if IsDefined(['BC95_USING_GENERAL_OPS']):
+    src += Glob('source/bc95_general.c')
+
+if IsDefined(['BC95_USING_NETSERV_OPS']):
+    src += Glob('source/bc95_netserv.c')
+    
+if IsDefined(['BC95_USING_PING_OPS']):
+    src += Glob('source/bc95_ping.c')
+    
+if IsDefined(['BC95_USING_IFCONFIG_OPS']):
+    src += Glob('source/bc95_ifconfig.c')
+    
+if IsDefined(['BC95_USING_NETCONN_OPS']):
+    src += Glob('source/bc95_netconn.c')
+    
+if IsDefined(['BC95_USING_ONENET_NB_OPS']):
+    src += Glob('source/bc95_onenet_nb.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

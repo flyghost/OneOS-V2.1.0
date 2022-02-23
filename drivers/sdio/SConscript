@@ -1,0 +1,17 @@
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+src = Split("""
+block_dev.c
+mmcsd_core.c
+sd.c
+sdio.c
+mmc.c
+""")
+
+# The set of source files associated with this SConscript file.
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_SDIO'], CPPPATH = [pwd])
+
+Return('group')

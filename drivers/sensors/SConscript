@@ -1,0 +1,45 @@
+# SConscript for sensor framework 
+
+from build_tools import *
+
+pwd = PresentDir()
+src = ['sensor.c']
+
+if IsDefined('OS_USING_ADXL345'):
+    src += ['adxl345.c']
+    
+if IsDefined('OS_USING_BH1750'):
+    src += ['bh1750.c']
+    
+if IsDefined('OS_USING_BMP180'):
+    src += ['bmp180.c']
+    
+if IsDefined('OS_USING_SHT20'):
+    src += ['sht20.c'] 
+
+if IsDefined('OS_USING_AHT10'):
+    src += ['aht10.c'] 
+    
+if IsDefined('OS_USING_AHT20'):
+    src += ['aht20.c'] 
+
+if IsDefined('OS_USING_MPU6XXX'):
+    src += ['mpu6xxx_port.c'] 
+    
+if IsDefined('OS_USING_AK8963'):
+    src += ['ak8963.c'] 
+    
+if IsDefined('OS_USING_LSM6DSL'):
+    src += ['lsm6dsl.c'] 
+
+if IsDefined('OS_USING_LSM6DSO'):
+    src += ['lsm6dso.c'] 
+
+if IsDefined('OS_USING_AP3216C'):
+    src += ['ap3216c.c'] 
+    
+if IsDefined('OS_USING_PHOTO_DIODE'):
+    src += ['photo_diode.c'] 
+group = AddCodeGroup('sensors', src, depend = ['OS_USING_SENSOR'], CPPPATH = [pwd])
+
+Return('group')

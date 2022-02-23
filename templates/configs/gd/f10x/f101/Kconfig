@@ -1,0 +1,63 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F101TB
+    help
+        Select the device in GD32F101xx
+
+    config TEMP_GD32F101TB
+        bool "GD32F101TB"
+
+    config TEMP_GD32F101CB
+        bool "GD32F101CB"
+
+    config TEMP_GD32F101RB
+        bool "GD32F101RB"
+
+    config TEMP_GD32F101VB
+        bool "GD32F101VB"
+
+    config TEMP_GD32F101RC
+        bool "GD32F101RC"
+
+    config TEMP_GD32F101RD
+        bool "GD32F101RD"
+
+    config TEMP_GD32F101RE
+        bool "GD32F101RE"
+
+    config TEMP_GD32F101RF
+        bool "GD32F101RF"
+
+    config TEMP_GD32F101RG
+        bool "GD32F101RG"
+
+    config TEMP_GD32F101RI
+        bool "GD32F101RI"
+
+    config TEMP_GD32F101RK
+        bool "GD32F101RK"
+
+    config TEMP_GD32F101VC
+        bool "GD32F101VC"
+
+    config TEMP_GD32F101VD
+        bool "GD32F101VD"
+
+    config TEMP_GD32F101VE
+        bool "GD32F101VE"
+
+    config TEMP_GD32F101VF
+        bool "GD32F101VF"
+
+    config TEMP_GD32F101VG
+        bool "GD32F101VG"
+
+    config TEMP_GD32F101VI
+        bool "GD32F101VI"
+
+    config TEMP_GD32F101VK
+        bool "GD32F101VK"
+
+
+endchoice
+

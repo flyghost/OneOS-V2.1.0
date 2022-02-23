@@ -1,0 +1,64 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_GD32F30x
+    help
+        GD32F30x
+
+    config SERIES_GD32F30x
+        bool "GD32F30x"
+        
+    config SERIES_GD32F3x0
+        bool "GD32F3x0"
+        
+    config SERIES_GD32F403
+        bool "GD32F403"
+    
+    config SERIES_GD32F4xx
+        bool "GD32F4xx"
+    
+    config SERIES_GD32E10x
+        bool "GD32E10x"
+    
+    config SERIES_GD32E50x
+        bool "GD32E50x"
+
+    config SERIES_GD32F10x
+        bool "GD32F10x"
+        
+    config SERIES_GD32F20x
+        bool "GD32F20x"
+        
+endchoice
+
+if SERIES_GD32F30x
+    source "$OS_ROOT/templates/configs/gd/f30x/Kconfig"
+endif
+
+if SERIES_GD32F3x0
+    source "$OS_ROOT/templates/configs/gd/f3x0/Kconfig"
+endif
+
+if SERIES_GD32F403
+    source "$OS_ROOT/templates/configs/gd/f403/Kconfig"
+endif
+
+if SERIES_GD32F4xx
+    source "$OS_ROOT/templates/configs/gd/f4xx/Kconfig"
+endif
+
+if SERIES_GD32E10x
+    source "$OS_ROOT/templates/configs/gd/e10x/Kconfig"
+endif
+
+if SERIES_GD32E50x
+    source "$OS_ROOT/templates/configs/gd/e50x/Kconfig"
+endif
+
+if SERIES_GD32F10x
+    source "$OS_ROOT/templates/configs/gd/f10x/Kconfig"
+endif
+
+if SERIES_GD32F20x
+    source "$OS_ROOT/templates/configs/gd/f20x/Kconfig"
+endif
+

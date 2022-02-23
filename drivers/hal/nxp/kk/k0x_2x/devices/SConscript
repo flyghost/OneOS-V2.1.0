@@ -1,0 +1,13 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+src = ['kk_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SERIES_NXP_KK0X_2X'], CPPPATH = path)
+
+Return('group')

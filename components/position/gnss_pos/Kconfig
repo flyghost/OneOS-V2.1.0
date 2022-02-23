@@ -1,0 +1,11 @@
+menu "gnss positon"
+	
+	config ONEPOS_USING_GNSS_POS
+	bool "enable gnss positon"
+	default n
+	
+	if ONEPOS_USING_GNSS_POS
+		source "$OS_ROOT/components/position/gnss_pos/*/Kconfig"
+	endif
+	
+endmenu

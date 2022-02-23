@@ -1,0 +1,13 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+src = ['hk32_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SERIES_HK32F1'], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,16 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HC32L073PATA
+    help
+        Select the device in HC32L073xxxx
+
+    config TEMP_HC32L073JATA
+        bool "HC32L073JATA"
+
+    config TEMP_HC32L073KATA
+        bool "HC32L073KATA"
+
+    config TEMP_HC32L073PATA
+        bool "HC32L073PATA"
+
+endchoice

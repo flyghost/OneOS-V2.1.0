@@ -1,0 +1,19 @@
+Import('OS_ROOT')
+from build_tools import *
+
+src = Split("""
+    edp_kit.c
+""")
+
+if IsDefined('OS_USING_ONENET_EDP_SAMPLE'):
+    src += Glob('edp_sample.c')
+
+if IsDefined('OS_USING_ONENET_EDP_CRYPT'):
+    src += Glob('edp_enc.c')
+
+# The set of source files associated with this SConscript file.
+path = [PresentDir() ]
+
+group = AddCodeGroup('onenet', src, depend = ['OS_USING_ONENET_EDP'], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,57 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+src = Split("""
+hal/am_hal_sysctrl.c
+hal/am_hal_interrupt.c
+hal/am_hal_itm.c
+hal/am_hal_ctimer.c
+hal/am_hal_clkgen.c
+hal/am_hal_mcuctrl.c
+hal/am_hal_rtc.c
+hal/am_hal_vcomp.c
+hal/am_hal_debug.c
+hal/am_hal_flash.c
+hal/am_hal_global.c
+hal/am_hal_queue.c
+""")
+
+if IsDefined(['OS_USING_PIN']):
+    src += ['hal/am_hal_gpio.c']
+
+if IsDefined(['OS_USING_SERIAL']):
+    src += ['hal/am_hal_uart.c']
+
+if IsDefined(['OS_USING_I2C']):
+    src += ['hal/am_hal_i2c_bit_bang.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['hal/am_hal_iom.c']
+
+if IsDefined(['OS_USING_CAN']):
+    src += ['hal/am_hal_can.c']
+    
+if IsDefined(['OS_USING_ADC']):
+    src += ['hal/am_hal_adc.c']
+    
+if IsDefined(['OS_USING_RTC']):
+    src += ['hal/am_hal_rtc.c']
+    
+if IsDefined(['OS_USING_WDT']):
+    src += ['hal/am_hal_wdt.c']
+
+if IsDefined(['BSP_USING_ON_CHIP_FLASH']):
+    src += ['hal/am_hal_flash.c']
+
+path = [pwd]
+path += [pwd + '/hal']
+path += [pwd + '/regs']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal', src, depend = ['SERIES_APOLLO'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

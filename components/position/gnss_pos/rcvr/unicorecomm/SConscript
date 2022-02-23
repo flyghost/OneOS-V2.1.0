@@ -1,0 +1,14 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+path = []
+src = []
+
+if IsDefined(['GNSS_USING_UNICORECOMM']):
+    path += [pwd]
+    src += Glob('*.c')
+
+group = AddCodeGroup('onepos', src, depend = ['GNSS_USING_UNICORECOMM'], CPPPATH = path)
+
+Return('group')

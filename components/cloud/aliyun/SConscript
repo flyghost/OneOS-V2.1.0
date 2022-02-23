@@ -1,0 +1,290 @@
+import os
+from build_tools import *
+import osconfig
+
+pwd     = PresentDir()
+
+src     = []
+CPPPATH = []
+ver_path = "."
+
+#
+# atm
+#
+if IsDefined(['ATM_ENABLED']):
+    src += Glob(ver_path+"/src/atm/at_api.c")
+    if IsDefined(['AT_TCP_ENABLED']):
+        src += [ver_path+"/src/atm/at_conn_mbox.c"]
+        src += [ver_path+"/src/atm/at_tcp.c"]
+        src += [ver_path+"/src/atm/at_conn_mgmt.c"]
+    if IsDefined(['AT_MQTT_ENABLED']):
+        src += Glob(ver_path+"/src/atm/at_mqtt.c")
+    if IsDefined(['AT_PARSER_ENABLED']):
+        src += Glob(ver_path+"/src/atm/at_parser.c")
+
+    CPPPATH += [pwd + ver_path+'/src/atm']
+#### atm end ####
+
+#
+# infra
+#
+src += Glob(ver_path+'/src/infra/infra_defs.c')
+
+if IsDefined(['INFRA_AES']):
+    src += Glob(ver_path+'/src/infra/infra_aes.c')
+if IsDefined(['INFRA_CJSON']):
+    src += Glob(ver_path+'/src/infra/infra_cjson.c')
+if IsDefined(['INFRA_COMPAT']):
+    src += Glob(ver_path+'/src/infra/infra_compat.c')
+if IsDefined(['INFRA_HTTPC']):
+    src += Glob(ver_path+'/src/infra/infra_httpc.c')
+if IsDefined(['INFRA_JSON_PARSER']):
+    src += Glob(ver_path+'/src/infra/infra_json_parser.c')
+if IsDefined(['INFRA_LOG']):
+    src += Glob(ver_path+'/src/infra/infra_log.c')
+if IsDefined(['INFRA_MD5']):
+    src += Glob(ver_path+'/src/infra/infra_md5.c')
+if IsDefined(['INFRA_MEM_STATS']):
+    src += Glob(ver_path+'/src/infra/infra_mem_stats.c')
+if IsDefined(['INFRA_NET']):
+    src += Glob(ver_path+'/src/infra/infra_net.c')
+if IsDefined(['INFRA_PREAUTH']):
+    src += Glob(ver_path+'/src/infra/infra_preauth.c')
+if IsDefined(['INFRA_LOG_NETWORK_PAYLOAD']):
+    src += Glob(ver_path+'/src/infra/infra_prt_nwk_payload.c')
+if IsDefined(['INFRA_REPORT']):
+    src += Glob(ver_path+'/src/infra/infra_report.c')
+if IsDefined(['INFRA_SHA1']):
+    src += Glob(ver_path+'/src/infra/infra_sha1.c')
+if IsDefined(['INFRA_SHA256']):
+    src += Glob(ver_path+'/src/infra/infra_sha256.c')
+if IsDefined(['INFRA_STRING']):
+    src += Glob(ver_path+'/src/infra/infra_string.c')
+if IsDefined(['INFRA_TIMER']):
+    src += Glob(ver_path+'/src/infra/infra_timer.c')
+
+CPPPATH += [pwd + '/'+ver_path+'/src/infra']
+#### infra end ####
+
+#
+# mqtt
+#
+if IsDefined(['MQTT_COMM_ENABLED']):
+    src += Glob(ver_path+'/src/mqtt/*.c')
+    if IsDefined(['MQTT_DEFAULT_IMPL']):
+        src += Glob(ver_path+'/src/mqtt/impl/*.c')
+        CPPPATH += [pwd + '/'+ver_path+'/src/mqtt/impl']
+
+    CPPPATH += [pwd + '/'+ver_path+'/src/mqtt']
+#### mqtt end ####
+
+#
+# coap
+#
+if IsDefined(['COAP_COMM_ENABLED']):
+    if IsDefined(['COAP_CLIENT']):
+        src += Glob(ver_path+'/src/coap/client/*.c')
+        CPPPATH += [pwd + '/'+ver_path+'/src/coap/client']
+    if IsDefined(['COAP_PACKET']):
+        src += Glob(ver_path+'/src/coap/CoAPPacket/*.c')
+        CPPPATH += [pwd + '/'+ver_path+'/src/coap/CoAPPacket']
+    if IsDefined(['COAP_SERVER']):
+        src += Glob(ver_path+'/src/coap/server/*.c')
+        CPPPATH += [pwd + '/'+ver_path+'/src/coap/server']
+    CPPPATH += [pwd + '/'+ver_path+'/src/coap']
+#### coap end ####
+
+
+#
+# device bind
+#
+if IsDefined(['DEV_BIND_ENABLED']):
+    src += Glob(ver_path+"/src/dev_bind/*.c")
+    src += Glob(ver_path+"/src/dev_bind/impl/*.c")
+    src += Glob(ver_path+"/src/dev_bind/impl/awss_reset/*.c")
+    src += Glob(ver_path+"/src/dev_bind/impl/os/*.c")
+    CPPPATH += [pwd + '/'+ver_path+'/src/dev_bind']
+    CPPPATH += [pwd + '/'+ver_path+'/src/dev_bind/awss_reset']
+    CPPPATH += [pwd + '/'+ver_path+'/src/dev_bind/os']
+#### device bind ####
+
+
+#
+# device model
+#
+if IsDefined(['DEVICE_MODEL_ENABLED']):
+    src += [ver_path+'/src/dev_model/client/dm_client.c', 
+    ver_path+'/src/dev_model/client/dm_client_adapter.c',
+    ver_path+'/src/dev_model/dm_api.c',
+    ver_path+'/src/dev_model/dm_cota.c',
+    ver_path+'/src/dev_model/dm_fota.c',
+    ver_path+'/src/dev_model/dm_ipc.c',
+    ver_path+'/src/dev_model/dm_manager.c',
+    ver_path+'/src/dev_model/dm_message_cache.c',
+    ver_path+'/src/dev_model/dm_message.c',
+    ver_path+'/src/dev_model/dm_opt.c',
+    ver_path+'/src/dev_model/dm_ota.c',
+    ver_path+'/src/dev_model/dm_msg_process.c',
+    ver_path+'/src/dev_model/dm_utils.c',
+    ver_path+'/src/dev_model/iotx_cm_mqtt.c',
+    ver_path+'/src/dev_model/impl_linkkit.c',
+    ver_path+'/src/dev_model/iotx_cm.c'
+    ]
+
+    if IsDefined(['LOG_REPORT_TO_CLOUD']):
+        src += [ver_path+'/src/dev_model/dm_log_report.c']
+
+    # ALCS(alink local communication service) is a communication between phone and device
+    if IsDefined(['ALCS_ENABLED']):
+        src += Glob(ver_path+"/src/dev_model/alcs/*.c")
+        src += Glob(ver_path+"/src/dev_model/server/*.c")
+        CPPPATH += [pwd + '/'+ver_path+'/src/dev_model/alcs']
+
+    if IsDefined(['COAP_COMM_ENABLED']):
+        src += Glob(ver_path+"/src/dev_model/iotx_cm_coap.c")
+
+    CPPPATH += [pwd + '/'+ver_path+'/src/dev_model']
+    CPPPATH += [pwd + '/'+ver_path+'/src/dev_model/client']
+    CPPPATH += [pwd + '/'+ver_path+'/src/dev_model/server']
+#### device model end ####
+
+#
+# device sign
+#
+if IsDefined(['DEV_SIGN']):
+    src += Glob(ver_path+'/src/dev_sign/dev_sign_mqtt.c')
+    CPPPATH += [pwd + '/'+ver_path+'/src/dev_sign']
+#### device sign end ####
+
+#
+# device reset
+#
+if IsDefined(['DEV_RESET']):
+    src += Glob(ver_path+'/src/dev_reset/dev_reset.c')
+    CPPPATH += [pwd + '/'+ver_path+'/src/dev_reset']
+#### device reset end ####
+
+#
+# dynamic register
+#
+if IsDefined(['DYNAMIC_REGISTER']):
+    src += Glob(ver_path+"/src/dynamic_register/*.c")
+    CPPPATH += [pwd + '/'+ver_path+'/src/dynamic_register']
+#### dynamic register end ####
+
+#
+# http
+#
+if IsDefined(['HTTP_COMM_ENABLED']):
+    src += Glob(ver_path+"/src/http/*.c")
+    CPPPATH += [pwd + '/'+ver_path+'/src/http']
+#### http end ####
+
+#
+# http2
+#
+if IsDefined(['HTTP2_COMM_ENABLED']):
+    src += Glob(ver_path+"/src/http2/http2_api.c")
+    src += Glob(ver_path+"/src/http2/iotx_http2.c")
+    if IsDefined(['FS_ENABLED']):
+        src += Glob(ver_path+"/src/http2/http2_upload_api.c")
+    CPPPATH += [pwd + '/'+ver_path+'/src/http2']
+
+    src += Glob(ver_path+"/external_libs/nghttp2/*.c")
+    CPPPATH += [pwd + '/'+ver_path+'/external_libs/nghttp2']
+#### http end ####
+
+#
+# ota
+#
+if IsDefined(['OTA_ENABLED']):
+    src += [
+    ver_path+'/src/ota/iotx_ota.c',
+    ver_path+'/src/ota/ota_fetch.c',
+    ver_path+'/src/ota/ota_lib.c'
+    ]
+    CPPPATH += [pwd + '/'+ver_path+'/src/ota']
+#### ota end ####
+
+#
+# wifi provision
+#
+if IsDefined(['WIFI_PROVISION_ENABLED']):
+    if IsDefined(['AWSS_SUPPORT_SMARTCONFIG']):
+        src += Glob(ver_path+"/src/wifi_provision/smartconfig/*.c")
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/smartconfig']
+        src += Glob(ver_path+"/src/wifi_provision/mcast_smartconfig/*.c")
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/mcast_smartconfig']
+    if IsDefined(['AWSS_SUPPORT_SMARTCONFIG_WPS']):
+        src += Glob(ver_path+"/src/wifi_provision/p2p/*.c")
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/p2p']
+
+    if IsDefined(['AWSS_SUPPORT_ZEROCONFIG']):
+        src += Glob(ver_path+"/src/wifi_provision/zero_config/*.c")
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/zero_config']
+
+    if IsDefined(['AWSS_SUPPORT_AHA']):
+        src += Glob(ver_path+"/src/wifi_provision/phone_ap/*.c")
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/phone_ap']
+    if IsDefined(['AWSS_SUPPORT_ADHA']):
+        src += Glob(ver_path+"/src/wifi_provision/router_ap/*.c")
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/router_ap']
+
+    if IsDefined(['AWSS_SUPPORT_DEV_AP']):
+        src += Glob(ver_path+"/src/wifi_provision/dev_ap/*.c")
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/dev_ap']
+
+    if IsDefined(['AWSS_FRAMEWORKS']):
+        src += Glob(ver_path+"/src/wifi_provision/frameworks/*.c")
+        src += Glob(ver_path+"/src/wifi_provision/frameworks/*/*.c")       
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/frameworks']
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/frameworks/aplist']
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/frameworks/ieee80211']
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/frameworks/statics']
+        CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/frameworks/utils']
+
+    src += Glob(ver_path+"/src/wifi_provision/connectivity/*.c")
+    CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision/connectivity']
+    CPPPATH += [pwd + '/'+ver_path+'/src/wifi_provision']
+#### wifi provision end ####
+
+#
+# wrappers | port
+#
+src += Split("""
+wrappers/oneos/hal_os.c
+wrappers/oneos/hal_tcp.c
+wrappers/oneos/hal_udp.c
+wrappers/oneos/hal_ota.c
+""")
+
+if IsDefined(['SUPPORT_TLS']) or IsDefined(['COAP_DTLS_SUPPORT']):
+    src += Glob(ver_path+'/certs/root_ca.c')
+if IsDefined(['SUPPORT_TLS']):
+    src += Glob('wrappers/tls/HAL_TLS_mbedtls.c')
+    
+CPPPATH += [pwd + '/'+ver_path+'/wrappers']
+#### wrappers | port end ####
+
+#
+# demo
+#
+if IsDefined(['PKG_USING_ALI_IOTKIT_MQTT_SAMPLE']):
+        src += Split("""
+        demo/mqtt/mqtt_demo.c
+        """)
+
+if IsDefined(['PKG_USING_ALI_IOTKIT_COAP_SAMPLE']):
+    src += Split("""
+    demo/coap/coap_demo.c
+    """)
+
+if IsDefined(['PKG_USING_ALI_IOTKIT_OTA_SAMPLE']):
+    src += Split("""
+    demo/ota/mqtt_ota_demo.c
+    """)
+#### demo end ####
+
+group = AddCodeGroup('ali-iotkit', src, depend = ['PKG_USING_ALI_IOTKIT'], CPPPATH = CPPPATH)
+
+Return('group')

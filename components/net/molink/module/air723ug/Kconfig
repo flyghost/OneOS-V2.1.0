@@ -1,0 +1,58 @@
+menu "AIR723UG Config"
+
+    config AIR723UG_AUTO_CREATE
+        bool "Enable AIR723UG Module Object Auto Create"
+        default n
+
+    if AIR723UG_AUTO_CREATE
+
+        config AIR723UG_DEVICE_NAME
+            string "AIR723UG Interface Device Name"
+            default "uart2"
+
+        config AIR723UG_DEVICE_RATE
+            int "AIR723UG Interface Device Rate"
+            default 115200
+
+        config AIR723UG_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config AIR723UG_USING_GENERAL_OPS
+        bool "Enable AIR723UG Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config AIR723UG_USING_NETSERV_OPS
+        bool "Enable AIR723UG Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config AIR723UG_USING_PING_OPS
+        bool "Enable AIR723UG Module Ping Operates"
+        select MOLINK_USING_NETSERV_OPS
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config AIR723UG_USING_IFCONFIG_OPS
+        bool "Enable AIR723UG Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select AIR723UG_USING_GENERAL_OPS
+        select AIR723UG_USING_NETSERV_OPS
+        default y
+
+    config AIR723UG_USING_NETCONN_OPS
+        bool "Enable AIR723UG Module Network TCP/IP Operates"
+        select OS_USING_EVENT
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config AIR723UG_USING_SOCKETS_OPS
+        bool "Enable AIR723UG Module BSD Socket Operates"
+        select AIR723UG_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

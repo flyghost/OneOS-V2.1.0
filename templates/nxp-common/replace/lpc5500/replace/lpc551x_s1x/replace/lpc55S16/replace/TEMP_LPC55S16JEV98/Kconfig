@@ -1,0 +1,17 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=nxp
+    
+config TEMP_LPC55S16JEV98
+    bool
+    select SOC_LPC55S16
+    default y
+    
+    if TEMP_LPC55S16JEV98
+        config SOC_MODEL
+        string
+        default "LPC55S16JEV98"
+    endif
+source "$OS_ROOT/Kconfig"

@@ -1,0 +1,12 @@
+menu "CONSOLE"
+    config OS_USING_CONSOLE
+        bool "Enable console"
+        depends on OS_USING_DEVICE
+        default y
+
+    if OS_USING_CONSOLE
+        config OS_CONSOLE_DEVICE_NAME
+            string "The device name for console"
+            default "uart1"
+    endif
+endmenu

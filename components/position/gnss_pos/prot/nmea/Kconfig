@@ -1,0 +1,8 @@
+menu "gnss nmea 0183 protocol"
+	
+	config GNSS_NMEA_PROT_DEBUG
+	bool "enable gnss nmea 0183 protocol debug"
+	default n
+
+endmenu
+

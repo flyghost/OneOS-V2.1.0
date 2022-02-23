@@ -1,0 +1,5 @@
+menu "MTD"
+    config OS_USING_MTD
+        bool "Using mtd device"
+        default y
+endmenu

@@ -1,0 +1,9 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+src = ['block_device.c']
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_BLOCK'])
+
+Return('group')

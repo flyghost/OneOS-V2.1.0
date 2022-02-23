@@ -1,0 +1,12 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32mp157-atk-base
+    help
+        Select the device in STM32MP157xx
+
+    config TEMP_STM32MP157DAAx
+        bool "STM32MP157DAAx"
+        
+    config TEMP_stm32mp157-atk-base
+        bool "stm32mp157-atk-base"
+endchoice

@@ -1,0 +1,12 @@
+from build_tools import *
+
+pwd     = PresentDir()
+src     = Glob('*.c')
+src     += Glob('core/*.c')
+src     += Glob('ops/*.c')
+src     += Glob('local/*.c')
+CPPPATH = [pwd]
+
+group = AddCodeGroup('ams', src, depend = ['PKG_USING_AMS'], CPPPATH = CPPPATH)
+
+Return('group')

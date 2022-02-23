@@ -1,0 +1,34 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F100VE
+    help
+        Select the device in STM32F100xx
+
+    config TEMP_STM32F100RC
+        bool "STM32F100RC"
+    
+    config TEMP_STM32F100RD
+        bool "STM32F100RD"
+    
+    config TEMP_STM32F100RE
+        bool "STM32F100RE"
+    
+    config TEMP_STM32F100VC
+        bool "STM32F100VC"
+    
+    config TEMP_STM32F100VD
+        bool "STM32F100VD"
+    
+    config TEMP_STM32F100VE
+        bool "STM32F100VE"  
+    
+    config TEMP_STM32F100ZC
+        bool "STM32F100ZC"
+    
+    config TEMP_STM32F100ZD
+        bool "STM32F100ZD"  
+    
+    config TEMP_STM32F100ZE
+        bool "STM32F100ZE"
+    
+endchoice

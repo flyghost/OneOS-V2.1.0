@@ -1,0 +1,20 @@
+config BSP_USING_USB
+	bool "usb"
+    select OS_USING_FREERTOS_API_V8_2_0
+	default n
+	
+	if BSP_USING_USB
+		config BSP_USING_USBH
+			bool "usb host"
+			default n
+            
+            if BSP_USING_USBH
+                config OS_USING_USBH_CDC
+                    bool "usb host cdc class"
+                    default n
+            endif
+			
+		config BSP_USING_USBD
+			bool "usb device"
+			default n
+	endif

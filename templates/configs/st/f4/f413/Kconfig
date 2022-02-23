@@ -1,0 +1,34 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F413ZG
+    help
+        Select the device in STM32F413xx
+
+    config TEMP_STM32F413CG
+        bool "STM32F413CG"
+        
+    config TEMP_STM32F413CH
+        bool "STM32F413CH"
+    
+    config TEMP_STM32F413RG
+        bool "STM32F413RG"
+        
+    config TEMP_STM32F413RH
+        bool "STM32F413RH"
+    
+    config TEMP_STM32F413VG
+        bool "STM32F413VG"
+        
+    config TEMP_STM32F413VH
+        bool "STM32F413VH"
+    
+    config TEMP_STM32F413ZG
+        bool "STM32F413ZG"
+        
+    config TEMP_STM32F413ZH
+        bool "STM32F413ZH"
+    
+    config TEMP_stm32f413-zht6-nucleo
+        bool "stm32f413-zht6-nucleo"
+    
+endchoice

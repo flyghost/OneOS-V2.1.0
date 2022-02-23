@@ -1,0 +1,413 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd     = PresentDir()
+
+src     = []
+CPPPATH = []
+
+
+
+if IsDefined(['PKG_USING_AWS_IOT']):
+####### libraries start ######
+    #
+    # aws common
+    #
+    src += Glob('libraries/aws/common/src/*.c')
+    CPPPATH += [pwd + '/libraries/aws/common/include']
+    
+    #
+    # defender
+    #	
+    #if IsDefined(['AWS_IOT_USING_DEFENDER']):
+    src += Glob('libraries/aws/defender/src/*.c')
+    CPPPATH += [pwd + '/libraries/aws/defender/include']
+    CPPPATH += [pwd + '/libraries/aws/defender/src']
+    #### defender end ####
+    #
+    # jobs
+    #	       
+    #if IsDefined(['AWS_IOT_USING_JOBS']):
+    src += Glob('libraries/aws/jobs/src/*.c')
+    CPPPATH += [pwd + '/libraries/aws/jobs/include']
+    CPPPATH += [pwd + '/libraries/aws/jobs/src']
+    #### jobs end ####       
+    #
+    # provisioning
+    #	       
+    #if IsDefined(['AWS_IOT_USING_PROVISIONING']):
+    src += Glob('libraries/aws/provisioning/src/*.c')
+    CPPPATH += [pwd + '/libraries/aws/provisioning/include']
+    CPPPATH += [pwd + '/libraries/aws/provisioning/include/types']
+    CPPPATH += [pwd + '/libraries/aws/provisioning/src']
+    #### provisioning end ####  
+    #
+    # shadow
+    #	       
+    #if IsDefined(['AWS_IOT_USING_SHADOW']):
+    src += Glob('libraries/aws/shadow/src/*.c')
+    CPPPATH += [pwd + '/libraries/aws/shadow/include']
+    CPPPATH += [pwd + '/libraries/aws/shadow/include/types']
+    CPPPATH += [pwd + '/libraries/aws/shadow/src']
+    #### shadow end ####          
+        
+    #
+    # platform
+    #
+    CPPPATH += [pwd + '/libraries']
+    CPPPATH += [pwd + '/libraries/platform']
+    CPPPATH += [pwd + '/libraries/platform/types']
+    #### platform end ####
+
+    #
+    # standard common
+    #
+    src += Glob('libraries/standard/common/src/*.c')
+    CPPPATH += [pwd + '/libraries/standard/common/src']
+    CPPPATH += [pwd + '/libraries/standard/common/include']
+    CPPPATH += [pwd + '/libraries/standard/common/include/types']
+    #
+    # mqtt
+    #
+    src += Glob('libraries/standard/mqtt/src/*.c')
+    CPPPATH += [pwd + '/libraries/standard/mqtt/src']
+    CPPPATH += [pwd + '/libraries/standard/mqtt/include']
+    CPPPATH += [pwd + '/libraries/standard/mqtt/include/types']
+    #
+    # serializer
+    #
+    src += Glob('libraries/standard/serializer/src/*.c')
+    src += Glob('libraries/standard/serializer/src/cbor/*.c')
+    CPPPATH += [pwd + '/libraries/standard/serializer/include']
+####### libraries end ######
+
+
+####### ports start ######
+    #
+    # ports common
+    #
+    src += Glob('ports/common/src/iot_network_metrics.c')
+    src += Glob('ports/common/src/iot_network_mbedtls.c')
+    CPPPATH += [pwd + '/ports/common/include']
+    CPPPATH += [pwd + '/ports/common/include/atomic']
+    #
+    # oneos
+    #   
+    src += Glob('ports/oneos/src/*.c')
+    CPPPATH += [pwd + '/ports/oneos/include']
+####### ports end ######
+
+####### third_party start ######
+    #
+    # mbedtls, use components/security/mbedtls archives, comments these build lines
+    #
+    # src += Glob('third_party/mbedtls/timing_alt.c')
+    # src += Glob('third_party/mbedtls/mbedtls/library/*.c')
+    # CPPPATH += [pwd + '/third_party/mbedtls']
+    # CPPPATH += [pwd + '/third_party/mbedtls/mbedtls/include']
+    #
+    # tinycbor
+    #
+    src += Glob('third_party/tinycbor/tinycbor/src/cborencoder.c')
+    src += Glob('third_party/tinycbor/tinycbor/src/cborencoder_close_container_checked.c')
+    src += Glob('third_party/tinycbor/tinycbor/src/cborerrorstrings.c')
+    src += Glob('third_party/tinycbor/tinycbor/src/cborparser.c')
+    src += Glob('third_party/tinycbor/tinycbor/src/cborparser_dup_string.c')
+    src += Glob('third_party/tinycbor/tinycbor/src/cborpretty.c')
+    src += Glob('third_party/tinycbor/tinycbor/src/cborpretty_stdio.c')
+    CPPPATH += [pwd + '/third_party/tinycbor/tinycbor/src']
+    #
+    # unity
+    #
+    if IsDefined(['AWS_IOT_USING_UNITY_TESTS']):
+        src += Glob('third_party/unity/unity/unity.c')
+        src += Glob('third_party/unity/unity/fixture/*.c')
+        CPPPATH += [pwd + '/third_party/unity/unity']
+        CPPPATH += [pwd + '/third_party/unity/unity/fixture']
+    #### unity end ####
+####### third_party end ######
+
+####### certs start ######
+    #### root ca cert start ####
+    root_ca_cert_template = """
+/**
+ ***********************************************************************************************************************
+ * Copyright (c) 2020, China Mobile Communications Group Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the \"License\ you may not use this file except in compliance with 
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on 
+ * an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations under the License.
+ *
+ * \@file        aws_iot_root_ca_cert.c
+ *
+ * \@brief       ca cert c file auto generate by SConscript
+ *
+ * \@details     
+ *
+ * \@revision
+ * Date         Author          Notes
+ * 2020-09-10   OneOS Team      first version
+ ***********************************************************************************************************************
+ */
+
+#include <stdlib.h>
+
+const char amazon_root_ca_cert[] = "" \\
+${ROOT_CA_CERT_CONTENT}
+;
+
+"""
+    root_ca_cert_subs = Template(root_ca_cert_template)
+
+    root_ca_cert_dir = pwd + os.sep + (os.sep).join(['certs', 'RootCACert'])
+    output_root_ca_cert_file = pwd + os.sep + (os.sep).join(['certs', 'src', 'aws_iot_root_ca_cert.c'])
+
+    ROOT_CA_FILE = []
+    root_ca_file_list = os.listdir(root_ca_cert_dir)
+    if len(root_ca_file_list):
+        for i in range(0, len(root_ca_file_list)):
+            path = os.path.join(root_ca_cert_dir, root_ca_file_list[i])
+            if os.path.isfile(path):
+                ROOT_CA_FILE += [path]
+
+    ROOT_CA_FILE = list(set(ROOT_CA_FILE))
+
+    root_ca_cfile_content = ""
+    if len(ROOT_CA_FILE) > 0:
+        for i in range(0, len(ROOT_CA_FILE)):
+            if os.path.isfile(ROOT_CA_FILE[i]):
+                # read cert file, copy to aws_iot_root_ca_cert.c
+                with open(ROOT_CA_FILE[i], 'r') as ca:
+                    # pre-read, check first line
+                    if not ca.readline().startswith("-----BEGIN CERTIFICATE"):
+                        print("[mbedtls] Warning: ", ROOT_CA_FILE[i], "is not CA file! Skipped!")
+                        continue
+                    ca.seek(0)
+                    for line in ca.readlines():
+                        root_ca_cfile_content += '"' + line.strip() + '\\r\\n" \\\n'
+
+    root_ca_cert_content = root_ca_cert_subs.substitute(ROOT_CA_CERT_CONTENT = root_ca_cfile_content)
+    with open(output_root_ca_cert_file, 'w') as cafile:
+        cafile.write(root_ca_cert_content)
+    #### root ca cert end ####
+    
+    #### client cert start ####
+    client_cert_template = """
+/**
+ ***********************************************************************************************************************
+ * Copyright (c) 2020, China Mobile Communications Group Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the \"License\ you may not use this file except in compliance with 
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on 
+ * an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations under the License.
+ *
+ * \@file        aws_iot_client_cert.c
+ *
+ * \@brief       client cert c file auto generate by SConscript
+ *
+ * \@details     
+ *
+ * \@revision
+ * Date         Author          Notes
+ * 2020-09-10   OneOS Team      first version
+ ***********************************************************************************************************************
+ */
+
+#include <stdlib.h>
+
+const char amazon_client_cert[] = "" \\
+${CLIENT_CERT_CONTENT}
+;
+
+"""
+    client_cert_subs = Template(client_cert_template)
+
+    client_cert_dir = pwd + os.sep + (os.sep).join(['certs', 'ClientCert'])
+    output_client_cert_file = pwd + os.sep + (os.sep).join(['certs', 'src', 'aws_iot_client_cert.c'])
+
+    CLIENT_CERT_FILE = []
+    client_cert_file_list = os.listdir(client_cert_dir)
+    if len(client_cert_file_list):
+        for i in range(0, len(client_cert_file_list)):
+            path = os.path.join(client_cert_dir, client_cert_file_list[i])
+            if os.path.isfile(path):
+                CLIENT_CERT_FILE += [path]
+
+    CLIENT_CERT_FILE = list(set(CLIENT_CERT_FILE))
+
+    client_cert_cfile_content = ""
+    if len(CLIENT_CERT_FILE) > 0:
+        for i in range(0, len(CLIENT_CERT_FILE)):
+            if os.path.isfile(CLIENT_CERT_FILE[i]):
+                # read cert file, copy to aws_iot_client_cert.c
+                with open(CLIENT_CERT_FILE[i], 'r') as clientcert:
+                    # pre-read, check first line
+                    if not clientcert.readline().startswith("-----BEGIN CERTIFICATE"):
+                        print("[mbedtls] Warning: ", CLIENT_CERT_FILE[i], "is not client cert file! Skipped!")
+                        continue
+                    clientcert.seek(0)
+                    for line in clientcert.readlines():
+                        client_cert_cfile_content += '"' + line.strip() + '\\r\\n" \\\n'
+
+    client_cert_content = client_cert_subs.substitute(CLIENT_CERT_CONTENT = client_cert_cfile_content)
+    with open(output_client_cert_file, 'w') as clientcertfile:
+        clientcertfile.write(client_cert_content)
+    #### client cert end ####
+    
+    #### client key start ####
+    client_key_template = """
+/**
+ ***********************************************************************************************************************
+ * Copyright (c) 2020, China Mobile Communications Group Co.,Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the \"License\ you may not use this file except in compliance with 
+ * the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on 
+ * an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations under the License.
+ *
+ * \@file        aws_iot_key_cert.c
+ *
+ * \@brief       client key c file auto generate by SConscript
+ *
+ * \@details     
+ *
+ * \@revision
+ * Date         Author          Notes
+ * 2020-09-10   OneOS Team      first version
+ ***********************************************************************************************************************
+ */
+
+#include <stdlib.h>
+
+const char amazon_client_key[] = "" \\
+${CLIENT_KEY_CONTENT}
+;
+
+"""
+    client_key_subs = Template(client_key_template)
+
+    client_key_dir = pwd + os.sep + (os.sep).join(['certs', 'ClientKey'])
+    output_client_key_file = pwd + os.sep + (os.sep).join(['certs', 'src', 'aws_iot_client_key.c'])
+
+    CLIENT_KEY_FILE = []
+    client_key_file_list = os.listdir(client_key_dir)
+    if len(client_key_file_list):
+        for i in range(0, len(client_key_file_list)):
+            path = os.path.join(client_key_dir, client_key_file_list[i])
+            if os.path.isfile(path):
+                CLIENT_KEY_FILE += [path]
+
+    CLIENT_KEY_FILE = list(set(CLIENT_KEY_FILE))
+
+    client_key_cfile_content = ""
+    if len(CLIENT_KEY_FILE) > 0:
+        for i in range(0, len(CLIENT_KEY_FILE)):
+            if os.path.isfile(CLIENT_KEY_FILE[i]):
+                # read cert file, copy to aws_iot_client_cert.c
+                with open(CLIENT_KEY_FILE[i], 'r') as clientkey:
+                    # pre-read, check first line
+                    if not clientkey.readline().startswith("-----BEGIN RSA PRIVATE KEY"):
+                        print("[mbedtls] Warning: ", CLIENT_KEY_FILE[i], "is not client key file! Skipped!")
+                        continue
+                    clientkey.seek(0)
+                    for line in clientkey.readlines():
+                        client_key_cfile_content += '"' + line.strip() + '\\r\\n" \\\n'
+
+    client_key_content = client_key_subs.substitute(CLIENT_KEY_CONTENT = client_key_cfile_content)
+    with open(output_client_key_file, 'w') as clientkeyfile:
+        clientkeyfile.write(client_key_content)
+    #### client key end ####
+    
+    src += Glob('certs/src/*.c')
+    CPPPATH += [pwd + '/certs']
+####### certs end ######
+
+####### demos start ######
+    if IsDefined(['AWS_IOT_USING_DEMO']):
+        src += Glob('demos/app/*.c')
+        src += Glob('demos/src/*.c')
+        src += Glob('demos/src/Provisioning/*.c')
+        CPPPATH += [pwd + '/demos']
+        CPPPATH += [pwd + '/demos/include']
+####### demos end ######
+
+####### unity tests start ######
+    if IsDefined(['AWS_IOT_USING_UNITY_TESTS']):
+        src += Glob('tests/iot_tests.c')
+        CPPPATH += [pwd + '/tests']
+        #
+        # libraries aws common
+        #
+        src += Glob('libraries/aws/common/test/aws_iot_tests_common.c')
+        src += Glob('libraries/aws/common/test/unit/aws_iot_tests_doc_parser.c')
+        #
+        # libraries aws defender
+        #
+        src += Glob('libraries/aws/defender/test/aws_iot_tests_defender.c')
+        src += Glob('libraries/aws/defender/test/unit/aws_iot_tests_defender_unit.c')
+        src += Glob('libraries/aws/defender/test/system/aws_iot_tests_defender_system.c')
+        #
+        # libraries aws jobs
+        #
+        src += Glob('libraries/aws/jobs/test/aws_iot_tests_jobs.c')
+        src += Glob('libraries/aws/jobs/test/unit/*.c')
+        src += Glob('libraries/aws/jobs/test/system/aws_iot_tests_jobs_system.c')
+        #
+        # libraries aws provisioning
+        #
+        src += Glob('libraries/aws/provisioning/test/aws_iot_tests_provisioning.c')
+        src += Glob('libraries/aws/provisioning/test/unit/*.c')
+        src += Glob('libraries/aws/provisioning/test/system/aws_iot_tests_provisioning_system.c')
+        #
+        # libraries aws shadow
+        #
+        src += Glob('libraries/aws/shadow/test/aws_iot_tests_shadow.c')
+        src += Glob('libraries/aws/shadow/test/unit/*.c')
+        src += Glob('libraries/aws/shadow/test/system/aws_iot_tests_shadow_system.c')
+        
+        #
+        # libraries standard common
+        #
+        src += Glob('libraries/standard/common/test/iot_tests_common.c')
+        src += Glob('libraries/standard/common/test/unit/*.c')
+        #
+        # libraries standard mqtt
+        #
+        src += Glob('libraries/standard/mqtt/test/iot_tests_mqtt.c')
+        src += Glob('libraries/standard/mqtt/test/unit/*.c')
+        src += Glob('libraries/standard/mqtt/test/system/iot_tests_mqtt_system.c')
+        src += Glob('libraries/standard/mqtt/test/mock/iot_tests_mqtt_mock.c')
+        CPPPATH += [pwd + '/libraries/standard/mqtt/test/mock']
+        CPPPATH += [pwd + '/libraries/standard/mqtt/test/access']
+        #
+        # libraries standard serializer
+        #
+        src += Glob('libraries/standard/serializer/test/iot_tests_serializer.c')
+        src += Glob('libraries/standard/serializer/test/unit/iot_tests_serializer_cbor.c')
+        
+        if IsDefined(['AWS_IOT_UNITY_TEST_DEMOS']):
+            src += Glob('demos/app/*.c')
+            src += Glob('demos/src/*.c')
+            src += Glob('demos/src/Provisioning/*.c')    
+            CPPPATH += [pwd + '/demos/include']
+####### unity tests end ######
+
+group = AddCodeGroup('awsiot', src, depend = ['PKG_USING_AWS_IOT'], CPPPATH = CPPPATH)
+
+Return('group')

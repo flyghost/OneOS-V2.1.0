@@ -1,0 +1,31 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32G0B1RE
+    help
+        Select the device in STM32G0B1xx
+
+    config TEMP_STM32G0B1CB
+        bool "STM32G0B1CB"
+
+    config TEMP_STM32G0B1CC
+        bool "STM32G0B1CC"
+
+    config TEMP_STM32G0B1CE
+        bool "STM32G0B1CE"
+        
+    config TEMP_STM32G0B1RB
+        bool "STM32G0B1RB"
+
+    config TEMP_STM32G0B1RE
+        bool "STM32G0B1RE"
+
+    config TEMP_STM32G0B1VB
+        bool "STM32G0B1VB"
+
+    config TEMP_STM32G0B1VC
+        bool "STM32G0B1VC"
+
+    config TEMP_stm32g0b1re-nucleo-64
+        bool "stm32g0b1re-nucleo-64"
+        
+endchoice

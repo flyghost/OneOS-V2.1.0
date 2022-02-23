@@ -1,0 +1,16 @@
+menuconfig OS_USING_GUI_LVGL_EXAMPLES
+    bool "Enable LVGL examples"
+    default n
+
+    if OS_USING_GUI_LVGL_EXAMPLES
+    source "$OS_ROOT/thirdparty/gui/lvgl/lv_examples/Kconfig"
+    endif
+
+menuconfig OS_USING_ONEOS_LVGL_DEMO
+    bool "Enable OneOS LVGL Demo"
+    default n
+
+config OS_USING_GUI_LVGL_GIF
+    bool "Enable LVGL gif"
+    default n
+

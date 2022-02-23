@@ -1,0 +1,13 @@
+if OS_USING_GUI_LVGL_EXAMPLES
+    config OS_USING_GUI_LV_EX_GETSTARTED
+        bool "GUI lvgl example: get started"
+        default n
+    config OS_USING_GUI_LV_EX_MUSIC
+        bool "GUI lvgl example: music"
+        default n
+
+    config OS_USING_GUI_LV_EX_PRINTER
+        bool "GUI lvgl example: printer"
+        default n
+
+endif

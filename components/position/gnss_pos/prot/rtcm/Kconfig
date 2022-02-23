@@ -1,0 +1,8 @@
+menu "gnss rtcm protocol"
+	
+	config GNSS_RTCM_PROT_DEBUG
+	bool "enable gnss rtcm protocol debug"
+	default n
+
+endmenu
+

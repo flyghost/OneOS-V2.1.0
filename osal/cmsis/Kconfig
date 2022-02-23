@@ -1,0 +1,8 @@
+menu "CMSIS compatibility layer"
+
+config OS_USING_CMSIS_RTOS2_API_V2_1_2
+    bool "Enable CMSIS rtos2 compatibility layer v2.1.2"
+	select OS_USING_EVENT
+    default n
+	
+endmenu

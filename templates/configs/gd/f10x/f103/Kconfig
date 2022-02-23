@@ -1,0 +1,96 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F103T8
+    help
+        Select the device in GD32F103xx
+
+
+    config TEMP_GD32F103T8
+        bool "GD32F103T8"
+
+    config TEMP_GD32F103TB
+        bool "GD32F103TB"
+
+    config TEMP_GD32F103C8
+        bool "GD32F103C8"
+
+    config TEMP_GD32F103CB
+        bool "GD32F103CB"
+
+    config TEMP_GD32F103R8
+        bool "GD32F103R8"
+
+    config TEMP_GD32F103RB
+        bool "GD32F103RB"
+
+    config TEMP_GD32F103V8
+        bool "GD32F103V8"
+
+    config TEMP_GD32F103VB
+        bool "GD32F103VB"
+
+    config TEMP_GD32F103RC
+        bool "GD32F103RC"
+
+    config TEMP_GD32F103RD
+        bool "GD32F103RD"
+
+    config TEMP_GD32F103RE
+        bool "GD32F103RE"
+
+    config TEMP_GD32F103RF
+        bool "GD32F103RF"
+
+    config TEMP_GD32F103RG
+        bool "GD32F103RG"
+
+    config TEMP_GD32F103RI
+        bool "GD32F103RI"
+
+    config TEMP_GD32F103RK
+        bool "GD32F103RK"
+
+    config TEMP_GD32F103VC
+        bool "GD32F103VC"
+
+    config TEMP_GD32F103VD
+        bool "GD32F103VD"
+
+    config TEMP_GD32F103VE
+        bool "GD32F103VE"
+
+    config TEMP_GD32F103VF
+        bool "GD32F103VF"
+
+    config TEMP_GD32F103VG
+        bool "GD32F103VG"
+
+    config TEMP_GD32F103VI
+        bool "GD32F103VI"
+
+    config TEMP_GD32F103VK
+        bool "GD32F103VK"
+
+    config TEMP_GD32F103ZC
+        bool "GD32F103ZC"
+
+    config TEMP_GD32F103ZD
+        bool "GD32F103ZD"
+
+    config TEMP_GD32F103ZE
+        bool "GD32F103ZE"
+
+    config TEMP_GD32F103ZF
+        bool "GD32F103ZF"
+
+    config TEMP_GD32F103ZG
+        bool "GD32F103ZG"
+
+    config TEMP_GD32F103ZI
+        bool "GD32F103ZI"
+
+    config TEMP_GD32F103ZK
+        bool "GD32F103ZK"
+
+endchoice
+

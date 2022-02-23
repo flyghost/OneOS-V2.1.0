@@ -1,0 +1,19 @@
+if USING_CMS_CONNECT
+    config CMS_HEARTBEAT_ENABLE
+    bool "Enable/disable CMS heartbeat"
+    default y
+    if CMS_HEARTBEAT_ENABLE
+        if CMS_CONNECT_MQTT || CMS_CONNECT_TCP
+            config CMS_HEARTBEAT_INTERVAL
+                int "CMS heartbeat interval(s)"
+                range 1 1000 
+                default 300
+        endif
+        if CMS_CONNECT_COAP || CMS_CONNECT_UDP || CMS_CONNECT_LWM2M
+            config CMS_HEARTBEAT_INTERVAL
+                int "CMS heartbeat interval(s)"
+                range 1 65535
+                default 300
+        endif
+    endif
+endif

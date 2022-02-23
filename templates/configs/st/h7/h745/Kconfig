@@ -1,0 +1,31 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32H745ZI
+    help
+        Select the device in STM32H745xx
+
+    config TEMP_STM32H745ZI
+        bool "STM32H745ZI"
+    
+    config TEMP_STM32H745II
+        bool "STM32H745II"
+   
+    config TEMP_STM32H745BI
+        bool "STM32H745BI"
+        
+    config TEMP_STM32H745XI
+        bool "STM32H745XI"
+        
+    config TEMP_STM32H745ZG
+        bool "STM32H745ZG"  		
+ 
+    config TEMP_STM32H745IG
+        bool "STM32H745IG"
+        
+    config TEMP_STM32H745BG
+        bool "STM32H745BG"
+        
+    config TEMP_STM32H745XG
+        bool "STM32H745XG"
+        
+endchoice

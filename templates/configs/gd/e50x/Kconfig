@@ -1,0 +1,29 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32E503
+    help
+        Select the device in GD32E50x
+
+    config MODEL_GD32E503
+        bool "GD32E503"
+	
+	config MODEL_GD32E505
+        bool "GD32E505"
+		
+	config MODEL_GD32E507
+        bool "GD32E507"
+
+endchoice
+
+if MODEL_GD32E503
+    source "$OS_ROOT/templates/configs/gd/e50x/e503/Kconfig"
+endif
+
+if MODEL_GD32E505
+    source "$OS_ROOT/templates/configs/gd/e50x/e505/Kconfig"
+endif
+
+if MODEL_GD32E507
+    source "$OS_ROOT/templates/configs/gd/e50x/e507/Kconfig"
+endif
+

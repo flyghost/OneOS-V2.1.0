@@ -1,0 +1,20 @@
+config SERIES_GD32E50X
+    bool
+    select ARCH_ARM_CORTEX_M33
+    default n
+
+config SOC_GD32E50X_CL
+    bool
+    select SERIES_GD32E50X
+    default n
+
+config SOC_GD32E50X_HD
+    bool
+    select SERIES_GD32E50X
+    default n
+
+config SOC_GD32E50X_XD
+    bool
+    select SERIES_GD32E50X
+    default n
+

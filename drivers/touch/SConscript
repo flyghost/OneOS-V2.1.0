@@ -1,0 +1,27 @@
+# SConscript for touch framework 
+
+from build_tools import *
+
+pwd = PresentDir()
+
+src = []
+
+if IsDefined('OS_USING_TOUCH'):
+    src += ['touch.c']
+
+if IsDefined('OS_USING_GT9147'):
+    src += ['gt9147.c']
+    src += ['gt9147_sample.c']
+
+if IsDefined('OS_USING_FT6X06'):
+    src += ['ft6x06.c']
+	
+if IsDefined('OS_USING_STMPE811'):
+    src += ['stmpe811.c']
+	
+if IsDefined('OS_USING_FT5406'):
+    src += ['ft5406.c']
+
+group = AddCodeGroup('touch', src, depend = ['OS_USING_TOUCH'], CPPPATH = [pwd])
+
+Return('group')

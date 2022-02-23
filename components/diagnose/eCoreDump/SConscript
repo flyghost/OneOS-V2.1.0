@@ -1,0 +1,25 @@
+from build_tools import *
+
+pwd     = PresentDir()
+src     = []
+CPPPATH = []
+
+if IsDefined('USING_ECORE_DUMP'):
+    src = Glob('src/*.c')
+    src += Glob('port/oneos.c')
+    CPPPATH = [pwd + '/inc']
+
+    if IsDefined('USING_ECORE_DUMP_EXAMPLE'):
+        src += Glob('example/*.c')
+
+    if IsDefined('ECOREDUMP_ARCH_ARMV7M'):
+        src += Glob('src/arm32/*.c')
+        src += Glob('src/armv7m/*.c')
+        CPPPATH.append(pwd + '/src/armv7m')
+        CPPPATH.append(pwd + '/src/arm32')
+
+    # src += Glob('test/*.c')
+
+group = AddCodeGroup('eCoreDump', src, depend = ["OS_USING_DLOG"], CPPPATH = CPPPATH)
+
+Return('group')

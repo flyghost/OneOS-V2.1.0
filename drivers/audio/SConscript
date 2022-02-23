@@ -1,0 +1,35 @@
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+src = []
+
+if IsDefined('OS_USING_AUDIO'):
+    src += ['audio_player.c', 'audio_recorder.c']
+
+if IsDefined('OS_USING_SAI'):
+    src += ['sai.c']
+    
+if IsDefined('OS_USING_I2S'):
+    src += ['i2s.c']
+
+if IsDefined('BSP_USING_VS1003B'):
+    src += ['vs1003b.c']
+
+if IsDefined('BSP_USING_ES8388'):
+    src += ['es8388.c', 'es8388_ll.c']
+
+if IsDefined('BSP_USING_WM8978'):
+    src += ['wm8978.c']
+
+if IsDefined('BSP_USING_CS43L22'):
+    src += ['cs43l22.c']
+    
+if IsDefined('BSP_USING_ISD9160'):
+    src += ['isd9160.c']
+    
+# The set of source files associated with this SConscript file.
+
+group = AddCodeGroup('audio', src, depend = ['OS_USING_AUDIO'], CPPPATH = [pwd])
+
+Return('group')

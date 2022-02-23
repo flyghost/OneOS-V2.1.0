@@ -1,0 +1,13 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+src = ['lpc_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SERIES_NXP_LPC550X_S0X'], CPPPATH = path)
+
+Return('group')

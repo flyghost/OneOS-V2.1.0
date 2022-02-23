@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F102RB
+    help
+        Select the device in STM32F102xx
+
+    config TEMP_STM32F102CB
+        bool "STM32F102CB"
+
+    config TEMP_STM32F102RB
+        bool "STM32F102RB"
+    
+endchoice

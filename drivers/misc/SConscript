@@ -1,0 +1,28 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = []
+group = []
+    
+if IsDefined(['OS_USING_PUSH_BUTTON']):
+    src = src + ['push_button.c']
+    
+if IsDefined(['OS_USING_ADC']):
+    src = src + ['adc.c']
+    
+if IsDefined(['OS_USING_DAC']):
+    src = src + ['dac.c']
+    
+if IsDefined(['OS_USING_PWM']):
+    src = src + ['pwm.c']
+    
+if IsDefined(['OS_USING_PULSE_ENCODER']):
+    src = src + ['pulse_encoder.c']
+
+if IsDefined(['OS_USING_INPUT_CAPTURE']):
+    src = src + ['inputcapture.c']
+
+if len(src):
+    group = AddCodeGroup('drivers', src, depend = [''], CPPPATH = [pwd])
+
+Return('group')

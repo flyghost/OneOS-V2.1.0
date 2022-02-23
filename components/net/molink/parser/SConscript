@@ -1,0 +1,20 @@
+from build_tools import *
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_PARSER']):
+    Return('objs')
+
+pwd = PresentDir()
+
+path = []
+src = []
+
+path += [pwd + '/include']
+src += Glob('source/at_parser.c')
+src += Glob('source/at_resp.c')
+src += Glob('source/at_printf.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

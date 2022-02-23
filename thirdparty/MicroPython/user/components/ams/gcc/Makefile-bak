@@ -1,0 +1,61 @@
+TARGET := lib_ams
+
+CROSS_COMPILE = arm-none-eabi
+CC=$(CROSS_COMPILE)-gcc
+AR=$(CROSS_COMPILE)-ar
+
+ROOT_PATH = ../
+
+CONFIG := bin
+
+INCS = ../../kernel/include
+INCS += ../../machine/device_bus_model
+INCS += ./
+
+#TARGET_LIB = $(CONFIG)/$(TARGET).so
+TARGET_LIB = $(CONFIG)/$(TARGET).a
+
+all: directories $(TARGET_LIB)
+
+# Source Dependencies must be defined before they are used.
+SRCS = ams.c
+SRCS += ams_md5.c
+SRCS += ams_port.c
+SRCS += state_machine_module.c
+SRCS += state_machine_port.c
+
+
+
+
+#CFLAGS = -fPIC -shared #动态库编译
+CFLAGS = -Wall -O0
+CFLAGS += $(addprefix -I$(ROOT_PATH), $(INCS))
+
+SRC = $(addprefix $(ROOT_PATH), $(SRCS))
+
+OBJS = $(SRC:%.c=$(CONFIG)/%.o)
+
+$(CONFIG)/%.o: %.c $(CONFIG)/%.d $(INC)
+	@echo " Compiling $(COMPILERNAME) $<" ;\
+	$(CC) -c $(CFLAGS) $< -o $@
+
+#$(TARGET_LIB): $(SRC)
+#	$(CC) $(CFLAGS) $< -o $@	
+
+$(TARGET_LIB): $(OBJS)
+	$(AR) rsvc $@ $(OBJS)
+
+directories: $(CONFIG)
+
+$(CONFIG):
+	@mkdir -p $@
+
+# BSP's need this.
+
+
+clean:
+	@echo Cleaning... ;\
+	$(RM) -rf $(CONFIG)
+
+
+.PHONY: all clean directories

@@ -1,0 +1,18 @@
+mainmenu "OneOS Configuration"
+
+#Define the relative path to root directory of os code
+OS_ROOT=../..
+SRC_HAL=mm32
+
+config SOC_MM32F103C8T6
+    bool
+    select SERIES_MM32F103XX
+    default y
+    
+    if SOC_MM32F103C8T6
+        config SOC_MODEL
+        string
+        default "MM32F103C8T6"
+    endif
+    
+source "$OS_ROOT/Kconfig"

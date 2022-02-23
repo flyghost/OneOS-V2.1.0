@@ -1,0 +1,22 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32H757XI
+    help
+        Select the device in STM32H757xx
+
+    config TEMP_STM32H757ZI
+        bool "STM32H757ZI"
+    
+    config TEMP_STM32H757AI
+        bool "STM32H757AI"
+   
+    config TEMP_STM32H757II
+        bool "STM32H757II"
+        
+    config TEMP_STM32H757BI
+        bool "STM32H757BI"
+        
+    config TEMP_STM32H757XI
+        bool "STM32H757XI"  		
+        
+endchoice

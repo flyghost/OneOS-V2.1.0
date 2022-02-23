@@ -1,0 +1,23 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../"
+
+#add umqtt 、parson、serializer、files
+other_src  = Glob(root_path + 'umqtt/src/mqtt_client.c')
+other_src += Glob(root_path + 'umqtt/src/mqtt_codec.c')
+other_src += Glob(root_path + 'umqtt/src/mqtt_message.c')
+other_src += Glob(root_path + 'parson/parson.c')
+other_src += Glob(root_path + 'serializer/src/*.c')
+other_path = [
+	pwd + root_path + 'umqtt/inc',
+	pwd + root_path + 'parson',
+	pwd + root_path + 'serializer/inc'
+]
+
+group = AddCodeGroup('cloud/baidu/other', other_src, depend = ['BAIDUIOT_DEMO'], CPPPATH = other_path)
+
+Return('group')

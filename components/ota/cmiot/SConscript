@@ -1,0 +1,35 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = []
+CPPPATH = []
+LIBPATH = []
+LIBS    = []
+
+if IsDefined(['FOTA_USING_CMIOT']):
+    src = Glob('src/*.c')
+    CPPPATH = [pwd + '/inc']
+
+LIBPATH = [pwd + '/lib/']
+if IsDefined('ARCH_ARM_CORTEX_M0'):
+   LIBS += ['arm_cortex-m0_cmiot_fota']
+
+elif IsDefined('ARCH_ARM_CORTEX_M0plus'):
+     LIBS += ['arm_cortex-m0plus_cmiot_fota']
+
+elif IsDefined('ARCH_ARM_CORTEX_M3'):
+     LIBS += ['arm_cortex-m3_cmiot_fota']
+
+elif IsDefined('ARCH_ARM_CORTEX_M4'):
+     LIBS += ['arm_cortex-m4_cmiot_fota']
+     
+elif IsDefined('ARCH_ARM_CORTEX_M7'):
+     LIBS += ['arm_cortex-m7_cmiot_fota']
+
+elif IsDefined('ARCH_ARM_CORTEX_M33_TZ'):
+     LIBS += ['arm_cortex-m33_cmiot_fota']
+
+group = AddCodeGroup('cmiot', src, depend = ['FOTA_USING_CMIOT'], CPPPATH = CPPPATH)
+group += AddCodeGroup('cmiotlib', [], depend = ['FOTA_USING_CMIOT'], LIBS=LIBS, LIBPATH = LIBPATH)
+
+Return('group')

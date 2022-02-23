@@ -1,0 +1,232 @@
+menu "Audio"
+    menuconfig OS_USING_AUDIO
+        bool "Using audio device drivers"
+        default n
+
+        if OS_USING_AUDIO
+            menuconfig OS_AUDIO_DATA_CONFIG
+                bool "audio data buff parameters config"
+                default y
+                
+                if OS_AUDIO_DATA_CONFIG
+                    config OS_AUDIO_REPLAY_MP_BLOCK_SIZE
+                    int "audio reply block size"
+                    default 2048
+                    
+                    config OS_AUDIO_REPLAY_MP_BLOCK_COUNT
+                    int "audio reply block count(please set as hard support buf number)"
+                    default 2
+                    
+                    config OS_AUDIO_RECORD_FIFO_SIZE
+                    int "audio record fifo size"
+                    default 3528
+                    help
+                        when using the recorder_test demo, FIFO_SIZE should be equal to 'OS_AUDIO_SAMPLERATE * RECORD_CHANNEL * 2) * 20 / 1000(20ms data size)'
+
+                    config OS_AUDIO_RECORD_FIFO_COUNT
+                    int "audio record fifo count"
+                    default 2
+                endif
+            
+            menuconfig OS_USING_SAI
+                bool "Using SAI drivers"
+                default n
+                if OS_USING_SAI
+                    config OS_USING_SAI_FOR_PLAYER
+                        bool "Using sai player drivers"
+                        default n
+                        
+                        if OS_USING_SAI_FOR_PLAYER
+                            config OS_AUDIO_PLAYER_VOLUME
+                            int "setting sound volume"
+                            default 30
+                        endif
+                    
+                    config OS_USING_SAI_FOR_RECORDER
+                        bool "Using sai recorder drivers"
+                        select OS_USING_SAI_FOR_PLAYER
+                        default n
+                        
+                        if OS_USING_SAI_FOR_RECORDER
+                            config OS_AUDIO_SAMPLERATE
+                            int "setting recorder samplerate"
+                            default 44100
+                            help
+                                type1: value n*11.025khz, such as 11025hz, 22050hz,  44100hz...
+                                type2: value n*8khz, such as 8000hz,16000hz...192000hz (please reset the pllsai clock parameters to match this situation)
+                            
+                            config OS_AUDIO_CHANNEL
+                            int "setting recorder mode"
+                            default 2
+                            help
+                                value 1: mono mode; Value 2: stereo mode;
+                        endif
+                endif
+                
+            menuconfig OS_USING_I2S
+                bool "Using I2S drivers"
+                default n
+                if OS_USING_I2S
+                    config OS_USING_I2S_FOR_PLAYER
+                        bool "Using i2s player drivers"
+                        default n
+                    config OS_USING_I2S_FOR_RECORDER
+                        bool "Using i2s recorder drivers"
+                        select OS_USING_I2S_FOR_PLAYER
+                        default n
+                endif
+
+            menuconfig BSP_USING_ES8388
+                bool "Using ES8388 audio device"
+                default n
+
+                if BSP_USING_ES8388   
+                    menuconfig BSP_USING_ES8388_CONFIG
+                        bool "es8388 config bus drivers"
+                        default y   
+                        
+                        if BSP_USING_ES8388_CONFIG
+                            config BSP_ES8388_I2C_BUS
+                                string "es8388 config bus name"
+                                default "i2c3"
+
+                            config BSP_ES8388_I2C_ADDR
+                                hex "es8388 config addr"
+                                default 0x10
+                        endif
+                        
+                    menuconfig BSP_USING_ES8388_DATA
+                        bool "es8388 data bus drivers(i2s/sai)"
+                        default y
+                        
+                        if BSP_USING_ES8388_DATA
+                            config BSP_AUDIO_DATA_TX_BUS
+                                string "es8388 data bus name for player: i2sx/sai_Blockxx"
+                                default "sai_BlockA1"
+                            config BSP_AUDIO_DATA_RX_BUS
+                                string "es8388 data bus name for recorder: i2sx/sai_Blockxx"
+                                default "sai_BlockB1"
+                        endif
+                        
+                    config BSP_ES8388_POWER_PIN
+                        int "es8388 power pin"
+                        default 63
+                endif
+
+            menuconfig BSP_USING_VS1003B
+                bool "Using VS1003B audio device"
+                default n
+
+                if BSP_USING_VS1003B
+                    config BSP_VS1003B_SPI_BUS
+                        string "vs1003b spi bus name"
+                        default "spi2"
+
+                    config BSP_VS1003B_SPI_CS
+                        int "vs1003bspi cs pin"
+                        default 28
+                endif
+                
+            menuconfig BSP_USING_WM8978
+                bool "Using wm8978 audio device"
+                default n
+
+                if BSP_USING_WM8978
+                    menuconfig BSP_USING_WM8978_CONFIG
+                        bool "wm8978 config bus drivers"
+                        default y   
+                        
+                        if BSP_USING_WM8978_CONFIG
+                            config BSP_WM8978_I2C_BUS
+                                string "wm8978 config bus name"
+                                default "i2c3"
+
+                            config BSP_WM8978_I2C_ADDR
+                                hex "wm8978 config addr"
+                                default 0x1a
+                        endif
+                        
+                    menuconfig BSP_USING_WM8978_DATA
+                        bool "wm8978 data bus drivers(i2s/sai)"
+                        default y
+                        
+                        if BSP_USING_WM8978_DATA
+                            config BSP_AUDIO_DATA_TX_BUS
+                                string "wm8978 data bus name: i2sx/sai_Blockxx"
+                                default "sai_BlockA1"
+                        endif
+                        
+                    config BSP_WM8978_POWER_PIN
+                        int "wm8978 power pin"
+                        default 63
+                endif
+                
+            menuconfig BSP_USING_CS43L22
+                bool "Using cs43l22 audio device"
+                default n
+
+                if BSP_USING_CS43L22
+                    menuconfig BSP_USING_CS43L22_CONFIG
+                        bool "cs43l22 config bus drivers"
+                        default y
+                        
+                        if BSP_USING_CS43L22_CONFIG
+                            config BSP_CS43L22_I2C_BUS
+                                string "cs43l22 config bus name"
+                                default "i2c3"
+
+                            config BSP_CS43L22_I2C_ADDR
+                                hex "cs43l22 config addr"
+                                default 0x94
+                        endif
+                        
+                    menuconfig BSP_USING_CS43L22_DATA
+                        bool "cs43l22 data bus drivers(i2s/sai)"
+                        default y
+                        
+                        if BSP_USING_CS43L22_DATA
+                            config BSP_AUDIO_DATA_TX_BUS
+                                string "cs43l22 data bus name: i2sx/sai_Blockxx"
+                                default "sai_BlockA1"
+                        endif
+                        
+                    config BSP_CS43L22_RST_PIN
+                        int "cs43l22 power pin"
+                        default 66
+                endif
+                
+            menuconfig BSP_USING_ISD9160
+                bool "Using isd9160 audio device"
+                default n
+
+                if BSP_USING_ISD9160
+                    menuconfig BSP_USING_ISD9160_CONFIG
+                        bool "isd9160 config bus drivers"
+                        default y
+                        
+                        if BSP_USING_ISD9160_CONFIG
+                            config BSP_ISD9160_I2C_BUS
+                                string "isd9160 config bus name"
+                                default "i2c3"
+
+                            config BSP_ISD9160_I2C_ADDR
+                                hex "isd9160 config addr"
+                                default 0x15
+                        endif
+                        
+                    menuconfig BSP_USING_ISD9160_DATA
+                        bool "isd9160 data bus drivers(i2s/sai)"
+                        default y
+                        
+                        if BSP_USING_ISD9160_DATA
+                            config BSP_AUDIO_DATA_TX_BUS
+                                string "isd9160 data bus name: i2sx/sai_Blockxx"
+                                default "sai_BlockA1"
+                        endif
+                        
+                    config BSP_ISD9160_RST_PIN
+                        int "isd9160 power pin"
+                        default 54
+                endif
+        endif
+endmenu

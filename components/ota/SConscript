@@ -1,0 +1,15 @@
+# for ota component
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+objs = []
+pwd = PresentDir()
+list = os.listdir(pwd)
+
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+
+Return('objs')

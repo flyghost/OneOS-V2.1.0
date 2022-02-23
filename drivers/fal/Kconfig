@@ -1,0 +1,17 @@
+menu "FAL"
+    config OS_USING_FAL
+        bool "Using flash abstraction layer"
+        default n
+        
+    if OS_USING_FAL
+        config OS_FAL_RAM
+            bool "Support fal ram"
+            default n
+            
+        if OS_FAL_RAM
+            config OS_FAL_RAM_SIZE
+                hex "Fal ram size(Bytes)"
+                default 0x80000
+        endif
+    endif
+endmenu

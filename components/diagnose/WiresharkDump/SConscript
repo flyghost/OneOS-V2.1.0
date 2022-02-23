@@ -1,0 +1,10 @@
+# for module compiling
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+objs = []
+if IsDefined(['OS_USING_WIRESHARK_DUMP']):
+    objs = objs + SConscript('device/' + 'SConscript')
+
+Return('objs')

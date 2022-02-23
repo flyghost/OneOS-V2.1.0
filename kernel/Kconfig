@@ -1,0 +1,264 @@
+menu "Kernel"
+
+    choice
+        prompt "The max size of kernel object name"
+        default OS_NAME_MAX_15
+
+        config OS_NAME_MAX_7
+            bool "7"
+
+        config OS_NAME_MAX_15
+            bool "15"
+
+        config OS_NAME_MAX_31
+            bool "31"
+    endchoice
+    config OS_NAME_MAX
+        int
+        default 7  if OS_NAME_MAX_7
+        default 15 if OS_NAME_MAX_15
+        default 31 if OS_NAME_MAX_31
+
+    choice
+        prompt "The max level value of priority of task"
+        default OS_TASK_PRIORITY_32
+
+        config OS_TASK_PRIORITY_8
+            bool "8"
+        config OS_TASK_PRIORITY_16
+            bool "16"
+        config OS_TASK_PRIORITY_32
+            bool "32"
+        config OS_TASK_PRIORITY_64
+            bool "64"
+        config OS_TASK_PRIORITY_128
+            bool "128"
+        config OS_TASK_PRIORITY_256
+            bool "256"
+    endchoice
+    config OS_TASK_PRIORITY_MAX
+        int
+        default 8   if OS_TASK_PRIORITY_8
+        default 16  if OS_TASK_PRIORITY_16
+        default 32  if OS_TASK_PRIORITY_32
+        default 64  if OS_TASK_PRIORITY_64
+        default 128 if OS_TASK_PRIORITY_128
+        default 256 if OS_TASK_PRIORITY_256
+
+    config OS_TICK_PER_SECOND
+        int "Tick frequency(Hz)"
+        range 10 1000
+        default 100
+        help
+            System's tick frequency(Hz).
+    
+    config OS_SCHEDULE_TIME_SLICE
+        int "Task time slice(unit: tick)"
+        range 1 100
+        default 10
+
+    config OS_USING_OVERFLOW_CHECK
+        bool "Using stack overflow checking"
+        default y
+        help
+            Enable task stack overflow checking. The stack overflow is checking when
+            each task switch.
+    
+    config OS_USING_TASK_HOOK
+        bool "Using task hook"
+        default n
+        help
+            Allows user to register hooks with task module.
+            
+    config OS_USING_ASSERT
+        bool "Enable global assert"
+        depends on OS_DEBUG
+        default y
+
+    config OS_USING_KERNEL_LOCK_CHECK
+        bool "Enable kernel lock check"
+        depends on OS_DEBUG
+        select OS_USING_ASSERT
+        default y
+    
+    config OS_USING_SAFETY_MECHANISM
+        bool "Enable function safety mechanism"
+        select OS_USING_ASSERT
+        select OS_USING_OVERFLOW_CHECK
+        default n
+
+
+    config OS_USING_KERNEL_DEBUG
+        bool "Enable kernel debug"
+        depends on OS_DEBUG
+        default y
+
+        if OS_USING_KERNEL_DEBUG
+            choice
+                prompt "The global log level of kernel"
+                default KLOG_GLOBAL_LEVEL_WARNING
+
+                config KLOG_GLOBAL_LEVEL_ERROR
+                    bool "Error"
+                config KLOG_GLOBAL_LEVEL_WARNING
+                    bool "Warning"
+                config KLOG_GLOBAL_LEVEL_INFO
+                    bool "Infomation"
+                config KLOG_GLOBAL_LEVEL_DEBUG
+                    bool "Debug"
+            endchoice
+            config KLOG_GLOBAL_LEVEL
+                int
+                default 0 if KLOG_GLOBAL_LEVEL_ERROR
+                default 1 if KLOG_GLOBAL_LEVEL_WARNING
+                default 2 if KLOG_GLOBAL_LEVEL_INFO
+                default 3 if KLOG_GLOBAL_LEVEL_DEBUG
+                
+            config KLOG_USING_COLOR
+                bool "Enable color log"
+                default y
+                help
+                    The log will has different color by level
+            
+            config KLOG_WITH_FUNC_LINE
+                bool "Enable kernel log with function name and line number"
+                default y
+        endif
+
+    config OS_MAIN_TASK_STACK_SIZE
+        int "The stack size of main task"
+        default 2048
+        
+    config OS_IDLE_TASK_STACK_SIZE
+        int "The stack size of idle task"
+        default 512
+        
+    config OS_RECYCLE_TASK_STACK_SIZE
+        int "The stack size of recycle task"
+        default 512
+
+    config OS_USING_TIMER
+        bool "Enable software timer with a timer task"
+        default y
+        help
+            The timeout function context of soft-timer is under a high priority timer
+            task.
+
+        if OS_USING_TIMER
+            config OS_TIMER_TASK_STACK_SIZE
+                int "The stack size of timer task"
+                default 512
+
+            config OS_TIMER_SORT
+                bool "Software timers in each hash bucket are sorted"
+                default n
+
+        endif
+
+    config OS_USING_WORKQUEUE
+        bool "Enable workqueue"
+        depends on OS_USING_TIMER
+        default y
+            
+        if OS_USING_WORKQUEUE
+            config OS_USING_SYSTEM_WORKQUEUE
+                bool "Enable system workqueue"
+                default y
+                
+            if OS_USING_SYSTEM_WORKQUEUE
+                config OS_SYSTEM_WORKQUEUE_STACK_SIZE
+                    int "System workqueue task stack size"
+                    default 2048
+                    
+                config OS_SYSTEM_WORKQUEUE_PRIORITY
+                    int "System workqueue task priority level"
+                    default 0 
+            endif
+        endif
+ 
+    menu "Inter-task communication and synchronization"
+        config OS_USING_MUTEX
+            bool "Enable mutex"
+            default y
+             
+        config OS_USING_SPINLOCK_CHECK
+            bool "Enable spinlock check"
+            default n
+                
+        config OS_USING_SEMAPHORE
+            bool "Enable semaphore"
+            default y
+
+        config OS_USING_EVENT
+            bool "Enable event flag"
+            default y
+        
+        config OS_USING_MESSAGEQUEUE
+            bool "Enable message queue"
+            default y
+
+        config OS_USING_MAILBOX
+            bool "Enable mailbox"
+            default y
+    endmenu
+
+    menu "Memory management"
+        config OS_USING_SYS_HEAP
+            bool "Enable System-Memory-Heap"
+            default y
+            select OS_USING_MEM_HEAP
+            help
+                The system memory heap is used for os_malloc/os_free.
+
+        config OS_USING_MEM_HEAP
+            bool "Enable Memory-Heap"
+            default n
+            help
+                Independent memory heap, Support combine multi memory together as one memory.
+
+        config OS_USING_ALG_FIRSTFIT
+            bool "Enable FIRSTFIT memory algorithm"
+            default y
+            help
+                This algorithm is suitable for all kinds of memory. For small memory, suggest choose this algorithm first.
+
+        config OS_USING_ALG_BUDDY
+            bool "Enable BUDDY memory algorithm"
+            default n
+            help
+                This algorithm is only suitable for large memory.
+
+            if OS_USING_ALG_BUDDY
+                config OS_ALG_BUDDY_MAX_BLOCK_SIZE
+                    int "Max block size when use buddy algorithm to alloc memory."
+                    range 512 1048576
+                    default 8192
+                    help
+                        the max block size when use allocte API to get a mem, should be the exponent of 2, 
+                        for example 2048, 4096, 8192, ..., 524288. 
+                        The max actual alloc size is OS_ALG_BUDDY_MAX_BLOCK_SIZE - BLK_HEAD_SIZE
+            endif
+
+        if OS_USING_ALG_FIRSTFIT || OS_USING_ALG_BUDDY
+            config OS_USING_MEM_TRACE
+                bool "Enable memory trace"
+                default n
+                help
+                    When enable OS_USING_MEM_TRACE with shell, developer can call cmd memtrace
+        endif
+
+        config OS_USING_MEM_POOL
+            bool "Enable Memory-Pool"
+            default y
+            help
+                Support fixed-size-blocks alloction
+
+            if OS_USING_MEM_POOL
+                config OS_USING_MP_CHECK_TAG
+                    bool "Enable Memory-Pool check tag"
+                    default n
+                    help
+                        when free memory, will check memory block tag.
+            endif
+    endmenu
+endmenu

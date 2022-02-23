@@ -1,0 +1,44 @@
+# Kconfig file for Baiduiot demos
+#menu "Demo"
+    comment "Enable Baidu IoT Demo"
+
+    config BAIDUIOT_CLOUD_WITH_TLS
+        bool "Enable/Disable TLS"
+        select SECURITY_USING_MBEDTLS
+        select MBEDTLS_ECP_NIST_OPTIM
+        default n
+
+    if (BAIDUIOT_CLOUD_WITH_TLS)
+        choice
+            prompt "Secret Key Type"
+            default BAIDUIOT_PSK
+
+            config BAIDUIOT_PSK
+            bool "PSK"
+
+            config BAIDUIOT_CA
+            bool "CA"
+        endchoice
+    endif
+
+    config BAIDUIOT_SERVER_ADDRESS
+        string "Config Server Address"
+        default "xxx.iot.gz.baidubce.com"
+        help 
+            Access point returned by IoT platform after creating instance
+            
+    config BAIDUIOT_IOTCORE_ID
+        string "Config IoTCore ID"
+        default "iot core id"
+        
+    config BAIDUIOT_DEVICE_KEY
+        string "Config Device Key"
+        default "device key"
+        
+    if BAIDUIOT_PSK || !(BAIDUIOT_CLOUD_WITH_TLS)
+        config BAIDUIOT_DEVICE_SECRET
+            string "Config Device Secret"
+            default "device secret"
+    endif
+
+#endmenu

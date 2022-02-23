@@ -1,0 +1,6 @@
+menu "RT-Thread compatibility layer"
+
+config OS_USING_RTTHREAD_API_V3_1_3
+    bool "Enable RTTHREAD compatibility layer V3.1.3"
+    default n	
+endmenu

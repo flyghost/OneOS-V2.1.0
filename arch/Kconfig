@@ -1,0 +1,4 @@
+source "$OS_ROOT/arch/arm/Kconfig"
+source "$OS_ROOT/arch/mips/Kconfig"
+source "$OS_ROOT/arch/risc-v/Kconfig"
+source "$OS_ROOT/arch/sim/Kconfig"

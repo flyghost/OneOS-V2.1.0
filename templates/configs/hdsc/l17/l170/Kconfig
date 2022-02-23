@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_HC32L170JATA
+    help
+        Select the device in HC32L170xxxx
+
+    config TEMP_HC32L170JATA
+        bool "HC32L170JATA"
+        
+    config TEMP_HC32L170FAUA
+        bool "HC32L170FAUA"
+
+endchoice

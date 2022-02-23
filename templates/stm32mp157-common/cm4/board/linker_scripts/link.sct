@@ -1,0 +1,42 @@
+; *************************************************************
+; *** Scatter-Loading Description                           ***
+; *************************************************************
+
+LR_VECTORS 0x00000000 0x00000400  {    ; load region size_region
+  .isr_vector +0 {
+    * (vtor_table, +First)
+  }
+}
+
+LR_IROM1 0x10000000 0x3f800 {      ; load region size_region
+  ER_IROM1 0x10000000 0x2a800  {    ; load address = execution address
+    * (InRoot$$Sections)
+    * (FSymTab)
+    * (AtestTcTab)
+    * (.init_call*)
+    * (at_cmd_tab)
+    * (driver_table)
+    * (device_table)
+    * (MSymTab)
+   * (os_irq_hook)
+    .ANY (+RO)
+    .ANY (+XO)
+  }
+  
+
+  RW_IRAM0 0x1002a800 0x10  {  ; RW data
+   * (reserved_ram)
+  }
+
+  RW_IRAM1 0x1002a810 0x14ff0 {  ; RW data
+    .ANY (+RW +ZI)
+  }
+
+; *****   Create region for OPENAMP                               *****
+; ***     These 4 lines can be commented if OPENAMP is not used     ***
+  .resource_table 0x1003f800 0x00000800 {         ; resource table
+    *(.resource_table)
+  }
+  
+  __OpenAMP_SHMEM__ 0x10040000 EMPTY 0x8000 {} ; Shared Memory area used by OpenAMP
+}

@@ -1,0 +1,34 @@
+menu "LPMGR"
+    if OS_USING_HRTIMER_FOR_SYSTICK
+        comment "please close <Using high-resolution timer for systick> [Drivers --> Timer]"
+    endif
+    
+    if !OS_USING_HRTIMER_FOR_SYSTICK
+        config OS_USING_LPMGR
+        bool "Enable low power manager drivers"
+        select OS_TIMER_SORT
+        default n
+        
+        if OS_USING_LPMGR
+            config LPMGR_TIMER_DEVICE_NAME
+                string "lpmgr timer device name"
+                default "lptim1"
+                
+            config BSP_USING_MINSLEEP_MS
+                int "lpmgr min sleep time(ms)"
+                range 10 10000
+                default 20
+                    
+            choice
+                prompt "Low power options"
+                default OS_USING_TICKLESS_LPMGR
+
+                config OS_USING_TICKLESS_LPMGR
+                    bool "Tickless for low power consumption"
+                config OS_USING_SIMPLE_LPM
+                    bool "Simple low power consumption"
+                    
+            endchoice
+        endif    
+    endif
+endmenu

@@ -1,0 +1,3 @@
+menu "Thirdparty"
+	source "$OS_ROOT/thirdparty/*/Kconfig"
+endmenu

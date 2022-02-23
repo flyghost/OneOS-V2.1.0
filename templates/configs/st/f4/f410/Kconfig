@@ -1,0 +1,28 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F410C8
+    help
+        Select the device in STM32F410xx
+
+    config TEMP_STM32F410T8
+        bool "STM32F410T8"
+
+    config TEMP_STM32F410TB
+        bool "STM32F410TB"
+
+    config TEMP_STM32F410C8
+        bool "STM32F410C8"
+        
+    config TEMP_STM32F410CB
+        bool "STM32F410CB"
+    
+    config TEMP_STM32F410R8
+        bool "STM32F410R8"
+
+    config TEMP_STM32F410RB
+        bool "STM32F410RB"
+
+    config TEMP_stm32f410-rbt6-nucleo
+        bool "stm32f410-rbt6-nucleo"
+    
+endchoice

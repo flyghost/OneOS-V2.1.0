@@ -1,0 +1,16 @@
+config SERIES_STM32L1
+    bool
+    select ARCH_ARM_CORTEX_M3
+    default n
+
+config SOC_STM32L1XX
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32L1
+    default n
+
+config SOC_STM32L152RE
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32L1
+    default n

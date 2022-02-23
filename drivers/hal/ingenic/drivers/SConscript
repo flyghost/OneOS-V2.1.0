@@ -1,0 +1,28 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+
+src += ['drv_common.c']
+src += ['drv_clock.c']
+src += ['drv_ost.c']
+
+if IsDefined(['BSP_USING_GPIO']):
+    src += ['drv_gpio.c']
+if IsDefined(['OS_USING_I2C']):
+    src += ['drv_i2c.c']
+if IsDefined(['OS_USING_SPI']):
+    src += ['drv_spi.c']
+if IsDefined(['OS_USING_SERIAL']):
+    src += ['drv_usart.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/drivers', src, depend = ['SOC_FAMILY_INGENIC'], CPPPATH = path)
+
+Return('group')

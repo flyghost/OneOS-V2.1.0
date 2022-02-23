@@ -1,0 +1,100 @@
+menu "Graphic"
+    config OS_USING_GRAPHIC
+        bool "Using graphic devices"
+        default n
+
+    if OS_USING_GRAPHIC
+        config OS_GRAPHIC_WIDTH
+            int "Graphic width"
+            default 240
+
+        config OS_GRAPHIC_HEIGHT
+            int "Graphic height"
+            default 240
+    
+        config OS_USING_DSI
+            bool "Use DSI"
+            default n
+            
+            if OS_USING_DSI
+                config OS_USING_DSI_RST
+                    int "dsi rst io"
+                    default 159
+            endif
+            
+        config BSP_USING_OTM8009A
+            bool "Use otm8009a"
+            default n
+            
+            if OS_USING_DSI && BSP_USING_OTM8009A
+                config BSP_OTM8009A_DSI_CHANNEL
+                    int "otm8009a DSI channel id"
+                    default 0
+            endif
+
+        menuconfig BSP_USING_ILI9341
+            bool "Enable ili9341"
+            default n
+
+            if BSP_USING_ILI9341
+                config BSP_ILI9341_SPI_BUS_NAME
+                    string "ili9341 spi bus name"
+                    default "spi5"
+
+                config BSP_ILI9341_SPI_CS
+                    int "ili9341 spi cs io"
+                    default 34
+
+                config BSP_ILI9341_WRX
+                    int "ili9341 wrx io"
+                    default 61
+            endif
+
+        menuconfig OS_USING_ST7789VW
+            bool "Use st7789vw"
+            select OS_USING_SPI
+            select BSP_USING_SPI
+            default n
+
+            if OS_USING_ST7789VW
+                config OS_ST7789VW_SPI_BUS_NAME
+                    string "st7789vw spi bus name"
+                    default "spi1"
+
+                config OS_ST7789VW_SPI_BUS_MODE
+                    int "st7789vw spi bus mode"
+                    default 0
+
+                config OS_ST7789VW_SPI_CS_PIN
+                    int "st7789vw spi cs pin"
+                    default 62
+
+                config OS_ST7789VW_PWR_PIN
+                    int "st7789vw power pin"
+                    default 4
+
+                config OS_ST7789VW_PWR_PIN_ACTIVE
+                    int "st7789vw power pin active level"
+                    default 1
+
+                config OS_ST7789VW_DC_PIN
+                    int "st7789vw dc pin"
+                    default 59
+
+                config OS_ST7789VW_RES_PIN
+                    int "st7789vw reset pin"
+                    default 6
+            endif
+
+        menuconfig BSP_USING_ATKTFLCD9341
+            bool "Enable atk_tflcd9341"
+            default n
+
+            if BSP_USING_ATKTFLCD9341
+                config BSP_ATK9341_BL_PIN
+                    int "atk_tflcd9341 backlight pin"
+                    default "16"
+            endif
+    endif
+
+endmenu

@@ -1,0 +1,23 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = [] 
+
+rtc = ['rtc.c']
+
+rtc_alarm = ['alarm.c']
+
+soft_rtc = ['soft_rtc.c']
+
+group = []
+
+if IsDefined(['OS_USING_RTC']):
+    src = src + rtc
+    if IsDefined(['OS_USING_ALARM']):
+        src = src + rtc_alarm
+    if IsDefined(['OS_USING_SOFT_RTC']):
+        src = src + soft_rtc
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_RTC'], CPPPATH = [pwd])
+
+Return('group')

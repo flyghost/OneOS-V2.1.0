@@ -1,0 +1,14 @@
+menu "CMS"
+    choice
+        prompt "CMS Version"
+            default CMS_LITE
+
+        config CMS_LITE
+            bool "CMS Lite"
+
+        config CMS_STD
+            bool "CMS Standard"
+    endchoice
+    source "$OS_ROOT/components/cms/*/Kconfig"
+endmenu
+

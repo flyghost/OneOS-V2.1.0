@@ -1,0 +1,11 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32l432-nucleo-32
+    help
+        Select the device in STM32L432xx
+
+    config TEMP_stm32l432-nucleo-32
+        bool "stm32l432-nucleo-32"
+        
+        
+endchoice

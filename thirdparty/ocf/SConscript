@@ -1,0 +1,205 @@
+from build_tools import *
+
+iotivity_lite_path = 'iotivity-lite-2.2.0/'
+
+pwd  = PresentDir() + '/' + iotivity_lite_path
+src  = []
+group = []
+INC_PATH = []
+
+
+if IsDefined(['PKG_USING_IOTIVITY']) == False:
+    Return('group')
+
+INC_PATH += [PresentDir() + '/port/oneos/src']
+INC_PATH += [pwd + '/include']
+INC_PATH += [pwd]
+INC_PATH += [pwd + '/deps/mbedtls/include']
+
+if IsDefined(['OCF_SERVER']):
+    if IsDefined(['OCF_AIRCONDITIONER']):
+        src += Glob(iotivity_lite_path + 'apps/airconditioner_simpleserver.c')
+    if IsDefined(['OCF_AIRPURIFIER']):
+        src += Glob(iotivity_lite_path + 'apps/airpurifier_simpleserver.c')
+    if IsDefined(['OCF_CAMERA']):
+        src += Glob(iotivity_lite_path + 'apps/camera_simpleserver.c')
+    if IsDefined(['OCF_LIGHT']):
+        src += Glob(iotivity_lite_path + 'apps/light_simpleserver.c')
+    if IsDefined(['OCF_SMARTLOCK']):
+        src += Glob(iotivity_lite_path + 'apps/smartlock_simpleserver.c')
+    if IsDefined(['OCF_WASHER']):
+        src += Glob(iotivity_lite_path + 'apps/washer_simpleserver.c')
+    if IsDefined(['OCF_WATERHEATER']):
+        src += Glob(iotivity_lite_path + 'apps/waterheater_simpleserver.c')
+if IsDefined(['OCF_CLIENT']):
+    src += Glob(iotivity_lite_path + 'apps/client_oneos.c')
+
+src += Glob('port/oneos/src/ocf_cmd.c')
+src += Glob('port/oneos/src/ipadapter.c')
+src += Glob('port/oneos/src/random.c')
+src += Glob('port/oneos/src/clock.c')
+src += Glob('port/oneos/src/abort.c')
+src += Glob('port/oneos/src/storage.c')
+src += Glob('port/oneos/src/oc_mem.c')
+src += Glob('port/oneos/src/oc_mem_log.c')
+
+src += Glob(iotivity_lite_path + 'deps/tinycbor/src/cborencoder_close_container_checked.c')
+src += Glob(iotivity_lite_path + 'deps/tinycbor/src/cborencoder.c')
+src += Glob(iotivity_lite_path + 'deps/tinycbor/src/cborparser.c')
+src += Glob(iotivity_lite_path + 'messaging/coap/engine.c')
+src += Glob(iotivity_lite_path + 'messaging/coap/coap.c')
+src += Glob(iotivity_lite_path + 'messaging/coap/transactions.c')
+src += Glob(iotivity_lite_path + 'messaging/coap/separate.c')
+src += Glob(iotivity_lite_path + 'messaging/coap/observe.c')
+src += Glob(iotivity_lite_path + 'util/oc_memb.c')
+src += Glob(iotivity_lite_path + 'util/oc_etimer.c')
+src += Glob(iotivity_lite_path + 'util/oc_list.c')
+src += Glob(iotivity_lite_path + 'util/oc_process.c')
+src += Glob(iotivity_lite_path + 'util/oc_timer.c')
+src += Glob(iotivity_lite_path + 'util/oc_mmem.c')
+src += Glob(iotivity_lite_path + 'api/oc_discovery.c')
+src += Glob(iotivity_lite_path + 'api/oc_main.c')
+src += Glob(iotivity_lite_path + 'api/oc_buffer.c')
+src += Glob(iotivity_lite_path + 'api/oc_server_api.c')
+src += Glob(iotivity_lite_path + 'api/oc_client_api.c')
+src += Glob(iotivity_lite_path + 'api/oc_helpers.c')
+src += Glob(iotivity_lite_path + 'api/oc_ri.c')
+src += Glob(iotivity_lite_path + 'api/oc_rep.c')
+src += Glob(iotivity_lite_path + 'api/oc_uuid.c')
+src += Glob(iotivity_lite_path + 'api/oc_endpoint.c')
+src += Glob(iotivity_lite_path + 'api/oc_core_res.c')
+src += Glob(iotivity_lite_path + 'api/oc_network_events.c')
+src += Glob(iotivity_lite_path + 'api/oc_blockwise.c')
+src += Glob(iotivity_lite_path + 'api/oc_base64.c')
+src += Glob(iotivity_lite_path + 'api/oc_enums.c')
+src += Glob(iotivity_lite_path + 'api/oc_introspection.c')
+src += Glob(iotivity_lite_path + 'api/oc_collection.c')
+
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/aes.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/aesni.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/arc4.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/asn1parse.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/asn1write.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/base64.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/bignum.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/blowfish.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/camellia.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ccm.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/cipher.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/cipher_wrap.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/cmac.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ctr_drbg.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/des.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/dhm.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ecdh.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ecdsa.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ecjpake.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ecp.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ecp_curves.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/entropy.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/entropy_poll.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/error.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/gcm.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/havege.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/hmac_drbg.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/md.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/md2.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/md4.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/md5.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/md_wrap.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/oid.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/padlock.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/pem.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/pk.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/pk_wrap.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/pkcs12.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/pkcs5.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/pkparse.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/pkwrite.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/platform.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ripemd160.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/rsa.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/sha1.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/sha256.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/sha512.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/threading.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/timing.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/version.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/version_features.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/xtea.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/pkcs11.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/x509.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/x509_crt.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/net_sockets.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ssl_cache.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ssl_ciphersuites.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ssl_cli.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ssl_cookie.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ssl_srv.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ssl_ticket.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/ssl_tls.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/memory_buffer_alloc.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/platform_util.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/rsa_internal.c')
+src += Glob(iotivity_lite_path + 'deps/mbedtls/library/debug.c')
+
+src += Glob(iotivity_lite_path + 'security/oc_acl.c')
+src += Glob(iotivity_lite_path + 'security/oc_cred.c')
+src += Glob(iotivity_lite_path + 'security/oc_doxm.c')
+src += Glob(iotivity_lite_path + 'security/oc_dtls.c')
+src += Glob(iotivity_lite_path + 'security/oc_pstat.c')
+src += Glob(iotivity_lite_path + 'security/oc_store.c')
+src += Glob(iotivity_lite_path + 'security/oc_svr.c')
+src += Glob(iotivity_lite_path + 'security/oc_sdi.c')
+src += Glob(iotivity_lite_path + 'security/oc_audit.c')
+src += Glob(iotivity_lite_path + 'security/oc_tls.c')
+src += Glob(iotivity_lite_path + 'security/oc_ael.c')
+src += Glob(iotivity_lite_path + 'security/oc_sp.c')
+src += Glob(iotivity_lite_path + 'api/oc_session_events.c')
+src += Glob(iotivity_lite_path + 'api/oc_clock.c')
+src += Glob(iotivity_lite_path + 'api/c-timestamp/timestamp_format.c')
+src += Glob(iotivity_lite_path + 'api/c-timestamp/timestamp_parse.c')
+src += Glob(iotivity_lite_path + 'api/c-timestamp/timestamp_valid.c')
+
+#PKI
+if IsDefined(['OCF_PKI']):
+    src += Glob(iotivity_lite_path + 'security/oc_keypair.c')
+    src += Glob(iotivity_lite_path + 'security/oc_pki.c')
+    src += Glob(iotivity_lite_path + 'security/oc_roles.c')
+    src += Glob(iotivity_lite_path + 'security/oc_certs.c')
+    src += Glob(iotivity_lite_path + 'security/oc_csr.c')
+    src += Glob(iotivity_lite_path + 'deps/mbedtls/library/x509_csr.c')
+    src += Glob(iotivity_lite_path + 'deps/mbedtls/library/x509write_csr.c')
+    src += Glob(iotivity_lite_path + 'deps/mbedtls/library/x509_create.c')
+
+
+OCF_CPPDEFINES = ['NO_MAIN']
+if IsDefined(['OCF_IPV4']):
+    OCF_CPPDEFINES += ['OC_IPV4']
+if IsDefined(['OCF_DEBUG']):
+    OCF_CPPDEFINES += ['OC_DEBUG']
+if IsDefined(['OCF_SERVER']):
+    OCF_CPPDEFINES += ['OC_SERVER']
+if IsDefined(['OCF_SECURITY']):
+#MBEDTLS_ECP_MAX_BYTES=MBEDTLS_ECP_MAX_BITS/8=256/8=32    
+# #define MBEDTLS_ECDSA_MAX_LEN  ( 3 + 2 * ( 3 + MBEDTLS_ECP_MAX_BYTES ) )  ( 3 + 2 * ( 3 + 32 ) )  = 73
+    OCF_CPPDEFINES += ['OC_SECURITY', '__OC_RANDOM', 'MBEDTLS_HAVE_ASM', 'MBEDTLS_ECP_MAX_BITS=256', 'MBEDTLS_MPI_MAX_SIZE=73','MBEDTLS_ECP_FIXED_POINT_OPTIM=0', 'MBEDTLS_ECP_NIST_OPTIM', 'MBEDTLS_SSL_MAX_CONTENT_LEN=2048']
+if IsDefined(['OCF_DYNAMIC_ALLOCATION']):
+    OCF_CPPDEFINES += ['OC_DYNAMIC_ALLOCATION']
+if IsDefined(['OCF_PKI']):
+    OCF_CPPDEFINES += ['OC_PKI']
+    OCF_CPPDEFINES += ['MBEDTLS_HAVE_TIME']
+    OCF_CPPDEFINES += ['MBEDTLS_HAVE_TIME_DATE']
+
+if IsDefined(['OCF_ONEOS_2_0']):
+    OCF_CPPDEFINES += ['ONEOS_2_0']
+
+if IsDefined(['OCF_CUSTOM_RAM']):
+    OCF_CPPDEFINES += ['CUSTOM_RAM']
+
+if IsDefined(['OCF_USE_GUI']):
+    OCF_CPPDEFINES += ['USE_GUI']
+
+group = AddCodeGroup('iotivity', src, depend = ['PKG_USING_IOTIVITY'], CPPPATH = INC_PATH, CPPDEFINES = OCF_CPPDEFINES)
+
+Return('group')

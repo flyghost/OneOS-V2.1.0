@@ -1,0 +1,8 @@
+Debug
+.config.old
+.sconsign.dblite
+.settings
+__pycache__
+build
+cconfig.h
+out

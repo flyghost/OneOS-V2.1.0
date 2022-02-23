@@ -1,0 +1,28 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+hk32f39a_it.c
+system_HK32F39A.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/ports']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/HK32F39A_GCC_Start.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/HK32F39A_KEIL_Start.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/HK32F39A_IAR_Start.s']
+
+CPPDEFINES = ['HK32F39A'] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

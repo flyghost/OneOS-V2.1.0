@@ -1,0 +1,17 @@
+import os
+import osconfig
+from build_tools import *
+
+
+cwd = PresentDir()
+LIBS    = []
+LIBPATH = []
+
+src = Glob('*.c')
+
+# path   include path in project
+path =  [cwd]
+
+group = AddCodeGroup('application', src, depend = [''], CPPPATH = path)
+
+Return('group')

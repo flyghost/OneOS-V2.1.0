@@ -1,0 +1,39 @@
+menu "MISC"
+    config OS_USING_PUSH_BUTTON
+        bool "Using push button device drivers"
+        default y
+        
+    config OS_USING_LED
+        bool "Using led device drivers"
+        default y
+        
+    config OS_USING_BUZZER
+        bool "Using buzzer device drivers"
+        default n
+        
+    config OS_USING_ADC
+        bool "Using ADC device drivers"
+        default n
+        
+    config OS_USING_DAC
+        bool "Using DAC device drivers"
+        default n
+
+    config OS_USING_PWM
+        bool "Using PWM device drivers"
+        default n
+
+    config OS_USING_INPUT_CAPTURE
+        bool "Using input capture device drivers"
+        default n
+        if OS_USING_INPUT_CAPTURE
+            config OS_INPUT_CAPTURE_RB_SIZE
+                int "Set input capture ringbuffer size"
+                default 100
+        endif
+        
+    config OS_USING_PULSE_ENCODER
+        bool "Using pulse encoder device drivers"
+        default n        
+
+endmenu

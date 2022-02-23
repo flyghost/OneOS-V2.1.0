@@ -1,0 +1,22 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F107VC
+    help
+        Select the device in STM32F107xx
+    
+    config TEMP_STM32F107RB
+        bool "STM32F107RB"
+    
+    config TEMP_STM32F107RC
+        bool "STM32F107RC"
+    
+    config TEMP_STM32F107VB
+        bool "STM32F107VB"
+    
+    config TEMP_STM32F107VC
+        bool "STM32F107VC"
+		
+    config TEMP_stm32f107-vct6-100
+        bool "stm32f107-vct6-100"
+		
+endchoice

@@ -1,0 +1,51 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+path = []
+src = []
+
+if IsDefined(['NET_USING_MOLINK']):
+    path += [pwd + '/include']
+    src += Glob('source/mo_common.c')
+    src += Glob('source/mo_factory.c') 
+
+if IsDefined(['MOLINK_USING_GENERAL_OPS']):
+    src += Glob('source/mo_general.c') 
+
+if IsDefined(['MOLINK_USING_NETSERV_OPS']):
+    src += Glob('source/mo_netserv.c')
+
+if IsDefined(['MOLINK_USING_PING_OPS']):
+    src += Glob('source/mo_ping.c')
+
+if IsDefined(['MOLINK_USING_IFCONFIG_OPS']):
+    src += Glob('source/mo_ifconfig.c')
+
+if IsDefined(['MOLINK_USING_NETCONN_OPS']):
+    src += Glob('source/mo_netconn.c')
+
+if IsDefined(['MOLINK_USING_MQTTC_OPS']):
+    src += Glob('source/mo_mqttc.c')
+
+if IsDefined(['MOLINK_USING_SOCKETS_OPS']):
+    src += Glob('source/mo_socket.c')
+
+if IsDefined(['MOLINK_USING_ONENET_NB_OPS']):
+    src += Glob('source/mo_onenet_nb.c')
+
+if IsDefined(['MOLINK_USING_WIFI_OPS']):
+    src += Glob('source/mo_wifi.c')
+
+if IsDefined(['MOLINK_USING_PPP_OPS']):
+    src += Glob('source/mo_ppp.c')
+
+if IsDefined(['MOLINK_USING_AUTO_PROBE_OPS']):
+    src += Glob('source/mo_auto_probe.c')
+
+if IsDefined(['MOLINK_USING_CTM2M_OPS']):
+    src += Glob('source/mo_ctm2m.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

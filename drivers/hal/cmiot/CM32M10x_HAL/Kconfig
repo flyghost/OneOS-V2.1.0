@@ -1,0 +1,10 @@
+config SERIES_CM32M10
+    bool
+	select ARCH_ARM_CORTEX_M4
+    default n
+	
+config SOC_CM32M101A
+	bool
+	select MANUFACTOR_CM32
+	select SERIES_CM32M10
+	default n

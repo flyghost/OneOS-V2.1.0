@@ -1,0 +1,71 @@
+menu "socket"
+		config MYNEWT_VAL_BLE_HCI_EVT_BUF_SIZE
+		    int "The size of the allocated event buffers"
+			default 257 if BLE_EXT_ADV
+		    default 70
+
+
+		config MYNEWT_VAL_BLE_HCI_EVT_HI_BUF_COUNT
+		    int "The number of high priority event buffers"
+		    default 8
+
+
+		config MYNEWT_VAL_BLE_HCI_EVT_LO_BUF_COUNT
+		    int "The number of low priority event buffers"
+		    default 8
+
+
+		config MYNEWT_VAL_BLE_ACL_BUF_COUNT
+		    int "The number of ACL data buffers"
+		    default 24
+
+
+		config MYNEWT_VAL_BLE_ACL_BUF_SIZE
+		    int "This is the maximum size of the data portion of HCI ACL data packets"
+		    default 255
+
+		    help 
+				This is the maximum size of the data portion of HCI ACL data packets. It does not include the HCI data header (of 4 bytes).
+
+		config MYNEWT_VAL_BLE_HCI_ACL_OUT_COUNT
+		    int "This count is used in creating a pool of elements used by the code to enqueue various elements"
+		    default 12
+
+		    help 
+				This count is used in creating a pool of elements used by the code to enqueue various elements. In the case of the controller only HCI, this number should be equal to the number of mbufs in the msys pool. For host only, it is really dependent on the number of ACL buffers that the controller tells the host it has.
+
+		config MYNEWT_VAL_BLE_SOCK_USE_TCP
+		    int "Use TCP socket, connects to BLE_SOCK_TCP_PORT"
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_SOCK_TCP_PORT
+		    int "ipv4 tcp port to connect to"
+		    default 14433
+
+
+		config MYNEWT_VAL_BLE_SOCK_USE_LINUX_BLUE
+		    int "Use Linux bluetooth raw socket"
+		    default 0
+
+
+		config MYNEWT_VAL_BLE_SOCK_LINUX_DEV
+		    int "linux kernel device"
+		    default 0
+
+
+		config MYNEWT_VAL_BLE_SOCK_TASK_PRIO
+		    int "Priority of the HCI socket task."
+		    default 9
+
+
+		config MYNEWT_VAL_BLE_SOCK_STACK_SIZE
+		    int "Size of the HCI socket stack (units=words)."
+		    default 80
+
+
+		config MYNEWT_VAL_BLE_SOCK_CLI_SYSINIT_STAGE
+		    int "Sysinit stage for the socket BLE transport."
+		    default 500
+
+endmenu

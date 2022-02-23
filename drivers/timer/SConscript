@@ -1,0 +1,23 @@
+from build_tools import *
+
+pwd     = PresentDir()
+src     = ['timer.c']
+
+if IsDefined('OS_USING_CLOCKSOURCE'):
+    src += ['clocksource.c']
+    
+if IsDefined('OS_USING_CLOCKEVENT'):
+    src += ['clockevent.c']
+    
+if IsDefined('OS_USING_TIMEKEEPING'):
+    src += ['timekeeping.c']
+
+if IsDefined('OS_USING_HRTIMER'):
+    src += ['hrtimer.c']
+    
+if IsDefined('ARCH_ARM_CORTEX_M'):
+    src += ['clocksource_cortexm.c']
+    
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_TIMER_DRIVER'], CPPPATH = [pwd])
+
+Return('group')

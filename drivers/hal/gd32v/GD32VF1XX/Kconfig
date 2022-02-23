@@ -1,0 +1,11 @@
+config SOC_SERIES_GD32VF1XX
+    bool
+	select ARCH_RISCV_BUMBLEBEE
+    default n
+
+config SOC_GD32VF103CBT6
+    bool
+    select SOC_FAMILY_GD32VF103
+    select SOC_SERIES_GD32VF1XX
+    default n
+

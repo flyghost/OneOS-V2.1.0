@@ -1,0 +1,35 @@
+menu "Demo Configurations"
+    depends on AWS_IOT_USING_DEMO
+    
+    config AWS_IOT_DEMO_SERVER
+        string "Config Demo Host Name"
+        default ""
+
+    config AWS_IOT_DEMO_PORT
+        int "Config Demo Port"
+        default 8883
+
+    config AWS_IOT_DEMO_ROOT_CA
+        bool "Enable Demo Root CA Certificate"
+        default y        
+
+    config AWS_IOT_DEMO_CLIENT_CERT
+        bool "Enable Demo Client Certificate"
+        default y
+    
+    config AWS_IOT_DEMO_PRIVATE_KEY
+        bool "Enable Demo Client Key"
+        default y
+
+    config AWS_IOT_DEMO_USER_NAME
+        string "Config Demo User Name"
+        default ""
+
+    config AWS_IOT_DEMO_PASSWORD
+        string "Config Demo Password"
+        default ""
+
+    config AWS_IOT_DEMO_IDENTIFIER
+        string "Config Demo Identifier (Thing name)"
+        default ""
+endmenu

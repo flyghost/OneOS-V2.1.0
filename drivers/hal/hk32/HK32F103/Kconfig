@@ -1,0 +1,100 @@
+config SERIES_HK32F1
+    bool
+    select ARCH_ARM_CORTEX_M3
+    default n
+
+config SOC_HK32F103RBT6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103R8T6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103CBT6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103C8T6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103VBT6A
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103V8T6A
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103RBT6A
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103R8T6A
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103CBT6A
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103C8T6A
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103VET6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103VDT6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103VCT6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103RET6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103RDT6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n
+
+config SOC_HK32F103RCT6
+    bool
+    select MANUFACTOR_HK32
+    select SERIES_HK32F1
+    default n

@@ -1,0 +1,14 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+src = []
+
+src += ['nrf5_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SOC_FAMILY_NRF52'], CPPPATH = path)
+Return('group')

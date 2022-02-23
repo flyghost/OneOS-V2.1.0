@@ -1,0 +1,20 @@
+# for module compiling
+import os
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+
+group = []
+src = []
+path = []
+
+path = ['CMSIS/Core/Include']
+path += ['devices']
+
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_NXP_LPC551X_S1X'], CPPPATH = path)
+
+group += SConscript(os.path.join(pwd, 'devices/SConscript'))
+    
+Return('group')

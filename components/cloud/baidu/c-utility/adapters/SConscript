@@ -1,0 +1,36 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../../"
+
+
+# add oneos port files of baiduiot
+port_src  = Glob(root_path + 'c-utility/adapters/agenttime.c')
+port_src += Glob(root_path + 'c-utility/adapters/platform_os.c')
+port_src += Glob(root_path + 'c-utility/adapters/socketio_berkeley.c')
+port_src += Glob(root_path + 'c-utility/adapters/tlsio_mbedtls.c')
+port_src += Glob(root_path + 'c-utility/adapters/httpapi_compact.c')
+port_src += Glob(root_path + 'c-utility/adapters/httpapi_curl.c')
+port_src += Glob(root_path + 'c-utility/pal/dns_async.c')
+port_src += Glob(root_path + 'c-utility/pal/socket_async.c')
+port_src += Glob(root_path + 'c-utility/pal/tlsio_options.c')
+port_src += Glob(root_path + 'c-utility/pal/oneos/lock.c')
+port_src += Glob(root_path + 'c-utility/pal/oneos/threadapi.c')
+port_src += Glob(root_path + 'c-utility/pal/oneos/tickcounter.c')
+port_path = [
+	pwd + root_path + 'c-utility/pal/inc',
+	pwd + root_path + 'c-utility/pal/generic',
+	pwd + root_path + 'c-utility/adapters'
+]
+
+
+
+if IsDefined(['BAIDUIOT_CA']):
+    group = AddCodeGroup('cloud/baidu/port', port_src, depend = ['BAIDUIOT'], CPPPATH = port_path, CPPDEFINES = ['MBEDTLS_CONFIG_FILE="<baidu_ca_mbedtls_config.h>"'])
+else :
+	group = AddCodeGroup('cloud/baidu/port', port_src, depend = ['BAIDUIOT'], CPPPATH = port_path)
+
+Return('group')

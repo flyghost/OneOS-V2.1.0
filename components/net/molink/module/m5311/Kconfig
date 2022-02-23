@@ -1,0 +1,61 @@
+menu "M5311 Config" 
+
+    config M5311_AUTO_CREATE
+        bool "Enable M5311 Module Object Auto Create"
+        default n
+
+    if M5311_AUTO_CREATE
+
+        config M5311_DEVICE_NAME
+            string "M5311 Interface Device Name"
+            default "uart2"
+
+        config M5311_DEVICE_RATE
+            int "M5311 Interface Device Rate"
+            default 115200
+
+        config M5311_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 1500
+
+    endif
+
+    config M5311_USING_GENERAL_OPS
+        bool "Enable M5311 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config M5311_USING_NETSERV_OPS
+        bool "Enable M5311 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config M5311_USING_PING_OPS
+        bool "Enable M5311 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config M5311_USING_IFCONFIG_OPS
+        bool "Enable M5311 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select M5311_USING_GENERAL_OPS
+        select M5311_USING_NETSERV_OPS
+        default y
+
+    config M5311_USING_NETCONN_OPS
+        bool "Enable M5311 Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config M5311_USING_SOCKETS_OPS
+        bool "Enable M5311 Module BSD Socket Operates"
+        select M5311_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+    config M5311_USING_ONENET_NB_OPS
+        bool "Enable M5311 Module Onenet Nb Operates"
+        select MOLINK_USING_ONENET_NB_OPS
+        default y
+
+endmenu

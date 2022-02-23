@@ -1,0 +1,9 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_nrf52832-pca10040
+    help
+        Select the device in nRF52832
+
+    config TEMP_nrf52832-pca10040
+        bool "nrf52832-pca10040"
+endchoice

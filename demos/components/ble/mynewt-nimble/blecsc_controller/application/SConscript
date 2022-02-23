@@ -1,0 +1,13 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+cwd = PresentDir()
+path =  [cwd]
+path +=  [cwd + "/include"]
+
+src = Glob('*.c')
+
+group = AddCodeGroup('application', src, depend = [''], CPPPATH = path)
+
+Return('group')

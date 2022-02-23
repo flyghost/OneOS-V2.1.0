@@ -1,0 +1,15 @@
+menu "wifi positon"
+	
+	config ONEPOS_WIFI_POS
+	bool "network positon using wifi positon"
+	default n
+	
+	if ONEPOS_WIFI_POS
+		config ONEPOS_WIFI_DEVICE_NAME
+		string "Device name of wifi_pos using"
+		default "esp8266"
+	endif
+
+
+endmenu
+

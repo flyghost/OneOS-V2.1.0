@@ -1,0 +1,49 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F401VE
+    help
+        Select the device in STM32F401xx
+
+    config TEMP_STM32F401CB
+        bool "STM32F401CB"
+    
+    config TEMP_STM32F401CC
+        bool "STM32F401CC"
+    
+    config TEMP_STM32F401CD
+        bool "STM32F401CD"
+    
+    config TEMP_STM32F401CE
+        bool "STM32F401CE"
+    
+    config TEMP_STM32F401RB
+        bool "STM32F401RB"
+    
+    config TEMP_STM32F401RC
+        bool "STM32F401RC"
+    
+    config TEMP_STM32F401RD
+        bool "STM32F401RD"
+    
+    config TEMP_STM32F401RE
+        bool "STM32F401RE"
+    
+    config TEMP_STM32F401VB
+        bool "STM32F401VB"
+    
+    config TEMP_STM32F401VC
+        bool "STM32F401VC"
+    
+    config TEMP_STM32F401VD
+        bool "STM32F401VD"
+    
+    config TEMP_STM32F401VE
+        bool "STM32F401VE"
+    
+    config TEMP_stm32f401-cmcc-oneos
+        bool "stm32f401-cmcc-oneos"
+    
+    config TEMP_stm32f401-ret6-nucleo
+        bool "stm32f401-ret6-nucleo"
+    
+endchoice

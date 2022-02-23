@@ -1,0 +1,39 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F730I8
+    help
+        Select the device in STM32F73x
+    config TEMP_STM32F730I8
+        bool "STM32F730I8"
+
+    config TEMP_STM32F730R8
+        bool "STM32F730R8"
+
+    config TEMP_STM32F730V8
+        bool "STM32F730V8"
+
+    config TEMP_STM32F730Z8
+        bool "STM32F730Z8"
+
+    config TEMP_STM32F732IE
+        bool "STM32F732IE"
+
+    config TEMP_STM32F732RE
+        bool "STM32F732RE"
+
+    config TEMP_STM32F732VE
+        bool "STM32F732VE"
+
+    config TEMP_STM32F732ZE
+        bool "STM32F732ZE"
+
+    config TEMP_STM32F733IE
+        bool "STM32F733IE"
+
+    config TEMP_STM32F733VE
+        bool "STM32F733VE"
+
+    config TEMP_STM32F733ZE
+        bool "STM32F733ZE"
+
+endchoice

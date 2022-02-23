@@ -1,0 +1,34 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F765VG
+    help
+        Select the device in STM32F765xx
+
+    config TEMP_STM32F765BG
+        bool "STM32F765BG"
+    
+    config TEMP_STM32F765BI
+        bool "STM32F765BI"
+    
+    config TEMP_STM32F765IG
+        bool "STM32F765IG"
+    
+    config TEMP_STM32F765II
+        bool "STM32F765II"
+    
+    config TEMP_STM32F765NG
+        bool "STM32F765NG"
+    
+    config TEMP_STM32F765NI
+        bool "STM32F765NI"
+    
+    config TEMP_STM32F765VG
+        bool "STM32F765VG"
+    
+    config TEMP_STM32F765ZG
+        bool "STM32F765ZG"
+    
+    config TEMP_STM32F765ZI
+        bool "STM32F765ZI"
+    
+endchoice

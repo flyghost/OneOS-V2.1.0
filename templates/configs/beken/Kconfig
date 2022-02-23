@@ -1,0 +1,15 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_BK72
+    help
+        Select the device in BEKEN
+
+    config SERIES_BK72
+        bool "BK72"
+		
+endchoice
+
+if SERIES_BK72
+    source "$OS_ROOT/templates/configs/beken/bk72/Kconfig"
+endif
+

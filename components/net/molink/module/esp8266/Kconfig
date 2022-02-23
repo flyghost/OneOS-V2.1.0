@@ -1,0 +1,88 @@
+menu "ESP8266 Config" 
+
+    config ESP8266_AUTO_CREATE
+        bool "Enable ESP8266 Module Object Auto Create"
+        default n
+
+    if ESP8266_AUTO_CREATE
+
+        config ESP8266_DEVICE_NAME
+            string "ESP8266 Interface Device Name"
+            default "uart2"
+
+        config ESP8266_DEVICE_RATE
+            int "ESP8266 Interface Device Rate"
+            default 115200
+
+        config ESP8266_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+        config ESP8266_AUTO_CONNECT_AP
+            bool "Enable ESP8266 Module Auto Connect"
+            select ESP8266_USING_WIFI_OPS
+            default y
+    endif
+
+    config ESP8266_CONNECT_SSID
+        string "ESP8266 Connect AP SSID"
+        default "ssid"
+
+    config ESP8266_CONNECT_PASSWORD
+        string "ESP8266 Connect AP Password"
+        default "password"
+
+    config ESP8266_USING_GENERAL_OPS
+        bool "Enable ESP8266 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config ESP8266_USING_WIFI_OPS
+        bool "Enable ESP8266 Module WiFi Operates"
+        select MOLINK_USING_WIFI_OPS
+        default y
+
+    config ESP8266_USING_PING_OPS
+        bool "Enable ESP8266 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config ESP8266_USING_IFCONFIG_OPS
+        bool "Enable ESP8266 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select ESP8266_USING_WIFI_OPS
+        default y
+
+    config ESP8266_USING_NETCONN_OPS
+        bool "Enable ESP8266 Module Network TCP/IP Operates"
+        select OS_USING_EVENT
+        select MOLINK_USING_NETCONN_OPS
+        default y
+        
+        if ESP8266_USING_NETCONN_OPS
+            config ESP8266_USING_IPV6
+                bool "Enable ESP8266 Module IPV6 Operates"
+                default n
+           
+         endif
+            
+    config ESP8266_USING_SOCKETS_OPS
+        bool "Enable ESP8266 Module BSD Socket Operates"
+        select ESP8266_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+    config ESP8266_USING_HW_CONTROL
+        bool "Enable ESP8266 Module Hardware Control Operates"
+        select OS_USING_PIN
+        default n
+
+        if ESP8266_USING_HW_CONTROL
+            config ESP8266_RST_PIN_NUM
+                int "The ESP8266 Module Reset Pin Number"
+                help 
+                    This can be calculated using GET_PIN(PORTx, PIN)
+                default -1
+
+        endif
+endmenu

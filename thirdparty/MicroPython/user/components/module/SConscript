@@ -1,0 +1,49 @@
+from build_tools import *
+import osconfig
+
+# get current directory
+cwd     = PresentDir()
+# The set of source files associated with this SConscript file.
+src     = Glob('modubinascii.c')
+src    += Glob('moduhashlib.c')
+src    += Glob('moduheapq.c')
+src    += Glob('modujson.c')
+src    += Glob('modure.c')
+src    += Glob('moduselect.c')
+src    += Glob('modussl_axtls.c')
+src    += Glob('modussl_mbedtls.c')
+src    += Glob('mpthreadport.c')
+src    += Glob('utime_mphal.c')
+if IsDefined(['MICROPY_USING_MO_NETWORK']):
+    src += Glob('modmonetwork.c')
+if IsDefined(['MICROPY_USING_FOTA']):
+    src	+= Glob('modfota.c')
+if IsDefined(['MICROPY_PY_ONENET']): 
+	src    += Glob('modonenet.c')
+if IsDefined(['MICROPY_USING_UZLIB']):
+	src += Glob('uzlib/*.c')
+	src += Glob('moduzlib.c')
+if IsDefined(['MICROPY_USING_UCTYPES']):
+	src += Glob('moductypes.c')
+if IsDefined(['MICROPY_USING_UCRYPTOLIB']):
+	src += Glob('moducryptolib.c')
+if IsDefined(['MICROPY_USING_URANDOM']):
+	src += Glob('modurandom.c')
+if IsDefined(['MICROPY_USING_POSITION']):
+	src += Glob('modposition.c')
+if IsDefined(['MICROPY_USING_WIFISCAN']):
+	src += Glob('modwifiscan.c') 
+if IsDefined(['MICROPY_DEVICE_LCD']):
+	src += Glob('libpicture/*.c') 
+
+path    = [cwd + '/']
+
+
+LOCAL_CCFLAGS = ''
+
+if osconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --c99 --gnu'
+
+group = AddCodeGroup('micropython', src, depend = ['PKG_USING_MICROPYTHON'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+Return('group')

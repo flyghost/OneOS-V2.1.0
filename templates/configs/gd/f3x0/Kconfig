@@ -1,0 +1,22 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_GD32F330
+    help
+        Select the device in GD32F3x0
+
+    config MODEL_GD32F330
+        bool "GD32F330"
+    
+    config MODEL_GD32F350
+        bool "GD32F350"
+
+endchoice
+
+if MODEL_GD32F330
+    source "$OS_ROOT/templates/configs/gd/f3x0/f330/Kconfig"
+endif
+
+if MODEL_GD32F350
+    source "$OS_ROOT/templates/configs/gd/f3x0/f350/Kconfig"
+endif
+

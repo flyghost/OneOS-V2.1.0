@@ -1,0 +1,6 @@
+config MANUFACTOR_HK32
+    bool
+    default n
+
+source "$OS_ROOT/drivers/hal/hk32/*/Kconfig"
+

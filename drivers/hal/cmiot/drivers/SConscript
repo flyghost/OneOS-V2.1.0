@@ -1,0 +1,68 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+drv_common.c
+drv_gpio.c
+""")
+
+path = [pwd]
+
+if IsDefined(['BSP_USING_ON_CHIP_FLASH', 'SERIES_CM32M10']):
+    src += ['flash/drv_flash.c']
+
+# if IsDefined(['BSP_USING_GPIO']):
+#     src += ['drv_gpio.c']
+
+if IsDefined(['OS_USING_I2C', 'BSP_USING_I2C1']) or IsDefined(['OS_USING_I2C', 'BSP_USING_I2C2']):
+    src += ['drv_i2c.c']
+
+if IsDefined(['OS_USING_DAC']):
+    src += ['drv_dac.c']
+
+if IsDefined(['OS_USING_ADC']):
+    src += ['drv_adc.c']
+
+if IsDefined(['OS_USING_SPI', 'BSP_USING_SPI1']) or IsDefined(['OS_USING_SPI', 'BSP_USING_SPI2']):
+    src += ['drv_spi.c']
+
+if IsDefined(['OS_USING_HRTIMER']):
+    src += ['drv_hwtimer.c']
+
+if IsDefined(['OS_USING_CLOCKEVENT']):
+    src += ['drv_lptim.c']
+
+if IsDefined(['OS_USING_TICKLESS_LPMGR']):
+    src += ['drv_lpmgr.c']
+
+if IsDefined(['OS_USING_SIMPLE_LPM']):
+    src += ['drv_lpm.c']
+
+if IsDefined(['BSP_USING_UART', 'SERIES_CM32M10']):
+    src += ['drv_usart.c']
+
+if IsDefined(['BSP_USING_UART', 'SERIES_CM32M10', 'BSP_USING_LPUART0']):
+    src += ['drv_lpuart.c']
+
+if IsDefined(['OS_USING_WDG', 'BSP_USING_WWDG']):
+    src += ['drv_wwdg.c']
+
+if IsDefined(['OS_USING_WDG', 'BSP_USING_IWDG']):
+    src += ['drv_iwdg.c']
+
+if IsDefined(['OS_USING_RTC']):
+    src += ['drv_rtc.c']
+
+if IsDefined(['OS_USING_PWM']):
+    src += ['drv_pwm.c']
+
+# path = [pwd]
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal/drivers', src, depend = ['MANUFACTOR_CM32'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

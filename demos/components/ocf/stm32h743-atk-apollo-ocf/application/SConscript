@@ -1,0 +1,35 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+path =  [pwd]
+
+path += [pwd + '/ui']
+path += [pwd + '../../../../thirdparty/ocf/iotivity-lite-2.2.0/port']
+
+src = []
+src += Glob('main.c')
+src += Glob(Env['OS_ROOT'] + '/demos/driver/serial_test.c')
+src += Glob(Env['OS_ROOT'] + '/demos/driver/fal_test.c')
+src += Glob('rtc_test.c')
+
+if IsDefined(['OCF_USE_GUI']):
+    src += Glob('ui/ui.c')
+    src += Glob('ui/ocf_font_44.c')
+    if IsDefined(['OCF_AIRCONDITIONER']):
+        src += Glob('ui/airconditioner_ui.c')
+    if IsDefined(['OCF_AIRPURIFIER']):
+        src += Glob('ui/airpurifier_ui.c')
+    if IsDefined(['OCF_LIGHT']):
+        src += Glob('ui/light_ui.c')
+    if IsDefined(['OCF_SMARTLOCK']):
+        src += Glob('ui/smartlock_ui.c')
+    if IsDefined(['OCF_WATERHEATER']):
+        src += Glob('ui/waterheater_ui.c') 
+    if IsDefined(['OCF_CAMERA']):
+        src += Glob('ui/camera_ui.c')
+
+group = AddCodeGroup('application', src, depend = [''], CPPPATH = path)
+
+Return('group')

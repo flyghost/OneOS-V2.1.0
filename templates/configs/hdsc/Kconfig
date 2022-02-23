@@ -1,0 +1,64 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_HC32L19
+    help
+        Select the device in HC32
+
+    config SERIES_HC32F07
+        bool "HC32F07"
+
+    config SERIES_HC32F17
+        bool "HC32F17"
+
+    config SERIES_HC32F19
+        bool "HC32F19"
+
+    config SERIES_HC32F4A
+        bool "HC32F4A"
+
+    config SERIES_HC32F46
+        bool "HC32F46"
+
+    config SERIES_HC32L07
+        bool "HC32L07"
+     
+    config SERIES_HC32L17
+        bool "HC32L17"
+        
+    config SERIES_HC32L19
+        bool "HC32L19"
+   
+endchoice
+
+if SERIES_HC32F07
+    source "$OS_ROOT/templates/configs/hdsc/f07/Kconfig"
+endif
+
+if SERIES_HC32F17
+    source "$OS_ROOT/templates/configs/hdsc/f17/Kconfig"
+endif
+
+if SERIES_HC32F19
+    source "$OS_ROOT/templates/configs/hdsc/f19/Kconfig"
+endif
+
+if SERIES_HC32F4A
+    source "$OS_ROOT/templates/configs/hdsc/f4a/Kconfig"
+endif
+
+if SERIES_HC32F46
+    source "$OS_ROOT/templates/configs/hdsc/f46/Kconfig"
+endif
+
+if SERIES_HC32L07
+    source "$OS_ROOT/templates/configs/hdsc/l07/Kconfig"
+endif
+
+if SERIES_HC32L17
+    source "$OS_ROOT/templates/configs/hdsc/l17/Kconfig"
+endif
+
+if SERIES_HC32L19
+    source "$OS_ROOT/templates/configs/hdsc/l19/Kconfig"
+endif
+    

@@ -1,0 +1,25 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['OS_USING_TICKLESS_LPMGR']):
+    src += ['lpmgr.c']
+    
+if IsDefined(['OS_USING_SIMPLE_LPM']):
+    src += ['lpm.c']
+    
+
+
+
+path =  [pwd]
+
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_LPMGR'], CPPPATH = path)
+
+Return('group')

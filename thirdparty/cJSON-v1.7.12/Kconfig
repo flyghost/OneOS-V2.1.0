@@ -1,0 +1,7 @@
+menu "cJSON"
+
+    config PKG_USING_CJSON
+    bool "cJSON: Ultralightweight JSON parser in ANSI C"
+    default n
+
+endmenu

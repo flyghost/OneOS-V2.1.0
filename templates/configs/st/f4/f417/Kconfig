@@ -1,0 +1,25 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F417ZG
+    help
+        Select the device in STM32F417xx
+
+    config TEMP_STM32F417VE
+        bool "STM32F417VE"
+    
+    config TEMP_STM32F417VG
+        bool "STM32F417VG"
+    
+    config TEMP_STM32F417ZE
+        bool "STM32F417ZE"
+    
+    config TEMP_STM32F417ZG
+        bool "STM32F417ZG"
+    
+    config TEMP_STM32F417IE
+        bool "STM32F417IE"
+    
+    config TEMP_STM32F417IG
+        bool "STM32F417IG"
+    
+endchoice

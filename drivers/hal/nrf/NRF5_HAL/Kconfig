@@ -1,0 +1,23 @@
+config SOC_SERIES_NRF52
+    bool
+    select ARCH_ARM_CORTEX_M4
+    default n
+
+
+
+config SOC_NRF52840
+    bool
+    select SOC_FAMILY_NRF52
+    select SOC_SERIES_NRF52
+    default n
+	
+config SOC_NRF52832
+    bool
+    select SOC_FAMILY_NRF52
+    select SOC_SERIES_NRF52
+    default n
+
+
+config  BSP_USING_SOFTDEVICE
+    bool "Enable Nordic softdevice"
+    default n

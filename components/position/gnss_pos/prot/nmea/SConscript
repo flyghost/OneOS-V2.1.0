@@ -1,0 +1,14 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+path = []
+src = []
+
+if IsDefined(['GNSS_NMEA_0183_PROT']):
+    path += [pwd]
+    src += Glob('*.c')
+
+group = AddCodeGroup('onepos', src, depend = ['GNSS_NMEA_0183_PROT'], CPPPATH = path)
+
+Return('group')

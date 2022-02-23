@@ -1,0 +1,14 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+src = []
+
+src += ['ingenic_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SOC_FAMILY_INGENIC'], CPPPATH = path)
+Return('group')

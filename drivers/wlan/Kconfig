@@ -1,0 +1,34 @@
+menuconfig OS_USING_WLAN
+    bool "WLAN"
+    default n
+    select OS_USING_DEVICE_NOTIFY
+    
+    if OS_USING_WLAN
+        config OS_WLAN_DEVICE_STA_NAME
+            string "The device name for station"
+            default "wlan0"
+
+        config OS_WLAN_DEVICE_AP_NAME
+            string "The device name for ap"
+            default "wlan1"
+
+        config OS_WLAN_PROTOCOL_NUM_MAX
+            int "transport protocol max num"
+            default 5
+        
+        config OS_WLAN_INIT_TASK_STACK_SIZE
+            int "wlan init stack size"
+            default 1024
+            
+        config OS_WLAN_INIT_TASK_PRIORITY
+            int "wlan init priority"
+            default 10
+            
+        config OS_WLAN_LWIP
+            bool
+            default n
+            
+        
+    endif
+    
+    

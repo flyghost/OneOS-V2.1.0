@@ -1,0 +1,9 @@
+config SOC_FAMILY_GD32VF103
+    bool
+    default n
+
+source "$OS_ROOT/drivers/hal/gd32v/GD32VF1XX/Kconfig"
+
+source "$OS_ROOT/drivers/hal/gd32v/drivers/Kconfig"
+
+#comment "Configure base hal in GD32"

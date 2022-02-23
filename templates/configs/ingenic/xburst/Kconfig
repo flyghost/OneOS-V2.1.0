@@ -1,0 +1,15 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_X1000X
+    help
+        Select the device in XBURST
+
+    config MODEL_X1000X
+        bool "X1000X"
+    
+endchoice
+
+if MODEL_X1000X
+    source "$OS_ROOT/templates/configs/ingenic/xburst/x1000x/Kconfig"
+endif
+

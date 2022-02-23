@@ -1,0 +1,33 @@
+from build_tools import *
+
+objs = []
+
+if not IsDefined(['MOLINK_USING_TESTCASE']):
+    Return('objs')
+
+pwd = PresentDir()
+
+path = []
+src = []
+
+if IsDefined(['MOLINK_USING_GENERAL_TC']):
+    src += Glob('api/mo_general_tc.c')
+
+if IsDefined(['MOLINK_USING_NETSERV_TC']):
+    src += Glob('api/mo_netserv_tc.c')
+
+if IsDefined(['MOLINK_USING_NETCONN_TC']):
+    src += Glob('api/mo_netconn_tc.c')
+
+if IsDefined(['MOLINK_USING_SOCKET_TC']):
+    src += Glob('api/mo_socket_tc.c')
+
+if IsDefined(['MOLINK_USING_MQTTC_TC']):
+    src += Glob('api/mo_mqttc_tc.c')
+
+if IsDefined(['MOLINK_USING_WIFI_TC']):
+    src += Glob('api/mo_wifi_tc.c')
+
+group = AddCodeGroup('molink', src, depend = ['NET_USING_MOLINK'], CPPPATH = path)
+
+Return('group')

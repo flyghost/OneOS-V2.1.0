@@ -1,0 +1,7 @@
+menu "unicorecomm gnss receiver"
+
+    config UNICORECOMM_DEV_NAME
+        string "unicorecomm using interface device name"
+        default "uart3"
+        
+endmenu

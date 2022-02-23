@@ -1,0 +1,8 @@
+from build_tools import *
+
+pwd  = PresentDir()
+CPPPATH = [pwd + '/include']
+src = Glob('source/*.c')	
+group = AddCodeGroup('atest', src, depend = ['OS_USING_ATEST'], CPPPATH = CPPPATH)
+
+Return('group')

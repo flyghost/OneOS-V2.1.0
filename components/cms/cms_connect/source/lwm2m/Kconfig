@@ -1,0 +1,51 @@
+menu "LwM2M Config"
+
+#	config CMS_LWM2M_USING_SECURE
+#		bool "CMS LwM2M using DTLS encrypt"
+#		select SECURITY_USING_MBEDTLS
+#		default n
+		
+	config CMS_LWM2M_USING_SAMPLE
+		bool "Enable CMS LwM2M sample"
+		default n
+		
+#		if CMS_LWM2M_USING_SAMPLE
+#		config CMS_LWM2M_SERVER_ADDR
+#			   string "CMS LwM2M server address"
+#			   default "192.168.1.102"
+#		config CMS_LWM2M_SERVER_PORT
+#			   string "CMS LwM2M server port"
+#			   default "5684"
+#		endif
+		
+	config LWM2M_CLIENT_MODE
+		bool "Enable CMS LwM2M client mode"
+		default	y
+
+	config CMS_LWM2M_MAX_OBJECT_COUNT
+		int "cms lwm2m max object count"
+		default	32
+	
+	config CMS_LWM2M_READ_TIMEOUT_S
+		int "cms lwm2m read timeout (s)"
+		default	1
+
+    choice 
+        prompt "Select log level"		
+        default CMS_LWM2M_LOG_DEBUG
+		
+        config CMS_LWM2M_LOG_ERROR
+            bool "Error Log Level"
+        config CMS_LWM2M_LOG_WARN
+            bool "Warn Log Level"
+        config CMS_LWM2M_LOG_INFO
+            bool "Info Log Level"
+        config CMS_LWM2M_LOG_DEBUG
+            bool "Debug Log Level"
+        config CMS_LWM2M_LOG_VERBOSE
+            bool "Verbose Log Level"
+        config CMS_LWM2M_LOG_NONE
+            bool "None Log Level"
+    endchoice
+	
+endmenu

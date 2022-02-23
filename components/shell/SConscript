@@ -1,0 +1,12 @@
+from build_tools import *
+
+pwd     = PresentDir()
+src     = []
+CPPPATH = [pwd + '/include']
+
+if IsDefined('OS_USING_SHELL'):
+    src += Glob('source/*.c')
+
+group = AddCodeGroup('shell', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')

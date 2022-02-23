@@ -1,0 +1,58 @@
+import os
+Import('osconfig')
+from build_tools import *
+
+cwd  = PresentDir()
+src  = []
+list = os.listdir(cwd)
+
+CPPPATH    = []
+CPPDEFINES = []
+LIBS       = []
+LINKFLAGS  = ''
+
+#add common header files
+CPPPATH.append(cwd + '/include')
+CPPPATH.append(cwd + '/include/extension')
+
+#gcc with newlibc or minilibc
+if osconfig.COMPILER == 'gcc' and IsDefined('OS_USING_LIBC_ADAPTER'):
+    if IsDefined('OS_USING_NEWLIB_ADAPTER'):
+        # link with libc and libm:
+        # libm is a frequently used lib. Newlib is compiled with -ffunction-sections in
+        # recent GCC tool chains. The linker would just link in the functions that have
+        # been referenced. So setting this won't result in bigger text size.
+        LIBS += ['c', 'm']
+        
+        CPPPATH.append(cwd + '/include/newlib')
+        
+        src += Glob('source/common/*.c')
+        src += Glob('source/newlib/*.c')
+        
+        if not IsDefined('OS_USING_IO_MULTIPLEXING'):
+            DeleteSrcFile(src, 'source/newlib/poll.c')
+            DeleteSrcFile(src, 'source/newlib/select.c')       
+
+    else:
+        #raise Exception("Libc not support, select valid libc")
+        pass
+#armcc with armlibc    
+elif (osconfig.COMPILER == 'armcc' or osconfig.COMPILER == 'armclang') and IsDefined('OS_USING_LIBC_ADAPTER'):
+    if IsDefined('OS_USING_ARMCCLIB_ADAPTER'):
+        CPPPATH.append(cwd + '/include/armlibc')
+        src += Glob('source/armlibc/*.c')
+        src += Glob('source/common/*.c')
+
+        if not IsDefined('OS_USING_IO_MULTIPLEXING'):
+            DeleteSrcFile(src, 'source/armlibc/poll.c')
+            DeleteSrcFile(src, 'source/armlibc/select.c')
+    else:
+        #raise Exception("No libc adapter available")
+        pass
+else:
+    #raise Exception("Compiler not support")
+    pass
+
+group = AddCodeGroup('libc', src, depend = [''], CPPPATH = CPPPATH, CPPDEFINES = CPPDEFINES, LIBS = LIBS, LINKFLAGS = LINKFLAGS)
+
+Return('group')

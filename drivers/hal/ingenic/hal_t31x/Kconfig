@@ -1,0 +1,5 @@
+
+config SOC_INGENIC_T31X
+    bool
+    select ARCH_MIPS_CHIP_T31X
+

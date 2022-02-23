@@ -1,0 +1,10 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = Glob('*.c') + Glob('*.cpp')
+CPPPATH = [pwd + '/../../include/time']
+
+group = AddCodeGroup('pthreads', src,
+    depend = ['OS_USING_PTHREADS'], CPPPATH = CPPPATH)
+
+Return('group')

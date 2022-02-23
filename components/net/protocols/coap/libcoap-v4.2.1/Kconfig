@@ -1,0 +1,20 @@
+menu "libcoap-v4.2.1"
+
+config NET_USING_COAP
+    bool "Enable libCoAP: A C implementation of the CoAP(RFC 7252)"
+    select NET_USING_BSD
+    select OS_USING_RTC
+	select OS_USING_VFS
+    default n
+
+	help
+		A C implementation of the CoAP(RFC 7252)
+
+if NET_USING_COAP
+	config NET_USING_COAP_EXAMPLE
+	bool "Enable libCoAP example"
+	default y
+
+endif
+
+endmenu 

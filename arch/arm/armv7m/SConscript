@@ -1,0 +1,37 @@
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+src  = []
+group = []
+path = [pwd + '/include']
+
+if IsDefined(['ARCH_ARM_CORTEX_M3']) == False and IsDefined(['ARCH_ARM_CORTEX_M4']) == False and IsDefined(['ARCH_ARM_CORTEX_M7']) == False:
+    Return('group')
+    
+# The set of source files associated with this SConscript file.
+if osconfig.COMPILER == 'armcc':
+    if IsDefined(['ARCH_ARM_ASM_GNUC']) == True:    
+        src += Glob('gcc/*_gcc.S')
+    else:
+        src += Glob('rvds/*_rvds.S')
+    
+
+if osconfig.COMPILER == 'gcc':
+    src += Glob('gcc/*_gcc.S')
+    
+    
+if IsDefined(['ARCH_ARM_CORTEX_M7']) == True:
+    src += Glob('arch_cache.c')
+    
+src += Glob('arch_task.c')
+src += Glob('arch_exception.c')
+src += Glob('arch_interrupt.c')
+src += Glob('arch_misc.c')
+src += Glob('arch_atomic.c')
+ 
+
+    
+group = AddCodeGroup('arch', src, depend = [''], CPPPATH = path)
+
+Return('group')

@@ -1,0 +1,69 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32L496
+    help
+        Select the device in STM32L4xx
+
+    config MODEL_STM32L475
+        bool "STM32L475"
+
+    config MODEL_STM32L4R5
+        bool "STM32L4R5"
+
+    config MODEL_STM32L422
+        bool "STM32L422"
+
+    config MODEL_STM32L432
+        bool "STM32L432"
+        
+    config MODEL_STM32L433
+        bool "STM32L433"
+
+    config MODEL_STM32L443
+        bool "STM32L443"
+
+    config MODEL_STM32L462
+        bool "STM32L462"
+
+    config MODEL_STM32L4r9
+        bool "STM32L4r9"
+
+    config MODEL_STM32L496
+        bool "STM32L496"
+endchoice
+
+if MODEL_STM32L475
+    source "$OS_ROOT/templates/configs/st/l4/l475/Kconfig"
+endif
+
+if MODEL_STM32L4R5
+    source "$OS_ROOT/templates/configs/st/l4/l4r5/Kconfig"
+endif
+
+if MODEL_STM32L422
+    source "$OS_ROOT/templates/configs/st/l4/l422/Kconfig"
+endif
+
+if MODEL_STM32L432
+    source "$OS_ROOT/templates/configs/st/l4/l432/Kconfig"
+endif
+
+if MODEL_STM32L433
+    source "$OS_ROOT/templates/configs/st/l4/l433/Kconfig"
+endif
+
+if MODEL_STM32L443
+    source "$OS_ROOT/templates/configs/st/l4/l443/Kconfig"
+endif
+
+if MODEL_STM32L462
+    source "$OS_ROOT/templates/configs/st/l4/l462/Kconfig"
+endif
+
+if MODEL_STM32L4r9
+    source "$OS_ROOT/templates/configs/st/l4/l4r9/Kconfig"
+endif
+
+if MODEL_STM32L496
+    source "$OS_ROOT/templates/configs/st/l4/l496/Kconfig"
+endif

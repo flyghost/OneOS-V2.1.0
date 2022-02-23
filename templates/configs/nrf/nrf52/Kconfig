@@ -1,0 +1,21 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_NRF52840
+    help
+        Select the device in NRF52
+
+    config MODEL_NRF52832
+        bool "NRF52832"
+		
+    config MODEL_NRF52840
+        bool "NRF52840"
+		
+endchoice
+
+if MODEL_NRF52832
+    source "$OS_ROOT/templates/configs/nrf/nrf52/nrf52832/Kconfig"
+endif
+
+if MODEL_NRF52840
+    source "$OS_ROOT/templates/configs/nrf/nrf52/nrf52840/Kconfig"
+endif

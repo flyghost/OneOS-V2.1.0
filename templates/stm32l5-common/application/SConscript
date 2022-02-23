@@ -1,0 +1,21 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+path =  [pwd]
+src = []
+
+#Add all .c files and .h files under application directory into compiling project. 
+for root, dir_list, file_list in os.walk(pwd):
+    c_files = [f for f in file_list if f.endswith(".c")]
+    if c_files:
+        src.extend([os.path.relpath(os.path.join(root, f), pwd) for f in c_files])
+    h_files = [f for f in file_list if f.endswith(".h")]
+    if h_files:
+        path.append(root)
+
+group = AddCodeGroup('application', src, depend = [''], CPPPATH = path)
+
+
+Return('group')

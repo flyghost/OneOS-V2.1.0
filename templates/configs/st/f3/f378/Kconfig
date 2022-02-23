@@ -1,0 +1,15 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F378CC
+    help
+        Select the device in STM32F378xx
+
+    config TEMP_STM32F378CC
+        bool "STM32F378CC"
+
+    config TEMP_STM32F378RC
+        bool "STM32F378RC"
+        
+    config TEMP_STM32F378VC
+        bool "STM32F378VC"
+endchoice

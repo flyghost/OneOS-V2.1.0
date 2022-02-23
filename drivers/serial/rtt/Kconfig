@@ -1,0 +1,14 @@
+menu "rtt uart"
+    config OS_USING_RTT
+        bool "Using jlink rtt uart drivers"
+        select OS_USING_SERIAL
+        select OS_SOFT_DMA_SUPPORT_NORMAL_MODE
+        select OS_SOFT_DMA_SUPPORT_SIMUL_TIMEOUT
+        default n
+
+    config OS_RTT_DEVICE_NAME
+        depends on OS_USING_RTT
+        string "jlink rtt uart device name"
+        default "uartRTT"
+
+endmenu

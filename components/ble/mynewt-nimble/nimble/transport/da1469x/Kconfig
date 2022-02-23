@@ -1,0 +1,24 @@
+config MYNEWT_VAL_
+    int ""
+    default 
+
+config MYNEWT_VAL_BLE_HCI_EVT_HI_BUF_COUNT
+    int "Number of high-priority event buffers."
+    default  2
+
+
+config MYNEWT_VAL_BLE_HCI_EVT_LO_BUF_COUNT
+    int "Number of low-priority event buffers."
+    default  8
+
+
+config MYNEWT_VAL_BLE_HCI_EVT_BUF_SIZE
+    int "Size of each event buffer, in bytes."
+    default  70
+
+
+config MYNEWT_VAL_BLE_ACL_BUF_COUNT
+    int "The number of ACL data buffers"
+    default 4
+
+

@@ -1,0 +1,27 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_FM33LG0
+    help
+        Select the device in FM33
+
+    config SERIES_FM33LG0
+        bool "FM33LG0"
+
+    config SERIES_FM33LC0
+        bool "FM33LC0"
+
+    config SERIES_FM33G0
+        bool "FM33G0"
+endchoice
+
+if SERIES_FM33LG0
+    source "$OS_ROOT/templates/configs/fm/lg0/Kconfig"
+endif
+
+if SERIES_FM33LC0
+    source "$OS_ROOT/templates/configs/fm/lc0/Kconfig"
+endif
+
+if SERIES_FM33G0
+    source "$OS_ROOT/templates/configs/fm/g0/Kconfig"
+endif

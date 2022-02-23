@@ -1,0 +1,30 @@
+menu "SDIO"
+config OS_USING_SDIO
+    bool "Using SD/MMC device drivers"
+    default n
+
+    if OS_USING_SDIO
+        config OS_SDIO_STACK_SIZE
+            int "The stack size for sdio irq thread"
+            default 512
+
+        config OS_SDIO_TASK_PRIORITY
+            int "The priority level value of sdio irq thread"
+            default 15
+
+        config OS_MMCSD_STACK_SIZE
+            int "The stack size for mmcsd thread"
+            default 1024
+
+        config OS_MMCSD_TASK_PREORITY
+            int "The priority level value of mmcsd thread"
+            default 22
+
+        config OS_MMCSD_MAX_PARTITION
+            int "mmcsd max partition"
+            default 16
+        config OS_SDIO_DEBUG
+            bool "Enable SDIO debug log output"
+        default n
+    endif
+endmenu

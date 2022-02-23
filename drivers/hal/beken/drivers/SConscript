@@ -1,0 +1,62 @@
+from build_tools import *
+Import('OS_ROOT')
+
+cwd  = PresentDir()
+src  = Glob('*.c')
+list = os.listdir(cwd)
+CPPPATH = [cwd]
+objs = []
+
+# Compile only by SOC_FAMILY_BK72XX family Socs
+if (IsDefined('SOC_FAMILY_BK72XX') == False):
+    print ('IsDefined SOC_FAMILY_BK72XX')
+    Return('objs') 
+
+# Selecte module needed
+if IsDefined('BEKEN_USING_FLASH') == False:
+    DeleteSrcFile(src, 'drv_flash.c')
+
+if IsDefined('RT_USING_ADC') == False:
+    DeleteSrcFile(src, 'drv_adc.c')
+	
+if (IsDefined('BEKEN_USING_UART1') == False) and (IsDefined('BEKEN_USING_UART2') == False):
+    DeleteSrcFile(src, 'drv_uart.c')
+    
+if IsDefined('BEKEN_USING_WDT') == False:
+    DeleteSrcFile(src, 'drv_wdt.c')
+    
+if IsDefined('BEKEN_USING_IIC') == False:
+    DeleteSrcFile(src, 'drv_iic.c')
+
+if IsDefined('BEKEN_USING_PWM') == False:
+    DeleteSrcFile(src, 'drv_pwm.c')
+    
+if IsDefined('BEKEN_USING_GPIO') == False:
+    DeleteSrcFile(src, 'drv_gpio.c')    
+
+if IsDefined('BEKEN_USING_SPI') == False:
+    DeleteSrcFile(src, 'drv_spi.c')
+    DeleteSrcFile(src, 'drv_spi_flash.c')
+    DeleteSrcFile(src, 'drv_spi_hslave.c')
+    DeleteSrcFile(src, 'drv_spi_psram.c')
+    
+### Oneos to do
+DeleteSrcFile(src, 'drv_i2s.c')     
+DeleteSrcFile(src, 'drv_pm.c')  
+DeleteSrcFile(src, 'drv_sdio_sd.c')
+DeleteSrcFile(src, 'drv_sdram.c')  
+DeleteSrcFile(src, 'drv_sys_ctrl.c')
+#DeleteSrcFile(src, 'drv_uart.c')
+DeleteSrcFile(src, 'drv_psram.c')
+DeleteSrcFile(src, 'drv_flash_disk.c')
+DeleteSrcFile(src, 'drv_flash_disk_readonly.c')
+	
+
+group = AddCodeGroup('Drivers', src, depend = ['SOC_FAMILY_BK72XX'], CPPPATH = CPPPATH)
+
+for d in list:
+    path = os.path.join(cwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        objs = objs + SConscript(os.path.join(d, 'SConscript'))
+objs = objs + group
+Return('objs')

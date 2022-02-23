@@ -1,0 +1,15 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32MP157
+    help
+        Select the device in STM32MP1xx
+
+    config MODEL_STM32MP157
+        bool "STM32MP157"
+
+endchoice
+
+if MODEL_STM32MP157
+    source "$OS_ROOT/templates/configs/st/mp1/mp157/Kconfig"
+endif
+

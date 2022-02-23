@@ -1,0 +1,30 @@
+config ARCH_MIPS
+    bool
+
+config ARCH_MIPS_XBURST
+    bool
+    select ARCH_MIPS
+
+config ARCH_MIPS_SOC_X1000
+    bool
+    select ARCH_MIPS_XBURST
+
+config ARCH_MIPS_CHIP_X1000
+    bool
+    select ARCH_MIPS_SOC_X1000
+
+config ARCH_MIPS_CHIP_X1000E
+    bool
+    select ARCH_MIPS_SOC_X1000
+
+config ARCH_MIPS_CHIP_X1500
+    bool
+    select ARCH_MIPS_SOC_X1000
+
+config ARCH_MIPS_LOONGSON
+    bool
+    select ARCH_MIPS
+
+config ARCH_MIPS_SOC_LS1B
+    bool
+    select ARCH_MIPS_LOONGSON

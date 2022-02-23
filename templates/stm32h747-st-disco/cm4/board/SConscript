@@ -1,0 +1,31 @@
+import os
+import osconfig
+from build_tools import *
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+''')
+
+src += [pwd + '/../../common/CubeMX_Config/CM4/Src/bsp.c']
+src += [pwd + '/../../common/CubeMX_Config/CM4/Src/stm32h7xx_it_bsp.c']
+src += [pwd + '/../../common/CubeMX_Config/CM4/Src/stm32h7xx_hal_msp.c']
+src += [pwd + '/../../common/CubeMX_Config/Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.c']
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/../../common/CubeMX_Config/CM4/Inc']
+path += [pwd + '/ports']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_stm32h747xx_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_stm32h747xx_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_stm32h747xx_iar.s']
+
+CPPDEFINES = ['STM32H747xx', 'CORE_CM4'] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

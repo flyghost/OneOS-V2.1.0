@@ -1,0 +1,52 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32G473CB
+    help
+        Select the device in STM32G473xx
+
+    config TEMP_STM32G473CB
+        bool "STM32G473CB"
+    
+    config TEMP_STM32G473CC
+        bool "STM32G473CC"
+
+    config TEMP_STM32G473CE
+        bool "STM32G473CE"
+
+    config TEMP_STM32G473MB
+        bool "STM32G473MB"
+
+    config TEMP_STM32G473MC
+        bool "STM32G473MC"
+
+    config TEMP_STM32G473ME
+        bool "STM32G473ME"
+        
+    config TEMP_STM32G473QB
+        bool "STM32G473QB"
+
+    config TEMP_STM32G473QC
+        bool "STM32G473QC"
+
+    config TEMP_STM32G473QE
+        bool "STM32G473QE"
+
+    config TEMP_STM32G473RB
+        bool "STM32G473RB"
+
+    config TEMP_STM32G473RC
+        bool "STM32G473RC"
+
+    config TEMP_STM32G473RE
+        bool "STM32G473RE"
+
+    config TEMP_STM32G473VB
+        bool "STM32G473VB"
+
+    config TEMP_STM32G473VC
+        bool "STM32G473VC"
+
+    config TEMP_STM32G473VE
+        bool "STM32G473VE"
+
+endchoice

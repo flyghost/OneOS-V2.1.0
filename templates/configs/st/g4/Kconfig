@@ -1,0 +1,49 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32G431
+    help
+        Select the device in STM32G4xx
+
+    config MODEL_STM32G431
+        bool "STM32G431"
+        
+    config MODEL_STM32G441
+        bool "STM32G441"
+        
+    config MODEL_STM32G473
+        bool "STM32G473"
+
+    config MODEL_STM32G474
+        bool "STM32G474"
+
+    config MODEL_STM32G483
+        bool "STM32G483"
+
+    config MODEL_STM32G484
+        bool "STM32G484"
+
+endchoice
+
+if MODEL_STM32G431
+    source "$OS_ROOT/templates/configs/st/g4/g431/Kconfig"
+endif
+
+if MODEL_STM32G441
+    source "$OS_ROOT/templates/configs/st/g4/g441/Kconfig"
+endif
+
+if MODEL_STM32G473
+    source "$OS_ROOT/templates/configs/st/g4/g473/Kconfig"
+endif
+
+if MODEL_STM32G474
+    source "$OS_ROOT/templates/configs/st/g4/g474/Kconfig"
+endif
+
+if MODEL_STM32G483
+    source "$OS_ROOT/templates/configs/st/g4/g483/Kconfig"
+endif
+
+if MODEL_STM32G484
+    source "$OS_ROOT/templates/configs/st/g4/g484/Kconfig"
+endif

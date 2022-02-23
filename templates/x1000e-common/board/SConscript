@@ -1,0 +1,19 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+
+src = Split('''
+board.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/ports']
+
+
+CPPDEFINES = [''] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

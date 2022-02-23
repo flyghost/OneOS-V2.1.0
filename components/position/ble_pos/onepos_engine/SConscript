@@ -1,0 +1,28 @@
+import os
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+objs = []
+src  = []
+LIB  = []
+LIBPATH = []
+path = []
+
+# list = os.listdir(pwd)
+# objs += AddCodeGroup('onepos', src, depend = [''], CPPPATH = [pwd])
+# for d in list:
+#     path = os.path.join(pwd, d)
+#     if os.path.isfile(os.path.join(path, 'SConscript')):
+#         objs = objs + SConscript(os.path.join(d, 'SConscript'))
+
+if IsDefined(['ONEPOS_USING_BLE_POS']):
+    LIB = ['ble_onepos_engine']
+    LIBPATH += [pwd]
+    path += [pwd]
+    src += Glob('*.c')
+
+objs += AddCodeGroup('onepos', [], depend = ['ONEPOS_USING_BLE_POS'], LIBS=LIB, LIBPATH = LIBPATH)
+objs += AddCodeGroup('onepos', src, depend = ['ONEPOS_USING_BLE_POS'], CPPPATH = path)
+
+Return('objs')

@@ -1,0 +1,94 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+
+# 1. LwM2M core
+core_src = Split("""
+core/block1.c
+core/bootstrap.c
+core/data.c
+core/discover.c
+core/json.c
+core/liblwm2m.c
+core/list.c
+core/lwm2m_utils.c
+core/management.c
+core/objects.c
+core/observe.c
+core/packet.c
+core/registration.c
+core/tlv.c
+core/transaction.c
+core/uri.c
+core/er-coap-13/er-coap-13.c
+""")
+
+core_path = [
+    pwd + '/../../../include',
+    pwd + '/core'
+]
+
+# 2. LwM2M agent tiny
+agent_tiny_src = Split("""
+../agent_tiny/atiny_lwm2m/agenttiny.c
+../agent_tiny/atiny_lwm2m/atiny_fota_manager.c
+../agent_tiny/atiny_lwm2m/atiny_fota_state.c
+../agent_tiny/atiny_lwm2m/atiny_rpt.c
+../agent_tiny/atiny_lwm2m/connection.c
+../agent_tiny/atiny_lwm2m/firmware_update.c
+../agent_tiny/atiny_lwm2m/object_access_control.c
+../agent_tiny/atiny_lwm2m/object_binary_app_data_container.c
+../agent_tiny/atiny_lwm2m/object_connectivity_moni.c
+../agent_tiny/atiny_lwm2m/object_connectivity_stat.c
+../agent_tiny/atiny_lwm2m/object_device.c
+../agent_tiny/atiny_lwm2m/object_firmware.c
+../agent_tiny/atiny_lwm2m/object_location.c
+../agent_tiny/atiny_lwm2m/object_security.c
+../agent_tiny/atiny_lwm2m/object_server.c
+../agent_tiny/atiny_lwm2m/platform_adapter.c
+""")
+
+agent_tiny_path = [
+    pwd + '/../agent_tiny/atiny_lwm2m'
+]
+
+#3. ota
+ota_src = Split("""
+""")
+
+ota_path = [
+    pwd + '/../../ota/diff_upgrade',
+    pwd + '/../../ota/flag_operate',
+    pwd + '/../../ota/package',
+    pwd + '/../../ota/script',
+    pwd + '/../../ota/sota',
+    pwd + '/../../ota/utility'
+]
+
+#4. support
+support_src = Split("""
+../../log/atiny_log.c
+""")
+
+support_path = [
+]
+
+###########################################################
+src = []
+path = []
+
+if IsDefined(['HUAWEI_CLOUD_PORTOCOL_LwM2M']):
+    src += core_src
+    src += agent_tiny_src
+    src += ota_src
+    src += support_src
+    path += core_path
+    path += agent_tiny_path
+    path += ota_path
+    path += support_path
+
+
+group = AddCodeGroup('cloud/huawei/lwm2m', src, depend = ['HUAWEI_CLOUD_PORTOCOL_LwM2M'], CPPPATH = path)
+
+Return('group')

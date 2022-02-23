@@ -1,0 +1,65 @@
+choice
+    prompt "|----MODEL"
+        default MODEL_STM32L053
+    help
+        Select the device in STM32L0xx
+
+    config MODEL_STM32L053
+        bool "STM32L053"
+        
+    config MODEL_STM32L010
+        bool "STM32L010"
+
+    config MODEL_STM32L071
+        bool "STM32L071"
+
+    config MODEL_STM32L072
+        bool "STM32L072"
+        
+    config MODEL_STM32L073
+        bool "STM32L073"
+
+    config MODEL_STM32L081
+        bool "STM32L081" 
+
+    config MODEL_STM32L082
+        bool "STM32L082"
+        
+    config MODEL_STM32L083
+        bool "STM32L083"        
+endchoice
+
+if MODEL_STM32L053
+    source "$OS_ROOT/templates/configs/st/l0/l053/Kconfig"
+endif
+
+if MODEL_STM32L010
+    source "$OS_ROOT/templates/configs/st/l0/l010/Kconfig"
+endif
+
+if MODEL_STM32L071
+    source "$OS_ROOT/templates/configs/st/l0/l071/Kconfig"
+endif
+
+if MODEL_STM32L072
+    source "$OS_ROOT/templates/configs/st/l0/l072/Kconfig"
+endif
+
+if MODEL_STM32L073
+    source "$OS_ROOT/templates/configs/st/l0/l073/Kconfig"
+endif
+
+if MODEL_STM32L081
+    source "$OS_ROOT/templates/configs/st/l0/l081/Kconfig"
+endif
+
+if MODEL_STM32L082
+    source "$OS_ROOT/templates/configs/st/l0/l082/Kconfig"
+endif
+
+if MODEL_STM32L083
+    source "$OS_ROOT/templates/configs/st/l0/l083/Kconfig"
+endif    
+
+
+

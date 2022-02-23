@@ -1,0 +1,39 @@
+menu "Tools"
+
+config MOLINK_USING_TOOLS
+    bool "Enable AT module network debug functions"
+    default n
+    select NET_USING_IP
+    select OS_USING_SHELL
+
+    if MOLINK_USING_TOOLS
+
+        config MOLINK_TOOLS_USING_IFCONFIG
+            bool "Enable molink ifconfig features"
+            depends on MOLINK_USING_IFCONFIG_OPS
+            default y
+
+        config MOLINK_TOOLS_USING_PING
+            depends on MOLINK_USING_PING_OPS && MOLINK_USING_IFCONFIG_OPS
+            bool "Enable molink ping features"
+            default y
+
+        if MOLINK_TOOLS_USING_PING
+            config MO_PING_MAX_TIMES_CONFIG
+            int "The maximum times of molink ping cmd config"
+            default 50
+        endif 
+
+        config MOLINK_TOOLS_USING_SOCKETSTAT
+            depends on MOLINK_USING_NETCONN_OPS
+            bool "Enable molink socket stat features"
+            default y
+
+        config MOLINK_TOOLS_USING_IPERF
+            depends on MOLINK_USING_SOCKETS_OPS
+            bool "Enable molink iperf feature"
+            default n
+
+    endif
+
+endmenu

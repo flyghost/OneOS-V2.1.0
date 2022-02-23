@@ -1,0 +1,26 @@
+from build_tools import *
+
+pwd = PresentDir()
+
+src = []
+CPPPATH = []
+
+if IsDefined(['NET_USING_ACW']):
+    CPPPATH += [pwd + '/include']
+    CPPPATH += [pwd + '/source']
+    src += Glob('source/acw_conf.c')
+    src += Glob('source/acw_main.c')
+    src += Glob('source/udp_client.c')
+    src += Glob('source/acw_master_dev_ap.c')
+    src += Glob('source/acw_slave_dev_ap.c')
+    src += Glob('source/acw_intf.c')
+    if IsDefined(['NET_USING_ACW_DEMO']):
+        src += Glob('source/plat_demo/mqtt_client.c')
+        if IsDefined(['BOARD_BK7231N']):
+            src += Glob('source/plat_demo/hlw8110.c')
+        src += Glob('source/plat_demo/led_key.c')
+        CPPPATH += [pwd + '/include/plat_demo']
+        
+group = AddCodeGroup('Acw', src, depend = ['NET_USING_ACW'], CPPPATH = CPPPATH)
+
+Return('group')

@@ -1,0 +1,42 @@
+import os
+import sys
+import osconfig
+
+if os.getenv('OS_ROOT'):
+    OS_ROOT = os.getenv('OS_ROOT')
+else:
+    OS_ROOT = os.path.normpath(os.getcwd() + '/../..')
+
+sys.path = sys.path + [os.path.join(OS_ROOT, 'scripts')]
+try:
+    from build_tools import *
+except:
+    print('Cannot found oneos root directory, please check OS_ROOT')
+    print(OS_ROOT)
+    exit(-1)
+
+RESULT = 'oneos.' + osconfig.RESULT_SUFFIX
+
+env = Environment(tools = ['mingw'],
+    AS = osconfig.AS, ASFLAGS = osconfig.AFLAGS,
+    CC = osconfig.CC, CCFLAGS = osconfig.CFLAGS,
+    AR = osconfig.AR, ARFLAGS = '-rc',
+    CXX = osconfig.CXX, CXXFLAGS = osconfig.CXXFLAGS,
+    LINK = osconfig.LINK, LINKFLAGS = osconfig.LFLAGS)
+env.PrependENVPath('PATH', osconfig.COMPILER_PATH)
+
+if osconfig.COMPILER == 'iar':
+    env.Replace(CCCOM = ['$CC $CCFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -o $TARGET $SOURCES'])
+    env.Replace(ARFLAGS = [''])
+    env.Replace(LINKCOM = env["LINKCOM"] + ' --map oneos.map')
+
+Export('OS_ROOT')
+Export('osconfig')
+
+# prepare building environment
+objs = SetupCompile(env, OS_ROOT, has_libcpu=False)
+
+Import('kernel_vdir')
+
+# make a building
+StartCompile(RESULT, objs)

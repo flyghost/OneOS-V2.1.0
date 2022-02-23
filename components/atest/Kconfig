@@ -1,0 +1,21 @@
+menu "Atest"
+    config OS_USING_ATEST
+        bool "Enable atest"
+        default y
+        select OS_USING_SHELL
+        select OS_USING_DLOG
+
+    if OS_USING_ATEST
+        config ATEST_TASK_STACK_SIZE
+            int "The atest task stack size"
+            default 4096
+        config ATEST_TASK_PRIORITY
+            int "The atest task priority"
+            default 5   if OS_TASK_PRIORITY_8
+            default 10  if OS_TASK_PRIORITY_16
+            default 20  if OS_TASK_PRIORITY_32
+            default 40  if OS_TASK_PRIORITY_64
+            default 80  if OS_TASK_PRIORITY_128
+            default 160 if OS_TASK_PRIORITY_256
+    endif
+endmenu

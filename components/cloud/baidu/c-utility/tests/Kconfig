@@ -1,0 +1,104 @@
+# Kconfig file for Baiduiot unit test
+#menu "Unit test"
+    comment "Enable Baidu IoT Unit Test"
+    choice 
+        prompt "Choose unittest"
+        config AGENTTIME_UT
+        bool "agenttime_ut"
+
+        config BASE64_UT
+        bool "base64_ut"
+
+        config BUFFER_UT
+        bool "buffer_ut"
+
+        config CONSTBUFFER_UT
+        bool "constbuffer_ut"
+
+        config CONSTMAP_UT
+        bool "constmap_ut"
+
+        config CRTABSTTRACTIONS_UT
+        bool "crtabstractions_ut"
+
+        config DNS_ASYNC_UT
+        bool "dns_async_ut"
+
+        config DOUBLYLINKEDLIST_UT
+        bool "doublylinkedlist_ut"
+
+        config GBALLOC_UT
+        bool "gballoc_ut"
+
+        config GBALLOC_WITHOUT_INIT_UT
+        bool "gballoc_without_init_ut"     
+
+        config HMACSHA256_UT
+        bool "hmacsha256_ut"           
+
+        config HTTP_PROXY_IO_UT
+        bool "http_proxy_io_ut"  
+
+        config LOCK_UT
+        bool "lock_ut"    
+
+        config MAP_UT
+        bool "map_ut" 
+
+        config OPTIONHANDLER_UT
+        bool "optionhandler_ut" 
+
+        config REFCOUNT_UT
+        bool "refcount_ut" 
+
+        config SASTOKEN_UT
+        bool "sastoken_ut" 
+
+#        config SOCKETIO_BERKELEY_UT
+#        bool "socketio_berkeley_ut" 
+
+        config STRING_TOKENIZER_UT
+        bool "string_tokenizer_ut" 
+
+        config STRINGS_UT
+        bool "strings_ut" 
+
+        config TICKCOUNTER_UT
+        bool "tickcounter_ut" 
+
+        config TLSIO_OPTIONS_UT
+        bool "tlsio_options_ut" 
+
+        config URLENCODE_UT
+        bool "urlencode_ut" 
+
+        config UTF8_CHECKER_UT
+        bool "utf8_checker_ut" 
+
+        config UWS_CLIENT_UT
+        bool "uws_client_ut" 
+
+        config UWS_FRAME_ENCODER_UT
+        bool "uws_frame_encoder_ut" 
+
+        config VECTOR_UT
+        bool "vector_ut" 
+
+        config WSIO_UT
+        bool "wsio_ut" 
+
+        config XIO_UT
+        bool "xio_ut" 
+
+        config UMQTT_CLIENT_UT
+        bool "umqttclient_ut" 
+
+        config UMQTT_CODE_UT
+        bool "umqttcode_ut" 
+
+        config UMQTT_MESSAGE_UT
+        bool "umqttmessage_ut" 
+
+    endchoice
+
+#endmenu

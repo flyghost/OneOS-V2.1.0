@@ -1,0 +1,7 @@
+from build_tools import *
+
+pwd     = PresentDir()
+src	= Glob('*.c')
+group = AddCodeGroup('posix_serial', src, depend = ['OS_USING_POSIX_SERIAL'], CPPPATH = [pwd])
+
+Return('group')

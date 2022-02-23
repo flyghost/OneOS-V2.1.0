@@ -1,0 +1,167 @@
+menu "HwCrypto"
+menuconfig OS_USING_HWCRYPTO
+        bool "Using hardware crypto drivers"
+        default n
+
+    if OS_USING_HWCRYPTO
+        config OS_HWCRYPTO_DEFAULT_NAME
+            string "Hardware crypto device name"
+            default "hwcryto"
+
+        config OS_HWCRYPTO_IV_MAX_SIZE
+            int "IV max size"
+            default "16"
+
+        config OS_HWCRYPTO_KEYBIT_MAX_SIZE
+            int "Key max bit length"
+            default 256
+
+        config OS_HWCRYPTO_USING_GCM
+            bool "Using hardware GCM"
+            default n
+
+        config OS_HWCRYPTO_USING_AES
+            bool "Using hardware AES"
+            default n
+
+        if OS_HWCRYPTO_USING_AES
+            config OS_HWCRYPTO_USING_AES_ECB
+                bool "Using hardware AES ECB mode"
+                default y
+
+            config OS_HWCRYPTO_USING_AES_CBC
+                bool "Using hardware AES CBC mode"
+                default n
+
+            config OS_HWCRYPTO_USING_AES_CFB
+                bool "Using hardware AES CFB mode"
+                default n
+
+            config OS_HWCRYPTO_USING_AES_CTR
+                bool "Using hardware AES CTR mode"
+                default n
+
+            config OS_HWCRYPTO_USING_AES_OFB
+                bool "Using hardware AES OFB mode"
+                default n
+        endif
+
+        config OS_HWCRYPTO_USING_DES
+            bool "Using hardware DES"
+            default n
+
+        if OS_HWCRYPTO_USING_DES
+            config OS_HWCRYPTO_USING_DES_ECB
+                bool "Using hardware DES ECB mode"
+                default y
+
+            config OS_HWCRYPTO_USING_DES_CBC
+                bool "Using hardware DES CBC mode"
+                default n
+        endif
+
+        config OS_HWCRYPTO_USING_3DES
+            bool "Using hardware 3DES"
+            default n
+
+        if OS_HWCRYPTO_USING_3DES
+            config OS_HWCRYPTO_USING_3DES_ECB
+                bool "Using hardware 3DES ECB mode"
+                default y
+
+            config OS_HWCRYPTO_USING_3DES_CBC
+                bool "Using hardware 3DES CBC mode"
+                default n
+        endif
+
+        config OS_HWCRYPTO_USING_RC4
+            bool "Using hardware RC4"
+            default n
+
+        config OS_HWCRYPTO_USING_MD5
+            bool "Using hardware MD5"
+            default n
+
+        config OS_HWCRYPTO_USING_SHA1
+            bool "Using hardware SHA1"
+            default n
+
+        config OS_HWCRYPTO_USING_SHA2
+            bool "Using hardware SHA2"
+            default n
+
+        if OS_HWCRYPTO_USING_SHA2
+            config OS_HWCRYPTO_USING_SHA2_224
+                bool "Using hardware SHA2_224 mode"
+                default n
+
+            config OS_HWCRYPTO_USING_SHA2_256
+                bool "Using hardware SHA2_256 mode"
+                default y
+
+            config OS_HWCRYPTO_USING_SHA2_384
+                bool "Using hardware SHA2_384 mode"
+                default n
+
+            config OS_HWCRYPTO_USING_SHA2_512
+                bool "Using hardware SHA2_512 mode"
+                default n
+        endif
+
+        config OS_HWCRYPTO_USING_RNG
+            bool "Using hardware RNG"
+            default n
+
+        config OS_HWCRYPTO_USING_CRC
+            bool "Using hardware CRC"
+            default n
+
+        if OS_HWCRYPTO_USING_CRC
+            config OS_HWCRYPTO_USING_CRC_07
+                bool "Using hardware CRC-8 0x07 polynomial"
+                default n
+
+            config OS_HWCRYPTO_USING_CRC_8005
+                bool "Using hardware CRC-16 0x8005 polynomial"
+                default n
+
+            config OS_HWCRYPTO_USING_CRC_1021
+                bool "Using hardware CRC-16 0x1021 polynomial"
+                default n
+
+            config OS_HWCRYPTO_USING_CRC_3D65
+                bool "Using hardware CRC-16 0x3D65 polynomial"
+                default n
+
+            config OS_HWCRYPTO_USING_CRC_04C11DB7
+                bool "Using hardware CRC-32 0x04C11DB7 polynomial"
+                default y
+        endif
+
+        config OS_HWCRYPTO_USING_BIGNUM
+            bool "Using hardware bignum"
+            default n
+
+        if OS_HWCRYPTO_USING_BIGNUM
+            config OS_HWCRYPTO_USING_BIGNUM_EXPTMOD
+                bool "Using hardware bignum expt_mod operation"
+                default y
+
+            config OS_HWCRYPTO_USING_BIGNUM_MULMOD
+                bool "Using hardware bignum mul_mod operation"
+                default y
+
+            config OS_HWCRYPTO_USING_BIGNUM_MUL
+                bool "Using hardware bignum mul operation"
+                default n
+
+            config OS_HWCRYPTO_USING_BIGNUM_ADD
+                bool "Using hardware bignum add operation"
+                default n
+
+            config OS_HWCRYPTO_USING_BIGNUM_SUB
+                bool "Using hardware bignum sub operation"
+                default n
+        endif
+    endif
+endmenu

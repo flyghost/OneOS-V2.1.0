@@ -1,0 +1,34 @@
+if (USING_HUAWEI_CLOUD_CONNECT)
+    config HUAWEI_CLOUD_WITH_TLS
+        bool "Enable/Disable (D)TLS"
+        default n
+endif
+
+if (HUAWEI_CLOUD_WITH_TLS)
+    choice
+        prompt "Secret Key Type"
+        default HUAWEI_PSK
+
+        config HUAWEI_PSK
+        bool "PSK"
+
+    if (HUAWEI_CLOUD_PORTOCOL_MQTT)
+        config HUAWEI_CA
+        bool "CA"
+    endif
+
+    endchoice
+endif
+
+if (HUAWEI_CLOUD_PORTOCOL_MQTT) && !(HUAWEI_CLOUD_WITH_TLS)
+    config HUAWEI_CLOUD_MQTT_PASSWORD
+        string "Config Password Value"
+        default "12345678"
+endif
+
+if HUAWEI_PSK
+    config HUAWEI_CLOUD_PSK
+        string "Config PSK Value"
+        default "12345678"
+endif
+

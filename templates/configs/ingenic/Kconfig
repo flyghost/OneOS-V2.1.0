@@ -1,0 +1,15 @@
+choice
+    prompt "|--SERIES"
+        default SERIES_XBURST
+    help
+        XBURXT
+
+    config SERIES_XBURST
+        bool "XBURST"
+        
+endchoice
+
+if SERIES_XBURST
+    source "$OS_ROOT/templates/configs/ingenic/xburst/Kconfig"
+endif
+

@@ -1,0 +1,52 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32f302-nucleo
+    help
+        Select the device in STM32F302xx
+
+    config TEMP_STM32F302C8
+        bool "STM32F302C8"
+
+    config TEMP_STM32F302CB
+        bool "STM32F302CB"
+        
+    config TEMP_STM32F302CC
+        bool "STM32F302CC"
+
+    config TEMP_STM32F302R8
+        bool "STM32F302R8"
+
+    config TEMP_STM32F302RB
+        bool "STM32F302RB"
+        
+    config TEMP_STM32F302RC
+        bool "STM32F302RC"
+        
+    config TEMP_STM32F302RD
+        bool "STM32F302RD"
+        
+    config TEMP_STM32F302RE
+        bool "STM32F302RE"
+
+    config TEMP_STM32F302VB
+        bool "STM32F302VB"
+
+    config TEMP_STM32F302VC
+        bool "STM32F302VC"
+
+    config TEMP_STM32F302VD
+        bool "STM32F302VD"
+
+    config TEMP_STM32F302VE
+        bool "STM32F302VE"
+        
+    config TEMP_STM32F302ZD
+        bool "STM32F302ZD"
+
+    config TEMP_STM32F302ZE
+        bool "STM32F302ZE"
+
+    config TEMP_stm32f302-nucleo
+        bool "stm32f302-nucleo"
+        
+endchoice

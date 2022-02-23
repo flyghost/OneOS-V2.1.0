@@ -1,0 +1,70 @@
+
+menu "ML302 Config" 
+
+    config ML302_AUTO_CREATE
+        bool "Enable ML302 Module Object Auto Create"
+        default n
+
+    if ML302_AUTO_CREATE
+
+        config ML302_DEVICE_NAME
+            string "ML302 Interface Device Name"
+            default "uart2"
+
+        config ML302_DEVICE_RATE
+            int "ML302 Interface Device Rate"
+            default 115200
+
+        config ML302_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 512
+
+    endif
+
+    config ML302_USING_GENERAL_OPS
+        bool "Enable ML302 Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+    
+    config ML302_USING_NETSERV_OPS
+        bool "Enable ML302 Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config ML302_USING_PING_OPS
+        bool "Enable ML302 Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config ML302_USING_IFCONFIG_OPS
+        bool "Enable ML302 Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select ML302_USING_GENERAL_OPS
+        select ML302_USING_NETSERV_OPS
+        default y
+
+    config ML302_USING_NETCONN_OPS
+        bool "Enable ML302 Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config ML302_USING_SOCKETS_OPS
+        bool "Enable ML302 Module BSD Socket Operates"
+        select ML302_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+#    config ML302_USING_MQTTC_OPS
+#        bool "Enable ML302 Module MQTT Client Operates"
+#        select MOLINK_USING_MQTTC_OPS
+#        default n
+#
+#    if ML302_USING_MQTTC_OPS
+#
+#        config ML302_USING_MQTTC_TASK
+#        bool "Enable ML302 Module MQTT Client Task"
+#        select MOLINK_USING_MQTTC_TASK
+#        default n
+#    endif
+
+endmenu

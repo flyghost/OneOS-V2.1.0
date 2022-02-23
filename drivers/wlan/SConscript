@@ -1,0 +1,15 @@
+from build_tools import *
+
+pwd = PresentDir()
+path =  [pwd]
+
+src = Split('''
+wlan_dev.c
+''')
+
+if IsDefined(['OS_WLAN_LWIP']):
+    src += ['wlan_lwip.c']
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_WLAN'], CPPPATH = path)
+
+Return('group')

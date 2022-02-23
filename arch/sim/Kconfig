@@ -1,0 +1,10 @@
+config ARCH_X86_64
+    bool
+
+config ARCH_SIM_POSIX
+    bool
+    select ARCH_X86_64
+
+config ARCH_SIM_WIN32
+    bool
+    select ARCH_X86_64

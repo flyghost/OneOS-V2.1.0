@@ -1,0 +1,45 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32F205RG
+    help
+        Select the device in GD32F205xx
+
+
+    config TEMP_GD32F205RC
+        bool "GD32F205RC"
+
+    config TEMP_GD32F205RE
+        bool "GD32F205RE"
+
+    config TEMP_GD32F205RG
+        bool "GD32F205RG"
+
+    config TEMP_GD32F205RK
+        bool "GD32F205RK"
+
+    config TEMP_GD32F205VC
+        bool "GD32F205VC"
+
+    config TEMP_GD32F205VE
+        bool "GD32F205VE"
+
+    config TEMP_GD32F205VG
+        bool "GD32F205VG"
+
+    config TEMP_GD32F205VK
+        bool "GD32F205VK"
+
+    config TEMP_GD32F205ZC
+        bool "GD32F205ZC"
+
+    config TEMP_GD32F205ZE
+        bool "GD32F205ZE"
+
+    config TEMP_GD32F205ZG
+        bool "GD32F205ZG"
+
+    config TEMP_GD32F205ZK
+        bool "GD32F205ZK"
+
+endchoice
+

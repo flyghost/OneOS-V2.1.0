@@ -1,0 +1,19 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F415ZG
+    help
+        Select the device in STM32F415xx
+
+    config TEMP_STM32F415RG
+        bool "STM32F415RG"
+    
+    config TEMP_STM32F415OG
+        bool "STM32F415OG"
+    
+    config TEMP_STM32F415VG
+        bool "STM32F415VG"
+    
+    config TEMP_STM32F415ZG
+        bool "STM32F415ZG"
+    
+endchoice

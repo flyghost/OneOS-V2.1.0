@@ -1,0 +1,30 @@
+menu "Acw"
+
+config NET_USING_ACW
+    bool "Enable auto config WIFI"
+	select PKG_USING_EASYFLASH
+	default n
+	
+    if NET_USING_ACW
+		config NET_USING_ACW_DEMO
+            bool "Enable acw demo"
+			select NET_USING_PAHO_MQTT
+            default n
+		config NET_USING_ACW_CRYPTO
+            bool "Enable passwd crypto"
+			select SECURITY_USING_MBEDTLS
+            default n
+		if NET_USING_ACW_CRYPTO
+            choice
+            prompt "acw crypto choice"
+            default NET_USING_ACW_CRYPTO_HASH
+
+            config NET_USING_ACW_CRYPTO_HASH
+                bool "Hash key"
+            config NET_USING_ACW_CRYPTO_PRI
+                bool "Pri Key"
+            endchoice
+        endif	
+    endif
+
+endmenu

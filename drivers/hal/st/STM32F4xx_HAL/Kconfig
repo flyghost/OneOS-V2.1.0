@@ -1,0 +1,52 @@
+config SERIES_STM32F4
+    bool
+    select ARCH_ARM_CORTEX_M4
+    default n
+
+config SOC_STM32F4XX
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F4
+    default n
+
+config SOC_STM32F429xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F4
+    default n
+
+config SOC_STM32F407xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F4
+    default n
+
+config SOC_STM32F405xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F4
+    default n
+
+config SOC_STM32F469xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F4
+    default n
+    
+config SOC_STM32F423xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F4
+    default n
+    
+config SOC_STM32F427xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F4
+    default n
+    
+config SOC_STM32F479xx
+    bool
+    select MANUFACTOR_STM32
+    select SERIES_STM32F4
+    default n

@@ -1,0 +1,34 @@
+menu "CMS ID"
+config CMS_USING_ID
+    bool "Enable CMS_ID for register and verification"
+#    select SECURITY_USING_MBEDTLS
+    default n
+
+    if CMS_USING_ID
+        config CMS_ID_SET_PID
+            prompt "Pid config"
+            help
+                config pid
+            string
+            default "BfGoACQ38Q"
+
+            config CMS_ID_KEY
+            prompt "key config"
+            help
+                config key by hex
+            string
+            default "E6004E3F46ED3627F7C72E3AE2346FD6"
+
+            choice
+                prompt "Auth Mode"
+                default UNILATERALISM_AUTH
+
+                config MUTUAL_AUTH
+                    bool "Mutual Auth"
+
+                config UNILATERALISM_AUTH
+                    bool "Unilateralism Auth"
+            endchoice
+    endif
+    
+endmenu

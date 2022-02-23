@@ -1,0 +1,30 @@
+menu "CORTEX-M Boot"
+    if ARCH_ARM_CORTEX_M
+        config BSP_INCLUDE_VECTOR_TABLE
+            bool "include vector table"
+            default y
+            
+        menuconfig BSP_BOOT_OPTION
+            bool "Board boot configure"
+            default n
+            
+            if BSP_BOOT_OPTION
+                config BSP_TEXT_SECTION_ADDR
+                    hex "text section addr"
+                    default 0x08000000
+                    
+                config BSP_TEXT_SECTION_SIZE
+                    hex "text section size"
+                    default 0x00080000
+                    
+                config BSP_DATA_SECTION_ADDR
+                    hex "data section addr"
+                    default 0x20000000
+                    
+                config BSP_DATA_SECTION_SIZE
+                    hex "data section size"
+                    default 0x00008000
+            endif
+            
+    endif
+endmenu

@@ -1,0 +1,11 @@
+menu "config"
+		config MYNEWT_VAL_BLE_STORE_CONFIG_PERSIST
+		    int "Whether to save data to sys/config, or just keep it in RAM."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_STORE_SYSINIT_STAGE
+		    int "Sysinit stage for BLE host store."
+		    default 500
+endmenu
+

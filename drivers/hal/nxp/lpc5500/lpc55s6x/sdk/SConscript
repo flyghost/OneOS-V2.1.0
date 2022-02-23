@@ -1,0 +1,43 @@
+# for module compiling
+import os
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+
+group = []
+src = []
+path = []
+
+path = ['CMSIS/Core/Include']
+path += ['devices']
+if IsDefined(['OS_USING_USB_DEVICE']):
+    src += ['middleware/usb/device/usb_device_dci.c']
+    src += ['middleware/usb/device/usb_device_lpcip3511.c']
+    src += ['components/osa/fsl_os_abstraction_bm.c']
+    src += ['middleware/usb/output/source/device/class/usb_device_class.c']
+    src += ['middleware/usb/output/source/device/usb_device_ch9.c']
+    if IsDefined(['OS_USB_DEVICE_HID']):
+        src += ['middleware/usb/output/source/device/class/usb_device_hid.c']
+    if IsDefined(['OS_USB_DEVICE_AUDIO']):
+        src += ['middleware/usb/output/source/device/class/usb_device_audio.c']
+    if IsDefined(['OS_USB_DEVICE_CDC']):
+        src += ['middleware/usb/output/source/device/class/usb_device_cdc.c']
+    if IsDefined(['BSP_USB_DEVICE_HS']):
+        path += [pwd + '/middleware/usb/output/npw/device_config/ip3511hs']
+    if IsDefined(['BSP_USB_DEVICE_FS']):
+        path += [pwd + '/middleware/usb/output/npw/device_config/ip3511fs']
+    path += [pwd + '/middleware/usb/include']
+    path += [pwd + '/middleware/usb/device']
+    path += [pwd + '/middleware/usb/phy']
+    path += [pwd + '/middleware/usb/output/source/device']
+    path += [pwd + '/middleware/usb/output/source/device/class']
+    path += [pwd + '/components/osa']
+    path += [pwd + '/components/lists']
+    
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_NXP_LPC55S6X'], CPPPATH = path)
+
+group += SConscript(os.path.join(pwd, 'devices/SConscript'))
+    
+Return('group')

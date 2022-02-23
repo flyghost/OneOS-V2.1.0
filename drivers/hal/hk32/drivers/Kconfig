@@ -1,0 +1,100 @@
+config BSP_USING_PIN
+    bool "pin"
+    select OS_USING_PIN
+    default n
+    
+config BSP_USING_USART
+    bool "usart"
+    select OS_USING_SERIAL
+    default n
+    
+    if BSP_USING_USART
+        config BSP_USING_USART1
+            bool "usart1"
+            default n
+            
+        config BSP_USING_USART2
+            bool "usart2"
+            default n
+            
+        config BSP_USING_USART3
+            bool "usart3"
+            default n
+    endif
+    
+config BSP_USING_TIMER
+    bool "timer"
+    select OS_USING_TIMER_DRIVER
+    select OS_USING_CLOCKSOURCE
+    select OS_USING_CLOCKEVENT
+    default n
+    
+    if BSP_USING_TIMER
+        
+        config BSP_USING_TIMER1
+            bool "timer1"
+            depends on SERIES_HK32F3
+            default n
+        
+        config BSP_USING_TIMER2
+            bool "timer2"
+            depends on (SERIES_HK32F1 || SERIES_HK32F3)
+            default n
+            
+        config BSP_USING_TIMER3
+            bool "timer3"
+            depends on (SERIES_HK32F0 || SERIES_HK32F1 || SERIES_HK32F3)
+            default n
+            
+        config BSP_USING_TIMER4
+            bool "timer4"
+            depends on (SERIES_HK32F1 || SERIES_HK32F3)
+            default n
+            
+        config BSP_USING_TIMER5
+            bool "timer5"
+            depends on SERIES_HK32F3
+            default n
+            
+        config BSP_USING_TIMER6
+            bool "timer6"
+            depends on (SERIES_HK32F0 || SERIES_HK32F1 || SERIES_HK32F3)
+            default n
+            
+        config BSP_USING_TIMER7
+            bool "timer7"
+            depends on SERIES_HK32F3
+            default n
+            
+        config BSP_USING_TIMER8
+            bool "timer8"
+            depends on SERIES_HK32F3
+            default n
+            
+        config BSP_USING_TIMER14
+            bool "timer14"
+            depends on SERIES_HK32F0
+            default n
+            
+        config BSP_USING_TIMER15
+            bool "timer15"
+            depends on SERIES_HK32F0
+            default n
+            
+        config BSP_USING_TIMER16
+            bool "timer16"
+            depends on SERIES_HK32F0
+            default n
+            
+        config BSP_USING_TIMER17
+            bool "timer17"
+            depends on SERIES_HK32F0
+            default n
+       
+    endif
+    
+config BSP_USING_FLASH
+    bool "on chip flash"
+    select OS_USING_FAL
+    default n
+    

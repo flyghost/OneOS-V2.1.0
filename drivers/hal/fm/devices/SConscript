@@ -1,0 +1,21 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+""")
+
+if IsDefined(['OS_USING_DEVICE']):
+    src += ['fm33_devices.c']
+
+path =  [pwd]
+
+group = AddCodeGroup('hal/devices', src, depend = ['SERIES_FM33LC0'], CPPPATH = path)
+group = AddCodeGroup('hal/devices', src, depend = ['SERIES_FM33LG0'], CPPPATH = path)
+group = AddCodeGroup('hal/devices', src, depend = ['SERIES_FM33G0'], CPPPATH = path)
+
+Return('group')
+

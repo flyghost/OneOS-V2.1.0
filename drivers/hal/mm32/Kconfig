@@ -1,0 +1,70 @@
+config MANUFACTOR_MM32
+    bool
+    default n
+
+config SERIES_MM32F013XX
+    bool
+    select MANUFACTOR_MM32
+    select ARCH_ARM_CORTEX_M0
+    default n
+
+config SERIES_MM32F027XX
+    bool
+    select MANUFACTOR_MM32
+    select ARCH_ARM_CORTEX_M0
+    default n
+    
+config SERIES_MM32F103XX
+    bool
+    select MANUFACTOR_MM32
+    select ARCH_ARM_CORTEX_M3
+    default n
+
+config SERIES_MM32F327XX
+    bool
+    select MANUFACTOR_MM32
+    select ARCH_ARM_CORTEX_M3
+    default n
+    
+config SERIES_MM32L3XX
+    bool
+    select MANUFACTOR_MM32
+    select ARCH_ARM_CORTEX_M3
+    default n
+
+config SERIES_MM32SPIN0XX
+    bool
+    select MANUFACTOR_MM32
+    select ARCH_ARM_CORTEX_M0
+    default n
+
+config SERIES_MM32SPIN2XX
+    bool
+    select MANUFACTOR_MM32
+    select ARCH_ARM_CORTEX_M0
+    default n
+
+config SERIES_MM32W3XX
+    bool
+    select MANUFACTOR_MM32
+    select SERIES_MM32L3XX
+    select ARCH_ARM_CORTEX_M3
+    default n
+
+config OS_USING_SDIO_MM32
+    bool "Using MM32 SD/MMC device drivers"
+    default n
+    
+    if OS_USING_SDIO_MM32
+        config OS_USING_SDIO_SD
+        bool
+            default n
+        config OS_USING_SDIO_MMC
+        bool
+            default n
+        config OS_USING_SDIO_SDIO
+        bool
+            default n
+    endif
+    
+source "$OS_ROOT/drivers/hal/mm32/*/Kconfig"

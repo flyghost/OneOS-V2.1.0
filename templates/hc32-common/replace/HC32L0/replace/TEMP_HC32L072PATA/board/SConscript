@@ -1,0 +1,25 @@
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+
+src = Split('''
+board.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/ports']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_hc32l07x_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_hc32l07x_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_hc32l07x_iar.s']
+
+CPPDEFINES = ['HC32L07xPxxx']
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

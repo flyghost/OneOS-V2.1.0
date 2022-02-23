@@ -1,0 +1,16 @@
+# for network related component
+import os
+Import('OS_ROOT')
+from build_tools import *
+
+objs = []
+pwd = PresentDir()
+list = os.listdir(pwd)
+
+# if IsDefined(['NET_USING_LWIP', 'NET_USING_LWIP202']):
+# 	objs = SConscript(('lwip-2.0.2/SConscript'))
+
+if IsDefined(['NET_USING_LWIP', 'NET_USING_LWIP212']):
+	objs = SConscript(('lwip-2.1.2/SConscript'))
+
+Return('objs')

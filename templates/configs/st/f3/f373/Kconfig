@@ -1,0 +1,34 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F373CB
+    help
+        Select the device in STM32F373xx
+
+    config TEMP_STM32F373C8
+        bool "STM32F373C8"
+        
+    config TEMP_STM32F373CB
+        bool "STM32F373CB"
+        
+    config TEMP_STM32F373CC
+        bool "STM32F373CC"
+
+    config TEMP_STM32F373R8
+        bool "STM32F373R8"
+
+    config TEMP_STM32F373RB
+        bool "STM32F373RB"
+
+    config TEMP_STM32F373RC
+        bool "STM32F373RC"
+        
+    config TEMP_STM32F373V8
+        bool "STM32F373V8"
+
+    config TEMP_STM32F373VB
+        bool "STM32F373VB"
+
+    config TEMP_STM32F373VC
+        bool "STM32F373VC"
+
+endchoice

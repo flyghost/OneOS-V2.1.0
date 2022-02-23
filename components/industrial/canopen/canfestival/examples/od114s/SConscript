@@ -1,0 +1,7 @@
+from build_tools import *
+pwd     = PresentDir()
+CPPPATH = [pwd]
+src = Glob('*.c')
+group = AddCodeGroup('industrial/canfestival/ods114s', src, depend = ['OS_USING_CANFESTIVAL_EXAMPLE_OD114S'], CPPPATH = CPPPATH)
+Return('group')
+

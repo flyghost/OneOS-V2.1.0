@@ -1,0 +1,28 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F411VE
+    help
+        Select the device in STM32F411xx
+
+    config TEMP_STM32F411CC
+        bool "STM32F411CC"
+        
+    config TEMP_STM32F411CE
+        bool "STM32F411CE"
+    
+    config TEMP_STM32F411RC
+        bool "STM32F411RC"
+        
+    config TEMP_STM32F411RE
+        bool "STM32F411RE"
+
+    config TEMP_STM32F411VC
+        bool "STM32F411VC"
+        
+    config TEMP_STM32F411VE
+        bool "STM32F411VE"
+    
+    config TEMP_stm32f411-ret6-nucleo
+        bool "stm32f411-ret6-nucleo"
+    
+endchoice

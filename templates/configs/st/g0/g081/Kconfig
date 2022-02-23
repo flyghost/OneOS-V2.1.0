@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32G081RB
+    help
+        Select the device in STM32G081xx
+
+    config TEMP_STM32G081CB
+        bool "STM32G081CB"
+
+    config TEMP_STM32G081RB
+        bool "STM32G081RB"
+    
+endchoice

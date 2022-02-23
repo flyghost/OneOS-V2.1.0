@@ -1,0 +1,93 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+pwd = PresentDir()
+objs = []
+group = []
+CPPPATH = [pwd]
+
+src = Split("""
+drivers/fsl_anactrl.c
+drivers/fsl_casper.c
+drivers/fsl_clock.c
+drivers/fsl_cmp.c
+drivers/fsl_common.c
+drivers/fsl_dma.c
+drivers/fsl_flexcomm.c
+drivers/fsl_common_arm.c
+drivers/fsl_gint.c
+drivers/fsl_gpio.c
+drivers/fsl_hashcrypt.c
+drivers/fsl_iap.c
+drivers/fsl_inputmux.c
+drivers/fsl_mrt.c
+drivers/fsl_ostimer.c
+drivers/fsl_pint.c
+drivers/fsl_plu.c
+drivers/fsl_prince.c
+drivers/fsl_puf.c
+drivers/fsl_reset.c
+drivers/fsl_sdif.c
+drivers/fsl_sysctl.c
+system_LPC55S69_cm33_core0.c
+arm/keil_lib_power_cm33_core0.lib
+""")
+
+if IsDefined(['BSP_USING_CRC_ENGINE']):
+    src += ['drivers/fsl_crc.c']
+
+if IsDefined(['BSP_USING_CTIMER']):
+    src += ['drivers/fsl_ctimer.c']
+
+if IsDefined(['BSP_USING_I2C']):
+    src += ['drivers/fsl_i2c.c']
+    src += ['drivers/fsl_i2c_dma.c']
+
+if IsDefined(['BSP_USING_I2S']):
+    src += ['drivers/fsl_i2s.c']
+    src += ['drivers/fsl_i2s_dma.c']
+
+if IsDefined(['BSP_USING_ADC']):
+    src += ['drivers/fsl_lpadc.c']
+    
+if IsDefined(['BSP_USING_POWER']):
+    src += ['drivers/fsl_power.c']
+    src += ['drivers/fsl_powerquad_basic.c']
+    src += ['drivers/fsl_powerquad_cmsis.c']
+    src += ['drivers/fsl_powerquad_data.c']
+    src += ['drivers/fsl_powerquad_filter.c']
+    src += ['drivers/fsl_powerquad_math.c']
+    src += ['drivers/fsl_powerquad_matrix.c']
+    src += ['drivers/fsl_powerquad_transform.c']
+
+if IsDefined(['BSP_USING_RNG']):
+    src += ['drivers/fsl_rng.c']
+
+if IsDefined(['BSP_USING_RTC']):
+    src += ['drivers/fsl_rtc.c']
+    
+if IsDefined(['BSP_USING_SCT']):
+    src += ['drivers/fsl_sctimer.c']
+
+if IsDefined(['BSP_USING_SPI']):
+    src += ['drivers/fsl_spi.c']
+    src += ['drivers/fsl_spi_dma.c']
+
+if IsDefined(['BSP_USING_USART']):
+    src += ['drivers/fsl_usart.c']
+    src += ['drivers/fsl_usart_dma.c']
+    
+if IsDefined(['BSP_USING_UTICK']):
+    src += ['drivers/fsl_utick.c']
+
+if IsDefined(['BSP_USING_WWDT']):
+    src += ['drivers/fsl_wwdt.c']
+
+CPPPATH += ['drivers']
+CPPPATH += ['cmsis_drivers']
+CPPPATH += ['mcuxpresso']
+
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SOC_LPC55S04'], CPPPATH = CPPPATH)
+
+Return('group')

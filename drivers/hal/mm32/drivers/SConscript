@@ -1,0 +1,46 @@
+Import('OS_ROOT')
+Import('osconfig')
+from build_tools import *
+
+pwd = PresentDir()
+
+# add the general drivers.
+src = Split("""
+drv_common.c
+mm32_it.c
+mm32_it_dma.c
+""")
+
+path =  [pwd]
+
+if IsDefined(['BSP_USING_GPIO']):
+    src += ['drv_gpio.c']
+ 
+if IsDefined(['BSP_USING_UART']):
+    src += ['drv_uart.c']
+    
+if IsDefined(['BSP_USING_ONCHIP_RTC']):
+    src += ['drv_rtc.c']
+    
+if IsDefined(['BSP_USING_I2C']):
+    src += ['drv_i2c.c']
+    
+if IsDefined(['BSP_USING_ADC']):
+    src += ['drv_adc.c']
+    
+if IsDefined(['BSP_USING_SPI']):
+    src += ['drv_spi.c']
+
+if IsDefined(['BSP_USING_SDIO']):
+    src += ['drv_sdio.c']
+    
+if IsDefined(['BSP_USING_TIM']):
+    src += ['drv_hwtimer.c']
+
+if IsDefined(['BSP_USING_ONCHIP_FLASH']):
+    src += ['flash/drv_flash_common.c']
+    path +=  [pwd + '/flash']
+
+group = AddCodeGroup('hal/drivers', src, depend = ['MANUFACTOR_MM32'], CPPPATH = path)
+
+Return('group')

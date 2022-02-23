@@ -1,0 +1,20 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = []
+
+src += ['fal.c']
+src += ['fal_part.c']
+
+if IsDefined('OS_USING_MTD'):
+    src += ['fal_mtd.c']
+
+if IsDefined('OS_USING_BLOCK'):
+    src += ['fal_block.c']
+	
+if IsDefined('OS_FAL_RAM'):
+    src += ['fal_ram.c']
+    
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_FAL'], CPPPATH = [pwd])
+
+Return('group')

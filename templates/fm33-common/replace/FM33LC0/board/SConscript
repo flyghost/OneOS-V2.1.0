@@ -1,0 +1,34 @@
+import os
+import osconfig
+from build_tools import *
+
+#sys.path.append(Env['OS_ROOT'] + '/drivers/hal/st/scripts/')
+#import prebuild
+#prebuild.prebuild(Env['BSP_ROOT'])
+
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+bsp_config/system_fm33lc0xx.c
+bsp_config/bsp.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/bsp_config']
+path += [pwd + '/ports']
+path += [pwd + '/peripheral']
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_fm33lc0xx_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_fm33lc0xx_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_fm33lc0xx_iar.s']
+
+CPPDEFINES = ['USE_HAL_DRIVER', 'FM33LC0XX','USE_FULL_ASSERT'] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

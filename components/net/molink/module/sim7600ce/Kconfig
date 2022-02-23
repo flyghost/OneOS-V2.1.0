@@ -1,0 +1,55 @@
+menu "SIM7600CE Config"
+
+    config SIM7600CE_AUTO_CREATE
+        bool "Enable SIM7600CE Module Object Auto Create"
+        default n
+
+    if SIM7600CE_AUTO_CREATE
+
+        config SIM7600CE_DEVICE_NAME
+            string "SIM7600CE Interface Device Name"
+            default "uart2"
+
+        config SIM7600CE_DEVICE_RATE
+            int "SIM7600CE Interface Device Rate"
+            default 115200
+
+        config SIM7600CE_RECV_BUFF_LEN
+            int "The maximum length of AT command data accepted"
+            default 1500
+
+    endif
+
+    config SIM7600CE_USING_GENERAL_OPS
+        bool "Enable SIM7600CE Module General Operates"
+        select MOLINK_USING_GENERAL_OPS
+        default y
+
+    config SIM7600CE_USING_NETSERV_OPS
+        bool "Enable SIM7600CE Module Network Service Operates"
+        select MOLINK_USING_NETSERV_OPS
+        default y
+
+    config SIM7600CE_USING_PING_OPS
+        bool "Enable SIM7600CE Module Ping Operates"
+        select MOLINK_USING_PING_OPS
+        default y
+
+    config SIM7600CE_USING_IFCONFIG_OPS
+        bool "Enable SIM7600CE Module Ifconfig Operates"
+        select MOLINK_USING_IFCONFIG_OPS
+        select SIM7600CE_USING_GENERAL_OPS
+        select SIM7600CE_USING_NETSERV_OPS
+        default y
+    config SIM7600CE_USING_NETCONN_OPS
+        bool "Enable SIM7600CE Module Network TCP/IP Operates"
+        select MOLINK_USING_NETCONN_OPS
+        default y
+
+    config SIM7600CE_USING_SOCKETS_OPS
+        bool "Enable SIM7600CE Module BSD Socket Operates"
+        select SIM7600CE_USING_NETCONN_OPS
+        select MOLINK_USING_SOCKETS_OPS
+        default n
+
+endmenu

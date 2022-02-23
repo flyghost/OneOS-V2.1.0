@@ -1,0 +1,48 @@
+
+import os
+import osconfig
+from build_tools import *
+
+pwd = PresentDir()
+CPPPATH=[]
+CPPDEFINES=[]
+
+src = Split('''
+src/address.c
+src/block.c
+src/coap_debug.c
+src/coap_event.c
+src/coap_hashkey.c
+src/coap_io.c
+src/coap_notls.c
+src/coap_session.c
+src/coap_time.c
+src/encode.c
+src/mem.c
+src/net.c
+src/option.c
+src/pdu.c
+src/resource.c
+src/str.c
+src/subscribe.c
+src/uri.c
+''')
+
+CPPPATH += [pwd + '/include/coap2']
+CPPPATH += [pwd + '/oneos']
+
+LOCAL_CCFLAGS = ''
+
+#  it is `-fgnu` when using armclang
+# if osconfig.CROSS_TOOL == 'keil':
+#     LOCAL_CCFLAGS += ' --gnu'
+
+group = AddCodeGroup('coap', src, depend = ['NET_USING_COAP'], CPPPATH = CPPPATH, LOCAL_CCFLAGS = LOCAL_CCFLAGS, CPPDEFINES = CPPDEFINES)
+
+examples_src = Split('''
+oneos/client.c
+''')
+
+group = group + AddCodeGroup('coap-examples', examples_src, depend = ['NET_USING_COAP_EXAMPLE', 'NET_USING_COAP'], CPPPATH = CPPPATH)
+
+Return('group')

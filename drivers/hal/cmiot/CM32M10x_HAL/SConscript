@@ -1,0 +1,78 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+src = Split("""
+std_periph_driver/src/misc.c
+std_periph_driver/src/cm32m101a_gpio.c
+std_periph_driver/src/cm32m101a_rcc.c
+""")
+
+if IsDefined(['BSP_USING_UART']):
+    src += ['std_periph_driver/src/cm32m101a_usart.c']
+    src += ['std_periph_driver/src/cm32m101a_lpuart.c']
+
+if IsDefined(['OS_USING_RTC']):
+    src += ['std_periph_driver/src/cm32m101a_rtc.c']
+
+if IsDefined(['BSP_USING_LCD']):
+    src += ['std_periph_driver/src/cm32m101a_lcd.c']
+
+if IsDefined(['OS_USING_RTC']) or IsDefined(['OS_USING_LPMGR']) or IsDefined(['BSP_USING_LCD']):
+    src += ['std_periph_driver/src/cm32m101a_pwr.c']
+
+if IsDefined(['OS_USING_RTC']) or IsDefined(['BSP_USING_ON_CHIP_FLASH']) or IsDefined(['OS_USING_LPMGR']) or IsDefined(['BSP_USING_LCD']):
+    src += ['std_periph_driver/src/cm32m101a_flash.c']
+
+if IsDefined(['OS_USING_I2C', 'BSP_USING_I2C1']) or IsDefined(['OS_USING_I2C', 'BSP_USING_I2C2']):
+    src += ['std_periph_driver/src/cm32m101a_i2c.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['std_periph_driver/src/cm32m101a_spi.c']
+
+if IsDefined(['OS_USING_WDG', 'BSP_USING_IWDG']):
+    src += ['std_periph_driver/src/cm32m101a_iwdg.c']
+
+if IsDefined(['OS_USING_WDG', 'BSP_USING_IWDG']) or IsDefined(['OS_USING_HRTIMER']) or IsDefined(['OS_USING_PWM']):
+    src += ['std_periph_driver/src/cm32m101a_tim.c']
+
+if IsDefined(['OS_USING_WDG', 'BSP_USING_WWDG']):
+    src += ['std_periph_driver/src/cm32m101a_wwdg.c']
+
+if IsDefined(['OS_USING_ADC']):
+    src += ['std_periph_driver/src/cm32m101a_adc.c']
+
+if IsDefined(['OS_USING_DAC']):
+    src += ['std_periph_driver/src/cm32m101a_dac.c']
+
+if IsDefined(['OS_USING_CLOCKEVENT']):
+    src += ['std_periph_driver/src/cm32m101a_lptim.c']
+
+if IsDefined(['OS_USING_CLOCKEVENT', 'OS_USING_LPMGR']) or IsDefined(['OS_USING_PIN']):
+    src += ['std_periph_driver/src/cm32m101a_exti.c']
+
+if IsDefined(['LPUART0_USING_DMA']) or IsDefined(['UART1_USING_DMA']) or IsDefined(['UART2_USING_DMA'])   \
+    or IsDefined(['UART3_USING_DMA']) or IsDefined(['UART4_USING_DMA']) or IsDefined(['UART5_USING_DMA']):
+    src += ['std_periph_driver/src/cm32m101a_dma.c']
+
+if IsDefined(['BSP_USING_RNG']):
+    src += ['algo_lib/lib/cm32m101a_rng.lib']
+    src += ['algo_lib/lib/cm32m101a_algo_common.lib']
+
+path = [pwd + '/std_periph_driver/inc']
+path += [pwd + '/algo_lib/inc']
+path += [pwd + '/CMSIS/core']
+path += [pwd + '/CMSIS/device']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_CM32M10'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+src = ['CMSIS/device/system_cm32m101a.c']
+
+group = AddCodeGroup('bsp', src, depend = ['SERIES_CM32M10'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

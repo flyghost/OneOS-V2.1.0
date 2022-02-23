@@ -1,0 +1,60 @@
+import osconfig
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+
+#FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_exti.c
+src = Split('''
+FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_rcc.c
+FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_dma.c
+''')
+
+if IsDefined(['OS_USING_PIN']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_gpio.c']
+
+if IsDefined(['OS_USING_SERIAL','BSP_USING_UART']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_uart.c']
+    
+if IsDefined(['OS_USING_SERIAL','BSP_USING_LPUART']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_lpuart.c']
+
+if IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_ATIM']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_atim.c']
+    
+if IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_BSTIM32']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_bstim32.c']
+    
+if IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_GPTIM0']) or IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_GPTIM1']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_gptim.c']
+    
+if IsDefined(['OS_USING_TIMER_DRIVER','BSP_USING_LPTIM32']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_lptim32.c']
+    
+if IsDefined(['OS_USING_FAL']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_flash.c']
+    
+if IsDefined(['BSP_USING_SPI']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_spi.c']
+    
+if IsDefined(['OS_USING_WDG']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_iwdt.c']
+    
+if IsDefined(['OS_USING_ADC']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_adc.c']
+
+if IsDefined(['OS_USING_LPMGR']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_pmu.c']
+
+if IsDefined(['OS_USING_RTC']):
+    src += ['FM33LC0xx_FL_Driver/Src/fm33lc0xx_fl_rtc.c']
+
+path = [pwd + '/FM33LC0xx_FL_Driver/Inc',
+        pwd + '/CMSIS/Device/FM/FM33xx/Include']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal/lowlevel', src, depend = ['SERIES_FM33LC0'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

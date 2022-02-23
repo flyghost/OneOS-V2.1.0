@@ -1,0 +1,44 @@
+import osconfig
+Import('OS_ROOT')
+from build_tools import *
+
+# get current directory
+pwd = PresentDir()
+
+# The set of source files associated with this SConscript file.
+src = Split("""
+drivers/hal/am_hal_adc.c
+""")
+
+if IsDefined(['OS_USING_SERIAL']):
+    src += ['drivers/hal/am_hal_uart.c']
+
+if IsDefined(['OS_USING_I2C']):
+    src += ['drivers/hal/am_hal_i2c_bit_bang.c']
+
+if IsDefined(['OS_USING_SPI']):
+    src += ['drivers/hal/am_hal_iom.c']
+
+if IsDefined(['OS_USING_CAN']):
+    src += ['drivers/hal/am_hal_can.c']
+    
+if IsDefined(['OS_USING_ADC']):
+    src += ['drivers/hal/am_hal_adc.c']
+    
+if IsDefined(['OS_USING_RTC']):
+    src += ['drivers/hal/am_hal_rtc.c']
+    
+if IsDefined(['OS_USING_WDT']):
+    src += ['drivers/hal/am_hal_wdt.c']
+
+if IsDefined(['BSP_USING_ON_CHIP_FLASH']):
+    src += ['drivers/hal/am_hal_flash.c']
+
+path = [pwd + '/drivers',
+    pwd + '/drivers/hal',
+    pwd + '/drivers/regs']
+
+CPPDEFINES = ['USE_HAL_DRIVER']
+group = AddCodeGroup('hal', src, depend = ['SERIES_APOLLO3'], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

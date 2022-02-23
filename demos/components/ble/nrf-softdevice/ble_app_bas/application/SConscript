@@ -1,0 +1,34 @@
+import os
+import osconfig
+from build_tools import *
+Import('OS_ROOT')
+
+# get current directory
+cwd = PresentDir()
+
+path = [cwd]
+group = []
+
+if IsDefined(['BSP_USING_SOFTDEVICE']):
+
+    BLE_SAMPLE = []
+    BLE_SERVICES = []
+
+    BLE_SAMPLE += Split('''
+    ./main.c
+    ''')
+    BLE_SERVICES += Split('''
+    ./../../drivers/hal/nrf/NRF5_HAL/components/ble/ble_services/ble_bas/ble_bas.c
+    ''')
+    path += [cwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/ble/ble_services/ble_bas']
+
+    if IsDefined('SOC_NRF52832'):
+        CPPDEFINES = ['S132', '__HEAP_SIZE=8192', '__STACK_SIZE=8192']
+    elif IsDefined('SOC_NRF52840'):
+        CPPDEFINES = ['S140', '__HEAP_SIZE=8192', '__STACK_SIZE=8192']
+    SRC = BLE_SAMPLE + BLE_SERVICES
+    group = AddCodeGroup('application', SRC, depend=[
+                         ''], CPPPATH=path, CPPDEFINES=CPPDEFINES)
+
+
+Return('group')

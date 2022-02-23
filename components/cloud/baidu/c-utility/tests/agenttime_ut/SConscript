@@ -1,0 +1,24 @@
+import os
+from build_tools import *
+import osconfig
+from string import Template
+
+pwd = PresentDir()
+root_path = "./../../../"
+
+agenttime_src  = Glob(root_path + "c-utility/tests/agenttime_ut/*.c")
+agenttime_path = [
+	pwd + root_path + 'c-utility/tests/agenttime_ut/'
+]
+
+#test_src += Glob(root_path + " ")
+#test_src += Glob(root_path + " ")
+#test_src += Glob(root_path + " ")
+#test_src += Glob(root_path + " ")
+#test_src += Glob(root_path + " ")
+#test_src += Glob(root_path + " ")
+#test_src += Glob(root_path + " ")
+#test_src += Glob(root_path + " ")
+
+group = AddCodeGroup('cloud/baidu/agenttime_ut', agenttime_src, depend = ['BAIDUIOT_DEMO'], CPPPATH = agenttime_path)
+Return('group')

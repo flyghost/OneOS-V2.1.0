@@ -1,0 +1,21 @@
+Import('osconfig')
+from build_tools import *
+
+pwd  = PresentDir()
+src  = []
+group = []
+path = [pwd]
+
+if IsDefined(['ARCH_MIPS_SOC_X1000']) == False:
+    Return('group')
+
+# The set of source files associated with this SConscript file.
+src += Glob('*.c')
+src += Glob('*.cpp')
+src += Glob('*_gcc.S')
+
+
+group = AddCodeGroup('cpu', src, depend = [''], CPPPATH = path)
+
+Return('group')
+

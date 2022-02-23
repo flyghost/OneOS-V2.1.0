@@ -1,0 +1,13 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_GD32VF103CBT6
+    help
+        Select the device in GD32VF103xx
+
+    config TEMP_GD32VF103CBT6
+        bool "GD32VF103CBT6"
+
+    config TEMP_gd32vf103-longan-nano
+        bool "gd32vf103-longan-nano"
+        
+endchoice

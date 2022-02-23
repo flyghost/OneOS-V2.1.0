@@ -1,0 +1,632 @@
+
+config BLE_HOST_MESH
+    bool "Indicates that NimBLE mesh is present."
+    default n
+
+    if BLE_HOST_MESH
+
+        # config MYNEWT_VAL_BLE_MESH_PROV
+        #    int Enable provisioning. It is automatically enabled whenever BLE_MESH_PB_ADV or BLE_MESH_PB_GATT is set.
+        #    default 1
+        config BLE_MESH_PROV_BOOL
+            bool "Enable provisioning"
+			default y if BLE_MESH_PB_GATT_BOOL
+			default y if BLE_MESH_PB_ADV_BOOL
+            default y
+            help
+                Enable provisioning. It is automatically enabled whenever BLE_MESH_PB_ADV or BLE_MESH_PB_GATT is set.
+        config MYNEWT_VAL_BLE_MESH_PROV
+            int 
+            default 0 if !BLE_MESH_PROV_BOOL
+            default 1 if BLE_MESH_PROV_BOOL
+
+
+        # config MYNEWT_VAL_BLE_MESH_PB_ADV
+        #    int "Enable this option to allow the device to be provisioned over the advertising bearer."
+        #    default 1
+        config BLE_MESH_PB_ADV_BOOL
+            bool "Enable this option to allow the device to be provisioned over the advertising bearer."
+            default y
+        config MYNEWT_VAL_BLE_MESH_PB_ADV
+            int 
+            default 0 if !BLE_MESH_PB_ADV_BOOL
+            default 1 if BLE_MESH_PB_ADV_BOOL
+
+
+        # config MYNEWT_VAL_BLE_MESH_PROVISIONER
+        #    int "Enable this option to have support for provisioning remote devices."
+        #    default 0
+        config BLE_MESH_PROVISIONER_BOOL
+            bool "Enable this option to have support for provisioning remote devices."
+            default n
+        config MYNEWT_VAL_BLE_MESH_PROVISIONER
+            int 
+            default 0 if !BLE_MESH_PROVISIONER_BOOL
+            default 1 if BLE_MESH_PROVISIONER_BOOL
+
+		config MYNEWT_VAL_BLE_MESH_NODE_COUNT
+		    int "This option specifies how many nodes each network can at most save in the provisioning database"
+		    default 1
+
+		    help 
+				This option specifies how many nodes each network can at most save in the provisioning database. Range 1-4096
+
+
+        # config MYNEWT_VAL_BLE_MESH_PROXY
+        #    int "Enable proxy. This is automatically set whenever BLE_MESH_PB_GATT or BLE_MESH_GATT_PROXY is set."
+        #    default 0
+        config BLE_MESH_PROXY_BOOL
+            bool "Enable proxy. This is automatically set whenever BLE_MESH_PB_GATT or BLE_MESH_GATT_PROXY is set."
+			default y if BLE_MESH_GATT_PROXY_BOOL
+			default y if BLE_MESH_PB_GATT_BOOL
+            default n
+        config MYNEWT_VAL_BLE_MESH_PROXY
+            int 
+            default 0 if !BLE_MESH_PROXY_BOOL
+            default 1 if BLE_MESH_PROXY_BOOL
+
+
+        # config MYNEWT_VAL_BLE_MESH_PB_GATT
+        #    int "Enable this option to allow the device to be provisioned over the GATT bearer."
+        #    default 1
+        config BLE_MESH_PB_GATT_BOOL
+            bool "Enable this option to allow the device to be provisioned over the GATT bearer."
+            default y
+        config MYNEWT_VAL_BLE_MESH_PB_GATT
+            int 
+            default 0 if !BLE_MESH_PB_GATT_BOOL
+            default 1 if BLE_MESH_PB_GATT_BOOL
+
+		# config MYNEWT_VAL_BLE_MESH_GATT_PROXY
+		#     int "This option enables support for the Mesh GATT Proxy Service, i"
+		#     default 1
+		#     help 
+		# 		This option enables support for the Mesh GATT Proxy Service, i.e. the ability to act as a proxy between a Mesh GATT Client and a Mesh network.
+		config BLE_MESH_GATT_PROXY_BOOL
+		    bool "This option enables support for the Mesh GATT Proxy Service."
+		    default y
+		    help 
+				This option enables support for the Mesh GATT Proxy Service, i.e. the ability to act as a proxy between a Mesh GATT Client and a Mesh network.
+		config MYNEWT_VAL_BLE_MESH_GATT_PROXY
+            int 
+            default 0 if !BLE_MESH_GATT_PROXY_BOOL
+            default 1 if BLE_MESH_GATT_PROXY_BOOL
+
+		config MYNEWT_VAL_BLE_MESH_NODE_ID_TIMEOUT
+		    int "This option determines for how long the local node advertises using Node Identity"
+		    default 60
+
+		    help 
+				This option determines for how long the local node advertises using Node Identity. The given value is in seconds. The specification limits this to 60 seconds, and implies that to be the appropriate value as well, so just leaving this as the default is the safest option.
+
+		config MYNEWT_VAL_BLE_MESH_PROXY_FILTER_SIZE
+		    int "This option specifies how many Proxy Filter entries the local node supports."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_SUBNET_COUNT
+		    int "This option specifies how many subnets a Mesh network can participate in at the same time."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_APP_KEY_COUNT
+		    int "This option specifies how many application keys the device can store per network."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_MODEL_KEY_COUNT
+		    int "This option specifies how many application keys each model can  at most be bound to."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_MODEL_GROUP_COUNT
+		    int "This option specifies how many group addresses each model can at most be subscribed to."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_LABEL_COUNT
+		    int "This option specifies how many Label UUIDs can be stored."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_CRPL
+		    int "This options specifies the maximum capacity of the replay protection list"
+		    default 10
+
+		    help 
+				This options specifies the maximum capacity of the replay protection list. This option is similar to the network message cache size, but has a different purpose.
+
+		config MYNEWT_VAL_BLE_MESH_ADV_TASK_PRIO
+		    int "Advertising task prio (FIXME)"
+		    default 9
+
+
+		config MYNEWT_VAL_BLE_MESH_MSG_CACHE_SIZE
+		    int "Number of messages that are cached for the network"
+		    default 10
+
+		    help 
+				Number of messages that are cached for the network. This description prevent unnecessary decryption operations and unnecessary relays. This option is similar to the replay protection list, but has a different purpose.
+
+		config MYNEWT_VAL_BLE_MESH_ADV_BUF_COUNT
+		    int "Number of advertising buffers available"
+		    default 6
+
+		    help 
+				Number of advertising buffers available. This should be chosen based on what kind of features the local node shoule have. E.g. a relay will perform better the more buffers it has. Another thing to consider is outgoing segmented messages. There must be at least three more advertising buffers than the maximum supported outgoing segment count (BT_MESH_TX_SEG_MAX).
+
+		config MYNEWT_VAL_BLE_MESH_IVU_DIVIDER
+		    int "When the IV Update state enters Normal operation or IV Update in Progress, we need to keep track of how many hours has passed in the state, since the specification requires us to remain in the state at least for 96 hours (Update in Progress has an additional upper limit of 144 hours)"
+		    default 4
+
+		    help 
+				When the IV Update state enters Normal operation or IV Update in Progress, we need to keep track of how many hours has passed in the state, since the specification requires us to remain in the state at least for 96 hours (Update in Progress has an additional upper limit of 144 hours).
+
+		config MYNEWT_VAL_BLE_MESH_TX_SEG_MSG_COUNT
+		    int "Maximum number of simultaneous outgoing multi-segment and/or reliable messages."
+		    default 4
+
+
+		config MYNEWT_VAL_BLE_MESH_RX_SEG_MSG_COUNT
+		    int "Maximum number of simultaneous incoming multi-segment and/or reliable messages."
+		    default 2
+
+
+		config MYNEWT_VAL_BLE_MESH_RX_SDU_MAX
+		    int "Maximum incoming Upper Transport Access PDU length"
+		    default 72
+
+		    help 
+				Maximum incoming Upper Transport Access PDU length. This determines also how many segments incoming segmented messages can have. Each segment can contain 12 bytes, so this value should be set to a multiple of 12 to avoid wasted memory. The minimum requirement is 2 segments (24 bytes) whereas the maximum supported by the Mesh specification is 32 segments (384 bytes).
+
+		config MYNEWT_VAL_BLE_MESH_TX_SEG_MAX
+		    int "Maximum number of segments supported for outgoing messages"
+		    default 3
+
+		    help 
+				Maximum number of segments supported for outgoing messages. This value should typically be fine-tuned based on what models the local node supports, i.e. what's the largest message payload that the node needs to be able to send. This value affects memory and call stack consumption, which is why the default is lower than the maximum that the specification would allow (32 segments).
+
+		config MYNEWT_VAL_BLE_MESH_SEG_RETRANSMIT_ATTEMPTS
+		    int "Number of retransmit attempts (after the initial transmit) per segment"
+		    default 4
+
+
+		config BLE_MESH_RELAY_BOOL
+		    bool "Support for acting as a Mesh Relay Node."
+		    default n
+		config MYNEWT_VAL_BLE_MESH_RELAY
+            int 
+            default 0 if !BLE_MESH_RELAY_BOOL
+            default 1 if BLE_MESH_RELAY_BOOL
+
+
+
+        # config MYNEWT_VAL_BLE_MESH_LOW_POWER
+        #    int "Enable this option to be able to act as a Low Power Node."
+        #    default 0
+        config BLE_MESH_LOW_POWER_BOOL
+            bool "Enable this option to be able to act as a Low Power Node."
+            default n
+        config MYNEWT_VAL_BLE_MESH_LOW_POWER
+            int 
+            default 0 if !BLE_MESH_LOW_POWER_BOOL
+            default 1 if BLE_MESH_LOW_POWER_BOOL
+
+		config BLE_MESH_LPN_ESTABLISHMENT_BOOL
+		    bool "Perform the Friendship establishment using low power, with the help of a reduced scan duty cycle"
+		    default y
+		    help 
+				Perform the Friendship establishment using low power, with the help of a reduced scan duty cycle. The downside of this is that the node may miss out on messages intended for it until it has successfully set up Friendship with a Friend node.
+		config MYNEWT_VAL_BLE_MESH_LPN_ESTABLISHMENT
+            int 
+            default 0 if !BLE_MESH_LPN_ESTABLISHMENT_BOOL
+            default 1 if BLE_MESH_LPN_ESTABLISHMENT_BOOL
+
+		config BLE_MESH_LPN_AUTO_BOOL
+		    bool "Automatically enable LPN functionality once provisioned and start looking for Friend nodes"
+		    default y
+		    help 
+				Automatically enable LPN functionality once provisioned and start looking for Friend nodes. If this option is disabled LPN mode needs to be manually enabled by calling bt_mesh_lpn_set(true). node.
+		config MYNEWT_VAL_BLE_MESH_LPN_AUTO
+            int 
+            default 0 if !BLE_MESH_LPN_AUTO_BOOL
+            default 1 if BLE_MESH_LPN_AUTO_BOOL
+
+		config MYNEWT_VAL_BLE_MESH_LPN_AUTO_TIMEOUT
+		    int "Time in seconds from the last received message, that the node will wait before starting to look for Friend nodes"
+		    default 15
+
+		    help 
+				Time in seconds from the last received message, that the node will wait before starting to look for Friend nodes.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_RETRY_TIMEOUT
+		    int "Time in seconds between Friend Requests, if a previous Friend Request did not receive any acceptable Friend Offers"
+		    default 8
+
+		    help 
+				Time in seconds between Friend Requests, if a previous Friend Request did not receive any acceptable Friend Offers.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_RSSI_FACTOR
+		    int "The contribution of the RSSI measured by the Friend node used in Friend Offer Delay calculations"
+		    default 0
+
+		    help 
+				The contribution of the RSSI measured by the Friend node used in Friend Offer Delay calculations. 0 = 1, 1 = 1.5, 2 = 2, 3 = 2.5.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_RECV_WIN_FACTOR
+		    int "The contribution of the supported Receive Window used in Friend Offer Delay calculations"
+		    default 0
+
+		    help 
+				The contribution of the supported Receive Window used in Friend Offer Delay calculations. 0 = 1, 1 = 1.5, 2 = 2, 3 = 2.5.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_MIN_QUEUE_SIZE
+		    int "The MinQueueSizeLog field is defined as log_2(N), where N is the minimum number of maximum size Lower Transport PDUs that the Friend node can store in its Friend Queue"
+		    default 1
+
+		    help 
+				The MinQueueSizeLog field is defined as log_2(N), where N is the minimum number of maximum size Lower Transport PDUs that the Friend node can store in its Friend Queue. As an example, MinQueueSizeLog value 1 gives N = 2, and value 7 gives N = 128.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_RECV_DELAY
+		    int "The ReceiveDelay is the time between the Low Power node sending a request and listening for a response"
+		    default 100
+
+		    help 
+				The ReceiveDelay is the time between the Low Power node sending a request and listening for a response. This delay allows the Friend node time to prepare the response. The value is in units of milliseconds.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_POLL_TIMEOUT
+		    int "PollTimeout timer is used to measure time between two consecutive requests sent by the Low Power node"
+		    default 300
+
+		    help 
+				PollTimeout timer is used to measure time between two consecutive requests sent by the Low Power node. If no requests are received by the Friend node before the PollTimeout timer expires, then the friendship is considered terminated. The value is in units of 100 milliseconds, so e.g. a value of 300 means 30 seconds.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_INIT_POLL_TIMEOUT
+		    int "The initial value of the PollTimeout timer when Friendship gets established for the first time"
+		    default MYNEWT_VAL_BLE_MESH_LPN_POLL_TIMEOUT
+
+		    help 
+				The initial value of the PollTimeout timer when Friendship gets established for the first time. After this the timeout will gradually grow toward the actual PollTimeout, doubling in value for each iteration. The value is in units of 100 milliseconds, so e.g. a value of 300 means 3 seconds.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_SCAN_LATENCY
+		    int "Latency in milliseconds that it takes to enable scanning"
+		    default 10
+
+		    help 
+				Latency in milliseconds that it takes to enable scanning. This is in practice how much time in advance before the Receive Window that scanning is requested to be enabled.
+
+		config MYNEWT_VAL_BLE_MESH_LPN_GROUPS
+		    int "Maximum number of groups that the LPN can subscribe to."
+		    default 10
+
+
+
+        # config MYNEWT_VAL_BLE_MESH_FRIEND
+        #    int "Enable this option to be able to act as a Friend Node."
+        #    default 0
+        config BLE_MESH_FRIEND_BOOL
+            bool "Enable this option to be able to act as a Friend Node."
+            default n
+        config MYNEWT_VAL_BLE_MESH_FRIEND
+            int 
+            default 0 if !BLE_MESH_FRIEND_BOOL
+            default 1 if BLE_MESH_FRIEND_BOOL
+
+		config MYNEWT_VAL_BLE_MESH_FRIEND_RECV_WIN
+		    int "Receive Window in milliseconds supported by the Friend node."
+		    default 255
+
+
+		config MYNEWT_VAL_BLE_MESH_FRIEND_QUEUE_SIZE
+		    int "Minimum number of buffers available to be stored for each local Friend Queue."
+		    default 16
+
+
+		config MYNEWT_VAL_BLE_MESH_FRIEND_SUB_LIST_SIZE
+		    int "Size of the Subscription List that can be supported by a Friend node for a Low Power node."
+		    default 3
+
+
+		config MYNEWT_VAL_BLE_MESH_FRIEND_LPN_COUNT
+		    int "Number of Low Power Nodes the Friend can have a Friendship with simultaneously."
+		    default 2
+
+
+		config MYNEWT_VAL_BLE_MESH_FRIEND_SEG_RX
+		    int "Number of incomplete segment lists that we track for each LPN that we are Friends for"
+		    default 1
+
+		    help 
+				Number of incomplete segment lists that we track for each LPN that we are Friends for. In other words, this determines how many elements we can simultaneously be receiving segmented messages from when the messages are going into the Friend queue.
+
+
+        # config MYNEWT_VAL_BLE_MESH_CFG_CLI
+        #    int "Enable support for the configuration client model."
+        #    default 0
+        config BLE_MESH_CFG_CLI_BOOL
+            bool "Enable support for the configuration client model."
+			default y if BLE_MESH_SHELL_BOOL
+            default n
+        config MYNEWT_VAL_BLE_MESH_CFG_CLI
+            int 
+            default 0 if !BLE_MESH_CFG_CLI_BOOL
+            default 1 if BLE_MESH_CFG_CLI_BOOL
+
+
+        # config MYNEWT_VAL_BLE_MESH_HEALTH_CLI
+        #    int "Enable support for the health client model."
+        #    default 0
+        config BLE_MESH_HEALTH_CLI_BOOL
+            bool "Enable support for the health client model."
+			default y if BLE_MESH_SHELL_BOOL
+            default n
+        config MYNEWT_VAL_BLE_MESH_HEALTH_CLI
+            int 
+            default 0 if !BLE_MESH_HEALTH_CLI_BOOL
+            default 1 if BLE_MESH_HEALTH_CLI_BOOL
+
+		# config MYNEWT_VAL_BLE_MESH_SHELL
+		#     int "Activate shell module that provides Bluetooth Mesh commands to the console."
+		#     default 0
+		config BLE_MESH_SHELL_BOOL
+		    bool "Activate shell module that provides Bluetooth Mesh commands to the console."
+		    default n
+		config MYNEWT_VAL_BLE_MESH_SHELL
+            int 
+            default 0 if !BLE_MESH_SHELL_BOOL
+            default 1 if BLE_MESH_SHELL_BOOL
+
+
+
+        # config MYNEWT_VAL_BLE_MESH_MODEL_EXTENSIONS
+        #    int Enable support for the model extension concept, allowing the Access layer to know about Mesh model relationships.
+        #    default 0
+        config BLE_MESH_MODEL_EXTENSIONS_BOOL
+            bool "Enable support for the model extension concept, allowing the Access layer to know about Mesh model relationships"
+            default n
+            help
+                Enable support for the model extension concept, allowing the Access layer to know about Mesh model relationships.
+        config MYNEWT_VAL_BLE_MESH_MODEL_EXTENSIONS
+            int 
+            default 0 if !BLE_MESH_MODEL_EXTENSIONS_BOOL
+            default 1 if BLE_MESH_MODEL_EXTENSIONS_BOOL
+
+		# config MYNEWT_VAL_BLE_MESH_IV_UPDATE_TEST
+		#     int "This option removes the 96 hour limit of the IV Update Procedure and lets the state be changed at any time"
+		#     default 0
+		#     help 
+		# 		This option removes the 96 hour limit of the IV Update Procedure and lets the state be changed at any time.
+		config BLE_MESH_IV_UPDATE_TEST_BOOL
+		    bool "This option removes the 96 hour limit of the IV Update Procedure and lets the state be changed at any time"
+			default y if BLE_MESH_SHELL_BOOL
+		    default n
+		    help 
+				This option removes the 96 hour limit of the IV Update Procedure and lets the state be changed at any time.
+		config MYNEWT_VAL_BLE_MESH_IV_UPDATE_TEST
+            int 
+            default 0 if !BLE_MESH_IV_UPDATE_TEST_BOOL
+            default 1 if BLE_MESH_IV_UPDATE_TEST_BOOL
+
+		config BLE_MESH_TESTING_BOOL
+		    bool "This option enables testing API."
+		    default n
+		config MYNEWT_VAL_BLE_MESH_TESTING
+            int 
+            default 0 if !BLE_MESH_TESTING_BOOL
+            default 1 if BLE_MESH_TESTING_BOOL
+
+
+		# config MYNEWT_VAL_BLE_MESH_DEV_UUID
+		#     int "Device UUID"
+		#     default ((uint8_t[16]){0x11, 0x22, 0})
+
+
+		config BLE_MESH_SHELL_MODELS_BOOL
+		    bool "Include implementation of some demo models."
+		    default n
+		config MYNEWT_VAL_BLE_MESH_SHELL_MODELS
+            int 
+            default 0 if !BLE_MESH_SHELL_MODELS_BOOL
+            default 1 if BLE_MESH_SHELL_MODELS_BOOL
+
+
+		config MYNEWT_VAL_BLE_MESH_OOB_OUTPUT_ACTIONS
+		    hex "Supported Output OOB Actions BT_MESH_NO_OUTPUT=0, BT_MESH_BLINK=BIT(0) BT_MESH_BEEP=BIT(1) BT_MESH_VIBRATE=BIT(2) BT_MESH_DISPLAY_NUMBER=BIT(3) BT_MESH_DISPLAY_STRING=BIT(4)"
+		    default 0x08
+
+
+		config MYNEWT_VAL_BLE_MESH_OOB_OUTPUT_SIZE
+		    int "Output OOB size"
+		    default 4
+
+
+		config MYNEWT_VAL_BLE_MESH_OOB_INPUT_ACTIONS
+		    hex "Supported Input OOB Actions BT_MESH_NO_INPUT=0, BT_MESH_PUSH=BIT(0) BT_MESH_TWIST=BIT(1) BT_MESH_ENTER_NUMBER=BIT(2) BT_MESH_ENTER_STRING=BIT(3)"
+		    default 0
+
+
+		config MYNEWT_VAL_BLE_MESH_OOB_INPUT_SIZE
+		    int "Input OOB size"
+		    default 4
+
+
+		config BLE_MESH_SETTINGS_BOOL
+		    bool "This option enables Mesh settings storage."
+		    default y
+		config MYNEWT_VAL_BLE_MESH_SETTINGS
+            int 
+            default 0 if !BLE_MESH_SETTINGS_BOOL
+            default 1 if BLE_MESH_SETTINGS_BOOL
+
+
+		config MYNEWT_VAL_BLE_MESH_STORE_TIMEOUT
+		    int "This value defines in seconds how soon any pending changes are actually written into persistent storage (flash) after a change occurs"
+		    default 2
+
+		    help 
+				This value defines in seconds how soon any pending changes are actually written into persistent storage (flash) after a change occurs.
+
+		config MYNEWT_VAL_BLE_MESH_SEQ_STORE_RATE
+		    int "This value defines how often the local sequence number gets updated in persistent storage (i"
+		    default 128
+
+		    help 
+				This value defines how often the local sequence number gets updated in persistent storage (i.e. flash). E.g. a value of 100 means that the sequence number will be stored to flash on every 100th increment. If the node sends messages very frequently a higher value makes more sense, whereas if the node sends infrequently a value as low as 0 (update storage for every increment) can make sense. When the stack gets initialized it will add this number to the last stored one, so that it starts off with a value that's guaranteed to be larger than the last one used before power off.
+
+		config MYNEWT_VAL_BLE_MESH_RPL_STORE_TIMEOUT
+		    int "This value defines in seconds how soon the RPL gets written to persistent storage after a change occurs"
+		    default 5
+
+		    help 
+				This value defines in seconds how soon the RPL gets written to persistent storage after a change occurs. If the node receives messages frequently it may make sense to have this set to a large value, whereas if the RPL gets updated infrequently a value as low as 0 (write immediately) may make sense. Note that if the node operates a security sensitive use case, and there's a risk of sudden power loss, it may be a security vulnerability to set this value to anything else than 0 (a power loss before writing to storage exposes the node to potential message replay attacks).
+
+		config MYNEWT_VAL_BLE_MESH_DEVICE_NAME
+		    string "This value defines BLE Mesh device/node name."
+		    default "nimble-mesh-node"
+
+		config MYNEWT_VAL_BLE_MESH_SYSINIT_STAGE
+		    int "Primary sysinit stage for BLE mesh functionality."
+		    default 500
+
+
+		config MYNEWT_VAL_BLE_MESH_SYSINIT_STAGE_SHELL
+		    int "Secondary sysinit stage for BLE mesh functionality."
+		    default 1000
+
+
+		config MYNEWT_VAL_BLE_MESH_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh log messages."
+		    default 9
+
+
+		config MYNEWT_VAL_BLE_MESH_LOG_LVL
+		    int "Minimum level for the BLE Mesh log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_ACCESS_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Access-related log messages."
+		    default 10
+
+
+		config MYNEWT_VAL_BLE_MESH_ACCESS_LOG_LVL
+		    int "Minimum level for the BLE Mesh Access-related log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_ADV_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh advertising log messages."
+		    default 11
+
+
+		config MYNEWT_VAL_BLE_MESH_ADV_LOG_LVL
+		    int "Minimum level for the BLE Mesh log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_BEACON_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Beacon-related log messages."
+		    default 12
+
+
+		config MYNEWT_VAL_BLE_MESH_BEACON_LOG_LVL
+		    int "Minimum level for the BLE Mesh Beacon-related log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_CRYPTO_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh cryptographic log messages."
+		    default 13
+
+
+		config MYNEWT_VAL_BLE_MESH_CRYPTO_LOG_LVL
+		    int "Minimum level for the BLE Mesh cryptographic log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_FRIEND_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Friend log messages."
+		    default 14
+
+
+		config MYNEWT_VAL_BLE_MESH_FRIEND_LOG_LVL
+		    int "Minimum level for the BLE Mesh Friend log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_LOW_POWER_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Low Power log messages."
+		    default 15
+
+
+		config MYNEWT_VAL_BLE_MESH_LOW_POWER_LOG_LVL
+		    int "Minimum level for the BLE Mesh Low Power log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_MODEL_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Foundation Models log messages."
+		    default 16
+
+
+		config MYNEWT_VAL_BLE_MESH_MODEL_LOG_LVL
+		    int "Minimum level for the BLE Mesh Foundation Models log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_NET_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Network layer log messages."
+		    default 17
+
+
+		config MYNEWT_VAL_BLE_MESH_NET_LOG_LVL
+		    int "Minimum level for the BLE Mesh Network layer log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_PROV_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Provisioning log messages."
+		    default 18
+
+
+		config MYNEWT_VAL_BLE_MESH_PROV_LOG_LVL
+		    int "Minimum level for the BLE Mesh Provisioning log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_PROXY_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Proxy protocol log messages."
+		    default 19
+
+
+		config MYNEWT_VAL_BLE_MESH_PROXY_LOG_LVL
+		    int "Minimum level for the BLE Mesh Proxy protocol log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_SETTINGS_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh persistent settings log messages."
+		    default 20
+
+
+		config MYNEWT_VAL_BLE_MESH_SETTINGS_LOG_LVL
+		    int "Minimum level for the BLE Mesh persistent settings log."
+		    default 1
+
+
+		config MYNEWT_VAL_BLE_MESH_TRANS_LOG_MOD
+		    int "Numeric module ID to use for BLE Mesh Transport Layer log messages."
+		    default 21
+
+
+		config MYNEWT_VAL_BLE_MESH_TRANS_LOG_LVL
+		    int "Minimum level for the BLE Mesh Transport Layer log."
+		    default 1
+
+    endif
+
+
+
+
+
+

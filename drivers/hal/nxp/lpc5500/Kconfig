@@ -1,0 +1,26 @@
+config SERIES_NXP_LPC55S6X
+    bool
+    select SERIES_NXP_LPC5500
+    default n
+
+config SERIES_NXP_LPC550X_S0X
+    bool
+    select SERIES_NXP_LPC5500
+    default n
+
+config SERIES_NXP_LPC551X_S1X
+    bool
+    select SERIES_NXP_LPC5500
+    default n
+    
+config SERIES_NXP_LPC552X_S2X
+    bool
+    select SERIES_NXP_LPC5500
+    default n
+    
+config SERIES_NXP_LPC553X_S3X
+    bool
+    select SERIES_NXP_LPC5500
+    default n
+    
+source "$OS_ROOT/drivers/hal/nxp/lpc5500/*/Kconfig"

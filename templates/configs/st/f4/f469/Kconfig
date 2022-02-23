@@ -1,0 +1,63 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_stm32f469-st-disco
+    help
+        Select the device in STM32F469xx
+
+    config TEMP_stm32f469-st-disco
+        bool "stm32f469-st-disco"
+    
+    config TEMP_STM32F469AG
+        bool "STM32F469AG"
+
+    config TEMP_STM32F469AI
+        bool "STM32F469AI"
+
+    config TEMP_STM32F469BE
+        bool "STM32F469BE"
+
+    config TEMP_STM32F469BG
+        bool "STM32F469BG"
+
+    config TEMP_STM32F469BI
+        bool "STM32F469BI"
+
+    config TEMP_STM32F469IE
+        bool "STM32F469IE"
+
+    config TEMP_STM32F469IG
+        bool "STM32F469IG"
+
+    config TEMP_STM32F469II
+        bool "STM32F469II"
+
+    config TEMP_STM32F469NE
+        bool "STM32F469NE"
+
+    config TEMP_STM32F469NG
+        bool "STM32F469NG"
+
+    config TEMP_STM32F469NI
+        bool "STM32F469NI"
+
+    config TEMP_STM32F469VE
+        bool "STM32F469VE"
+
+    config TEMP_STM32F469VG
+        bool "STM32F469VG"
+
+    config TEMP_STM32F469VI
+        bool "STM32F469VI"
+
+    config TEMP_STM32F469ZE
+        bool "STM32F469ZE"
+
+    config TEMP_STM32F469ZG
+        bool "STM32F469ZG"
+
+    config TEMP_STM32F469ZI
+        bool "STM32F469ZI"
+
+endchoice
+
+ 

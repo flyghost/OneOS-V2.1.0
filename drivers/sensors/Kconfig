@@ -1,0 +1,245 @@
+menu "Sensors"
+    config OS_USING_SENSOR
+        bool "Using sensor device drivers"
+        default n
+
+    if OS_USING_SENSOR
+
+        menuconfig OS_USING_SHT20
+            bool "Enable sht20"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_SHT20
+                config OS_SHT20_I2C_BUS_NAME
+                    string "sht20 i2c bus name"
+                    default "i2c1"
+
+                config OS_SHT20_I2C_ADDR
+                    hex "sht20 i2c addr(7bit)"
+                    default 0x40
+            endif
+
+        menuconfig OS_USING_AHT10
+            bool "Enable aht10"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_AHT10
+
+                config OS_AHT10_I2C_BUS_NAME
+                    string "aht10 i2c bus name"
+                    default "i2c1"
+
+                config OS_AHT10_I2C_ADDR
+                    hex "aht10 i2c addr(7bit)"
+                    default 0x38
+            endif
+        
+        menuconfig OS_USING_AHT20
+            bool "Enable aht20"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_AHT20
+                config OS_AHT20_I2C_BUS_NAME
+                    string "aht20 i2c bus name"
+                    default "soft_i2c2"
+
+                config OS_AHT20_I2C_ADDR
+                    hex "aht20 i2c addr(7bit)"
+                    default 0x38
+            endif
+
+        menuconfig OS_USING_ADXL345
+            bool "Enable adxl345"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_ADXL345
+                config OS_ADXL345_I2C_BUS_NAME
+                    string "adxl345 i2c bus name"
+                    default "i2c1"
+
+                config OS_ADXL345_I2C_ADDR
+                    hex "adxl345 i2c addr(7bit)"
+                    default 0x53
+            endif
+
+        menuconfig OS_USING_BH1750
+            bool "Enable bh1750"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_BH1750
+                config OS_BH1750_I2C_BUS_NAME
+                    string "bh1750 i2c bus name"
+                    default "i2c2"
+
+                config OS_BH1750_I2C_ADDR
+                    hex "bh1750 i2c addr(7bit)"
+                    default 0x23
+            endif
+
+        menuconfig OS_USING_BMP180
+            bool "Enable bmp180"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_BMP180
+                config OS_BMP180_I2C_BUS_NAME
+                    string "bmp180 i2c bus name"
+                    default "i2c2"
+
+                config OS_BMP180_I2C_ADDR
+                    hex "bmp180 i2c addr(7bit)"
+                    default 0x77
+            endif
+
+        menuconfig OS_USING_MPU6XXX
+            bool "Enable mpu6xxx"
+            select PKG_USING_MPU6XXX
+            default n
+            
+            if OS_USING_MPU6XXX
+
+                choice
+                    prompt "mpu6xxx bus type"
+                    default OS_MPU6XXX_BUS_I2C
+                    config OS_MPU6XXX_BUS_I2C
+                        bool "i2c"
+                        select OS_USING_I2C
+                    config OS_MPU6XXX_BUS_SPI
+                        bool "spi"
+                        select OS_USING_SPI
+                endchoice
+
+                config OS_MPU6XXX_BUS_NAME
+                    string "mpu6xxx bus name"
+                    default "i2c2"
+
+                config OS_MPU6XXX_SPI_ATTACH_NAME
+                    string "mpu6xxx spi attach bus name"
+                    default "mpu6xxx_spi"
+                    depends on OS_MPU6XXX_BUS_SPI
+
+                config OS_MPU6XXX_ADDR
+                    hex "mpu6xxx addr(7bit)"
+                    default 0x68
+                    depends on OS_MPU6XXX_BUS_I2C
+
+                config OS_MPU6XXX_CS_PIN
+                    int "mpu6xxx cs pin number"
+                    default 403
+                    depends on OS_MPU6XXX_BUS_SPI
+
+                config OS_MPU6XXX_INT_PIN
+                    int "mpu6xxx interrupt pin number"
+                    default 21
+                    
+                config PKG_USING_MPU6XXX
+                    bool
+                    default n
+                config PKG_USING_MPU6XXX_ACCE
+                    bool "mpu6xxx acce"
+                    default y
+              
+                config PKG_USING_MPU6XXX_GYRO
+                    bool "mpu6xxx gyro"
+                    default y
+                    
+                config PKG_USING_MPU6XXX_TEMP
+                    bool "mpu6xxx temp"
+                    default n
+
+                config OS_USING_ICM20602
+                    bool "Enable icm20602"
+                    default n
+
+                config OS_USING_ICM20608
+                    bool "Enable icm20608"
+                    default n
+
+                config OS_USING_MPU9250
+                    bool "Enable mpu9250(ak8963)"
+                    default n
+
+                config OS_USING_MPU6050
+                    bool "Enable mpu6050"
+                    default n
+            endif
+
+        menuconfig OS_USING_AK8963
+            bool "Enable ak8963"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_AK8963
+                config OS_AK8963_I2C_BUS_NAME
+                    string "ak8963 i2c bus name"
+                    default "i2c2"
+
+                config OS_AK8963_I2C_ADDR
+                    hex "ak8963 i2c addr(7bit)"
+                    default 0x0c
+            endif
+
+        menuconfig OS_USING_LSM6DSL
+            bool "Enable lsm6dsl"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_LSM6DSL
+                config OS_LSM6DSL_I2C_BUS_NAME
+                    string "lsm6dsl i2c bus name"
+                    default "i2c2"
+
+                config OS_LSM6DSL_I2C_ADDR
+                    hex "lsm6dsl i2c addr(sad = 0 --> 6a, sad = 1 --> 6b)"
+                    default 0x0c
+            endif
+        menuconfig OS_USING_LSM6DSO
+            bool "Enable lsm6dso"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_LSM6DSO
+                config OS_LSM6DSO_I2C_BUS_NAME
+                    string "lsm6dso i2c bus name"
+                    default "i2c2"
+
+                config OS_LSM6DSO_I2C_ADDR
+                    hex "lsm6dsl i2c addr(if SA0=0 -> 6A if SA0=1 -> 6B )"
+                    default 0x6A
+            endif
+        menuconfig OS_USING_AP3216C
+            bool "Enable ap3216c"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_AP3216C
+                config OS_AP3216C_I2C_BUS_NAME
+                    string "ap3216c i2c bus name"
+                    default "i2c3"
+
+                config OS_AP3216C_I2C_ADDR
+                    hex "ap3216c i2c addr"
+                    default 0x1e
+            endif
+        menuconfig OS_USING_PHOTO_DIODE
+            bool "Enable photo diode"
+            select OS_USING_I2C
+            default n
+
+            if OS_USING_PHOTO_DIODE
+                config OS_PHOTO_DIODE_ADC_NAME
+                    string "photo diode adc name"
+                    default "adc3"
+
+                config OS_PHOTO_DIODE_ADC_CHANNEL
+                    hex "photo diode adc channel"
+                    default 6
+            endif
+    endif
+
+endmenu

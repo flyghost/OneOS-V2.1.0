@@ -1,0 +1,62 @@
+import os
+import osconfig
+from build_tools import *
+
+sys.path.append(Env['OS_ROOT'] + '/drivers/hal/nrf/scripts/')
+
+pwd = PresentDir()
+LIBS    = []
+LIBPATH = []
+
+# add general drivers
+src = Split('''
+board.c
+CubeMX_Config/Src/system_nrf52.c
+''')
+
+# path   include path in project
+path =  [pwd]
+path += [pwd + '/ports']
+path += [pwd + '/../../../drivers/hal/nrf/drivers']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/integration/nrfx']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/integration/nrfx/legacy']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/modules/nrfx']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/modules/nrfx/mdk']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/modules/nrfx/drivers']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/modules/nrfx/drivers/include']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/modules/nrfx/hal']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/modules/nrfx/soc']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/toolchain/cmsis/include']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/util']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/fifo']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/log']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/log/src']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/uart']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/strerror']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/delay']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/experimental_section_vars']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/pwr_mgmt']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/mutex']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/atomic']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/libraries/timer']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/serialization/common']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/serialization/application/transport']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/serialization/application/hal']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/serialization/application/codecs/ble/serializers']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/softdevice/s140/headers']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/components/softdevice/s140/headers/nrf52']
+path += [pwd + '/../../../drivers/hal/nrf/NRF5_HAL/config/nrf52840/config']
+path += [pwd + '/CubeMX_Config/Inc']
+
+
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/gcc_startup_nrf52.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/arm_startup_nrf52.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/iar_startup_nrf52.s']
+
+CPPDEFINES = ['NRF52840_XXAA'] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+Return('group')

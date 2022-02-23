@@ -1,0 +1,11 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_lpc55s69-nxp-evk
+    help
+        Select the device in LPC55S6X
+
+    config TEMP_lpc55s69-nxp-evk
+        bool "lpc55s69-nxp-exk"
+        
+endchoice
+

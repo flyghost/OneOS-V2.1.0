@@ -1,0 +1,5 @@
+config MANUFACTOR_FM33
+    bool
+    default n
+
+source "$OS_ROOT/drivers/hal/fm/*/Kconfig"

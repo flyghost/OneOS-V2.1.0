@@ -1,0 +1,13 @@
+from build_tools import *
+
+pwd = PresentDir()
+src = []
+
+src += ['nand.c', 'nand_devices.c']
+
+if IsDefined('OS_USING_NAND_XXX'):
+    src += ['nand_xxx.c']
+	
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_NAND'], CPPPATH = [pwd])
+
+Return('group')

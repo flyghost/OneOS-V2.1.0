@@ -1,0 +1,34 @@
+import os
+import osconfig
+from build_tools import *
+
+
+
+pwd = PresentDir()
+
+# add general drivers
+src = Split('''
+board.c
+''')
+
+# path   include path in project
+path = [pwd]
+path += [pwd + '/ports']
+path += [pwd + '/peripherals']
+if osconfig.CROSS_TOOL == 'gcc':
+    src += [pwd + '/startup/startup_mm32f327x_gcc.s']
+elif osconfig.CROSS_TOOL == 'keil':
+    src += [pwd + '/startup/startup_mm32f327x_arm.s']
+elif osconfig.CROSS_TOOL == 'iar':
+    src += [pwd + '/startup/startup_mm32f327x_iar.s']
+
+CPPDEFINES = [] 
+group = AddCodeGroup('bsp', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES)
+
+list = os.listdir(pwd)
+for d in list:
+    path = os.path.join(pwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        group = group + SConscript(os.path.join(d, 'SConscript'))
+
+Return('group')

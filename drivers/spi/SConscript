@@ -1,0 +1,46 @@
+from build_tools import *
+import osconfig
+
+pwd = PresentDir()
+src = ['spi_core.c', 'spi_dev.c']
+CPPPATH = [pwd]
+LOCAL_CCFLAGS = ''
+
+if IsDefined('OS_USING_QSPI'):
+    src += ['qspi_core.c']
+
+src_device = []
+
+if IsDefined('OS_USING_SPI_WIFI'):
+    src_device += ['spi_wifi_rw009.c']
+
+if IsDefined('BSP_USING_ENC28J60'):
+    src_device += ['enc28j60.c']
+    
+if IsDefined('BSP_USING_NM25Q'):
+    src_device += ['spi_flash_nm25q.c']
+
+if IsDefined('OS_USING_SPI_MSD'):
+    src_device += ['spi_msd.c']
+    src_device += ['spi_tfcard.c']
+    
+if IsDefined('OS_SFUD_USING_SPI'):
+    src_device += ['flash/flash_spi.c']
+    
+if IsDefined('OS_SFUD_USING_QSPI'):
+    src += Glob('flash/flash_qspi.c')
+
+if IsDefined('OS_USING_FAL') and (IsDefined('OS_SFUD_USING_SPI') or IsDefined('OS_SFUD_USING_QSPI')):
+    src += Glob('flash/fal_flash_sfud_port.c')
+
+if IsDefined('OS_USING_SFUD'):
+    src_device += ['spi_flash_sfud.c', 'sfud/src/sfud.c']
+    CPPPATH += [pwd + '/sfud/inc']
+    if IsDefined('OS_SFUD_USING_SFDP'):
+        src_device += ['sfud/src/sfud_sfdp.c']
+        
+src += src_device
+
+group = AddCodeGroup('drivers', src, depend = ['OS_USING_SPI'], CPPPATH = CPPPATH, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+
+Return('group')

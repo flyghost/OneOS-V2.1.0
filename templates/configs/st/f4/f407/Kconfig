@@ -1,0 +1,28 @@
+choice
+    prompt "|------SUB MODEL"
+        default TEMP_STM32F407ZG
+    help
+        Select the device in STM32F407xx
+
+    config TEMP_STM32F407VE
+        bool "STM32F407VE"
+    
+    config TEMP_STM32F407VG
+        bool "STM32F407VG"
+    
+    config TEMP_STM32F407ZE
+        bool "STM32F407ZE"
+
+    config TEMP_STM32F407ZG
+        bool "STM32F407ZG"
+
+    config TEMP_STM32F407IE
+        bool "STM32F407IE"
+
+    config TEMP_STM32F407IG
+        bool "STM32F407IG"
+
+    config TEMP_stm32f407-atk-explorer
+        bool "stm32f407-atk-explorer"
+
+endchoice

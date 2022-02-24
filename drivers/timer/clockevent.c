@@ -35,11 +35,23 @@ static os_clockevent_t *gs_best_ce = OS_NULL;
 
 static os_list_node_t gs_clockevent_list = OS_LIST_INIT(gs_clockevent_list);
 
+/**
+ * @brief 选取最佳的时钟事件
+ * 
+ * @return os_clockevent_t* 
+ */
 os_clockevent_t *os_clockevent_best(void)
 {
     return gs_best_ce;
 }
 
+/**
+ * @brief 插入事件链表
+ * 
+ * 该链表会根据event的rating进行排序
+ * 
+ * @param ce 
+ */
 static void os_clockevent_enqueue(os_clockevent_t *ce)
 {
     os_list_node_t *entry = &gs_clockevent_list;
@@ -80,6 +92,10 @@ static os_bool_t os_clockevent_valid(os_clockevent_t *ce)
     return event_flag;
 }
 
+/**
+ * @brief 查找rating最高且有效的clockevent
+ * 
+ */
 void os_clockevent_select_best(void)
 {
     os_clockevent_t *ce;
@@ -111,6 +127,7 @@ void os_clockevent_select_best(void)
     }
 }
 
+// 注册clockevent回调
 void os_clockevent_register_isr(os_clockevent_t *ce, void (*event_handler)(os_clockevent_t *ce))
 {
     if (ce == gs_best_ce && ce->event_handler != OS_NULL)
@@ -121,20 +138,40 @@ void os_clockevent_register_isr(os_clockevent_t *ce, void (*event_handler)(os_cl
     ce->event_handler = event_handler;
 }
 
+/**
+ * @brief 读取clockevent产生中断的目标纳秒值
+ * 
+ * 当时间到达这个纳秒的时，会产生中断
+ * 
+ * @param ce 
+ * @return os_uint64_t 
+ */
 os_uint64_t os_clockevent_read(os_clockevent_t *ce)
 {
-    os_uint64_t count = ce->ops->read(ce);
+    os_uint64_t count = ce->ops->read(ce);      // 读取目标产生clockevent的硬件counter值
 
-    return ce->prescaler * count * ce->mult_t >> ce->shift_t;
+    return ce->prescaler * count * ce->mult_t >> ce->shift_t;   // count转位ns
 }
 
+/**
+ * @brief 判断是否是周期性的clockevent
+ * 
+ * @param ce 
+ * @return os_bool_t 
+ */
 static os_bool_t os_clockevent_auto_period(os_clockevent_t *ce)
 {
-    return ((ce->feature == OS_CLOCKEVENT_FEATURE_PERIOD)
-            && ce->period_count != 0 
-            && (ce->period_count & ~ce->count_mask) == 0);
+    return ((ce->feature == OS_CLOCKEVENT_FEATURE_PERIOD)       // 周期性clockevent
+            && ce->period_count != 0                            // 周期不为0
+            && (ce->period_count & ~ce->count_mask) == 0);      // 周期不能超过count mask
 }
 
+/**
+ * @brief 
+ * 
+ * @param ce 
+ * @return int 
+ */
 static int os_clockevent_calc_param(os_clockevent_t *ce)
 {
     os_uint64_t nsec;
@@ -143,35 +180,40 @@ static int os_clockevent_calc_param(os_clockevent_t *ce)
     os_uint32_t prescaler;
     os_int32_t  trig_isr = 0;
 
-    nsec = os_clocksource_gettime();
+    nsec = os_clocksource_gettime();        // 获取时钟源当前时间，单位：纳秒
 
     /* reserve 5000 nsec */
-    if (ce->next_nsec <= (nsec + 5000))
+    if (ce->next_nsec <= (nsec + 5000))     // 如果下一次时钟事件和当前事件的间隔小于5000纳秒
     {
-        if (ce->period_nsec == 0)
+        if (ce->period_nsec == 0)           // 非周期性时钟事件
         {
-            ce->count = 0;
+            ce->count = 0;                  // 计数值设为0
             return 1;
         }
         else
         {
-            ce->next_nsec = period_calc_next_nsec(ce->next_nsec, nsec, ce->period_nsec);
+            ce->next_nsec = period_calc_next_nsec(ce->next_nsec, nsec, ce->period_nsec);    // 计算目标时间
             trig_isr++;
         }
     }
 
-    if (os_clockevent_auto_period(ce))
+    /**
+     * @brief 计算下一个count值
+     * 
+     */
+    if (os_clockevent_auto_period(ce))      // 是否是周期性时钟事件
     {
-        prescaler = 1 & ce->prescaler_mask;
-        count     = ce->period_count;
+        prescaler = 1 & ce->prescaler_mask; // 是否预分频
+        count     = ce->period_count;       // 周期count值
     }
     else
     {
-        nsec = ce->next_nsec - nsec;
-        nsec = max(nsec, ce->min_nsec);
-        nsec = min(nsec, ce->max_nsec);
-        evt  = nsec * ce->mult >> ce->shift;
-        evt  = min(evt, ce->mask);
+        nsec = ce->next_nsec - nsec;        // 周期时间（纳秒）
+        nsec = max(nsec, ce->min_nsec);     // 不能小于最小值
+        nsec = min(nsec, ce->max_nsec);     // 不能大于最大值
+        
+        evt  = nsec * ce->mult >> ce->shift;    // 纳秒--->硬件counter值
+        evt  = min(evt, ce->mask);              // 不能超过硬件counter计数最大值
     
         if ((evt & ~ce->count_mask) == 0)
         {
@@ -225,13 +267,14 @@ static int os_clockevent_next(os_clockevent_t *ce, os_bool_t force_trig)
     return trig_isr;
 }
 
+// 启动单次clock事件
 void os_clockevent_start_oneshot(os_clockevent_t *ce, os_uint64_t nsec)
 {
     os_base_t level;
     
     OS_ASSERT(ce != NULL);
 
-    os_clockevent_stop(ce);
+    os_clockevent_stop(ce);     // 停止
 
     nsec = max(nsec, ce->min_nsec);
 
@@ -268,6 +311,7 @@ void os_clockevent_start_period(os_clockevent_t *ce, os_uint64_t nsec)
     os_irq_unlock(level);
 }
 
+// 停止clock事件
 void os_clockevent_stop(os_clockevent_t *ce)
 {
     os_base_t level;

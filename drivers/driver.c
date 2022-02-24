@@ -36,11 +36,31 @@ os_uint32_t uart_calc_byte_timeout_us(os_uint32_t baud)
     return 10 * 1000000 / baud;
 }
 
+/**
+ * @brief 对于clock而言，计算这两个值的本质目的，是避免频繁通过cycles/frequency来计算单调时间（monoronic time），因为这样做回导致浮点运算，开销会很大，当然也能保证时间的精度
+ * 
+ * 例如：例如from=1M=10^6 hz(us), to = 1G = 10^9 hz(ns), 那么时钟频率是1e6(counter freg), to=1e9就是最终要被转化成的时间粒度，mult/(1<<shift)就是from与to之间的时间粒度比
+ * (1<<shift)/mult = 10^6/10^9 = 1/1000
+ * mult/(1<<shift) = 1000 = mult >> shift
+ * 
+ * 如果直接将粒度比算出来存起来，下次直接时钟源的cycles*粒度比得到to粒度的时间值，精度没有 cycles*mult/(1<<shift) 得到的时间准确度肯定要高
+ * 
+ * from--->to :  to_cycle = from_cycle * mult >> shift 
+ * 
+ * @param mult 
+ * @param shift 
+ * @param from frequency to convert from   时钟的真正时钟频率
+ * @param to frequency to convert to   最终转化时间的粒度
+ * @param max_from guaranteed runtime conversion range in seconds   保证以秒为单位的运行时转换范围
+ * 如果max_from越大，说明mask能表示的描述越大，这就意味着mask left shift的位数变少，从而导致mult和shift都会表少，导致时间精度下降
+ */
 void calc_mult_shift(os_uint32_t *mult, os_uint32_t *shift, os_uint32_t from, os_uint32_t to, os_uint32_t max_from)
 {
     os_uint64_t tmp;
-    os_uint32_t sft, sftacc = 32;
+    os_uint32_t sft, sftacc = 32;   // shift accumulator，左移累加器
 
+    // 计算 clocksource.mask能被左移的最大位数，从而也决定了mult的大小，即cycle*mult <= mask，这样不会发生溢出
+    // 这里可以看出最大的left shift most = 32
     tmp = ((os_uint64_t)max_from * from) >> 32;
     while (tmp)
     {
@@ -48,16 +68,24 @@ void calc_mult_shift(os_uint32_t *mult, os_uint32_t *shift, os_uint32_t from, os
         sftacc--;
     }
 
+    // find the conversion shift/mult pair which has the best 查找最好的转化 shift/mult 对
     for (sft = 32; sft > 0; sft--)
     {
-        tmp = (os_uint64_t)to << sft;
-        tmp += from / 2;
-        tmp /= from;
+        tmp = (os_uint64_t)to << sft;       // 将目的时间粒度左移sft，相当于粒度提高了2^sft倍，这里假设提高后的时间粒度定义为sft_resolution
+        tmp += from / 2;                    // 类似div_roundup()功能，向上取整：4.1取整为5
+        tmp /= from;                        // (定义为sft_period),这里得到的period的单位是sft_resolution
         
+        // 这里(tmp = sft_period) >> sftacc, 右移sftacc位(clocksources.cycles能左移的最大值)，
+        // 找出tmp右移sftacc位后等于零的tmp，说明以后cycles*tmp(最多左移sftacc位)，这样一定不会溢出(cycles * mult <= mask)。
         if ((tmp >> sftacc) == 0)
             break;
     }
     
+    /**
+     * 因此(1<<shift)/mult是 from与to之间的粒度比
+     * 例如from = 10^6 hz(us), to = 10^9 hz(ns), (1<<shift)/mult = 10^6/10^9 = 1/1000, from的粒度是to的千分之一，因此每个cycle占用1us=1000ns
+     * 可能有人会问，直接存储这比例就好了，cycles*1000就得到时间ns了，为什么还要cycles*mult/(1<<shift)呢，精度啊是不是。
+     */
     *mult = tmp;
     *shift = sft;
 }

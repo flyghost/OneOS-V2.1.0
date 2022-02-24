@@ -462,12 +462,12 @@ OS_INLINE os_list_node_t *os_list_tail(os_list_node_t *head)
  ***********************************************************************************************************************
  * @def         os_list_for_each_entry
  *
- * @brief       Iterate over list of given type
+ * @brief       Iterate over list of given type     循环链表
  *
- * @param       pos             The type * to use as a loop counter.
- * @param       head            The head for your list.
- * @param       type            The type of the struct same as pos(loop counter).
- * @param       member          The name of the os_list_node within the struct.
+ * @param       pos             The type * to use as a loop counter.                循环返回链表每个节点指向的结构体，类似于for循环的i
+ * @param       head            The head for your list.                             链表地址
+ * @param       type            The type of the struct same as pos(loop counter).   结构体的类型
+ * @param       member          The name of the os_list_node within the struct.     链表在结构体的的名字
  ***********************************************************************************************************************
  */
 #define os_list_for_each_entry(pos, head, type, member)                     \

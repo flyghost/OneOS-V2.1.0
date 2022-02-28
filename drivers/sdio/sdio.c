@@ -72,6 +72,18 @@ static const os_uint32_t speed_unit[8] = {10000, 100000, 1000000, 10000000, 0, 0
 
 OS_INLINE os_int32_t sdio_match_card(struct os_mmcsd_card *card, const struct os_sdio_device_id *id);
 
+/**
+ * @brief 发送SD_IO_SEND_OP_COND命令：CMD5，用来获取OCR寄存器的值
+ * 
+ * 会用来检测是否是SDIO设备，只有SDIO会对该命令有反馈，其他卡是没有反馈的
+ * 
+ * 如果SDIO设备，会反馈电压信息，也就是卡能支持的电压是多少
+ * 
+ * @param host 
+ * @param ocr 
+ * @param cmd5_resp 
+ * @return os_int32_t 
+ */
 os_int32_t sdio_io_send_op_cond(struct os_mmcsd_host *host, os_uint32_t ocr, os_uint32_t *cmd5_resp)
 {
     struct os_mmcsd_cmd cmd;

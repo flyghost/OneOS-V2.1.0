@@ -128,7 +128,7 @@ struct os_mmcsd_host
     os_uint32_t max_blk_count; /* maximum block count */
 
     os_uint32_t         spi_use_crc;
-    struct os_mutex     bus_lock;
+    struct os_mutex     bus_lock;       // host 锁
     struct os_semaphore sem_ack;
 
     os_uint32_t          sdio_irq_num;

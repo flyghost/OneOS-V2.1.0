@@ -65,11 +65,21 @@ static os_uint32_t       mmcsd_detect_mb_pool[4];
 static os_mb_t mmcsd_hotpluge_mb;
 static os_uint32_t       mmcsd_hotpluge_mb_pool[4];
 
+/**
+ * @brief hsot上锁
+ * 
+ * @param host 
+ */
 void mmcsd_host_lock(struct os_mmcsd_host *host)
 {
     os_mutex_lock(&host->bus_lock, OS_WAIT_FOREVER);
 }
 
+/**
+ * @brief host解锁
+ * 
+ * @param host 
+ */
 void mmcsd_host_unlock(struct os_mmcsd_host *host)
 {
     os_mutex_unlock(&host->bus_lock);
@@ -106,6 +116,14 @@ void mmcsd_send_request(struct os_mmcsd_host *host, struct os_mmcsd_req *req)
     } while (req->cmd->err && (req->cmd->retries > 0));
 }
 
+/**
+ * @brief HOST发送一条CMD命令
+ * 
+ * @param host 需要发送命令的HOST
+ * @param cmd 需要发送的命令
+ * @param retries 重试次数
+ * @return os_int32_t 成功：0  失败：<0
+ */
 os_int32_t mmcsd_send_cmd(struct os_mmcsd_host *host, struct os_mmcsd_cmd *cmd, int retries)
 {
     struct os_mmcsd_req req;
@@ -122,14 +140,21 @@ os_int32_t mmcsd_send_cmd(struct os_mmcsd_host *host, struct os_mmcsd_cmd *cmd, 
     return cmd->err;
 }
 
+/**
+ * @brief 发送CMD0，MMCSD进入IDLE状态
+ * 
+ * @param host 
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_go_idle(struct os_mmcsd_host *host)
 {
     os_int32_t          err;
     struct os_mmcsd_cmd cmd;
 
+    // 不是SPI控制
     if (!controller_is_spi(host))
     {
-        mmcsd_set_chip_select(host, MMCSD_CS_HIGH);
+        mmcsd_set_chip_select(host, MMCSD_CS_HIGH); // ？？？？
         mmcsd_delay_ms(1);
     }
 
@@ -145,13 +170,21 @@ os_int32_t mmcsd_go_idle(struct os_mmcsd_host *host)
 
     if (!controller_is_spi(host))
     {
-        mmcsd_set_chip_select(host, MMCSD_CS_IGNORE);
+        mmcsd_set_chip_select(host, MMCSD_CS_IGNORE);   // ？？？？
         mmcsd_delay_ms(1);
     }
 
     return err;
 }
 
+/**
+ * @brief 发送CMD58，SPI模式读取OCR
+ * 
+ * @param host 
+ * @param high_capacity 是否是大容量
+ * @param ocr 返回的OCR值
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_spi_read_ocr(struct os_mmcsd_host *host, os_int32_t high_capacity, os_uint32_t *ocr)
 {
     struct os_mmcsd_cmd cmd;
@@ -170,6 +203,13 @@ os_int32_t mmcsd_spi_read_ocr(struct os_mmcsd_host *host, os_int32_t high_capaci
     return err;
 }
 
+/**
+ * @brief 获取所有卡的CID
+ * 
+ * @param host 
+ * @param cid 返回卡的CID
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_all_get_cid(struct os_mmcsd_host *host, os_uint32_t *cid)
 {
     os_int32_t          err;
@@ -190,6 +230,13 @@ os_int32_t mmcsd_all_get_cid(struct os_mmcsd_host *host, os_uint32_t *cid)
     return 0;
 }
 
+/**
+ * @brief 获取当前卡的CID
+ * 
+ * @param host 
+ * @param cid 返回的卡的CID
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_get_cid(struct os_mmcsd_host *host, os_uint32_t *cid)
 {
     os_int32_t           err, i;
@@ -198,6 +245,7 @@ os_int32_t mmcsd_get_cid(struct os_mmcsd_host *host, os_uint32_t *cid)
     struct os_mmcsd_data data;
     os_uint8_t          *buf = OS_NULL;
 
+    // 不是SPI模式
     if (!controller_is_spi(host))
     {
         if (!host->card)
@@ -268,6 +316,13 @@ os_int32_t mmcsd_get_cid(struct os_mmcsd_host *host, os_uint32_t *cid)
     return 0;
 }
 
+/**
+ * @brief 获取卡的CSD
+ * 
+ * @param card 
+ * @param csd 
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_get_csd(struct os_mmcsd_card *card, os_uint32_t *csd)
 {
     os_int32_t           err, i;
@@ -345,6 +400,13 @@ os_int32_t mmcsd_get_csd(struct os_mmcsd_card *card, os_uint32_t *csd)
     return 0;
 }
 
+/**
+ * @brief 选择card
+ * 
+ * @param host 实例
+ * @param card 实例操作的某一个卡，如果位OS_NULL，则取消选择卡
+ * @return os_int32_t 
+ */
 static os_int32_t _mmcsd_select_card(struct os_mmcsd_host *host, struct os_mmcsd_card *card)
 {
     os_int32_t          err;
@@ -372,16 +434,35 @@ static os_int32_t _mmcsd_select_card(struct os_mmcsd_host *host, struct os_mmcsd
     return 0;
 }
 
+/**
+ * @brief 选择card
+ * 
+ * @param card 
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_select_card(struct os_mmcsd_card *card)
 {
     return _mmcsd_select_card(card->host, card);
 }
 
+/**
+ * @brief 取消选择card
+ * 
+ * @param card 
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_deselect_cards(struct os_mmcsd_card *card)
 {
     return _mmcsd_select_card(card->host, OS_NULL);
 }
 
+/**
+ * @brief 发送CMD59，是否使用CRC校验（SPI模式下使用）
+ * 
+ * @param host 
+ * @param use_crc 是否使能CRC
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_spi_use_crc(struct os_mmcsd_host *host, os_int32_t use_crc)
 {
     struct os_mmcsd_cmd cmd;
@@ -400,6 +481,12 @@ os_int32_t mmcsd_spi_use_crc(struct os_mmcsd_host *host, os_int32_t use_crc)
     return err;
 }
 
+/**
+ * @brief 设置IO属性：时钟、总线模式、电源模式、片选、VDD、总线宽度
+ * 
+ * @param host 
+ * @return OS_INLINE 
+ */
 OS_INLINE void mmcsd_set_iocfg(struct os_mmcsd_host *host)
 {
     struct os_mmcsd_io_cfg *io_cfg = &host->io_cfg;
@@ -537,22 +624,26 @@ void mmcsd_set_data_timeout(struct os_mmcsd_data *data, const struct os_mmcsd_ca
     }
 }
 
-/*
- * Mask off any voltages we don't support and select
- * the lowest voltage
+/**
+ * @brief Mask off any voltages we don't support and select the lowest voltage
+ * 屏蔽掉不支持的电压，选择最低可以支持的电压
+ * 
+ * @param host 
+ * @param ocr OCR寄存器的值
+ * @return os_uint32_t 
  */
 os_uint32_t mmcsd_select_voltage(struct os_mmcsd_host *host, os_uint32_t ocr)
 {
     int bit;
 
-    ocr &= host->valid_ocr;
+    ocr &= host->valid_ocr;     // 屏蔽掉HOST不支持的电压范围
 
     bit = os_ffs(ocr);
     if (bit)
     {
         bit -= 1;
 
-        ocr &= 3 << bit;
+        ocr &= 3 << bit;        // ？？？？
 
         host->io_cfg.vdd = bit;
         mmcsd_set_iocfg(host);
@@ -566,17 +657,22 @@ os_uint32_t mmcsd_select_voltage(struct os_mmcsd_host *host, os_uint32_t ocr)
     return ocr;
 }
 
+/**
+ * @brief 上电，设置IO属性
+ * 
+ * @param host 
+ */
 static void mmcsd_power_up(struct os_mmcsd_host *host)
 {
     int bit = os_fls(host->valid_ocr) - 1;
 
     host->io_cfg.vdd = bit;
-    if (controller_is_spi(host))
+    if (controller_is_spi(host))                            // SPI HOST
     {
         host->io_cfg.chip_select = MMCSD_CS_HIGH;
         host->io_cfg.bus_mode    = MMCSD_BUSMODE_PUSHPULL;
     }
-    else
+    else                                                    // 非SPI HOST
     {
         host->io_cfg.chip_select = MMCSD_CS_IGNORE;
         host->io_cfg.bus_mode    = MMCSD_BUSMODE_OPENDRAIN;
@@ -602,11 +698,16 @@ static void mmcsd_power_up(struct os_mmcsd_host *host)
     mmcsd_delay_ms(10);
 }
 
+/**
+ * @brief 下电，设置IO属性
+ * 
+ * @param host 
+ */
 static void mmcsd_power_off(struct os_mmcsd_host *host)
 {
     host->io_cfg.clock = 0;
     host->io_cfg.vdd   = 0;
-    if (!controller_is_spi(host))
+    if (!controller_is_spi(host))               // 非SPI设备
     {
         host->io_cfg.bus_mode    = MMCSD_BUSMODE_OPENDRAIN;
         host->io_cfg.chip_select = MMCSD_CS_IGNORE;
@@ -648,15 +749,16 @@ void mmcsd_detect(void *param)
     {
         if (os_mb_recv(&mmcsd_detect_mb, (os_ubase_t *)&host, OS_WAIT_FOREVER) == OS_EOK)
         {
+            // HOST里还未创建card
             if (host->card == OS_NULL)
             {
-                mmcsd_host_lock(host);
-                mmcsd_power_up(host);
+                mmcsd_host_lock(host);      // 上锁
+                mmcsd_power_up(host);       // 上电，初始化IO属性
                 mmcsd_go_idle(host);
 
-                mmcsd_send_if_cond(host, host->valid_ocr);
+                mmcsd_send_if_cond(host, host->valid_ocr);      // 发送host接口条件，SD1.0的卡不会有响应
 
-                err = sdio_io_send_op_cond(host, 0, &ocr);
+                err = sdio_io_send_op_cond(host, 0, &ocr);      // 检测是否是SDIO设备
                 if (!err)
                 {
                     if (init_sdio(host, ocr))
@@ -668,7 +770,7 @@ void mmcsd_detect(void *param)
                 /*
                  * detect SD card
                  */
-                err = mmcsd_send_app_op_cond(host, 0, &ocr);
+                err = mmcsd_send_app_op_cond(host, 0, &ocr);    // 发送CMD55，CMD41，检测是否是SD设备，并返回卡支持的OCR
                 if (!err)
                 {
                     if (init_sd(host, ocr))
@@ -681,7 +783,7 @@ void mmcsd_detect(void *param)
                 /*
                  * detect mmc card
                  */
-                err = mmc_send_op_cond(host, 0, &ocr);
+                err = mmc_send_op_cond(host, 0, &ocr);          // 检测是否是MMC设备
                 if (!err)
                 {
                     if (init_mmc(host, ocr))
@@ -692,6 +794,7 @@ void mmcsd_detect(void *param)
                 }
                 mmcsd_host_unlock(host);
             }
+            // 已经存在card
             else
             {
                 /* card removed */

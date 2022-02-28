@@ -78,6 +78,12 @@ OS_INLINE os_uint32_t GET_BITS(os_uint32_t *resp, os_uint32_t start, os_uint32_t
     return __res & __mask;
 }
 
+/**
+ * @brief 解析CSD的值
+ * 
+ * @param card 
+ * @return os_int32_t 
+ */
 static os_int32_t mmcsd_parse_csd(struct os_mmcsd_card *card)
 {
     struct os_mmcsd_csd *csd  = &card->csd;
@@ -201,6 +207,12 @@ static os_int32_t mmcsd_parse_scr(struct os_mmcsd_card *card)
     return 0;
 }
 
+/**
+ * @brief 将卡切换到高速，只适用于SD2.0的卡
+ * 
+ * @param card 
+ * @return os_int32_t 
+ */
 static os_int32_t mmcsd_switch(struct os_mmcsd_card *card)
 {
     os_int32_t            err;
@@ -301,6 +313,15 @@ err1:
     return err;
 }
 
+/**
+ * @brief 发送CMD55
+ * 
+ * 先发送CMD55，用来通知CARD，接下来要发送的命令是特定应用命令，不是标准命令
+ * 
+ * @param host 
+ * @param card 
+ * @return os_err_t 
+ */
 static os_err_t mmcsd_app_cmd(struct os_mmcsd_host *host, struct os_mmcsd_card *card)
 {
     os_err_t err;
@@ -330,6 +351,17 @@ static os_err_t mmcsd_app_cmd(struct os_mmcsd_host *host, struct os_mmcsd_card *
     return OS_EOK;
 }
 
+/**
+ * @brief 发送特定应用命令
+ * 
+ * 先发送CMD55来通知CARD设备，下一条命令是特定应用命令，然后再发送特定应用命令
+ * 
+ * @param host host实例
+ * @param card 卡设备，可以为NULL
+ * @param cmd 命令
+ * @param retry 重试次数
+ * @return os_err_t 成功，返回0  错误，小于0
+ */
 os_err_t mmcsd_send_app_cmd(struct os_mmcsd_host *host, struct os_mmcsd_card *card, struct os_mmcsd_cmd *cmd, int retry)
 {
     struct os_mmcsd_req req;
@@ -383,6 +415,13 @@ os_err_t mmcsd_send_app_cmd(struct os_mmcsd_host *host, struct os_mmcsd_card *ca
     return err;
 }
 
+/**
+ * @brief 设置总线宽度
+ * 
+ * @param card 
+ * @param width 总线宽度
+ * @return os_err_t 
+ */
 os_err_t mmcsd_app_set_bus_width(struct os_mmcsd_card *card, os_int32_t width)
 {
     os_err_t            err;
@@ -412,6 +451,18 @@ os_err_t mmcsd_app_set_bus_width(struct os_mmcsd_card *card, os_int32_t width)
     return OS_EOK;
 }
 
+/**
+ * @brief 发送CMD41，检测是否为SD设备，并返回OCR信息
+ * 
+ * 该函数内实现了首先发送一条CMD55命令，再发送CMD41命令
+ * 
+ * CMD55：用来通知CARD下一条命令是特定应用命令，而不是标准命令
+ * 
+ * @param host 
+ * @param ocr 
+ * @param rocr 
+ * @return os_err_t 
+ */
 os_err_t mmcsd_send_app_op_cond(struct os_mmcsd_host *host, os_uint32_t ocr, os_uint32_t *rocr)
 {
     struct os_mmcsd_cmd cmd;
@@ -429,7 +480,7 @@ os_err_t mmcsd_send_app_op_cond(struct os_mmcsd_host *host, os_uint32_t ocr, os_
 
     for (i = 100; i; i--)
     {
-        err = mmcsd_send_app_cmd(host, OS_NULL, &cmd, 3);
+        err = mmcsd_send_app_cmd(host, OS_NULL, &cmd, 3);       // 发送特定应用命令，card为空
         if (err)
             break;
 
@@ -460,10 +511,18 @@ os_err_t mmcsd_send_app_op_cond(struct os_mmcsd_host *host, os_uint32_t ocr, os_
     return err;
 }
 
-/*
- * To support SD 2.0 cards, we must always invoke SD_SEND_IF_COND
+/**
+ * @brief To support SD 2.0 cards, we must always invoke SD_SEND_IF_COND
  * before SD_APP_OP_COND. This command will harmlessly fail for
  * SD 1.0 cards.
+ * 
+ * 为了支持SD2.0协议的卡，必须发送CMD8：发送SD卡接口条件，包含host支持的电压信息，并询问卡是否支持
+ * 
+ * 该命令对1.0的卡没有效果
+ * 
+ * @param host 
+ * @param ocr HOST支持的电压信息
+ * @return os_err_t 
  */
 os_err_t mmcsd_send_if_cond(struct os_mmcsd_host *host, os_uint32_t ocr)
 {
@@ -490,6 +549,13 @@ os_err_t mmcsd_send_if_cond(struct os_mmcsd_host *host, os_uint32_t ocr)
     return OS_EOK;
 }
 
+/**
+ * @brief 获取卡的相对地址RCA
+ * 
+ * @param host 
+ * @param rca 返回的卡的相对地址，RCA
+ * @return os_err_t 
+ */
 os_err_t mmcsd_get_card_addr(struct os_mmcsd_host *host, os_uint32_t *rca)
 {
     os_err_t            err;
@@ -516,6 +582,13 @@ os_err_t mmcsd_get_card_addr(struct os_mmcsd_host *host, os_uint32_t *rca)
                    (((os_uint32_t)(x) & (os_uint32_t)0x00ff0000UL) >> 8) |                                             \
                    (((os_uint32_t)(x) & (os_uint32_t)0xff000000UL) >> 24)))
 
+/**
+ * @brief 发送CMD51，获取卡的SCR
+ * 
+ * @param card 
+ * @param scr 
+ * @return os_int32_t 
+ */
 os_int32_t mmcsd_get_scr(struct os_mmcsd_card *card, os_uint32_t *scr)
 {
     os_int32_t           err;
@@ -565,7 +638,7 @@ static os_int32_t mmcsd_sd_init_card(struct os_mmcsd_host *host, os_uint32_t ocr
     os_uint32_t           resp[4];
     os_uint32_t           max_data_rate;
 
-    mmcsd_go_idle(host);
+    mmcsd_go_idle(host);                // 发送CMD0，card进入IDLE状态
 
     /*
      * If SD_SEND_IF_COND indicates an SD 2.0
@@ -573,7 +646,7 @@ static os_int32_t mmcsd_sd_init_card(struct os_mmcsd_host *host, os_uint32_t ocr
      * of the ocr to indicate that we can handle
      * block-addressed SDHC cards.
      */
-    err = mmcsd_send_if_cond(host, ocr);
+    err = mmcsd_send_if_cond(host, ocr);    // 发送HOST支持的电压信息，只适用于SD2.0的卡
     if (!err)
         ocr |= 1 << 30;
 
@@ -582,9 +655,9 @@ static os_int32_t mmcsd_sd_init_card(struct os_mmcsd_host *host, os_uint32_t ocr
         goto err;
 
     if (controller_is_spi(host))
-        err = mmcsd_get_cid(host, resp);
+        err = mmcsd_get_cid(host, resp);        // CMD10，选定的卡的CID
     else
-        err = mmcsd_all_get_cid(host, resp);
+        err = mmcsd_all_get_cid(host, resp);    // CMD2，所有卡的CID
     if (err)
         goto err;
 
@@ -606,18 +679,18 @@ static os_int32_t mmcsd_sd_init_card(struct os_mmcsd_host *host, os_uint32_t ocr
      */
     if (!controller_is_spi(host))
     {
-        err = mmcsd_get_card_addr(host, &card->rca);
+        err = mmcsd_get_card_addr(host, &card->rca);  // 发送CMD3，获取RCA，卡的相对地址
         if (err)
             goto err1;
 
         mmcsd_set_bus_mode(host, MMCSD_BUSMODE_PUSHPULL);
     }
 
-    err = mmcsd_get_csd(card, card->resp_csd);
+    err = mmcsd_get_csd(card, card->resp_csd);      // 发送CMD7，获取卡的CSD
     if (err)
         goto err1;
 
-    err = mmcsd_parse_csd(card);
+    err = mmcsd_parse_csd(card);                    // 解析CSD
     if (err)
         goto err1;
 
@@ -628,15 +701,15 @@ static os_int32_t mmcsd_sd_init_card(struct os_mmcsd_host *host, os_uint32_t ocr
             goto err1;
     }
 
-    err = mmcsd_get_scr(card, card->resp_scr);
+    err = mmcsd_get_scr(card, card->resp_scr);      // 获取SCR
     if (err)
         goto err1;
 
-    mmcsd_parse_scr(card);
+    mmcsd_parse_scr(card);                          // 解析SCR
 
     if (controller_is_spi(host))
     {
-        err = mmcsd_spi_use_crc(host, 1);
+        err = mmcsd_spi_use_crc(host, 1);           // 发送CMD59，是否使用CRC
         if (err)
             goto err1;
     }
@@ -664,9 +737,9 @@ static os_int32_t mmcsd_sd_init_card(struct os_mmcsd_host *host, os_uint32_t ocr
     mmcsd_set_clock(host, max_data_rate);
 
     /*switch bus width*/
-    if ((host->flags & MMCSD_BUSWIDTH_4) && (card->scr.sd_bus_widths & SD_SCR_BUS_WIDTH_4))
+    if ((host->flags & MMCSD_BUSWIDTH_4) && (card->scr.sd_bus_widths & SD_SCR_BUS_WIDTH_4)) // 需要HOST和CARD同时支持4bit宽度
     {
-        err = mmcsd_app_set_bus_width(card, MMCSD_BUS_WIDTH_4);
+        err = mmcsd_app_set_bus_width(card, MMCSD_BUS_WIDTH_4); // 设置总线宽度
         if (err)
             goto err1;
 
@@ -694,19 +767,18 @@ os_int32_t init_sd(struct os_mmcsd_host *host, os_uint32_t ocr)
 {
     os_int32_t  err;
     os_uint32_t current_ocr;
-    /*
-     * We need to get OCR a different way for SPI.
-     */
+
+    // 如果使用SPI模式，需要使用另一种方法来获取OCR
     if (controller_is_spi(host))
     {
-        mmcsd_go_idle(host);
+        mmcsd_go_idle(host);                        // 发送CMD0，card进入IDLE状态
 
-        err = mmcsd_spi_read_ocr(host, 0, &ocr);
+        err = mmcsd_spi_read_ocr(host, 0, &ocr);    // 发送CMD58，读取OCR
         if (err)
             goto err;
     }
 
-    if (ocr & VDD_165_195)
+    if (ocr & VDD_165_195)                          // 低压不支持？？？
     {
         LOG_I(DBG_TAG," SD card claims to support the "
                   "incompletely defined 'low voltage range'. This "
@@ -714,7 +786,7 @@ os_int32_t init_sd(struct os_mmcsd_host *host, os_uint32_t ocr)
         ocr &= ~VDD_165_195;
     }
 
-    current_ocr = mmcsd_select_voltage(host, ocr);
+    current_ocr = mmcsd_select_voltage(host, ocr);      // 选择电压，设置IO电压属性
 
     /*
      * Can we support the voltage(s) of the card(s)?
@@ -728,11 +800,11 @@ os_int32_t init_sd(struct os_mmcsd_host *host, os_uint32_t ocr)
     /*
      * Detect and init the card.
      */
-    err = mmcsd_sd_init_card(host, current_ocr);
+    err = mmcsd_sd_init_card(host, current_ocr);        // 初始化CARD
     if (err)
         goto err;
 
-    mmcsd_host_unlock(host);
+    mmcsd_host_unlock(host);                            // 解锁HOST
 
     err = os_mmcsd_blk_probe(host->card);
     if (err)

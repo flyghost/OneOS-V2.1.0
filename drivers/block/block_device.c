@@ -31,6 +31,15 @@
 
 #define DBG_TAG "drv.block"
 
+/**
+ * @brief 读取块设备
+ * 
+ * @param dev           父设备指针
+ * @param pos           地址（对于块设备而言，是第几个块）
+ * @param buffer        数据
+ * @param size          大小
+ * @return os_size_t    成功：读取的长度  失败：0
+ */
 static os_size_t blk_dev_read(os_device_t *dev, os_off_t pos, void *buffer, os_size_t size)
 {
     int ret;
@@ -47,6 +56,15 @@ static os_size_t blk_dev_read(os_device_t *dev, os_off_t pos, void *buffer, os_s
     return 0;
 }
 
+/**
+ * @brief 写入块设备
+ * 
+ * @param dev           父设备指针
+ * @param pos           地址（对于块设备而言，是第几个块）
+ * @param buffer        数据
+ * @param size          大小
+ * @return os_size_t    成功：写入的长度  失败：0
+ */
 static os_size_t blk_dev_write(os_device_t *dev, os_off_t pos, const void *buffer, os_size_t size)
 {
     int ret;
@@ -63,6 +81,14 @@ static os_size_t blk_dev_write(os_device_t *dev, os_off_t pos, const void *buffe
     return 0;
 }
 
+/**
+ * @brief 块设备控制
+ * 
+ * @param dev           父设备指针
+ * @param cmd           命令
+ * @param args          参数
+ * @return os_err_t 
+ */
 static os_err_t blk_dev_control(os_device_t *dev, int cmd, void *args)
 {
     os_blk_device_t *blk_dev = (os_blk_device_t *)os_container_of(dev, os_blk_device_t, blk_dev);
@@ -85,12 +111,23 @@ static os_err_t blk_dev_control(os_device_t *dev, int cmd, void *args)
     return OS_EOK;
 }
 
+/**
+ * @brief 块设备操作函数
+ * 
+ */
 const static struct os_device_ops blk_ops = {
     .read    = blk_dev_read,
     .write   = blk_dev_write,
     .control = blk_dev_control,
 };
 
+/**
+ * @brief 注册块设备
+ * 
+ * @param blk_dev       块设备指针
+ * @param name          设备名
+ * @return os_err_t 
+ */
 os_err_t block_device_register(os_blk_device_t *blk_dev, const char *name)
 {
     OS_ASSERT(blk_dev->blk_ops != OS_NULL);
@@ -106,6 +143,12 @@ os_err_t block_device_register(os_blk_device_t *blk_dev, const char *name)
     return OS_EOK;
 }
 
+/**
+ * @brief 
+ * 
+ * @param blk_dev 
+ * @return os_err_t 
+ */
 os_err_t block_device_unregister(os_blk_device_t *blk_dev)
 {
     os_device_unregister(&blk_dev->blk_dev);

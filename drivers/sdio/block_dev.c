@@ -52,8 +52,8 @@
  */
 struct mmcsd_blk_device
 {
-    os_blk_device_t blk_dev;
-    struct os_mmcsd_card   *card;
+    os_blk_device_t blk_dev;        // 块设备
+    struct os_mmcsd_card   *card;   // 卡
     os_off_t    offset;
     os_size_t   max_req_size;
 };

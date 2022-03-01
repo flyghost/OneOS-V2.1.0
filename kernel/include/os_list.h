@@ -89,8 +89,8 @@ OS_INLINE void os_list_add(os_list_node_t *head, os_list_node_t *entry)
  *
  * @details         Insert a new entry before the specified head.
  *
- * @param[in]       head            List head to add it before.
- * @param[in]       entry           New entry to be added.
+ * @param[in]       head            List head to add it before.     被插入的链表头
+ * @param[in]       entry           New entry to be added.          待插入的节点
  *
  * @return          No return value.
  ***********************************************************************************************************************
@@ -347,7 +347,11 @@ OS_INLINE os_list_node_t *os_list_tail(os_list_node_t *head)
     return node;
 }
 
-/* Initialize a double list, this micro is only as right value */
+/**
+ * @brief Initialize a double list, this micro is only as right value
+ * 初始化一个双向链表，节点prev和next都指向自身
+ * 
+ */
 #define OS_LIST_INIT(name)          {&(name), &(name)}
 
 /**
@@ -355,10 +359,17 @@ OS_INLINE os_list_node_t *os_list_tail(os_list_node_t *head)
  * @def         os_list_entry
  *
  * @brief       Get the struct for this entry
+ * 
+ * 根据结构体成员的指针，返回结构体指针
  *
  * @param       ptr             The &struct os_list_node pointer.
+ * 结构体成员的指针
+ * 
  * @param       type            The type of the struct this is embedded in.
+ * 结构体类型
+ * 
  * @param       member          The name of the list_struct within the struct.
+ * 结构体成员的名字
  ***********************************************************************************************************************
  */
 #define os_list_entry(ptr, type, member)                                    \

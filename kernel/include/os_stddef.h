@@ -127,10 +127,15 @@ typedef os_err_t (*os_init_fn_t)(void);
  * @def         os_container_of
  *
  * @brief       Cast a member of a structure out to the containing structure.
+ * 
+ * 根据结构体成员的指针，返回结构体的地址
  *
  * @param       ptr             The pointer to the member.
+ * 结构体成员的指针
  * @param       type            The type of the container struct this is embedded in.
+ * 结构体类型
  * @param       member          The name of the member within the struct. 
+ * 结构体成员的名字
  ***********************************************************************************************************************
  */
 #define os_container_of(ptr, type, member)      \

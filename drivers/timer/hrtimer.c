@@ -21,6 +21,17 @@
  ***********************************************************************************************************************
  */
 
+/**
+ * @file hrtimer.c
+ * @author creekwater
+ * @brief clockevent的实现
+ * @version 0.1
+ * @date 2022-03-01
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <arch_interrupt.h>
 #include <device.h>
 #include <os_task.h>
@@ -33,6 +44,11 @@
 
 static os_list_node_t gs_hrtimer_list = OS_LIST_INIT(gs_hrtimer_list);
 
+/**
+ * @brief 启动一个定时器
+ * 
+ * @param next_nsec 定时的目标时间点（单位：纳秒）
+ */
 static void os_hrtimer_trig_hwtimer(os_uint64_t next_nsec)
 {
     os_clockevent_t *ce;
@@ -44,6 +60,11 @@ static void os_hrtimer_trig_hwtimer(os_uint64_t next_nsec)
     os_clockevent_start_oneshot(ce, next_nsec - os_clocksource_gettime());
 }
 
+/**
+ * @brief 在链表中插入一个新的定时事件
+ * 
+ * @param hrtimer 待插入的定时器
+ */
 static void os_hrtimer_enqueue(os_hrtimer_t *hrtimer)
 {
     os_list_node_t *entry = &gs_hrtimer_list;
@@ -62,6 +83,11 @@ static void os_hrtimer_enqueue(os_hrtimer_t *hrtimer)
     hrtimer->state = OS_HRTIMER_STATE_WAIT;
 }
 
+/**
+ * @brief 定时器回调接口
+ * 
+ * @param ce 
+ */
 static void os_hrtimer_callback(os_clockevent_t * ce)
 {
     os_hrtimer_t *hrtimer;
@@ -76,16 +102,17 @@ static void os_hrtimer_callback(os_clockevent_t * ce)
 
         os_list_del(&hrtimer->list);
         
-        hrtimer->state = OS_HRTIMER_STATE_RUN;
-        hrtimer->timeout_func(hrtimer->parameter);
+        hrtimer->state = OS_HRTIMER_STATE_RUN;      // 设置hrtimer为运行态
+        hrtimer->timeout_func(hrtimer->parameter);  // 调用超时函数
 
         if (hrtimer->state != OS_HRTIMER_STATE_RUN)
             continue;
 
+        // hrtimer为周期性定时器，需要在链表中再次插入新的定时器
         if (hrtimer->period_nsec != 0)
         {
-            hrtimer->next_nsec = period_calc_next_nsec(hrtimer->next_nsec, now, hrtimer->period_nsec);
-            os_hrtimer_enqueue(hrtimer);
+            hrtimer->next_nsec = period_calc_next_nsec(hrtimer->next_nsec, now, hrtimer->period_nsec);  // 计算目标时间
+            os_hrtimer_enqueue(hrtimer);    // 插入链表
         }
         else
         {
@@ -100,6 +127,11 @@ static void os_hrtimer_callback(os_clockevent_t * ce)
     }
 }
 
+/**
+ * @brief 启动定时器
+ * 
+ * @param hrtimer hrtimer实例
+ */
 void os_hrtimer_start(os_hrtimer_t *hrtimer)
 {
     os_base_t level;
@@ -124,6 +156,11 @@ void os_hrtimer_start(os_hrtimer_t *hrtimer)
     os_irq_unlock(level);
 }
 
+/**
+ * @brief 停止定时器
+ * 
+ * @param hrtimer 
+ */
 void os_hrtimer_stop(os_hrtimer_t *hrtimer)
 {
     os_base_t     level;

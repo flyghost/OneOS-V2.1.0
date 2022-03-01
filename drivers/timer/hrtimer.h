@@ -30,7 +30,7 @@
 enum os_hrtimer_state {
     OS_HRTIMER_STATE_NONE,
     OS_HRTIMER_STATE_WAIT,
-    OS_HRTIMER_STATE_RUN,
+    OS_HRTIMER_STATE_RUN,       // 运行态
 };
 
 struct os_hrtimer

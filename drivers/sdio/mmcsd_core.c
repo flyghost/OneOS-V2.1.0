@@ -62,7 +62,7 @@ static struct os_task    mmcsd_detect_thread;
 static os_uint8_t        mmcsd_stack[OS_MMCSD_STACK_SIZE];
 static os_mb_t mmcsd_detect_mb;
 static os_uint32_t       mmcsd_detect_mb_pool[4];
-static os_mb_t mmcsd_hotpluge_mb;
+static os_mb_t mmcsd_hotpluge_mb;       // 卡插入拔出检测
 static os_uint32_t       mmcsd_hotpluge_mb_pool[4];
 
 /**
@@ -90,6 +90,12 @@ void mmcsd_req_complete(struct os_mmcsd_host *host)
     os_sem_post(&host->sem_ack);
 }
 
+/**
+ * @brief 向host发送请求
+ * 
+ * @param host  请求对象指针
+ * @param req   请求
+ */
 void mmcsd_send_request(struct os_mmcsd_host *host, struct os_mmcsd_req *req)
 {
     do
@@ -119,9 +125,9 @@ void mmcsd_send_request(struct os_mmcsd_host *host, struct os_mmcsd_req *req)
 /**
  * @brief HOST发送一条CMD命令
  * 
- * @param host 需要发送命令的HOST
- * @param cmd 需要发送的命令
- * @param retries 重试次数
+ * @param host      需要发送命令的HOST
+ * @param cmd       需要发送的命令
+ * @param retries   重试次数
  * @return os_int32_t 成功：0  失败：<0
  */
 os_int32_t mmcsd_send_cmd(struct os_mmcsd_host *host, struct os_mmcsd_cmd *cmd, int retries)
@@ -141,7 +147,9 @@ os_int32_t mmcsd_send_cmd(struct os_mmcsd_host *host, struct os_mmcsd_cmd *cmd, 
 }
 
 /**
- * @brief 发送CMD0，MMCSD进入IDLE状态
+ * @brief HOST发送CMD0，MMCSD进入IDLE状态
+ * 
+ * GO_IDLE_STATE
  * 
  * @param host 
  * @return os_int32_t 
@@ -178,11 +186,13 @@ os_int32_t mmcsd_go_idle(struct os_mmcsd_host *host)
 }
 
 /**
- * @brief 发送CMD58，SPI模式读取OCR
+ * @brief HOST发送CMD58，SPI模式读取OCR
+ * 
+ * SPI_READ_OCR
  * 
  * @param host 
  * @param high_capacity 是否是大容量
- * @param ocr 返回的OCR值
+ * @param ocr           返回的OCR值
  * @return os_int32_t 
  */
 os_int32_t mmcsd_spi_read_ocr(struct os_mmcsd_host *host, os_int32_t high_capacity, os_uint32_t *ocr)
@@ -204,7 +214,9 @@ os_int32_t mmcsd_spi_read_ocr(struct os_mmcsd_host *host, os_int32_t high_capaci
 }
 
 /**
- * @brief 获取所有卡的CID
+ * @brief HOST发送CMD2，获取所有卡的CID
+ * 
+ * ALL_SEND_CID
  * 
  * @param host 
  * @param cid 返回卡的CID
@@ -231,10 +243,12 @@ os_int32_t mmcsd_all_get_cid(struct os_mmcsd_host *host, os_uint32_t *cid)
 }
 
 /**
- * @brief 获取当前卡的CID
+ * @brief HOST发送CMD10，获取选择卡的CID
+ * 
+ * SEND_CID
  * 
  * @param host 
- * @param cid 返回的卡的CID
+ * @param cid   返回的卡的CID
  * @return os_int32_t 
  */
 os_int32_t mmcsd_get_cid(struct os_mmcsd_host *host, os_uint32_t *cid)
@@ -317,7 +331,9 @@ os_int32_t mmcsd_get_cid(struct os_mmcsd_host *host, os_uint32_t *cid)
 }
 
 /**
- * @brief 获取卡的CSD
+ * @brief HOST发送CMD9，获取卡的CSD
+ * 
+ * SEND_CSD
  * 
  * @param card 
  * @param csd 
@@ -401,7 +417,9 @@ os_int32_t mmcsd_get_csd(struct os_mmcsd_card *card, os_uint32_t *csd)
 }
 
 /**
- * @brief 选择card
+ * @brief HOST发送CMD7，选择card
+ * 
+ * SELECT_CARD
  * 
  * @param host 实例
  * @param card 实例操作的某一个卡，如果位OS_NULL，则取消选择卡
@@ -458,6 +476,8 @@ os_int32_t mmcsd_deselect_cards(struct os_mmcsd_card *card)
 
 /**
  * @brief 发送CMD59，是否使用CRC校验（SPI模式下使用）
+ * 
+ * SPI_CRC_ON_OFF
  * 
  * @param host 
  * @param use_crc 是否使能CRC
@@ -553,6 +573,12 @@ void mmcsd_set_bus_width(struct os_mmcsd_host *host, os_uint32_t width)
     mmcsd_set_iocfg(host);
 }
 
+/**
+ * @brief 设置data超时时间
+ * 
+ * @param data 超时时间保存到的data
+ * @param card 用于计算超时时间的条件
+ */
 void mmcsd_set_data_timeout(struct os_mmcsd_data *data, const struct os_mmcsd_card *card)
 {
     os_uint32_t mult;
@@ -717,6 +743,12 @@ static void mmcsd_power_off(struct os_mmcsd_host *host)
     mmcsd_set_iocfg(host);
 }
 
+/**
+ * @brief 检测卡插拔
+ * 
+ * @param timeout 
+ * @return int 
+ */
 int mmcsd_wait_cd_changed(os_int32_t timeout)
 {
     struct os_mmcsd_host *host;
@@ -734,11 +766,21 @@ int mmcsd_wait_cd_changed(os_int32_t timeout)
     return OS_ETIMEOUT;
 }
 
+/**
+ * @brief 发布卡插入、拔出
+ * 
+ * @param host 
+ */
 void mmcsd_change(struct os_mmcsd_host *host)
 {
     os_mb_send(&mmcsd_detect_mb, (os_uint32_t)host, 1000);
 }
 
+/**
+ * @brief 线程，等待外部初始化卡发送新卡消息
+ * 
+ * @param param 
+ */
 void mmcsd_detect(void *param)
 {
     struct os_mmcsd_host *host;
@@ -817,6 +859,11 @@ void mmcsd_detect(void *param)
     }
 }
 
+/**
+ * @brief 创建一个HOST
+ * 
+ * @return struct os_mmcsd_host* 
+ */
 struct os_mmcsd_host *mmcsd_alloc_host(void)
 {
     struct os_mmcsd_host *host;
@@ -842,6 +889,11 @@ struct os_mmcsd_host *mmcsd_alloc_host(void)
     return host;
 }
 
+/**
+ * @brief 释放HOST
+ * 
+ * @param host 
+ */
 void mmcsd_free_host(struct os_mmcsd_host *host)
 {
     os_mutex_deinit(&host->bus_lock);

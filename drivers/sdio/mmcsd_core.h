@@ -142,7 +142,7 @@ struct os_mmcsd_req
 #define R1_CARD_ECC_DISABLED  (1 << 14) /* sx, a */
 #define R1_ERASE_RESET        (1 << 13) /* sr, c */
 #define R1_STATUS(x)          (x & 0xFFFFE000)
-#define R1_CURRENT_STATE(x)   ((x & 0x00001E00) >> 9) /* sx, b (4 bits) */
+#define R1_CURRENT_STATE(x)   ((x & 0x00001E00) >> 9) /* sx, b (4 bits) */  // bit13~bit9
 #define R1_READY_FOR_DATA     (1 << 8)                /* sx, a */
 #define R1_APP_CMD            (1 << 5)                /* sr, c */
 

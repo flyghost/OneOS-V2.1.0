@@ -52,10 +52,10 @@
  */
 struct mmcsd_blk_device
 {
-    os_blk_device_t blk_dev;        // 块设备
+    os_blk_device_t blk_dev;        // 父类，块设备
     struct os_mmcsd_card   *card;   // 卡
-    os_off_t    offset;
-    os_size_t   max_req_size;
+    os_off_t    offset;             // mmcsd块设备起始地址
+    os_size_t   max_req_size;       // mmcsd块设备请求的最大长度
 };
 
 #ifndef OS_MMCSD_MAX_PARTITION
@@ -74,6 +74,7 @@ os_int32_t mmcsd_num_wr_blocks(struct os_mmcsd_card *card)
 
     memset(&cmd, 0, sizeof(struct os_mmcsd_cmd));
 
+    // 发送APP_CMD命令，通知卡下一个命令是一个特殊命令
     cmd.cmd_code = APP_CMD;
     cmd.arg      = card->rca << 16;
     cmd.flags    = RESP_SPI_R1 | RESP_R1 | CMD_AC;
@@ -122,8 +123,19 @@ os_int32_t mmcsd_num_wr_blocks(struct os_mmcsd_card *card)
     return blocks;
 }
 
-static os_err_t
-os_mmcsd_req_blk(struct os_mmcsd_card *card, os_uint32_t sector, void *buf, os_size_t blks, os_uint8_t dir)
+/**
+ * @brief 发送数据块请求
+ * 
+ * 发完数据请求后，需要循环获取card状态
+ * 
+ * @param card      host下对应的某一个卡槽
+ * @param sector    块地址（第几个数据块）
+ * @param buf       数据地址
+ * @param blks      数据块长度（几个块）
+ * @param dir       传输方向（0写，1读）
+ * @return os_err_t 
+ */
+static os_err_t os_mmcsd_req_blk(struct os_mmcsd_card *card, os_uint32_t sector, void *buf, os_size_t blks, os_uint8_t dir)
 {
     struct os_mmcsd_cmd   cmd, stop;
     struct os_mmcsd_data  data;
@@ -149,11 +161,12 @@ os_mmcsd_req_blk(struct os_mmcsd_card *card, os_uint32_t sector, void *buf, os_s
     data.blksize = SECTOR_SIZE;
     data.blks    = blks;
 
+    // 读取多块
     if (blks > 1)
     {
-        if (!controller_is_spi(card->host) || !dir)
+        if (!controller_is_spi(card->host) || !dir) // SD模式，或者写操作
         {
-            req.stop      = &stop;
+            req.stop      = &stop;                  // SD模式下，读取多块需要发送停止命令
             stop.cmd_code = STOP_TRANSMISSION;
             stop.arg      = 0;
             stop.flags    = RESP_SPI_R1B | RESP_R1B | CMD_AC;
@@ -161,6 +174,7 @@ os_mmcsd_req_blk(struct os_mmcsd_card *card, os_uint32_t sector, void *buf, os_s
         r_cmd = READ_MULTIPLE_BLOCK;
         w_cmd = WRITE_MULTIPLE_BLOCK;
     }
+    // 读取一块
     else
     {
         req.stop = OS_NULL;
@@ -168,23 +182,24 @@ os_mmcsd_req_blk(struct os_mmcsd_card *card, os_uint32_t sector, void *buf, os_s
         w_cmd    = WRITE_BLOCK;
     }
 
-    if (!dir)
+    if (!dir)       // 读
     {
         cmd.cmd_code = r_cmd;
         data.flags |= DATA_DIR_READ;
     }
-    else
+    else            // 写
     {
         cmd.cmd_code = w_cmd;
         data.flags |= DATA_DIR_WRITE;
     }
 
-    mmcsd_set_data_timeout(&data, card);
+    mmcsd_set_data_timeout(&data, card);        // 设置data超时时间
     data.buf = buf;
-    mmcsd_send_request(host, &req);
+    mmcsd_send_request(host, &req);             // 发送请求
 
-    if (!controller_is_spi(card->host) && dir != 0)
+    if (!controller_is_spi(card->host) && dir != 0) // SD模式 且 读操作
     {
+        // 循环发送获取卡状态
         do
         {
             os_int32_t err;
@@ -203,6 +218,7 @@ os_mmcsd_req_blk(struct os_mmcsd_card *card, os_uint32_t sector, void *buf, os_s
              * so make sure to check both the busy
              * indication and the card state.
              */
+            // 有些卡错误的处理状态位，所以确保检查busy指示和卡状态
         } while (!(cmd.resp[0] & R1_READY_FOR_DATA) || (R1_CURRENT_STATE(cmd.resp[0]) == 7));
     }
 
@@ -219,6 +235,12 @@ os_mmcsd_req_blk(struct os_mmcsd_card *card, os_uint32_t sector, void *buf, os_s
     return OS_EOK;
 }
 
+/**
+ * @brief 发送CMD16，设置所有卡的数据块长度
+ * 
+ * @param card 
+ * @return os_int32_t 
+ */
 static os_int32_t mmcsd_set_blksize(struct os_mmcsd_card *card)
 {
     struct os_mmcsd_cmd cmd;
@@ -245,6 +267,15 @@ static os_int32_t mmcsd_set_blksize(struct os_mmcsd_card *card)
     return 0;
 }
 
+/**
+ * @brief 读取数据块
+ * 
+ * @param blk           块设备
+ * @param block_addr    块地址（第几个块）
+ * @param buff          数据
+ * @param block_nr      数据长度（单位：块）
+ * @return int          成功或者错误类型
+ */
 static int mmcsd_blk_read_block(os_blk_device_t *blk, os_uint32_t block_addr, os_uint8_t *buff, os_uint32_t block_nr)
 {
     os_err_t    err         = 0;
@@ -279,6 +310,15 @@ static int mmcsd_blk_read_block(os_blk_device_t *blk, os_uint32_t block_addr, os
     return OS_EOK;
 }
 
+/**
+ * @brief 写入数据块
+ * 
+ * @param blk           块设备
+ * @param block_addr    块地址（第几个块）
+ * @param buff          数据
+ * @param block_nr      数据长度（单位：块）
+ * @return int          成功或者错误类型
+ */
 static int mmcsd_blk_write_block(os_blk_device_t *blk, os_uint32_t block_addr, const os_uint8_t *buff, os_uint32_t block_nr)
 {
     os_err_t  err         = 0;
@@ -333,9 +373,9 @@ os_int32_t os_mmcsd_blk_probe(struct os_mmcsd_card *card)
     }
 
     mmcsd_blk_dev->max_req_size = BLK_MIN((card->host->max_dma_segs * card->host->max_seg_size) >> 9,
-                                        (card->host->max_blk_count * card->host->max_blk_size) >> 9);
+                                        (card->host->max_blk_count * card->host->max_blk_size) >> 9);       // 右移9位，512字节的整数倍
 
-    err = mmcsd_set_blksize(card);
+    err = mmcsd_set_blksize(card);  // 设置块大小
     if (err)
     {
         return err;
@@ -353,7 +393,7 @@ os_int32_t os_mmcsd_blk_probe(struct os_mmcsd_card *card)
         return OS_ENOMEM;
     }
 
-    status = os_mmcsd_req_blk(card, 0, sector, 1, 0);
+    status = os_mmcsd_req_blk(card, 0, sector, 1, 0);   // 发送一个请求，确保设备正常
     if (status == OS_EOK)
     {
         /* register mmcsd device */

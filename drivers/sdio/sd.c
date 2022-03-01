@@ -194,6 +194,12 @@ static os_int32_t mmcsd_parse_csd(struct os_mmcsd_card *card)
     return 0;
 }
 
+/**
+ * @brief 解析SCR的值
+ * 
+ * @param card 
+ * @return os_int32_t 
+ */
 static os_int32_t mmcsd_parse_scr(struct os_mmcsd_card *card)
 {
     struct os_sd_scr *scr = &card->scr;
@@ -208,7 +214,9 @@ static os_int32_t mmcsd_parse_scr(struct os_mmcsd_card *card)
 }
 
 /**
- * @brief 将卡切换到高速，只适用于SD2.0的卡
+ * @brief 发送CMD6命令，将卡切换到高速，只适用于SD2.0的卡
+ * 
+ * SD_SWITCH：SD专属命令
  * 
  * @param card 
  * @return os_int32_t 
@@ -314,9 +322,9 @@ err1:
 }
 
 /**
- * @brief 发送CMD55
+ * @brief 发送CMD55命令，通知CARD，接下来要发送的命令是特定应用命令，不是标准命令
  * 
- * 先发送CMD55，用来通知CARD，接下来要发送的命令是特定应用命令，不是标准命令
+ * APP_CMD，SD卡专属命令
  * 
  * @param host 
  * @param card 
@@ -356,10 +364,10 @@ static os_err_t mmcsd_app_cmd(struct os_mmcsd_host *host, struct os_mmcsd_card *
  * 
  * 先发送CMD55来通知CARD设备，下一条命令是特定应用命令，然后再发送特定应用命令
  * 
- * @param host host实例
- * @param card 卡设备，可以为NULL
- * @param cmd 命令
- * @param retry 重试次数
+ * @param host      host实例
+ * @param card      卡设备，可以为NULL
+ * @param cmd       命令
+ * @param retry     重试次数
  * @return os_err_t 成功，返回0  错误，小于0
  */
 os_err_t mmcsd_send_app_cmd(struct os_mmcsd_host *host, struct os_mmcsd_card *card, struct os_mmcsd_cmd *cmd, int retry)
@@ -416,7 +424,9 @@ os_err_t mmcsd_send_app_cmd(struct os_mmcsd_host *host, struct os_mmcsd_card *ca
 }
 
 /**
- * @brief 设置总线宽度
+ * @brief 发送CMD6，设置总线宽度
+ * 
+ * SD_APP_SET_BUS_WIDTH
  * 
  * @param card 
  * @param width 总线宽度
@@ -453,6 +463,8 @@ os_err_t mmcsd_app_set_bus_width(struct os_mmcsd_card *card, os_int32_t width)
 
 /**
  * @brief 发送CMD41，检测是否为SD设备，并返回OCR信息
+ * 
+ * SD_APP_OP_COND
  * 
  * 该函数内实现了首先发送一条CMD55命令，再发送CMD41命令
  * 
@@ -631,6 +643,13 @@ os_int32_t mmcsd_get_scr(struct os_mmcsd_card *card, os_uint32_t *scr)
     return 0;
 }
 
+/**
+ * @brief 初始化SD卡
+ * 
+ * @param host 
+ * @param ocr   OCR的值
+ * @return os_int32_t 
+ */
 static os_int32_t mmcsd_sd_init_card(struct os_mmcsd_host *host, os_uint32_t ocr)
 {
     struct os_mmcsd_card *card;
@@ -758,10 +777,11 @@ err:
 }
 
 /**
- ***********************************************************************************************************************
- * @brief           init_sd:Starting point for SD card init.
- *
- ***********************************************************************************************************************
+ * @brief init_sd:Starting point for SD card init.
+ * 
+ * @param host 
+ * @param ocr       OCR的值
+ * @return os_int32_t 
  */
 os_int32_t init_sd(struct os_mmcsd_host *host, os_uint32_t ocr)
 {

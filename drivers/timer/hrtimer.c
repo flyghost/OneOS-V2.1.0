@@ -193,11 +193,21 @@ void os_hrtimer_stop(os_hrtimer_t *hrtimer)
     os_irq_unlock(level);
 }
 
+/**
+ * @brief hrtimer是否已经停止
+ * 
+ * @param hrtimer 
+ * @return os_bool_t 
+ */
 os_bool_t os_hrtimer_stoped(os_hrtimer_t *hrtimer)
 {
     return (hrtimer->state == OS_HRTIMER_STATE_NONE);
 }
 
+/**
+ * @brief 是否将hrtimer用作系统tikc
+ * 
+ */
 #ifdef OS_USING_HRTIMER_FOR_KERNEL_TICK
 
 void os_tick_handler(void);

@@ -56,9 +56,9 @@ struct os_clockevent_ops
      * @param count 当前到目标时间的硬件count值
      * 
      */
-    void (*start)(os_clockevent_t *ce, os_uint32_t prescaler, os_uint64_t count);
+    void (*start)(os_clockevent_t *ce, os_uint32_t prescaler, os_uint64_t count);   // 设置clockevent事件目标值
     void (*stop)(os_clockevent_t *ce);      // 暂停clockevent到期产生的中断，一般不直接关闭定时器或者关闭定时器中断，而是将目标count设置位无限大
-    os_uint64_t (*read)(void *clock);       // 获取下一次clockevent的目标计数值
+    os_uint64_t (*read)(void *clock);       // 获取clockevent事件的目标值
 };
 
 #define OS_CLOCKEVENT_NAME_LENGTH  (16)
